@@ -5,6 +5,16 @@ import java.awt.EventQueue;
 import javax.swing.JDialog;
 import javax.swing.JTextArea;
 import java.awt.BorderLayout;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import javax.swing.JRadioButton;
+import java.awt.Insets;
+import java.awt.FlowLayout;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class ReportDialog extends JDialog {
 	ReportDialog() {
@@ -16,6 +26,17 @@ public class ReportDialog extends JDialog {
 		txtrYouHaveSpent.setLineWrap(true);
 		txtrYouHaveSpent.setWrapStyleWord(true);
 		getContentPane().add(txtrYouHaveSpent, BorderLayout.CENTER);
+		
+		JPanel panel = new JPanel();
+		getContentPane().add(panel, BorderLayout.NORTH);
+		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		JLabel lblSelectAReport = new JLabel("Select a report range:");
+		panel.add(lblSelectAReport);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Feb 2013", "Jan 2013", "Dec 2012", "Nov 2012"}));
+		panel.add(comboBox);
 
 	}
 
