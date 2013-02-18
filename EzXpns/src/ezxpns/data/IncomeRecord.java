@@ -10,4 +10,12 @@ public class IncomeRecord extends Record {
 		// nothing new here
 	}
 
+	@Override
+	public Record copy() {
+		IncomeRecord r = new IncomeRecord(amount, name, remark, date,
+				category);
+		r.id = this.id;
+		return (Record)r;
+	}
+
 }

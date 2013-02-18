@@ -78,6 +78,7 @@ public class StorageManager {
 			  str.append(line);
 			  line = in.readLine();
 			}
+			in.close();
 		}catch(IOException e){
 			for(StorageEventListener listener : listeners){
 				listener.readFail(e);

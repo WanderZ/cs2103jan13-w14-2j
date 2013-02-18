@@ -6,7 +6,7 @@ package ezxpns.data;
  * A class to represent the current category
  * meant to be used in Record as a reference
  */
-public class Category implements Cloneable{
+public class Category{
 	/**
 	 * The default category for records without a category
 	 */
@@ -36,7 +36,7 @@ public class Category implements Cloneable{
 		return id;
 	}
 	
-	public Category clone(){
+	public Category copy(){
 		return new Category(id, name);
 	}
 }

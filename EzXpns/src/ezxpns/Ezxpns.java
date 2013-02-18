@@ -30,11 +30,5 @@ public class Ezxpns {
 				}
 			}
 		});
-//		Category cat = new Category(20, "food");
-//		data.expenses().addNewCategory(cat);
-//		ExpenseRecord rec = new ExpenseRecord(100, "apple", "nice!", new Date(),
-//				cat, ExpenseType.NEED);
-//		data.expenses().addNewRecord(rec);
-		//do ui stuff
 	}
 }

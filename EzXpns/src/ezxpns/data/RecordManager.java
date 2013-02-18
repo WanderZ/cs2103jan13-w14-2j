@@ -22,6 +22,9 @@ public class RecordManager<T extends Record> {
 	private HashMap<Long, Vector<T> > recordsByCategory;
 	// note that the records is transient since it contains duplicate data as recordsByCategory
 	private transient TreeMap<Date, Vector<T> > records;
+	
+	// used to make sure no id is repeated
+	private transient TreeSet<Long> ids;
 
 	public RecordManager(){
 		categories = new HashMap<Long, Category>();
@@ -89,9 +92,9 @@ public class RecordManager<T extends Record> {
 		throw new RecordUpdateException("Record does not exist.\n");
 	}
 	
-	public void updateRecord(T original, T updated) throws RecordUpdateException{
+	public T updateRecord(T original, T updated) throws RecordUpdateException{
 		removeRecord(original);
-		addNewRecord(updated);
+		return addNewRecord(updated);
 	}
 	
 	public void removeRecord(T toRemove) throws RecordUpdateException{
@@ -101,8 +104,12 @@ public class RecordManager<T extends Record> {
 		updated = true;
 	}
 	
-	public void addNewRecord(T toAdd){
-		T record = (T)toAdd.clone();
+	@SuppressWarnings("unchecked")
+	public T addNewRecord(T toAdd){
+		T record = (T)toAdd.copy();
+		if(ids.contains(record.id)){
+			record.id = (new Date()).getTime();
+		}
 		if(records.containsKey(record.date)){
 			records.get(record.date).add(record);
 		}else{
@@ -118,6 +125,7 @@ public class RecordManager<T extends Record> {
 			recordsByCategory.put(new Long(record.category.getID()), rs);
 		}
 		updated = true;
+		return (T)record.copy();
 	}
 	
 	public void removeCategory(Category category){
@@ -138,7 +146,7 @@ public class RecordManager<T extends Record> {
 	}
 	
 	public void addNewCategory(Category toAdd){
-		Category category = toAdd.clone();
+		Category category = toAdd.copy();
 		if(!categories.containsKey(category.getID())){
 			categories.put(category.getID(), category);
 		}
@@ -150,8 +158,28 @@ public class RecordManager<T extends Record> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public Vector<T> getRecordsBy(Category category){
-		return (Vector<T>) recordsByCategory.get(category.getID()).clone();
+	public Vector<T> getRecordsBy(Category category, int max){
+		Vector<T> rs = new Vector<T>();
+		Vector<T> toget = recordsByCategory.get(category.getID());
+		if(max > toget.size() || max == -1){
+			max = toget.size();
+		}
+		for(int i = 0; i < max; i++){
+			rs.add((T)toget.get(i).copy());
+		}
+		return rs;
 	}
 	
+	public Vector<T> getRecordsBy(String name, int max){
+		return null;
+		
+	}
+	
+	public Vector<T> getRecordsBy(Date start, Date end, int max){
+		return null;
+	}
+	
+	public T getRecordBy(long id){
+		return null;
+	}
 }

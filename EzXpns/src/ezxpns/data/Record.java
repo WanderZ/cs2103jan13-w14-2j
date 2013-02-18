@@ -10,7 +10,7 @@ import java.util.Date;
  * A container for some basic record attributes
  * No getter/setter since it's purely data representation without any internal logic
  */
-public class Record implements java.lang.Cloneable{
+public abstract class Record{
 	public double amount;
 	public String name;
 	public String remark;
@@ -31,6 +31,8 @@ public class Record implements java.lang.Cloneable{
 		return other.id == this.id;
 	}
 	
+	public abstract Record copy();
+	
 	/**
 	 * Copy data from another object to itself.
 	 * This is to retain the reference to the object
@@ -43,11 +45,5 @@ public class Record implements java.lang.Cloneable{
 		remark = other.remark;
 		date = other.date;
 		category = other.category;
-	}
-	
-	public Record clone(){
-		Record c = new Record(amount, name, remark, date, category);
-		c.id = this.id;
-		return c;
 	}
 }

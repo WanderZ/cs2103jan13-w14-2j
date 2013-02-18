@@ -13,15 +13,20 @@ public class ExpenseRecord extends Record{
 		super(amount, name, remark, date, category);
 		this.expenseType = expenseType;
 	}
-
-	public void updateInternal(ExpenseRecord other){
-		super.updateInternal(other);
-		expenseType = other.expenseType;
-	}
 	
-	public ExpenseRecord clone(){
-		ExpenseRecord c = new ExpenseRecord(amount, name, remark, date, category, expenseType);
-		c.id = id;
-		return c;
+	@Override
+	public void updateInternal(Record other){
+		if(other instanceof ExpenseRecord){
+			super.updateInternal(other);
+			expenseType = ((ExpenseRecord)other).expenseType;
+		}
+	}
+
+	@Override
+	public Record copy() {
+		ExpenseRecord r = new ExpenseRecord(this.amount, this.name, this.remark, this.date,
+				this.category, this.expenseType);
+		r.id = this.id;
+		return (Record)r;
 	}
 }
