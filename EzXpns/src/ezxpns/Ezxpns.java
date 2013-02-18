@@ -1,6 +1,7 @@
 package ezxpns;
 
 import ezxpns.data.*;
+import ezxpns.util.Pair;
 import ezxpns.GUI.*;
 import java.awt.EventQueue;
 import java.util.*;
@@ -8,9 +9,10 @@ import java.util.*;
 import ezxpns.GUI.MainWindow;
 
 
-public class Ezxpns {
+public class Ezxpns implements ReportGenerator.DataProvider {
 	private StorageManager store;
 	private DataManager data;
+	private ReportGenerator reportGenerator;
 	
 	public Ezxpns(){
 		try{
@@ -30,5 +32,13 @@ public class Ezxpns {
 				}
 			}
 		});
+		reportGenerator = new ReportGenerator(this);
+	}
+
+	@Override
+	public Pair<Vector<ExpenseRecord>, Vector<IncomeRecord>> getDataInDateRange(
+			Date start, Date end) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

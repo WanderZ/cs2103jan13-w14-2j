@@ -13,7 +13,7 @@ public class ReportGenerator {
 	 * Hook up the data provider
 	 * @param data
 	 */
-	public void setDataProvider(DataProvider data){
+	public ReportGenerator(DataProvider data){
 		this.data = data;
 	}
 	
