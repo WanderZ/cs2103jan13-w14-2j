@@ -11,10 +11,18 @@ import com.google.gson.*;
  * Manages the file IO of all the data
  */
 public class StorageManager {
+	public static interface StorageEventListener{
+		void readFail(IOException e);
+		void writeFail(IOException e);
+	}
+	
 	private File file;
 	private DataManager manager;
 	private Timer timer = new Timer();
 	private Gson gson = new Gson();
+	private Vector<StorageEventListener> listeners = new Vector<StorageEventListener>();
+	
+	private final int writeInterval = 5 * 1000;
 	
 	/**
 	 * 
@@ -29,14 +37,23 @@ public class StorageManager {
 		}
 	}
 	
-	private void writeToFile(){
+	/*
+	 * Need this to handle some exceptions during timer IO
+	 */
+	public void addEventListener(StorageEventListener listener){
+		listeners.add(listener);
+	}
+	
+	private synchronized void writeToFile(){
 		try{
 			BufferedWriter out = new BufferedWriter(new FileWriter(file));
 			out.write(gson.toJson(manager));
 			out.close();
 			manager.saved();
-		}catch(Exception e){
-			// TODO tell the main logic about it.
+		}catch(IOException e){
+			for(StorageEventListener listener : listeners){
+				listener.writeFail(e);
+			}
 		}
 	}
 	
@@ -49,10 +66,10 @@ public class StorageManager {
 			public void run(){
 				save();
 			}
-		}, 5 * 1000);
+		}, writeInterval);
 	}
 	
-	public void read(){
+	public synchronized void read(){
 		StringBuilder str = new StringBuilder(2048);
 		try{
 			BufferedReader in = new BufferedReader(new FileReader(file));
@@ -61,8 +78,10 @@ public class StorageManager {
 			  str.append(line);
 			  line = in.readLine();
 			}
-		}catch(Exception e){
-			//TODO tell the main logic about it
+		}catch(IOException e){
+			for(StorageEventListener listener : listeners){
+				listener.readFail(e);
+			}
 		}
 		manager = gson.fromJson(str.toString(), DataManager.class);
 		if(manager == null){
@@ -73,7 +92,7 @@ public class StorageManager {
 			public void run(){
 				save();
 			}
-		}, 5 * 1000);
+		}, writeInterval);
 	}
 	
 	public DataManager getDataManager(){
