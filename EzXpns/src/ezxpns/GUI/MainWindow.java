@@ -137,7 +137,7 @@ public class MainWindow {
 		JPanel panel_2 = new JPanel();
 		
 		JPanel panel = new JPanel();
-		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 		
 		JButton btnSearchRecords = new JButton("Search Records");
 		panel.add(btnSearchRecords);
