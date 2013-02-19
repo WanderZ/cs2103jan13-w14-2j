@@ -30,7 +30,8 @@ public class DataManager {
 	}
 	
 	public boolean isUpdated(){
-		return _expenses.isUpdated() || _incomes.isUpdated();
+		return _expenses.isUpdated() || _incomes.isUpdated()
+				|| _targetManager.isUpdated();
 	}
 	
 	/**
@@ -39,5 +40,6 @@ public class DataManager {
 	public void saved(){
 		_expenses.saved();
 		_incomes.saved();
+		_targetManager.saved();
 	}
 }

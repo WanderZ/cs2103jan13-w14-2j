@@ -46,4 +46,8 @@ public class Ezxpns implements
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public void addTarget(){
+		
+	}
 }
