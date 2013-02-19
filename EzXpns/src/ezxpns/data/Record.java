@@ -51,6 +51,6 @@ public abstract class Record implements Comparable<Record>{
 		name = other.name;
 		remark = other.remark;
 		date = new Date(other.date.getTime());
-		category = other.category.copy();
+		category = other.category;
 	}
 }
