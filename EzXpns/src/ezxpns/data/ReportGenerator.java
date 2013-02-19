@@ -21,6 +21,6 @@ public class ReportGenerator {
 	// if we need graphs/charts
 	public String getReport(Date start, Date end){
 		// process
-		return data.getDataInDateRange(start, end).toString();
+		return data.getDataInDateRange(start, end).toString() + "test";
 	}
 }
