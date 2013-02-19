@@ -10,7 +10,7 @@ import java.util.Date;
  * A container for some basic record attributes
  * No getter/setter since it's purely data representation without any internal logic
  */
-public abstract class Record{
+public abstract class Record implements Comparable<Record>{
 	public double amount;
 	public String name;
 	public String remark;
@@ -29,6 +29,13 @@ public abstract class Record{
 	
 	public boolean equals(Record other){
 		return other.id == this.id;
+	}
+	
+	public int compareTo(Record other){
+		if(date.equals(other.date)){
+			return (int)(id - other.id);
+		}
+		return (int)(date.getTime() - other.date.getTime());
 	}
 	
 	public abstract Record copy();

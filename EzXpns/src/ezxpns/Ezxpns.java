@@ -50,4 +50,16 @@ public class Ezxpns implements
 	public void addTarget(){
 		
 	}
+	
+	public void applicationQuitting(){
+		store.save();
+	}
+	
+	public void addRecord(ExpenseRecord r){
+		
+	}
+	
+	public void addRecord(IncomeRecord r){
+		
+	}
 }

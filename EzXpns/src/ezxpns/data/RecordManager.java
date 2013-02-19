@@ -8,7 +8,9 @@ import java.util.*;
  * A java Generic to manage records
  * @param <T> the type of records (expense/income) to manage
  */
-public class RecordManager<T extends Record> implements Storable {
+public class RecordManager<T extends Record> implements
+	Storable,
+	RecordQueryHandler<T>{
 	public static class RecordUpdateException extends Exception{
 		public RecordUpdateException(){
 			super();
@@ -19,17 +21,19 @@ public class RecordManager<T extends Record> implements Storable {
 	}
 	
 	private HashMap<Long, Category> categories;
-	private HashMap<Long, Vector<T> > recordsByCategory;
+	private HashMap<Long, TreeSet<T> > recordsByCategory;
 	// note that the records is transient since it contains duplicate data as recordsByCategory
 	private transient TreeMap<Date, Vector<T> > records;
+	private transient HashMap<String, TreeSet<T> > recordsByName;
 	
 	// used to make sure no id is repeated
 	private transient TreeSet<Long> ids;
 
 	public RecordManager(){
 		categories = new HashMap<Long, Category>();
-		recordsByCategory = new HashMap<Long, Vector<T> >();
+		recordsByCategory = new HashMap<Long, TreeSet<T> >();
 		records = new TreeMap<Date, Vector<T> >();
+		recordsByName = new HashMap<String, TreeSet<T> >();
 	}
 	
 	/**
@@ -56,8 +60,8 @@ public class RecordManager<T extends Record> implements Storable {
 	 * Also add the category reference to the records
 	 */
 	public void afterDeserialize(){
-		for(Map.Entry<Long, Vector<T> > entry : recordsByCategory.entrySet()){
-			Vector<T> rs = entry.getValue();
+		for(Map.Entry<Long, TreeSet<T> > entry : recordsByCategory.entrySet()){
+			TreeSet<T> rs = entry.getValue();
 			Category cat = getCategory(entry.getKey());
 			for(T record : rs){
 				record.category = cat;
@@ -67,6 +71,13 @@ public class RecordManager<T extends Record> implements Storable {
 					Vector<T> list = new Vector<T>();
 					list.add(record);
 					records.put(record.date, list);
+				}
+				if(recordsByName.containsKey(record.name)){
+					recordsByName.get(record.name).add(record);
+				}else{
+					TreeSet<T> set = new TreeSet<T>();
+					set.add(record);
+					recordsByName.put(record.name, set);
 				}
 			}
 		}
@@ -101,6 +112,7 @@ public class RecordManager<T extends Record> implements Storable {
 		T record = findRecord(toRemove);
 		records.get(record.date).remove(record);
 		recordsByCategory.get(record.category.getID()).remove(record);
+		recordsByName.get(record.name).remove(record);
 		updated = true;
 	}
 	
@@ -120,9 +132,16 @@ public class RecordManager<T extends Record> implements Storable {
 		if(recordsByCategory.containsKey(record.category.getID())){
 			recordsByCategory.get(record.category.getID()).add(record);
 		}else{
-			Vector<T> rs = new Vector<T>();
+			TreeSet<T> rs = new TreeSet<T>();
 			rs.add(record);
 			recordsByCategory.put(new Long(record.category.getID()), rs);
+		}
+		if(recordsByName.containsKey(record.name)){
+			recordsByName.get(record.name).add(record);
+		}else{
+			TreeSet<T> set = new TreeSet<T>();
+			set.add(record);
+			recordsByName.put(record.name, set);
 		}
 		updated = true;
 		return (T)record.copy();
@@ -130,7 +149,7 @@ public class RecordManager<T extends Record> implements Storable {
 	
 	public void removeCategory(Category category){
 		if(recordsByCategory.containsKey(category.getID())){
-			Vector<T> rs = recordsByCategory.get(category.getID());
+			TreeSet<T> rs = recordsByCategory.get(category.getID());
 			for(Record r : rs){
 				r.category = Category.undefined;
 			}
@@ -160,26 +179,55 @@ public class RecordManager<T extends Record> implements Storable {
 	@SuppressWarnings("unchecked")
 	public Vector<T> getRecordsBy(Category category, int max){
 		Vector<T> rs = new Vector<T>();
-		Vector<T> toget = recordsByCategory.get(category.getID());
+		if(!recordsByCategory.containsKey(category.getID())){
+			return rs;
+		}
+		TreeSet<T> toget = recordsByCategory.get(category.getID());
 		if(max > toget.size() || max == -1){
 			max = toget.size();
 		}
-		for(int i = 0; i < max; i++){
-			rs.add((T)toget.get(i).copy());
+		for(T record : toget){
+			if(max == 0)return rs;
+			max--;
+			rs.add((T)record.copy());
 		}
 		return rs;
 	}
 	
 	public Vector<T> getRecordsBy(String name, int max){
-		return null;
-		
+		Vector<T> rs = new Vector<T>();
+		if(!recordsByName.containsKey(name)){
+			return rs;
+		}
+		TreeSet<T> set = recordsByName.get(name);
+		if(max > set.size() || max == -1){
+			max = set.size();
+		}
+		for(T record : set){
+			if(max == 0)return rs;
+			rs.add((T)record.copy());
+			max--;
+		}
+		return rs;
 	}
 	
-	public Vector<T> getRecordsBy(Date start, Date end, int max){
-		return null;
-	}
-	
-	public T getRecordBy(long id){
-		return null;
+	public Vector<T> getRecordsBy(Date start, Date end, int max, boolean reverse){
+		Vector<T> rs = new Vector<T>();
+		Collection<Vector<T> > allrecs;
+		if(reverse){
+			start = new Date(Math.max(start.getTime() - 24 * 60 * 1000, 0));
+			allrecs = records.descendingMap().subMap(end, start).values();
+		}else{
+			end = new Date(end.getTime() + 24 * 60 * 1000);
+			allrecs = records.subMap(start, end).values();
+		}
+		for(Vector<T> rrs : allrecs){
+			for(T record : rrs){
+				if(max == 0)return rs;
+				max--;
+				rs.add((T)record.copy());
+			}
+		}
+		return rs;
 	}
 }
