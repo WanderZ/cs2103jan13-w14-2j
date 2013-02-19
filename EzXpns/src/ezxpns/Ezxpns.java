@@ -9,10 +9,13 @@ import java.util.*;
 import ezxpns.GUI.MainWindow;
 
 
-public class Ezxpns implements ReportGenerator.DataProvider {
+public class Ezxpns implements
+		ReportGenerator.DataProvider,
+		TargetManager.DataProvider{
 	private StorageManager store;
 	private DataManager data;
 	private ReportGenerator reportGenerator;
+	private TargetManager targetManager;
 	
 	public Ezxpns(){
 		try{
@@ -33,6 +36,8 @@ public class Ezxpns implements ReportGenerator.DataProvider {
 			}
 		});
 		reportGenerator = new ReportGenerator(this);
+		targetManager = data.targetManager();
+		targetManager.setDataProvider(this);
 	}
 
 	@Override

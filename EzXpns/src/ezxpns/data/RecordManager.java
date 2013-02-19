@@ -8,7 +8,7 @@ import java.util.*;
  * A java Generic to manage records
  * @param <T> the type of records (expense/income) to manage
  */
-public class RecordManager<T extends Record> {
+public class RecordManager<T extends Record> implements Storable {
 	public static class RecordUpdateException extends Exception{
 		public RecordUpdateException(){
 			super();
