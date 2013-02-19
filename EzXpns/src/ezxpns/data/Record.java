@@ -22,7 +22,7 @@ public abstract class Record implements Comparable<Record>{
 		this.amount = amount;
 		this.name = name;
 		this.remark = remark;
-		this.date = date;
+		this.date = new Date(date.getTime());
 		this.category = category;
 		this.id = (new Date()).getTime();
 	}
@@ -50,7 +50,7 @@ public abstract class Record implements Comparable<Record>{
 		amount = other.amount;
 		name = other.name;
 		remark = other.remark;
-		date = other.date;
-		category = other.category;
+		date = new Date(other.date.getTime());
+		category = other.category.copy();
 	}
 }

@@ -119,6 +119,7 @@ public class RecordManager<T extends Record> implements
 	@SuppressWarnings("unchecked")
 	public T addNewRecord(T toAdd){
 		T record = (T)toAdd.copy();
+		record.category = categories.get(toAdd.category.getID());
 		if(ids.contains(record.id)){
 			record.id = (new Date()).getTime();
 		}

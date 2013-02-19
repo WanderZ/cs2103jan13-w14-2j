@@ -2,7 +2,7 @@ package ezxpns.data;
 
 public interface Storable {
 	/**
-	 * @return is the object has been updated and needs to be stored again
+	 * @return if the object has been updated and needs to be stored again
 	 */
 	public boolean isUpdated();
 	
