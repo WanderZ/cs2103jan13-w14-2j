@@ -5,10 +5,9 @@ import java.util.*;
 /**
  * @author yyjhao
  * A wrapper containing all data
- * Everything here is handeld by StorageManager to save to file
- * Remember to add transient if the data is not meant to be persistent
  * with some helper functions to query both types
- * TODO: functions to query both types and combine the results
+ * Everything here is handled by StorageManager to save to file
+ * Remember to add transient if the data is not meant to be persistent
  * 
  */
 public class DataManager {
