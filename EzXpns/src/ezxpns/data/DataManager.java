@@ -2,6 +2,12 @@ package ezxpns.data;
 
 import java.util.*;
 
+import ezxpns.data.records.Category;
+import ezxpns.data.records.ExpenseRecord;
+import ezxpns.data.records.IncomeRecord;
+import ezxpns.data.records.Record;
+import ezxpns.data.records.RecordManager;
+
 /**
  * @author yyjhao
  * A wrapper containing all data
