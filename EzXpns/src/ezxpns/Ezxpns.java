@@ -1,6 +1,8 @@
 package ezxpns;
 
 import ezxpns.data.*;
+import ezxpns.data.records.ExpenseRecord;
+import ezxpns.data.records.IncomeRecord;
 import ezxpns.util.Pair;
 import ezxpns.GUI.*;
 import java.awt.EventQueue;
@@ -9,10 +11,13 @@ import java.util.*;
 import ezxpns.GUI.MainWindow;
 
 
-public class Ezxpns implements ReportGenerator.DataProvider {
+public class Ezxpns implements
+		ReportGenerator.DataProvider,
+		TargetManager.DataProvider{
 	private StorageManager store;
 	private DataManager data;
 	private ReportGenerator reportGenerator;
+	private TargetManager targetManager;
 	
 	public Ezxpns(){
 		try{
@@ -33,6 +38,8 @@ public class Ezxpns implements ReportGenerator.DataProvider {
 			}
 		});
 		reportGenerator = new ReportGenerator(this);
+		targetManager = data.targetManager();
+		targetManager.setDataProvider(this);
 	}
 
 	@Override
@@ -40,5 +47,21 @@ public class Ezxpns implements ReportGenerator.DataProvider {
 			Date start, Date end) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public void addTarget(){
+		
+	}
+	
+	public void applicationQuitting(){
+		store.save();
+	}
+	
+	public void addRecord(ExpenseRecord r){
+		
+	}
+	
+	public void addRecord(IncomeRecord r){
+		
 	}
 }

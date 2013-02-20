@@ -1,4 +1,4 @@
-package ezxpns.data;
+package ezxpns.data.records;
 
 /**
  * @author yyjhao
@@ -24,7 +24,7 @@ public class Category{
 		this.name = name;
 	}
 	
-	public void setName(String name){
+	protected void setName(String name){
 		this.name = name;
 	}
 	
