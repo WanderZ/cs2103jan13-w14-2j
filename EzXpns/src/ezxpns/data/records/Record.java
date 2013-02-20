@@ -1,9 +1,10 @@
 /**
  * 
  */
-package ezxpns.data;
+package ezxpns.data.records;
 
 import java.util.Date;
+
 
 /**
  * @author yyjhao
@@ -11,12 +12,12 @@ import java.util.Date;
  * No getter/setter since it's purely data representation without any internal logic
  */
 public abstract class Record implements Comparable<Record>{
-	public double amount;
-	public String name;
-	public String remark;
-	public Date date;
-	public transient Category category = Category.undefined;
-	public long id;
+	protected double amount;
+	protected String name;
+	protected String remark;
+	protected Date date;
+	protected transient Category category = Category.undefined;
+	protected long id;
 	
 	public Record(double amount, String name, String remark, Date date, Category category){
 		this.amount = amount;
@@ -52,5 +53,53 @@ public abstract class Record implements Comparable<Record>{
 		remark = other.remark;
 		date = new Date(other.date.getTime());
 		category = other.category;
+	}
+
+	public double getAmount() {
+		return amount;
+	}
+
+	protected void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	protected void setName(String name) {
+		this.name = name;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	protected void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public Date getDate() {
+		return new Date(date.getTime());
+	}
+
+	protected void setDate(Date date) {
+		this.date = new Date(date.getTime());
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	protected void setCategory(Category category) {
+		this.category = category;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	protected void setId(long id) {
+		this.id = id;
 	}
 }
