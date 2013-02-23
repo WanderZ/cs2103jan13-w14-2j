@@ -4,8 +4,8 @@ import ezxpns.util.*;
 import java.util.*;
 
 /**
+ * Generate a Report Class given a date range
  * @author tingzhe
- * 
  */
 
 public class ReportGenerator {
@@ -17,11 +17,8 @@ public class ReportGenerator {
 	private Pair<Vector<ExpenseRecord>, Vector<IncomeRecord> > records;
 	private Vector<ExpenseRecord> expenseRecord;
 	private Vector<IncomeRecord> incomeRecord;
-	private Date start;
-	private Date end;
 	private Report myReport;
 	private Vector<ReportCategory> expenseCategory;
-	// number of days?
 	
 	/**
 	 * Hook up the data provider
@@ -31,28 +28,22 @@ public class ReportGenerator {
 		this.data = data;
 	}
 	
-	// maybe other data structures
-	// if we need graphs/charts
-	public String getReport(Date start, Date end){
-		// process
-		return data.getDataInDateRange(start, end).toString() + "test";
-	}
-	
 	/**
 	 * Get the required records within date range
 	 * @param start
 	 * @param end
+	 * @throws Exception 
 	 */
-	public Report generateReport(Date start, Date end){
-		// Exception to handle cases where end > start?
-		this.start = start;
-		this.end = end;
+	public Report generateReport(Date start, Date end) throws Exception{
+		// Exception to handle cases where end > start
+		if (dateError(start, end))
+			throw (new Exception("start date > end date"));
 		records = data.getDataInDateRange(start, end);
 		expenseRecord = records.getLeft();
 		incomeRecord = records.getRight();
 		myReport = new Report(start, end);
 		processHeading(); // process heading
-		processSecExpense(); // process Section 1. Expense
+		processSectionExpense(); // process Section 1. Expense
 		return myReport;
 	}
 
@@ -76,17 +67,37 @@ public class ReportGenerator {
 	
 	/**
 	 * Arrange expense into categories and store them in ReportCategory
-	 * object. Send Vector of ReportCategory to Report Object.
+	 * object. Also calculates Amount per Frequency. 
+	 * Send Vector of ReportCategory to Report Object.
 	 */
-	private void processSecExpense() {
-		for (int i = 0; i < expenseRecord.size(); i++){
+	private void processSectionExpense() {
+		ReportCategory newCategory;
+		
+		// Store Expenses into Category
+		for (int i = 0; i < expenseRecord.size(); i++){	
 			// check category
 			String categoryName = expenseRecord.get(i).category.getName();
-			int id = checkCategoryExist(categoryName);
-			if (id == 0)
-				//create new RecordCategory
-		}
+			int id = getCategoryIndex(categoryName);
+			if (id == -1){
+				newCategory = new ReportCategory(categoryName);
+				expenseCategory.add(newCategory);
+			}
+			else
+				newCategory = expenseCategory.get(id);
+			newCategory.incrementFreq();
+			newCategory.incrementAmount(expenseRecord.get(i).amount);		
+		} //for
 		
+		// Calculates Amount per Frequency
+		double totalExpense = myReport.getTotalExpense();
+		for (int i = 0; i < expenseCategory.size(); i++){
+			expenseCategory.get(i).setPercentage(expenseCategory.get(i).getAmount()/
+					totalExpense * 100);
+			expenseCategory.get(i).calAmtPerFreq();
+		}
+		// Sort expenseCategory in decending order (percentage)
+		Collections.sort(expenseCategory);
+		myReport.setSectionExpense(expenseCategory);
 	}
 	
 	/**
@@ -95,7 +106,7 @@ public class ReportGenerator {
 	 * @param categoryName
 	 * @return array index of expenseRecord if exist, else return -1
 	 */
-	private int checkCategoryExist(String categoryName){
+	private int getCategoryIndex(String categoryName){
 		if (expenseRecord.size() == 0)
 			return -1;
 		for (int i = 0; i < expenseRecord.size(); i++){
@@ -103,6 +114,19 @@ public class ReportGenerator {
 				return i;
 		}
 		return -1;
+	}
+	
+	/**
+	 * Check if start date and end date are valid
+	 * (start date <= end date)
+	 * @param start
+	 * @param end
+	 * @return true if error, false if OK
+	 */
+	private boolean dateError(Date start, Date end){
+		if (start.getTime() > end.getTime())
+			return true;
+		return false;
 	}
 	
 	

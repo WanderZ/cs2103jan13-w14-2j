@@ -7,7 +7,6 @@ import java.util.Vector;
 /**
  * A class to hold report information
  * @author tingzhe
- *
  */
 
 public class Report {
@@ -21,7 +20,7 @@ public class Report {
 	
 	// 1. Expense
 	private Vector<ReportCategory> ExpenseCategory;
-	private double aveExpense; //per day
+	private double aveExpense; // Average Expense per day
 	//highest expenditure?
 	
 	/**
@@ -46,5 +45,45 @@ public class Report {
 		totalIncome = income;
 		totalExpense = expense;
 		this.balance = balance;
+	}
+
+	/**
+	 * Set 'Expense' of the report, namely: Expense table, and
+	 * average expense per day
+	 * @param expenseCategory
+	 */
+	public void setSectionExpense(Vector<ReportCategory> expenseCategory) {
+		ExpenseCategory = expenseCategory;
+		int numDays = (int) (end.getTime() - start.getTime()/(1000 * 60 * 60 * 24));
+		aveExpense = totalExpense/numDays;
+	}
+	
+	// Getters
+	public Date getStart(){
+		return start;
+	}
+	
+	public Date getEnd(){
+		return end;
+	}
+	
+	public double getTotalIncome(){
+		return totalIncome;
+	}
+	
+	public double getTotalExpense() {
+		return totalExpense;
+	}
+	
+	public double getBalance(){
+		return balance;
+	}
+	
+	public Vector<ReportCategory> getExpenseCategory(){
+		return ExpenseCategory;
+	}
+	
+	public double getAveExpense(){
+		return aveExpense;
 	}
 }
