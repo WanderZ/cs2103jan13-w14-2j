@@ -1,6 +1,7 @@
-package ezxpns.data;
+package ezxpns.data.records;
 
 import java.util.Date;
+
 
 /**
  * @author yyjhao
@@ -14,6 +15,14 @@ public class ExpenseRecord extends Record{
 		this.expenseType = expenseType;
 	}
 	
+	protected void setExpenseType(ExpenseType t){
+		this.expenseType = t;
+	}
+	
+	public ExpenseType getExpenseType(){
+		return expenseType;
+	}
+	
 	@Override
 	public void updateInternal(Record other){
 		if(other instanceof ExpenseRecord){
@@ -24,9 +33,9 @@ public class ExpenseRecord extends Record{
 
 	@Override
 	public Record copy() {
-		ExpenseRecord r = new ExpenseRecord(this.amount, this.name, this.remark, this.date,
-				this.category, this.expenseType);
-		r.id = this.id;
+		ExpenseRecord r = new ExpenseRecord(this.getAmount(), this.getName(), this.getRemark(), this.getDate(),
+				this.getCategory(), this.getExpenseType());
+		r.setId(this.getId());
 		return (Record)r;
 	}
 }
