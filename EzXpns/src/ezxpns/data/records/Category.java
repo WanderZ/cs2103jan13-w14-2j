@@ -1,4 +1,4 @@
-package ezxpns.data;
+package ezxpns.data.records;
 
 /**
  * @author yyjhao

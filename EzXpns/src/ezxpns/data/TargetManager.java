@@ -5,6 +5,8 @@ import java.util.Vector;
 
 import ezxpns.util.*;
 import ezxpns.data.*;
+import ezxpns.data.records.ExpenseRecord;
+import ezxpns.data.records.IncomeRecord;
 
 /**
  * @author yyjhao
