@@ -1,6 +1,8 @@
 package ezxpns;
 
 import ezxpns.data.*;
+import ezxpns.data.records.ExpenseRecord;
+import ezxpns.data.records.IncomeRecord;
 import ezxpns.util.Pair;
 import ezxpns.GUI.*;
 import java.awt.EventQueue;
