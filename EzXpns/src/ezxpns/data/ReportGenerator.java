@@ -58,10 +58,10 @@ public class ReportGenerator {
 		double totalExpense = 0;
 		double balance = 0;
 		for (int i = 0; i < incomeRecord.size(); i++){
-			totalIncome += incomeRecord.get(i).amount;
+			totalIncome += incomeRecord.get(i).getAmount();
 		}
 		for (int i = 0; i < expenseRecord.size(); i++){
-			totalExpense += expenseRecord.get(i).amount;
+			totalExpense += expenseRecord.get(i).getAmount();
 		}
 		balance = totalIncome - totalExpense;
 		myReport.setHeading(totalIncome, totalExpense, balance);
@@ -78,7 +78,7 @@ public class ReportGenerator {
 		// Store Expenses into Category
 		for (int i = 0; i < expenseRecord.size(); i++){	
 			// check category
-			String categoryName = expenseRecord.get(i).category.getName();
+			String categoryName = expenseRecord.get(i).getCategory().getName();
 			int id = getCategoryIndex(categoryName);
 			if (id == -1){
 				newCategory = new ReportCategory(categoryName);
@@ -87,7 +87,7 @@ public class ReportGenerator {
 			else
 				newCategory = expenseCategory.get(id);
 			newCategory.incrementFreq();
-			newCategory.incrementAmount(expenseRecord.get(i).amount);		
+			newCategory.incrementAmount(expenseRecord.get(i).getAmount());		
 		} //for
 		
 		// Calculates Amount per Frequency
@@ -112,7 +112,7 @@ public class ReportGenerator {
 		if (expenseRecord.size() == 0)
 			return -1;
 		for (int i = 0; i < expenseRecord.size(); i++){
-			if (expenseRecord.get(i).category.getName().equals(categoryName))
+			if (expenseRecord.get(i).getCategory().getName().equals(categoryName))
 				return i;
 		}
 		return -1;
