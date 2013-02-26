@@ -1,5 +1,9 @@
 package ezxpns.data;
 
+import java.util.Date;
+
+import ezxpns.data.records.Category;
+
 /*
  * This class holds information of a Target
  */
@@ -67,6 +71,7 @@ public class Target implements Comparable<Target>{
 		if(ratio<0.35){
 			return "GREEN";
 		}	
+		return null;
 	}
 	
 	protected void updateCurrent(double currentAmt){

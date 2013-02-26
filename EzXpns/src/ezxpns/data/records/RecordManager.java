@@ -1,6 +1,9 @@
-package ezxpns.data;
+package ezxpns.data.records;
 
 import java.util.*;
+
+import ezxpns.data.RecordQueryHandler;
+import ezxpns.data.Storable;
 
 /**
  * @author yyjhao
@@ -145,7 +148,7 @@ public class RecordManager<T extends Record> implements
 			recordsByName.put(record.name, set);
 		}
 		updated = true;
-		return (T)record.copy();
+		return record;
 	}
 	
 	public void removeCategory(Category category){
@@ -190,7 +193,7 @@ public class RecordManager<T extends Record> implements
 		for(T record : toget){
 			if(max == 0)return rs;
 			max--;
-			rs.add((T)record.copy());
+			rs.add(record);
 		}
 		return rs;
 	}
@@ -206,7 +209,7 @@ public class RecordManager<T extends Record> implements
 		}
 		for(T record : set){
 			if(max == 0)return rs;
-			rs.add((T)record.copy());
+			rs.add(record);
 			max--;
 		}
 		return rs;
@@ -226,7 +229,7 @@ public class RecordManager<T extends Record> implements
 			for(T record : rrs){
 				if(max == 0)return rs;
 				max--;
-				rs.add((T)record.copy());
+				rs.add(record);
 			}
 		}
 		return rs;

@@ -1,14 +1,17 @@
 package ezxpns.data;
 
-import ExpenseRecord;
-import IncomeRecord;
-import Pair;
+import ezxpns.data.records.*;
+import ezxpns.util.*;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.PriorityQueue;
 import java.util.Vector;
 
 import ezxpns.util.*;
 import ezxpns.data.*;
+import ezxpns.data.records.ExpenseRecord;
+import ezxpns.data.records.IncomeRecord;
 
 /**
  * @author shuzhen
@@ -88,7 +91,7 @@ public class TargetManager implements Storable {
 		expenseRecord = data.getDataInDateRange(start, start).getLeft();
 		double currentAmt=0;
 		for(int i=0; i<expenseRecord.size(); i++){
-			currentAmt+=expenseRecord.get(i).amount;
+			currentAmt+=expenseRecord.get(i).getAmount();
 		}
 		
 		int lastDay = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH);
