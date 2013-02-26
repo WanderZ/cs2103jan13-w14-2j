@@ -1,6 +1,7 @@
-package ezxpns.data;
+package ezxpns.data.records;
 
 import java.util.Date;
+
 
 public class IncomeRecord extends Record {
 
@@ -12,9 +13,9 @@ public class IncomeRecord extends Record {
 
 	@Override
 	public Record copy() {
-		IncomeRecord r = new IncomeRecord(amount, name, remark, date,
-				category);
-		r.id = this.id;
+		IncomeRecord r = new IncomeRecord(this.getAmount(), this.getName(), this.getRemark(), this.getDate(),
+				this.getCategory());
+		r.setId(this.getId());
 		return (Record)r;
 	}
 
