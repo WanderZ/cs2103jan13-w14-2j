@@ -24,13 +24,15 @@ public class TargetManager implements Storable {
 		Pair<Vector<ExpenseRecord>, Vector<IncomeRecord> > getDataInDateRange(Date start, Date end);
 	}
 	private Vector<Target> targets;
+	// updated says whether this object is udpated and need to be stored
+	// alert updated says whether there's new alerts
 	private transient boolean	updated = false, 
 								alertUpdated = false;
 	private transient DataProvider data;
 	
 	
 	private Vector<ExpenseRecord>  expenseRecord;
-	public PriorityQueue pq; //for displaying of targets on home screen
+	public PriorityQueue<Target> pq; //for displaying of targets on home screen
 	public Vector<Target> alerts;
 	
 	
