@@ -1,3 +1,7 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
@@ -6,7 +10,7 @@ import javax.swing.JPanel;
 public class MainScreen extends JFrame {
 	
 	private JMenuBar menu;
-	private JPanel panMain, panNotify, panTips, panProfile;
+	private JPanel panTips;
 	
 	public MainScreen(){
 		this.setBounds(0, 0, 800, 600); /*x coordinate, y coordinate, width, height*/
@@ -28,32 +32,30 @@ public class MainScreen extends JFrame {
 		return this.menu;
 	}
 	
+	
 }
 
-/**
- * This panel contains the elements required to display notification
- * Will be hidden and displayed at will (when there is the need to display)
- * 
- */
 @SuppressWarnings("serial")
-class PanelAlert extends JPanel {
+class PanelRecords extends JPanel implements ActionListener {
 	
-	public PanelAlert() {
-		super();
+	/**
+	 * A list of JButtons, 20 most recent ones will be generated. More will be generated upon user's request
+	 */
+	public PanelRecords() {
+		
 	}
 	
-}
+	/**
+	 * Generate the list of most recently added expenses
+	 */
+	public List generateRecords() {
+		return null;
+	}
 
-/**
- * This panel contains the main content for the main screen
- * Mainly Records (Top) then the brief Summary (Bottom left)
- *
- */
-@SuppressWarnings("serial")
-class PanelContent extends JPanel {
-	
-	public PanelContent() {
-		super();
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		// Mouse Event...
 	}
 	
 }
@@ -65,14 +67,7 @@ class PanelContent extends JPanel {
 @SuppressWarnings("serial")
 class PanelTip extends JPanel {
 	
-}
-
-/**
- * This panel contains the profile information for the gamification of the program
- * Contains mainly the Level, Experience(Exp), Exp required, etc...
- *
- */
-@SuppressWarnings("serial")
-class PanelProfile extends JPanel {
-	
+	public PanelTip() {
+		super();
+	}
 }
