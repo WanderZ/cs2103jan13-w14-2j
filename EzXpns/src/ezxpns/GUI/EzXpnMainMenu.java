@@ -6,20 +6,18 @@ import javax.swing.JSeparator;
 @SuppressWarnings("serial")
 public class EzXpnMainMenu extends JMenuBar {
 	
-	private JMenu mRecord, mEdit, mReport, mAlert, mTarget;
+	private JMenu mRecord, mEdit;
 	
 	public EzXpnMainMenu() {
 		mRecord = new MenuRecord("Record");
 		mEdit = new MenuEdit("Edit");
-		mReport = new MenuReport("Report");
-		mAlert = new MenuAlert("Alert");
-		mTarget = new MenuTarget("Target");
+		// mReport = new MenuReport("Report");
+		// mAlert = new MenuAlert("Alert");
 		
 		this.add(mRecord);
 		this.add(mEdit);
-		this.add(mReport);
-		this.add(mAlert);
-		this.add(mTarget);
+		// this.add(mReport);
+		// this.add(mAlert);
 	}
 }
 
@@ -94,6 +92,7 @@ class MenuAlert extends JMenu {
 	}
 }
 
+/*
 @SuppressWarnings("serial")
 class MenuTarget extends JMenu {
 
@@ -113,3 +112,4 @@ class MenuTarget extends JMenu {
 		this.add(this.itmRmGoal);
 	}
 }
+*/
