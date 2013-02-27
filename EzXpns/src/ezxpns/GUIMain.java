@@ -10,11 +10,12 @@ public class Main {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-
-					FrameRecord recordMgr = new FrameRecord();
-					recordMgr.showScreen();
+					/* Essentially the following code starts the GUI */
 					MainScreen main = new MainScreen();
 					main.showScreen();
+					/* The following is for testing, GUI Trial and Error */
+					FrameRecord recordMgr = new FrameRecord();
+					recordMgr.showScreen();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
