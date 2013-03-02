@@ -1,9 +1,8 @@
 package ezxpns.data;
 
-import ExpenseRecord;
-import IncomeRecord;
 import java.util.Calendar;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Hashtable;
@@ -12,6 +11,9 @@ import java.util.Vector;
 
 import ezxpns.util.*;
 import ezxpns.data.*;
+import ezxpns.data.records.Category;
+import ezxpns.data.records.ExpenseRecord;
+import ezxpns.data.records.IncomeRecord;
 
 /**
  * @author shuzhen
@@ -29,166 +31,174 @@ public class TargetManager implements Storable {
 	private transient DataProvider data;
 	
 	
-	private Vector<ExpenseRecord>  expenseRecord;
-	public Vector<Bar> alerts;
-	private Hashtable mapTarget = new Hashtable();
+	private transient Vector<ExpenseRecord>  expenseRecord;
+	public Vector <Bar> alerts = new Vector <Bar>(); //keeps a Vector of Bars that are requires attention 
+	public Vector <Bar> ordered = new Vector <Bar>(); //keeps a ordered sequence of Bars
+	private Hashtable<Category,Target> mapTarget = new Hashtable<Category, Target>();	// maps category to target // maybe not necessary if max number of targets is small
 	
-	
-	
-	
-	
-	
-	public void setDataProvider(DataProvider dataProvider){
-		data = dataProvider;
-	}
 	
 	/**
 	 * @return if the internal data store is updated (and therefore needs to be stored)
 	 */
-	public boolean isUpdated(){
-
-			updateTargets();
-			updateAlerts();
-		}
-		
-		updated = true;
-		
-		return updated;
+	@Override
+	public boolean isUpdated() {
+		// TODO Auto-generated method stub
+		return false;
 	}
-	
-	public void addTarget(Target target){
-		updated = true;
-		targets.add(target);	
-		pq.add(target);
+	@Override
+	public void saved() {
+		// TODO Auto-generated method stub
 		
 	}
 	
-	public void removeTarget(Target target){
-		targets.remove(target);
-	}
+		/*
+		 * creates a Target object
+		 */
 	
-	
-	
-	public void getCurrent(Target target){
-		Date now = new Date();
-		//calculate current amount up to now
-		if( now.before(target.getEnd())){
-			expenseRecord = data.getDataInDateRange(target.getStart(), now).getLeft();
-		}
-		
-		/*calculate current amount up to the end of target month*/
-		else{
-			expenseRecord = data.getDataInDateRange(target.getStart(), target.getEnd()).getLeft();			
-		}
-		
-		return sumAmount(expenseRecord);
-	}
-	
-	public PriorityQueue<Bar> getOrder(){
-		PriorityQueue<Bar> pq = new PriorityQueue<Bar>();
-		for(int i=0; i<targets.size(); i++){
-			pq.add(new Bar(targets.get(i), getCurrent(targets.get(i)))); 
-		}
-	
-		return pq;
-		alerts.clear();
-		for(int i=0; i<targets.size(); i++){
-			if(targets.get(i).getColour().equals("RED") || targets.get(i).getColour().equals("ORANGE")){
-				alerts.add(targets.get(i));				
-			}
-		}
-	}
-	
-	/**
-	 * Creates a Target and adds it into the Vector targets and priority queue
-	 */
-	
-	@SuppressWarnings("deprecation")
 	public Target setTarget(Date start, Category cat, double targetAmt){
-		expenseRecord = data.getDataInDateRange(start, start).getLeft();
-		double currentAmt=0;
-		for(int i=0; i<expenseRecord.size(); i++){
-			currentAmt+=expenseRecord.get(i).amount;
-		}
-		
-
-	/**
-	 * Creates a Target and adds it into the Vector targets and priority queue
-	 */
-	
-
-	public Target setTarget(Date start, Category cat, double targetAmt){
-		
-		// set last date of month
-		int lastDay = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH);
-		Calendar myCal  = new GregorianCalendar();
-		myCal.setTime(start);
-		Calendar calEnd = new GregorianCalendar();
-		calEnd.set(myCal.get(Calendar.YEAR), myCal.get(Calendar.MONTH), lastDay);
-		Date end = calEnd.getTime(); // convert Calendar object to Date object
-		
-		Target target = new Target(start, end, cat, targetAmt);
-		
-		addTarget(target);
-		mapTarget.put(target.getCategory(), target);
+		Target target = new Target(start, getLastDayOfMonth(start), cat, targetAmt);
 		return target;
-	}
-	
-	
-	
-	/**
-	 * @return a copy of the internal targets
-	 */
-	public Vector<Target> getTargets(){
+		}
 		
-		return targets;
-	}
-	
-	public Vector<AlertInfo> getAlerts(){
-		return null;
-	}
-	
-	public void updateAlerts(){
-		alerts.removeAllElements();
-		PriorityQueue<Bar> pq = getOrder();
-		if(pq.peek()!=null){
-		for(int i=0; i<pq.size(); i++){
-			if(pq.peek().getColour().equals("RED") || pq.peek().getColour().equals("ORANGE")){
-				alerts.add(pq.poll());				
+		
+		/*
+		 * assumes target is unique
+		 * add to targets
+		 */
+		
+		public void addTarget(Target target){
+			
+			targets.add(target);
+			mapTarget.put(target.getCategory(),target);
+			Bar bar = new Bar(target, getCurrent(target));
+			ordered.add(bar);
+			Collections.sort(ordered);
+			addAlert(bar);
+		}
+		
+		public int addAlert(Bar bar){
+			
+			if (isAnAlert(bar))
+				alerts.add(bar);
+			
+			return alerts.size();
+		}
+		
+		
+		
+		//getters
+		 
+		/*
+		 * @return a copy of the internal targets, alerts, or ordered targets
+		 */
+		public Vector<Target> getTargets(){
+			Vector<Target> copy = new Vector<Target>();
+			copy = targets;
+			return copy;
+		}
+		
+		public Vector<Bar> getAlerts(){
+			Vector<Bar> copy = new Vector<Bar>();
+			copy = alerts;
+			return copy;
+		}
+		
+		public Vector<Bar> getOrderedTargets(){
+			Vector<Bar> copy = new Vector<Bar>();
+			copy = ordered;
+			return copy;
+		}
+		
+		
+		
+		//Modifiers
+		
+		/*
+		 * this updates ordered and alerts when there is a change in ExpenseRecords:
+		 * 1. add an expense 2.remove an expense 3. modify an expense(amount ONLY)
+		 * This function works for all 3 types of change
+		 */		
+		public void addOrRemoveExpense(ExpenseRecord expense){
+
+			//if the expense category has a target set on it
+			if(mapTarget.containsKey(expense.getCategory())){
+				Target target = mapTarget.get(expense.getCategory());
+				Bar bar = new Bar(target, getCurrent(target));
+				
+				removeAlert(target);
+				
+				//modify from ordered
+				for(int i=0; i<ordered.size(); i++){
+					if(ordered.get(i).getTarget().equals(target))
+						ordered.set(i, bar);
+				}
+				
+				Collections.sort(ordered);
+				 
+				if(isAnAlert(bar))
+					alerts.add(bar);		
+				}
+		}
+		
+
+		public void modifiedExpense(ExpenseRecord original, ExpenseRecord current){
+			//if category is modified, we have to remove the original record, then add the current record
+			if(!(original.getCategory().equals(current.getCategory()))){
+				addOrRemoveExpense(original);
+				addOrRemoveExpense(current);
 			}
+			
+			//add current record
+			else
+				addOrRemoveExpense(current);			
+			
+		}
+		
+
+		
+		//helper methods
+		public double getCurrent(Target target){
+			Date now = new Date();
+			if( now.before(target.getEnd()))
+				expenseRecord = data.getDataInDateRange(target.getStart(), now).getLeft();
+			else
+				expenseRecord = data.getDataInDateRange(target.getStart(), target.getEnd()).getLeft();			
+						
+			return sumAmount(expenseRecord); //how to use sumAmount
+		}
+		
+		public Date getLastDayOfMonth(Date start){
+			// set last date of month
+			int lastDay = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH); //last day of current month
+			Calendar myCal  = new GregorianCalendar();
+			myCal.setTime(start);
+			Calendar calEnd = new GregorianCalendar();
+			calEnd.set(myCal.get(Calendar.YEAR), myCal.get(Calendar.MONTH), lastDay);
+			Date end = calEnd.getTime(); // convert Calendar object to Date object
+			
+			return end;
+		}
+		
+		public boolean removeAlert(Target target){
+			for(int i=0; i<alerts.size(); i++)
+				if(alerts.get(i).getTarget().equals(target)){
+					alerts.remove(i);
+					return true;
+				}
+			
+			return false;
+		}
+		
+		public boolean isAnAlert(Bar bar){
+			if(bar.getColour().equals("RED") || bar.getColour().equals("ORANGE")) 
+				return true;
 			
 			else 
-				break;
+				return false;
 		}
-		}
-	}
-	
-	public void updateTargets(){
 		
 	}
 	
-	public void makeChanges(ExpenseRecord originalRecord, ExpenseRecord newRecord, String change){
-		if(change.equals("modify")){
-			Target target = (Target) mapTarget.get(originalRecord.category);
-			removeTarget(target);
-		}
-		
-		else if (change.equals("remove")){
-		}
-		
-		else if (change.equals("add")){
-			
-		}
-		
-		
-	}
 	
-	public boolean isAlertUpdated(){
-		return alertUpdated;
-	}
-
-	public void saved() {
-		updated = false;
-	}
 	
-}
+	
