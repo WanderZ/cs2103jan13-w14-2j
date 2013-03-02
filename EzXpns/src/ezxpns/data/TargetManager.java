@@ -2,9 +2,12 @@ package ezxpns.data;
 
 import ExpenseRecord;
 import IncomeRecord;
-import Pair;
+import java.util.Calendar;
 
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Hashtable;
+import java.util.PriorityQueue;
 import java.util.Vector;
 
 import ezxpns.util.*;
@@ -27,8 +30,8 @@ public class TargetManager implements Storable {
 	
 	
 	private Vector<ExpenseRecord>  expenseRecord;
-	public PriorityQueue pq; //for displaying of targets on home screen
-	public Vector<Target> alerts;
+	public Vector<Bar> alerts;
+	private Hashtable mapTarget = new Hashtable();
 	
 	
 	
@@ -43,7 +46,7 @@ public class TargetManager implements Storable {
 	 * @return if the internal data store is updated (and therefore needs to be stored)
 	 */
 	public boolean isUpdated(){
-		if(updated==false){
+
 			updateTargets();
 			updateAlerts();
 		}
@@ -55,22 +58,39 @@ public class TargetManager implements Storable {
 	
 	public void addTarget(Target target){
 		updated = true;
-		targets.add(target);
+		targets.add(target);	
 		pq.add(target);
 		
 	}
 	
 	public void removeTarget(Target target){
 		targets.remove(target);
-		pq.remove(target);
 	}
 	
-	public void updateTargets(){
+	
+	
+	public void getCurrent(Target target){
+		Date now = new Date();
+		//calculate current amount up to now
+		if( now.before(target.getEnd())){
+			expenseRecord = data.getDataInDateRange(target.getStart(), now).getLeft();
+		}
 		
+		/*calculate current amount up to the end of target month*/
+		else{
+			expenseRecord = data.getDataInDateRange(target.getStart(), target.getEnd()).getLeft();			
+		}
 		
+		return sumAmount(expenseRecord);
 	}
 	
-	public void updateAlert(){
+	public PriorityQueue<Bar> getOrder(){
+		PriorityQueue<Bar> pq = new PriorityQueue<Bar>();
+		for(int i=0; i<targets.size(); i++){
+			pq.add(new Bar(targets.get(i), getCurrent(targets.get(i)))); 
+		}
+	
+		return pq;
 		alerts.clear();
 		for(int i=0; i<targets.size(); i++){
 			if(targets.get(i).getColour().equals("RED") || targets.get(i).getColour().equals("ORANGE")){
@@ -91,13 +111,26 @@ public class TargetManager implements Storable {
 			currentAmt+=expenseRecord.get(i).amount;
 		}
 		
-		int lastDay = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH);
-		Date end = new Date(start.getYear(), start.getMonth(), lastDay); //last day of the month
+
+	/**
+	 * Creates a Target and adds it into the Vector targets and priority queue
+	 */
+	
+
+	public Target setTarget(Date start, Category cat, double targetAmt){
 		
-		Target target = new Target(start, end, cat, targetAmt, currentAmt);
+		// set last date of month
+		int lastDay = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH);
+		Calendar myCal  = new GregorianCalendar();
+		myCal.setTime(start);
+		Calendar calEnd = new GregorianCalendar();
+		calEnd.set(myCal.get(Calendar.YEAR), myCal.get(Calendar.MONTH), lastDay);
+		Date end = calEnd.getTime(); // convert Calendar object to Date object
+		
+		Target target = new Target(start, end, cat, targetAmt);
 		
 		addTarget(target);
-		
+		mapTarget.put(target.getCategory(), target);
 		return target;
 	}
 	
@@ -116,6 +149,37 @@ public class TargetManager implements Storable {
 	}
 	
 	public void updateAlerts(){
+		alerts.removeAllElements();
+		PriorityQueue<Bar> pq = getOrder();
+		if(pq.peek()!=null){
+		for(int i=0; i<pq.size(); i++){
+			if(pq.peek().getColour().equals("RED") || pq.peek().getColour().equals("ORANGE")){
+				alerts.add(pq.poll());				
+			}
+			
+			else 
+				break;
+		}
+		}
+	}
+	
+	public void updateTargets(){
+		
+	}
+	
+	public void makeChanges(ExpenseRecord originalRecord, ExpenseRecord newRecord, String change){
+		if(change.equals("modify")){
+			Target target = (Target) mapTarget.get(originalRecord.category);
+			removeTarget(target);
+		}
+		
+		else if (change.equals("remove")){
+		}
+		
+		else if (change.equals("add")){
+			
+		}
+		
 		
 	}
 	
