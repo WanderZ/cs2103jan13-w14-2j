@@ -2,13 +2,18 @@ package ezxpns.data;
 
 import java.util.*;
 
+import ezxpns.data.records.Category;
+import ezxpns.data.records.ExpenseRecord;
+import ezxpns.data.records.IncomeRecord;
+import ezxpns.data.records.Record;
+import ezxpns.data.records.RecordManager;
+
 /**
  * @author yyjhao
  * A wrapper containing all data
- * Everything here is handeld by StorageManager to save to file
- * Remember to add transient if the data is not meant to be persistent
  * with some helper functions to query both types
- * TODO: functions to query both types and combine the results
+ * Everything here is handled by StorageManager to save to file
+ * Remember to add transient if the data is not meant to be persistent
  * 
  */
 public class DataManager {
