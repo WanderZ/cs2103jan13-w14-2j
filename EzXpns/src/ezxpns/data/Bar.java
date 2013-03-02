@@ -46,8 +46,10 @@ public class Bar implements Comparable<Bar> {
 	
 	
 	/*
-	 * @returns the 1 if this.target is higher on the priority queue, -1 if lower.
-	 * This is for the display of the Target Bar at Home Screen
+	 * compareTo() will return an integer value that represents the comparison between two Bar objects
+	 * -1 will represent that this object is lesser compared to the other object
+	 * 0 will represent that both objects have equal values 
+	 * 1 will represent that this object is larger compared to the other object
 	 */
 
     public int compareTo(Bar other){

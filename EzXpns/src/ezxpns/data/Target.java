@@ -2,6 +2,8 @@ package ezxpns.data;
 
 import java.util.Date;
 
+import ezxpns.data.records.Category;
+
 /*
  * @author shuzhen
  * This class holds information of a Target
