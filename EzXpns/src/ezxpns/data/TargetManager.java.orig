@@ -3,6 +3,7 @@ package ezxpns.data;
 import ExpenseRecord;
 import IncomeRecord;
 import java.util.Calendar;
+
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Hashtable;
@@ -35,6 +36,8 @@ public class TargetManager implements Storable {
 	
 	
 	
+	
+	
 	public void setDataProvider(DataProvider dataProvider){
 		data = dataProvider;
 	}
@@ -44,12 +47,20 @@ public class TargetManager implements Storable {
 	 */
 	public boolean isUpdated(){
 
+			updateTargets();
+			updateAlerts();
+		}
+		
+		updated = true;
+		
 		return updated;
 	}
 	
 	public void addTarget(Target target){
 		updated = true;
 		targets.add(target);	
+		pq.add(target);
+		
 	}
 	
 	public void removeTarget(Target target){
@@ -78,10 +89,28 @@ public class TargetManager implements Storable {
 		for(int i=0; i<targets.size(); i++){
 			pq.add(new Bar(targets.get(i), getCurrent(targets.get(i)))); 
 		}
-		
+	
 		return pq;
+		alerts.clear();
+		for(int i=0; i<targets.size(); i++){
+			if(targets.get(i).getColour().equals("RED") || targets.get(i).getColour().equals("ORANGE")){
+				alerts.add(targets.get(i));				
+			}
+		}
 	}
 	
+	/**
+	 * Creates a Target and adds it into the Vector targets and priority queue
+	 */
+	
+	@SuppressWarnings("deprecation")
+	public Target setTarget(Date start, Category cat, double targetAmt){
+		expenseRecord = data.getDataInDateRange(start, start).getLeft();
+		double currentAmt=0;
+		for(int i=0; i<expenseRecord.size(); i++){
+			currentAmt+=expenseRecord.get(i).amount;
+		}
+		
 
 	/**
 	 * Creates a Target and adds it into the Vector targets and priority queue
