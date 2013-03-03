@@ -1,3 +1,5 @@
+package ezxpns;
+import ezxpns.GUI.*;
 import java.awt.EventQueue;
 
 public class Main {

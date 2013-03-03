@@ -1,4 +1,8 @@
+package ezxpns.GUI;
+
+import ezxpns.data.records.Record;
 import java.util.List;
+
 
 /**
  *	To handle the records between the Graphical User Interface and the data storage (upon GUI Exit)
@@ -53,8 +57,3 @@ public interface RecordHandlerInterface {
 	// All income/expense records
 	// All of a certain category? (Ambiguous - can be either here or at CategoryHandler
 }
-
-/**
- * Dummy Class for compilation
- */
-class Record {}
