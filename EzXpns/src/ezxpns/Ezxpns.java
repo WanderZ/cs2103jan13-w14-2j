@@ -51,8 +51,9 @@ public class Ezxpns implements
 	@Override
 	public Pair<Vector<ExpenseRecord>, Vector<IncomeRecord>> getDataInDateRange(
 			Date start, Date end) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Pair<Vector<ExpenseRecord>, Vector<IncomeRecord>>(
+				data.expenses().getRecordsBy(start, end, -1, false),
+				data.incomes().getRecordsBy(start, end, -1, false));
 	}
 	
 	public void addTarget(){
@@ -64,10 +65,10 @@ public class Ezxpns implements
 	}
 	
 	public void addRecord(ExpenseRecord r){
-		
+		data.expenses().addNewRecord(r);
 	}
 	
 	public void addRecord(IncomeRecord r){
-		
+		data.incomes().addNewRecord(r);
 	}
 }
