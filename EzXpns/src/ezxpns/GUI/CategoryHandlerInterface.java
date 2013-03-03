@@ -1,3 +1,5 @@
+package ezxpns.GUI;
+import ezxpns.data.records.Category;
 import java.util.List;
 
 /**
@@ -47,8 +49,3 @@ public interface CategoryHandlerInterface {
 	// Remove Target (if this is possible)
 	
 }
-
-/**
- * Dummy Class for compilation
- */
-class Category {}

@@ -24,17 +24,10 @@ public class Category{
 		this.name = name;
 	}
 	
-	protected void setName(String name){
-		this.name = name;
-	}
+	protected void setName(String name){this.name = name;}
+	public String getName(){return name;}
 	
-	public String getName(){
-		return name;
-	}
-	
-	public long getID(){
-		return id;
-	}
+	public long getID(){return id;}
 	
 	public Category copy(){
 		return new Category(id, name);

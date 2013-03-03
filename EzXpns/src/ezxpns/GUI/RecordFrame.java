@@ -1,3 +1,5 @@
+package ezxpns.GUI;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -42,6 +44,7 @@ public class RecordFrame extends JFrame implements ActionListener {
 		this.add(panMain, BorderLayout.CENTER);
 		this.panOpt = new PanelOption(this);
 		this.add(panOpt, BorderLayout.SOUTH);
+		
 	}
 	
 	public void showScreen() {this.setVisible(true);}
@@ -62,7 +65,7 @@ public class RecordFrame extends JFrame implements ActionListener {
 		}
 		if(((PanelOption) this.panOpt).getCancelBtn() == e.getSource()) {
 			// Cancel button has been invoked. 
-			// Invoke confirmation? 
+			// Invoke confirmation? - will it be retarded to invoke confirmation?
 		}
 	}
 
@@ -97,7 +100,7 @@ class PanelRecur extends JPanel implements ActionListener{
 	}
 	
 	/**
-	 * To toggle the enability of the recurring options
+	 * To toggle the enabled-ability of the recurring options
 	 */
 	public void toggle() {
 		if(this.chkRecur.isSelected()) {
@@ -171,7 +174,7 @@ class PanelMain extends JPanel {
 @SuppressWarnings("serial")
 class PanelExpense extends JPanel {
 	
-	public final int TOP_PAD = 25;
+	public final int TOP_PAD = 27;
 	public final int COL1_PAD = 15;
 	public final int COL2_PAD = 120;
 	private ButtonGroup bgType;
@@ -183,24 +186,13 @@ class PanelExpense extends JPanel {
 	
 	public PanelExpense() {
 		super();
+		
+		/* The Layout governing the positions */
 		SpringLayout loForm = new SpringLayout();
 		this.setLayout(loForm);
 		
-		// Initialising the components
-		this.lblCat = new JLabel("Category");
-		this.lblPayment = new JLabel("Payment Mode");
-		this.lblName = new JLabel("Name");
-		this.lblAmt = new JLabel("Amount");
-		this.lblType = new JLabel("Type");
-		this.lblDate = new JLabel("Date");
-		this.lblDesc = new JLabel("Remarks");
-		
-		this.txtAmt = new JTextField("", 20);
-		this.txtName = new JTextField("", 20);
-		this.txtDate = new JTextField("", 20);
-		this.taDesc = new TextArea("", 5, 25, TextArea.SCROLLBARS_NONE); /* Initial text, height, width, scroll bar option */
-		
 		// Initialise Radio Buttons
+		this.lblType = new JLabel("Type");
 		this.bgType = new ButtonGroup();
 		this.rbtnNeed = new JRadioButton("Need");
 		this.rbtnWant = new JRadioButton("Want");
@@ -210,13 +202,17 @@ class PanelExpense extends JPanel {
 		// Action Listener to update the label text in preview?
 		
 		// Initialise Combo Box - To be a dynamic updating list.
+		this.lblCat = new JLabel("Category");
 		this.cboxCategory = new JComboBox(getCategories());
 		this.cboxCategory.setEditable(true);
 		
 		// Initialise Combo Box - To be a dynamic updating list.
+		this.lblPayment = new JLabel("Payment Mode");
 		this.cboxPayment = new JComboBox(getPayModes());
 		this.cboxPayment .setEditable(true);
 		
+		this.lblName = new JLabel("Name");
+		this.txtName = new JTextField("", 20);
 		this.add(lblName);
 		this.add(txtName);
 		loForm.putConstraint(SpringLayout.WEST, lblName, COL1_PAD, SpringLayout.WEST, this);
@@ -249,6 +245,8 @@ class PanelExpense extends JPanel {
 		loForm.putConstraint(SpringLayout.NORTH, rbtnNeed, TOP_PAD, SpringLayout.NORTH, cboxCategory);
 		loForm.putConstraint(SpringLayout.NORTH, rbtnWant, TOP_PAD, SpringLayout.NORTH, cboxCategory);
 		
+		this.lblAmt = new JLabel("Amount");
+		this.txtAmt = new JTextField("", 20);
 		this.add(lblAmt);
 		this.add(txtAmt);
 		loForm.putConstraint(SpringLayout.WEST, lblAmt, COL1_PAD, SpringLayout.WEST, this);
@@ -256,7 +254,9 @@ class PanelExpense extends JPanel {
 		loForm.putConstraint(SpringLayout.NORTH, lblAmt, TOP_PAD, SpringLayout.NORTH, rbtnNeed);
 		loForm.putConstraint(SpringLayout.NORTH, txtAmt, TOP_PAD, SpringLayout.NORTH, rbtnWant);
 		// This will need a listener to calculate and display the information on the label
-		
+
+		this.lblDate = new JLabel("Date");
+		this.txtDate = new JTextField("", 20);
 		this.add(lblDate);
 		this.add(txtDate);
 		loForm.putConstraint(SpringLayout.WEST, lblDate, COL1_PAD, SpringLayout.WEST, this);
@@ -264,7 +264,9 @@ class PanelExpense extends JPanel {
 		loForm.putConstraint(SpringLayout.NORTH, lblDate, TOP_PAD, SpringLayout.NORTH, lblAmt);
 		loForm.putConstraint(SpringLayout.NORTH, txtDate, TOP_PAD, SpringLayout.NORTH, txtAmt);
 		// Insert Calendar View? Dropdown box here
-		
+
+		this.lblDesc = new JLabel("Remarks");
+		this.taDesc = new TextArea("", 5, 25, TextArea.SCROLLBARS_NONE); /* Initial text, height, width, scroll bar option */
 		this.add(lblDesc);
 		this.add(taDesc);
 		loForm.putConstraint(SpringLayout.WEST, lblDesc, COL1_PAD, SpringLayout.WEST, this);
@@ -312,28 +314,35 @@ class PanelExpense extends JPanel {
 
 /**
  * Form panel for Income records
- *
- *
  */
 @SuppressWarnings("serial")
 class PanelIncome extends JPanel {
 	
+	public static final int TEXTFIELD_SIZE = 20;
+	private JLabel lblAmt, lblName;
 	private JTextField 	txtAmt, txtName;
+	// Combobox for category (guess there is no need for payment mode
+	// Description text area
+	// Date of adding
 	
 	public PanelIncome() {
 		super();
 		
-		this.txtAmt = new JTextField();
-		this.txtName = new JTextField();
+		// Set the layout to govern each element's location
+		
+		this.lblName = new JLabel("Name");
+		this.txtName = new JTextField("", TEXTFIELD_SIZE);
+		
+		this.lblAmt = new JLabel("Amount");
+		this.txtAmt = new JTextField("", TEXTFIELD_SIZE);
 		
 		
+				
 	}
 }
 
 /**
  * Panel containing the options available to this frame
- * @author Andrew
- *
  */
 @SuppressWarnings("serial")
 class PanelOption extends JPanel {
