@@ -10,7 +10,6 @@ import java.util.List;
 /**
  * @author yyjhao
  * A container for some basic record attributes
- * No getter/setter since it's purely data representation without any internal logic
  */
 public abstract class Record implements Comparable<Record>{
 	protected double amount;
