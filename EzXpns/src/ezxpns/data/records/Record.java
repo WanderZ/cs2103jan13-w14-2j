@@ -4,6 +4,7 @@
 package ezxpns.data.records;
 
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -18,6 +19,14 @@ public abstract class Record implements Comparable<Record>{
 	protected Date date;
 	protected transient Category category = Category.undefined;
 	protected long id;
+	
+	public static <T extends Record> double sumAmount(List<T> rs){
+		double sum = 0;
+		for(Record r : rs){
+			sum += r.getAmount();
+		}
+		return sum;
+	}
 	
 	public Record(double amount, String name, String remark, Date date, Category category){
 		this.amount = amount;
