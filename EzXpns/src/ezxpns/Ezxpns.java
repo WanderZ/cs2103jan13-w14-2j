@@ -9,6 +9,8 @@ import java.awt.EventQueue;
 import java.util.*;
 
 import ezxpns.GUI.MainWindow;
+import ezxpns.GUI.FrameRecord;
+import ezxpns.GUI.MainScreen;
 
 
 public class Ezxpns implements
@@ -31,7 +33,11 @@ public class Ezxpns implements
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainWindow window = new MainWindow();
+
+					FrameRecord recordMgr = new FrameRecord();
+					recordMgr.showScreen();
+					MainScreen main = new MainScreen();
+					main.showScreen();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
