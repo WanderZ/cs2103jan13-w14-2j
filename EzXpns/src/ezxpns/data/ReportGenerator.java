@@ -2,6 +2,7 @@ package ezxpns.data;
 
 import ezxpns.data.records.ExpenseRecord;
 import ezxpns.data.records.IncomeRecord;
+import ezxpns.data.records.Record;
 import ezxpns.util.*;
 import java.util.*;
 
@@ -81,19 +82,11 @@ public class ReportGenerator {
 	}
 
 	private double calTotalIncome() {
-		double totalIncome = 0;
-		for (int i = 0; i < incomeRecord.size(); i++) {
-			totalIncome += incomeRecord.get(i).getAmount();
-		}
-		return totalIncome;
+		return Record.sumAmount(incomeRecord);
 	}
 
 	private double calTotalExpense() {
-		double totalExpense = 0;
-		for (int i = 0; i < expenseRecord.size(); i++) {
-			totalExpense += expenseRecord.get(i).getAmount();
-		}
-		return totalExpense;
+		return Record.sumAmount(expenseRecord);
 	}
 
 	/**
@@ -102,7 +95,6 @@ public class ReportGenerator {
 	 * Report Object.
 	 */
 	private void processSectionExpense() {
-
 		populateExpenseCategory();
 		calAmountPerFreq();
 
