@@ -1,5 +1,6 @@
 package ezxpns.GUI;
-
+import ezxpns.data.records.Record;
+import ezxpns.data.records.Category;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -27,22 +28,26 @@ import javax.swing.SpringLayout;
 public class RecordFrame extends JFrame implements ActionListener {
 	
 	private JPanel panMain, panOpt;
+	public static final int WIDTH = 600;
+	public static final int HEIGHT = 400; 
 	
 	public RecordFrame() {
 		super();
+		this.init();
+	}
+	
+	private void init() {
 		this.setTitle("EzXpns - New Record");
 		this.setLayout(new BorderLayout());
-		this.setBounds(0, 0, 600, 400);
+		this.setBounds(0, 0, WIDTH, HEIGHT);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		this.initialize();
-	}
-	
-	private void initialize() {
-		this.panMain = new PanelMain();
+		
+		
+		panMain = new PanelMain();
 		this.add(panMain, BorderLayout.CENTER);
-		this.panOpt = new PanelOption(this);
+		panOpt = new PanelOption(this);
 		this.add(panOpt, BorderLayout.SOUTH);
 		
 	}
@@ -66,6 +71,7 @@ public class RecordFrame extends JFrame implements ActionListener {
 		if(((PanelOption) this.panOpt).getCancelBtn() == e.getSource()) {
 			// Cancel button has been invoked. 
 			// Invoke confirmation? - will it be retarded to invoke confirmation?
+			disposeFrame();
 		}
 	}
 
@@ -81,10 +87,10 @@ class PanelRecur extends JPanel implements ActionListener{
 	public PanelRecur () {
 		super();
 		this.setLayout(new java.awt.FlowLayout());
-		initPan();
+		init();
 	}
 	
-	private void initPan() {
+	private void init() {
 		this.chkRecur = new JCheckBox("Repeating Record");
 		this.chkRecur.addActionListener(this);
 		this.add(chkRecur);
@@ -177,6 +183,7 @@ class PanelExpense extends JPanel {
 	public final int TOP_PAD = 27;
 	public final int COL1_PAD = 15;
 	public final int COL2_PAD = 120;
+	public final int TEXTFIELD_SIZE = 20;
 	private ButtonGroup bgType;
 	private JRadioButton rbtnNeed, rbtnWant;
 	private JLabel lblAmt, lblName, lblType, lblCat, lblPayment, lblDate, lblDesc;
@@ -212,7 +219,7 @@ class PanelExpense extends JPanel {
 		this.cboxPayment .setEditable(true);
 		
 		this.lblName = new JLabel("Name");
-		this.txtName = new JTextField("", 20);
+		this.txtName = new JTextField("", TEXTFIELD_SIZE);
 		this.add(lblName);
 		this.add(txtName);
 		loForm.putConstraint(SpringLayout.WEST, lblName, COL1_PAD, SpringLayout.WEST, this);
@@ -246,7 +253,7 @@ class PanelExpense extends JPanel {
 		loForm.putConstraint(SpringLayout.NORTH, rbtnWant, TOP_PAD, SpringLayout.NORTH, cboxCategory);
 		
 		this.lblAmt = new JLabel("Amount");
-		this.txtAmt = new JTextField("", 20);
+		this.txtAmt = new JTextField("", TEXTFIELD_SIZE);
 		this.add(lblAmt);
 		this.add(txtAmt);
 		loForm.putConstraint(SpringLayout.WEST, lblAmt, COL1_PAD, SpringLayout.WEST, this);
@@ -256,14 +263,14 @@ class PanelExpense extends JPanel {
 		// This will need a listener to calculate and display the information on the label
 
 		this.lblDate = new JLabel("Date");
-		this.txtDate = new JTextField("", 20);
+		this.txtDate = new JTextField("", TEXTFIELD_SIZE);
 		this.add(lblDate);
 		this.add(txtDate);
 		loForm.putConstraint(SpringLayout.WEST, lblDate, COL1_PAD, SpringLayout.WEST, this);
 		loForm.putConstraint(SpringLayout.WEST, txtDate, COL2_PAD, SpringLayout.WEST, this);
 		loForm.putConstraint(SpringLayout.NORTH, lblDate, TOP_PAD, SpringLayout.NORTH, lblAmt);
 		loForm.putConstraint(SpringLayout.NORTH, txtDate, TOP_PAD, SpringLayout.NORTH, txtAmt);
-		// Insert Calendar View? Dropdown box here
+		// Insert Calendar View? Drop down box here
 
 		this.lblDesc = new JLabel("Remarks");
 		this.taDesc = new TextArea("", 5, 25, TextArea.SCROLLBARS_NONE); /* Initial text, height, width, scroll bar option */
@@ -308,36 +315,104 @@ class PanelExpense extends JPanel {
 		return null;
 	}
 	
-	// Validation method (mainly for calculation
+	/**
+	 * to validate the fields entered into the system.
+	 * @return true is there is no problem with inputs, else false;
+	 */
+	public boolean validateFields() {
+		return true;
+		// Validation method (mainly for calculation)
+	}
+	
 	// Save method - to send for saving into "database" or GUI internal memory.
+	public Record getRecord() {
+		Record record = null;
+		return record;
+	}
 }
 
 /**
- * Form panel for Income records
+ * Form for Income records
  */
 @SuppressWarnings("serial")
 class PanelIncome extends JPanel {
 	
-	public static final int TEXTFIELD_SIZE = 20;
-	private JLabel lblAmt, lblName;
-	private JTextField 	txtAmt, txtName;
-	// Combobox for category (guess there is no need for payment mode
-	// Description text area
-	// Date of adding
+	public final int TOP_PAD = 27;
+	public final int COL1_PAD = 15;
+	public final int COL2_PAD = 120;
+	public final int TEXTFIELD_SIZE = 20;
+	private JLabel lblAmt, lblName, lblCat, lblDesc, lblDate;
+	private JTextField 	txtAmt, txtName, txtDate;
+	private JComboBox cboxCat;
+	private TextArea taDesc;
 	
 	public PanelIncome() {
 		super();
 		
-		// Set the layout to govern each element's location
+		/* The Layout governing the positions */
+		SpringLayout loForm = new SpringLayout();
+		this.setLayout(loForm);
 		
-		this.lblName = new JLabel("Name");
-		this.txtName = new JTextField("", TEXTFIELD_SIZE);
+		lblName = new JLabel("Name");
+		txtName = new JTextField("", TEXTFIELD_SIZE);
+		this.add(lblName);
+		this.add(txtName);
+		loForm.putConstraint(SpringLayout.WEST, lblName, COL1_PAD, SpringLayout.WEST, this);
+		loForm.putConstraint(SpringLayout.WEST, txtName, COL2_PAD, SpringLayout.WEST, this);
+		loForm.putConstraint(SpringLayout.NORTH, lblName, TOP_PAD, SpringLayout.NORTH, this);
+		loForm.putConstraint(SpringLayout.NORTH, txtName, TOP_PAD, SpringLayout.NORTH, this);
+		// AutoComplete (for the rest of the fields - when completed?)
 		
-		this.lblAmt = new JLabel("Amount");
-		this.txtAmt = new JTextField("", TEXTFIELD_SIZE);
+		lblCat = new JLabel("Category");
+		cboxCat = new JComboBox(this.getCategories());
+		cboxCat.setEnabled(true);
+		this.add(lblCat);
+		this.add(cboxCat);
+		loForm.putConstraint(SpringLayout.WEST, lblCat, COL1_PAD, SpringLayout.WEST, this);
+		loForm.putConstraint(SpringLayout.WEST, cboxCat, COL2_PAD, SpringLayout.WEST, this);
+		loForm.putConstraint(SpringLayout.NORTH, lblCat, TOP_PAD, SpringLayout.NORTH, lblName);
+		loForm.putConstraint(SpringLayout.NORTH, cboxCat, TOP_PAD, SpringLayout.NORTH, txtName);
 		
+		lblAmt = new JLabel("Amount");
+		txtAmt = new JTextField("", TEXTFIELD_SIZE);
+		this.add(lblAmt);
+		this.add(txtAmt);
+		loForm.putConstraint(SpringLayout.WEST, lblAmt, COL1_PAD, SpringLayout.WEST, this);
+		loForm.putConstraint(SpringLayout.WEST, txtAmt, COL2_PAD, SpringLayout.WEST, this);
+		loForm.putConstraint(SpringLayout.NORTH, lblAmt, TOP_PAD, SpringLayout.NORTH, lblCat);
+		loForm.putConstraint(SpringLayout.NORTH, txtAmt, TOP_PAD, SpringLayout.NORTH, cboxCat);
+		// This will need a listener to calculate and display the information on the label
 		
-				
+		lblDate = new JLabel("Date");
+		txtDate = new JTextField("", TEXTFIELD_SIZE);
+		this.add(lblDate);
+		this.add(txtDate);
+		loForm.putConstraint(SpringLayout.WEST, lblDate, COL1_PAD, SpringLayout.WEST, this);
+		loForm.putConstraint(SpringLayout.WEST, txtDate, COL2_PAD, SpringLayout.WEST, this);
+		loForm.putConstraint(SpringLayout.NORTH, lblDate, TOP_PAD, SpringLayout.NORTH, lblAmt);
+		loForm.putConstraint(SpringLayout.NORTH, txtDate, TOP_PAD, SpringLayout.NORTH, txtAmt);
+		// Insert Calendar View? Drop down box here
+		
+		lblDesc = new JLabel("Remarks");
+		taDesc = new TextArea("", 5, 25, TextArea.SCROLLBARS_NONE);
+		this.add(lblDesc);
+		this.add(taDesc);
+		loForm.putConstraint(SpringLayout.WEST, lblDesc, COL1_PAD, SpringLayout.WEST, this);
+		loForm.putConstraint(SpringLayout.WEST, taDesc, COL2_PAD, SpringLayout.WEST, this);
+		loForm.putConstraint(SpringLayout.NORTH, lblDesc, TOP_PAD, SpringLayout.NORTH, lblDate);
+		loForm.putConstraint(SpringLayout.NORTH, taDesc, TOP_PAD, SpringLayout.NORTH, txtDate);
+	}
+	
+	private String[] getCategories() {
+		return new String[] {"Allowance", "Ang Bao"};
+	}
+	
+	/**
+	 * to validate the fields entered into the system.
+	 * @return true is there is no problem with inputs, else false;
+	 */
+	public boolean validateFields() {
+		return true;
 	}
 }
 
@@ -351,54 +426,59 @@ class PanelOption extends JPanel {
 	
 	public PanelOption(ActionListener frame) {
 		super();
-		this.btnSave = new JButton("Save");
-		this.btnCancel = new JButton("Or discard changes");
-		this.btnCancel.setBorderPainted(false);
-		this.btnCancel.setContentAreaFilled(false);
-		this.btnCancel.setForeground(Color.DARK_GRAY);
+		btnSave = new JButton("Save");
+		btnCancel = new JButton("Or discard changes");
+		btnCancel.setBorderPainted(false);
+		btnCancel.setContentAreaFilled(false);
+		btnCancel.setForeground(Color.DARK_GRAY);
 		
-		this.btnSave.addActionListener(frame);
-		this.btnCancel.addActionListener(frame);
+		btnSave.addActionListener(frame);
+		btnCancel.addActionListener(frame);
 		
-		this.btnCancel.addMouseListener(new MouseAdapter() {
-			public void mouseEntered(MouseEvent mEvent) {
+		btnCancel.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent mEvent) { // Hover start
 				JButton btn = (JButton) mEvent.getSource();
 				btn.setForeground(Color.BLUE);
+				
+				/* Underlining the word for "hover*/
 				Font btnFont = btn.getFont();
 				Map attribute = btnFont.getAttributes();
 				attribute.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
 				btn.setFont(btnFont.deriveFont(attribute));
 			}
 			
-			public void mouseExited(MouseEvent mEvent) {
+			public void mouseExited(MouseEvent mEvent) { // Hover end
 				JButton btn = (JButton) mEvent.getSource();
 				btn.setForeground(Color.DARK_GRAY);
+				// Current Issue: unable to remove the underlining from after hovering over it.
+				
 			}
 		});
 		
 		this.add(btnSave);
 		this.add(btnCancel);
-	}	
+	}
 	
 	public JButton getSaveBtn() {return this.btnSave;}
 	public JButton getCancelBtn() {return this.btnCancel;}
 }
 
-/**
- * Idea - to make it damn easy for the user to press the save button.
- * Preview to let the user know that hey - its mostly handled. (may not be accepted)
- * "help text to aid user in adding records?"
- * 
- */
-@SuppressWarnings("serial")
-class PanelPreview extends JPanel {
-	private JLabel lblName;
-	private JLabel lblAmt;
-	private JLabel lblType;
-	private JLabel lblCat;
-	private JLabel lblDesciption;
-	
-	public PanelPreview() {
-		super();
-	}
-}
+//
+///**
+// * Idea - to make it damn easy for the user to press the save button.
+// * Preview to let the user know that hey - its mostly handled. (may not be accepted)
+// * "help text to aid user in adding records?"
+// * 
+// */
+//@SuppressWarnings("serial")
+//class PanelPreview extends JPanel {
+//	private JLabel lblName;
+//	private JLabel lblAmt;
+//	private JLabel lblType;
+//	private JLabel lblCat;
+//	private JLabel lblDesciption;
+//	
+//	public PanelPreview() {
+//		super();
+//	}
+//}
