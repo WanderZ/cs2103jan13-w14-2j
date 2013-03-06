@@ -36,6 +36,17 @@ public class Ezxpns implements
 					MainScreen main = new MainScreen();
 					main.showScreen();
 					
+					RecordFrame recordMgrI = new RecordFrame(RecordFrame.TAB_INCOME);
+					recordMgrI.showScreen();
+					
+					RecordFrame recordMgrE = new RecordFrame();
+					recordMgrE.showScreen();
+					
+					/*
+					SearchFrame searchMgr = new SearchFrame();
+					searchMgr.setVisible(true);
+					*/
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

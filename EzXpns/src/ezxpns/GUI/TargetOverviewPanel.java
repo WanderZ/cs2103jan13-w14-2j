@@ -10,9 +10,12 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class TargetOverviewPanel extends JPanel {
 
-	
+	private javax.swing.JLabel lblMsg;
 	public TargetOverviewPanel() {
 		super(); // new Panel();
+		
+		lblMsg = new javax.swing.JLabel("Targets - Under Construction :(");
+		this.add(lblMsg);
 	}
 	
 	// Will there be any interactions enabled for this panel? 
