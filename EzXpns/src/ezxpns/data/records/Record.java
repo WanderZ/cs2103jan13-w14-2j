@@ -6,7 +6,6 @@ import java.util.List;
 /**
  * @author yyjhao
  * A container for some basic record attributes
- * No getter/setter since it's purely data representation without any internal logic
  */
 public abstract class Record implements Comparable<Record>{
 	protected double amount;
@@ -15,6 +14,14 @@ public abstract class Record implements Comparable<Record>{
 	protected Date date;
 	protected transient Category category = Category.undefined;
 	protected long id;
+	
+	public static <T extends Record> double sumAmount(List<T> rs){
+		double sum = 0;
+		for(Record r : rs){
+			sum += r.getAmount();
+		}
+		return sum;
+	}
 	
 	public static <T extends Record> double sumAmount(List<T> rs){
 		double sum = 0;
