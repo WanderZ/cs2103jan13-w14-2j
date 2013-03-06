@@ -1,9 +1,10 @@
+package ezxpns.GUI;
+
 import javax.swing.JFrame;
 
 
 /**
  * The window to handle all the extensive record analysis and report
- * @author Andrew
  *
  */
 @SuppressWarnings("serial")
