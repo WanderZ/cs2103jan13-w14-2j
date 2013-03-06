@@ -14,6 +14,7 @@ import ezxpns.data.*;
 import ezxpns.data.records.Category;
 import ezxpns.data.records.ExpenseRecord;
 import ezxpns.data.records.IncomeRecord;
+import ezxpns.data.records.Record;
 
 /**
  * @author shuzhen
@@ -164,7 +165,7 @@ public class TargetManager implements Storable {
 			else
 				expenseRecord = data.getDataInDateRange(target.getStart(), target.getEnd()).getLeft();			
 						
-			return sumAmount(expenseRecord); //how to use sumAmount
+			return Record.sumAmount(expenseRecord); //how to use sumAmount
 		}
 		
 		public Date getLastDayOfMonth(Date start){
