@@ -7,9 +7,9 @@ import ezxpns.util.*;
 import java.util.*;
 
 /**
- * Generate a Report Class given a date range
- * 
+ * Generate a Report Object given a date range
  * @author tingzhe
+ * 
  */
 
 public class ReportGenerator {
