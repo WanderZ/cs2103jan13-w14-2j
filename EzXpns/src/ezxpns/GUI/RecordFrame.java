@@ -1,6 +1,5 @@
 package ezxpns.GUI;
 import ezxpns.data.records.Record;
-import ezxpns.data.records.Category;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -28,28 +27,49 @@ import javax.swing.SpringLayout;
 public class RecordFrame extends JFrame implements ActionListener {
 	
 	private JPanel panMain, panOpt;
-	public static final int WIDTH = 600;
-	public static final int HEIGHT = 400; 
+	public static final int DEFAULT_WIDTH = 600;
+	public static final int DEFAULT_HEIGHT = 400; 
 	
+	public static final int TAB_INCOME = 0011;
+	public static final int TAB_EXPENSE = 1100;
+	
+	/**
+	 * Normal constructor for RecordFrame - Starts the window with the expenses view
+	 */
 	public RecordFrame() {
 		super();
 		this.init();
 	}
 	
+	/**
+	 * Constructor to specify the tag
+	 * @param initTab 
+	 */
+	public RecordFrame(int initTab) {
+		this();
+		switch(initTab) {
+			case TAB_INCOME: 
+				((PanelMain)panMain).toggleIncomeTab();
+				break;
+			case TAB_EXPENSE:
+				((PanelMain)panMain).toggleExpenseTab();
+			default:break;
+		}
+	}
+	
 	private void init() {
 		this.setTitle("EzXpns - New Record");
 		this.setLayout(new BorderLayout());
-		this.setBounds(0, 0, WIDTH, HEIGHT);
+		this.setBounds(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
-		
 		panMain = new PanelMain();
 		this.add(panMain, BorderLayout.CENTER);
-		panOpt = new PanelOption(this);
-		this.add(panOpt, BorderLayout.SOUTH);
 		
+		panOpt = new PanelOption(this);
+		this.add(panOpt, BorderLayout.SOUTH);	
 	}
 	
 	public void showScreen() {this.setVisible(true);}
@@ -84,7 +104,7 @@ class PanelRecur extends JPanel implements ActionListener{
 	private JComboBox cboxFrequency;
 	private JTextField txtStart, txtEnd;
 	
-	public PanelRecur () {
+	public PanelRecur() {
 		super();
 		this.setLayout(new java.awt.FlowLayout());
 		init();
@@ -169,6 +189,20 @@ class PanelMain extends JPanel {
 		// Create Recurring options panel
 		this.panRecurOpt = new PanelRecur();
 		this.add(panRecurOpt, BorderLayout.SOUTH);
+	}
+	
+	/**
+	 * Method to toggle to the tab for a new income record
+	 */
+	public void toggleIncomeTab() {
+		tabs.setSelectedIndex(1);
+	}
+	
+	/**
+	 * Method to toggle to the tab for a new expense record
+	 */
+	public void toggleExpenseTab() {
+		tabs.setSelectedIndex(0);		
 	}
 	
 	// Access and Mutate methods (for internal internal components)
@@ -403,6 +437,10 @@ class PanelIncome extends JPanel {
 		loForm.putConstraint(SpringLayout.NORTH, taDesc, TOP_PAD, SpringLayout.NORTH, txtDate);
 	}
 	
+	/**
+	 * To get the list of user-defined categories
+	 * @return
+	 */
 	private String[] getCategories() {
 		return new String[] {"Allowance", "Ang Bao"};
 	}
