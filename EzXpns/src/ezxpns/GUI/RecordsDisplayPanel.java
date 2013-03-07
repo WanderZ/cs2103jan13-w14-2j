@@ -23,12 +23,8 @@ public class RecordsDisplayPanel extends JPanel implements ActionListener {
 		// Mouse Adapter (hover click...)		
 	}
 	
-	/**
-	 * Generate the list of most recently added expenses
-	 */
-	public List<Object> generateRecords() {
-		return null;
-	}
+	// Load records (expenses, income)
+	// display
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
@@ -37,6 +33,11 @@ public class RecordsDisplayPanel extends JPanel implements ActionListener {
 	}
 	
 }
+
+// Panel to display all expenses
+// Panel to display all income records
+
+
 
 /**
  * Panel Object containing each of the records, with the functionality

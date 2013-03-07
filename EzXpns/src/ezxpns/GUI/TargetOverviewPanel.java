@@ -20,11 +20,13 @@ public class TargetOverviewPanel extends JPanel {
 	
 	// Will there be any interactions enabled for this panel? 
 	// (i.e. slider interface to allow users to adjust their targets)
+	// If there is, you may want to do some action-listening [extra stuff] 
 
 	// Buttons for functionality
 	// Responding to events, such as a new category/record added (in/out) - updating the information live
 	
 	// Should interact with some interface or handler to calculate percentage and stuff as such.
+	// Note: It may have to accept something in the constructor such as an object reference to the logic. 
 	
 	// Question: Will this be linked our user's shortcut to CRUDE categories? (or maybe just some of them?)
 

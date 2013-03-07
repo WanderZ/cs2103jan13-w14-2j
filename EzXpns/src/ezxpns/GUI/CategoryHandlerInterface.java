@@ -47,5 +47,4 @@ public interface CategoryHandlerInterface {
 	// Set New Target
 	// Modify Existing Target
 	// Remove Target (if this is possible)
-	
 }
