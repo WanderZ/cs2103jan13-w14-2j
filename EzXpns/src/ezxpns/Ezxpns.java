@@ -1,20 +1,29 @@
 package ezxpns;
 
 import ezxpns.data.*;
+import ezxpns.data.records.Category;
 import ezxpns.data.records.ExpenseRecord;
 import ezxpns.data.records.IncomeRecord;
+import ezxpns.data.records.Record;
 import ezxpns.util.Pair;
 import ezxpns.GUI.*;
 import java.awt.EventQueue;
 import java.util.*;
 
+import ezxpns.GUI.CategoryHandlerInterface;
 import ezxpns.GUI.MainWindow;
 import ezxpns.GUI.MainScreen;
+import ezxpns.GUI.RecordHandlerInterface;
+import ezxpns.GUI.SearchHandlerInterface;
+import ezxpns.GUI.SearchRequest;
 
 
 public class Ezxpns implements
 		ReportGenerator.DataProvider,
-		TargetManager.DataProvider{
+		TargetManager.DataProvider,
+		CategoryHandlerInterface,
+		RecordHandlerInterface,
+		SearchHandlerInterface{
 	private StorageManager store;
 	private DataManager data;
 	private ReportGenerator reportGenerator;
@@ -79,5 +88,83 @@ public class Ezxpns implements
 	
 	public void addRecord(IncomeRecord r){
 		data.incomes().addNewRecord(r);
+	}
+
+	@Override
+	public Vector<Record> search(SearchRequest req) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Record> getAllRecords() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Record getRecord(int identifier) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean createRecord(Record newRecord) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean removeRecord(int identifier) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean removeRecord(Record selectedRecord) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean modifyRecord(Record selectedRecord) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<Record> searchRecord(SearchRequest request) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Category> getAllCategories() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean createCategory(Category newCat) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean removeCategory(int identifier) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean removeCategory(Category selectedCat) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean modifyCategory(Category selectedCat) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
