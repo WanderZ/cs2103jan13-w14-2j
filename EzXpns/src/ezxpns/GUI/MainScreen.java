@@ -1,5 +1,7 @@
 package ezxpns.GUI;
 
+import java.awt.BorderLayout;
+
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
@@ -7,17 +9,32 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class MainScreen extends JFrame {
 	
+	public final int DEFAULT_HEIGHT = 800;
+	public final int DEFAULT_WEIGHT = 600;
 	private JMenuBar menu;
-	private JPanel panMain, panNotify, panTips, panProfile;
+	private JPanel panOverview, panSavings, panTargets, panRecords, panTips;
 	
 	public MainScreen(){
-		this.setBounds(0, 0, 800, 600); /*x coordinate, y coordinate, width, height*/
+		super("EzXpns - Main Menu"); // Setting the title
+		this.setBounds(0, 0, DEFAULT_HEIGHT, DEFAULT_WEIGHT); /*x coordinate, y coordinate, width, height*/
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // To change to dispose if doing daemon 
 		// this.setVisible(true);
 		this.setJMenuBar(getMenu());
-		this.setTitle("EzXpns - Main Menu");
+		
+		
+		// To set Layout - grid or maybe grid bag layout
+		this.setLayout(new BorderLayout());
+		JPanel contentDivider = new JPanel();
+		contentDivider.setLayout(new java.awt.GridLayout(2,2));
+		contentDivider.add(getOverviewPanel());
+		contentDivider.add(getSavingsPanel());
+		contentDivider.add(getTargetsPanel());
+		contentDivider.add(getRecordsPanel());
+		
+		this.add(contentDivider, BorderLayout.NORTH);
+		this.add(getTipsPanel(), BorderLayout.SOUTH);
 	}
 	
 	public void showScreen() {super.setVisible(true);}
@@ -30,51 +47,51 @@ public class MainScreen extends JFrame {
 		return this.menu;
 	}
 	
-}
-
-/**
- * This panel contains the elements required to display notification
- * Will be hidden and displayed at will (when there is the need to display)
- * 
- */
-@SuppressWarnings("serial")
-class PanelAlert extends JPanel {
-	
-	public PanelAlert() {
-		super();
+	private JPanel getSavingsPanel() {
+		if(panSavings == null) {
+			panSavings = new SavingsOverviewPanel();
+		}
+		return panSavings;
 	}
 	
-}
-
-/**
- * This panel contains the main content for the main screen
- * Mainly Records (Top) then the brief Summary (Bottom left)
- *
- */
-@SuppressWarnings("serial")
-class PanelContent extends JPanel {
-	
-	public PanelContent() {
-		super();
+	private JPanel getTargetsPanel() {
+		if(panTargets==null) {
+			panTargets = new TargetOverviewPanel();
+		}
+		return panTargets;
 	}
 	
+	private JPanel getOverviewPanel() {
+		if(panOverview == null) {
+			panOverview = new OverviewPanel();
+		}
+		return panOverview;
+	}
+	
+	private JPanel getRecordsPanel() {
+		if(panRecords == null) {
+			panRecords = new RecordsDisplayPanel();
+		}
+		return panRecords;
+	}
+	
+	private JPanel getTipsPanel() {
+		if(panTips == null) {
+			panTips = new PanelTip();
+		}
+		return panTips;
+	}
 }
 
 /** 
  * This panel contains the educational tips displays at the bottom of the screen 
- *
+ * [To Be Moved to a file on its on in the next inter
  */
 @SuppressWarnings("serial")
 class PanelTip extends JPanel {
 	
-}
-
-/**
- * This panel contains the profile information for the gamification of the program
- * Contains mainly the Level, Experience(Exp), Exp required, etc...
- *
- */
-@SuppressWarnings("serial")
-class PanelProfile extends JPanel {
-	
+	public PanelTip() {
+		super();
+		this.add(new javax.swing.JLabel("Tips Panel - Under Construction"));
+	}
 }
