@@ -23,10 +23,15 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 
+/**
+ * This is a JFrame object (Window) that allows users to enter a new record (Expense/Income) into the EzXpns
+ *
+ */
 @SuppressWarnings("serial")
 public class RecordFrame extends JFrame implements ActionListener {
 	
-	private JPanel panMain, panOpt;
+	private PanelMain panMain;
+	private PanelOption panOpt;
 	public static final int DEFAULT_WIDTH = 600;
 	public static final int DEFAULT_HEIGHT = 400; 
 	
@@ -42,8 +47,8 @@ public class RecordFrame extends JFrame implements ActionListener {
 	}
 	
 	/**
-	 * Constructor to specify the tag
-	 * @param initTab 
+	 * Constructor to specify the initial tab to be displayed
+	 * @param initTab use either TAB_INCOME or TAB_EXPENSE to indicate which tab to choose
 	 */
 	public RecordFrame(int initTab) {
 		this();
@@ -57,6 +62,9 @@ public class RecordFrame extends JFrame implements ActionListener {
 		}
 	}
 	
+	/**
+	 * This methods contains all the starting initialisation codes for this window.
+	 */
 	private void init() {
 		this.setTitle("EzXpns - New Record");
 		this.setLayout(new BorderLayout());
@@ -84,11 +92,12 @@ public class RecordFrame extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(((PanelOption) this.panOpt).getSaveBtn() == e.getSource()) {
-			// Save button has been invoked. 
-			// Invoke validation
+		if(this.panOpt.getSaveBtn() == e.getSource()) { // Save button has been invoked.
+			if(panMain.validateForm()) { // Invoke validation
+				// all is good. save as new Record.
+			}
 		}
-		if(((PanelOption) this.panOpt).getCancelBtn() == e.getSource()) {
+		if(this.panOpt.getCancelBtn() == e.getSource()) {
 			// Cancel button has been invoked. 
 			// Invoke confirmation? - will it be retarded to invoke confirmation?
 			disposeFrame();
@@ -157,9 +166,27 @@ class PanelRecur extends JPanel implements ActionListener{
 		}
 	}
 	
-	public void getStart() {}
-	public void getEnd(){}
-	public void getFrequency() {}
+	/**
+	 * Method to retrieve the entered starting date of the recurrence
+	 */
+	public void getStart() {
+		
+	}
+	
+	/**
+	 * Method to retrieve the entered ending date of the recurrence
+	 */
+	public void getEnd() {
+		
+	}
+	
+	/**
+	 * Method to retrieve the frequency of the recurrence
+	 */
+	public void getFrequency() {
+		
+	}
+	
 	public boolean isToRecur() { return this.chkRecur.isSelected(); }
 
 	@Override
@@ -169,7 +196,9 @@ class PanelRecur extends JPanel implements ActionListener{
 @SuppressWarnings("serial")
 class PanelMain extends JPanel {
 	
-	private JPanel panExpense, panIncome, panRecurOpt;
+	private PanelExpense panExpense;
+	private PanelIncome panIncome;
+	private PanelRecur panRecurOpt;
 	private JTabbedPane tabs;
 	
 	public PanelMain() {
@@ -182,13 +211,17 @@ class PanelMain extends JPanel {
 		
 		this.tabs.addTab("Expense", null, this.panExpense, "Expenses");
 		this.tabs.addTab("Income", null, this.panIncome, "Income");
-		// this.tabs.setMnemonicAt(); // set keyboard shortcut
+		// this.tabs.setMnemonicAt(); // setting keyboard shortcut
 		
 		this.add(tabs, BorderLayout.CENTER);
 		
 		// Create Recurring options panel
 		this.panRecurOpt = new PanelRecur();
 		this.add(panRecurOpt, BorderLayout.SOUTH);
+	}
+	
+	public boolean validateForm() {
+		return tabs.getSelectedIndex()==0 ? panExpense.validateFields(): panIncome.validateFields();
 	}
 	
 	/**
@@ -354,6 +387,11 @@ class PanelExpense extends JPanel {
 	 * @return true is there is no problem with inputs, else false;
 	 */
 	public boolean validateFields() {
+		System.out.println(txtAmt.getText());
+		System.out.println(txtName.getText());
+		System.out.println(txtDate.getText());
+		System.out.println(taDesc.getText());
+		System.out.println(getCat());
 		return true;
 		// Validation method (mainly for calculation)
 	}

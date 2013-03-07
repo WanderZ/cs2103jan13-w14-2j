@@ -9,12 +9,14 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class MainScreen extends JFrame {
 	
+	public final int DEFAULT_HEIGHT = 800;
+	public final int DEFAULT_WEIGHT = 600;
 	private JMenuBar menu;
 	private JPanel panOverview, panSavings, panTargets, panRecords, panTips;
 	
 	public MainScreen(){
 		super("EzXpns - Main Menu"); // Setting the title
-		this.setBounds(0, 0, 800, 600); /*x coordinate, y coordinate, width, height*/
+		this.setBounds(0, 0, DEFAULT_HEIGHT, DEFAULT_WEIGHT); /*x coordinate, y coordinate, width, height*/
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // To change to dispose if doing daemon 

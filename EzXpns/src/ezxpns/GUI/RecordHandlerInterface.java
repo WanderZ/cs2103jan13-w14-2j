@@ -16,6 +16,12 @@ public interface RecordHandlerInterface {
 	public List<Record> getAllRecords();
 	
 	/**
+	 * Retrieve a specific record based on the identifier given
+	 * @return a Record object if found, else null if not found
+	 */
+	public Record getRecord(int identifier);
+	
+	/**
 	 * Create a new record
 	 * @param newRecord Object containing all the necessary data to create a new record
 	 * @return true if successful, else false
