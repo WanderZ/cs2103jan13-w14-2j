@@ -17,7 +17,9 @@ import ezxpns.data.records.RecordManager;
  * 
  */
 public class DataManager {
-	private static class CombinedRecordsQueryHandler implements RecordQueryHandler<Record>{
+	private static class CombinedRecordsQueryHandler
+		implements RecordQueryHandler<Record>,
+				   SummaryGenerator.DataProvider{
 		private RecordManager<IncomeRecord> incomes;
 		private RecordManager<ExpenseRecord> expenses;
 		public CombinedRecordsQueryHandler(
@@ -65,6 +67,54 @@ public class DataManager {
 				}
 			}
 			return rs;
+		}
+
+		@Override
+		public double getTotalExpense() {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public double getTotalIncome() {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public double getDailyExpense() {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public double getDailyIncome() {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public double getMonthlyExpense() {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public double getMonthlyIncome() {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public double getYearlyExpense() {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public double getYearlyIncome() {
+			// TODO Auto-generated method stub
+			return 0;
 		}
 		
 	}
