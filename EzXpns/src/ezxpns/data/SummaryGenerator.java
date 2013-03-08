@@ -17,19 +17,34 @@ import ezxpns.util.Pair;
 public class SummaryGenerator {
 
 	public static interface DataProvider {
-		Pair<Vector<ExpenseRecord>, Vector<IncomeRecord>> getDataInDateRange(
-				Date start, Date end);
-
-		SummaryDetails getTodaySummary();
-
-		SummaryDetails getMonthlySummary();
-
-		SummaryDetails getYearlySummary();
-
-		SummaryDetails getAllTimeSummary();
+		double getTotalExpense();
+		double getTotalIncome();
+		double getDailyExpense();
+		double getDailyIncome();
+		double getMonthlyExpense();
+		double getMonthlyIncome();
+		double getYearlyExpense();
+		double getYearlyIncome();
 	}
 
 	private DataProvider data;
+	private SummaryDetails allTime, yearly, monthly, today;
+
+	public SummaryDetails getAllTime() {
+		return allTime;
+	}
+
+	public SummaryDetails getYearly() {
+		return yearly;
+	}
+
+	public SummaryDetails getMonthly() {
+		return monthly;
+	}
+
+	public SummaryDetails getToday() {
+		return today;
+	}
 
 	/**
 	 * Hook up the data provider
@@ -41,12 +56,10 @@ public class SummaryGenerator {
 	}
 
 	// Generate a Summary object
-	public Summary generateSummary() {
-		SummaryDetails myAllTime = data.getAllTimeSummary();
-		SummaryDetails myYearly = data.getYearlySummary();
-		SummaryDetails myMonthly = data.getMonthlySummary();
-		SummaryDetails myToday = data.getTodaySummary();
-
-		return new Summary(myAllTime, myYearly, myMonthly, myToday);
+	public void update() {
+		allTime = new SummaryDetails(data.getTotalIncome(), data.getTotalExpense());
+		yearly = new SummaryDetails(data.getYearlyIncome(), data.getYearlyExpense());
+		monthly = new SummaryDetails(data.getMonthlyIncome(), data.getMonthlyExpense());
+		today = new SummaryDetails(data.getDailyIncome(), data.getDailyExpense());
 	}
 }
