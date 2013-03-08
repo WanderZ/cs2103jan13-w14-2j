@@ -9,10 +9,12 @@ import java.util.Date;
  */
 public class ExpenseRecord extends Record{
 	public ExpenseType expenseType;
+	public PaymentMethod paymentMethod;
 	public ExpenseRecord(double amount, String name, String remark, Date date,
-			Category category, ExpenseType expenseType) {
+			Category category, ExpenseType expenseType, PaymentMethod paymentMethod) {
 		super(amount, name, remark, date, category);
 		this.expenseType = expenseType;
+		this.paymentMethod = paymentMethod;
 	}
 	
 	protected void setExpenseType(ExpenseType t){
@@ -21,6 +23,10 @@ public class ExpenseRecord extends Record{
 	
 	public ExpenseType getExpenseType(){
 		return expenseType;
+	}
+	
+	public PaymentMethod getPaymentMethod(){
+		return paymentMethod;
 	}
 	
 	@Override
@@ -34,7 +40,7 @@ public class ExpenseRecord extends Record{
 	@Override
 	public Record copy() {
 		ExpenseRecord r = new ExpenseRecord(this.getAmount(), this.getName(), this.getRemark(), this.getDate(),
-				this.getCategory(), this.getExpenseType());
+				this.getCategory(), this.getExpenseType(), this.getPaymentMethod());
 		r.setId(this.getId());
 		return (Record)r;
 	}
