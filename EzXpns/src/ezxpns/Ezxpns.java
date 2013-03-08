@@ -5,6 +5,7 @@ import ezxpns.data.records.Category;
 import ezxpns.data.records.ExpenseRecord;
 import ezxpns.data.records.IncomeRecord;
 import ezxpns.data.records.Record;
+import ezxpns.data.records.RecordManager.RecordUpdateException;
 import ezxpns.util.Pair;
 import ezxpns.GUI.*;
 import java.awt.EventQueue;
@@ -82,11 +83,11 @@ public class Ezxpns implements
 		store.save();
 	}
 	
-	public void addRecord(ExpenseRecord r){
+	public void addRecord(ExpenseRecord r) throws RecordUpdateException{
 		data.expenses().addNewRecord(r);
 	}
 	
-	public void addRecord(IncomeRecord r){
+	public void addRecord(IncomeRecord r) throws RecordUpdateException{
 		data.incomes().addNewRecord(r);
 	}
 
