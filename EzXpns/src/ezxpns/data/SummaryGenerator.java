@@ -1,0 +1,52 @@
+package ezxpns.data;
+
+import java.util.Date;
+import java.util.Vector;
+
+import ezxpns.data.records.ExpenseRecord;
+import ezxpns.data.records.IncomeRecord;
+import ezxpns.util.Pair;
+
+/**
+ * Generate a Summary Object
+ * 
+ * @author tingzhe
+ * 
+ */
+
+public class SummaryGenerator {
+
+	public static interface DataProvider {
+		Pair<Vector<ExpenseRecord>, Vector<IncomeRecord>> getDataInDateRange(
+				Date start, Date end);
+
+		SummaryDetails getTodaySummary();
+
+		SummaryDetails getMonthlySummary();
+
+		SummaryDetails getYearlySummary();
+
+		SummaryDetails getAllTimeSummary();
+	}
+
+	private DataProvider data;
+
+	/**
+	 * Hook up the data provider
+	 * 
+	 * @param data
+	 */
+	public SummaryGenerator(DataProvider data) {
+		this.data = data;
+	}
+
+	// Generate a Summary object
+	public Summary generateSummary() {
+		SummaryDetails myAllTime = data.getAllTimeSummary();
+		SummaryDetails myYearly = data.getYearlySummary();
+		SummaryDetails myMonthly = data.getMonthlySummary();
+		SummaryDetails myToday = data.getTodaySummary();
+
+		return new Summary(myAllTime, myYearly, myMonthly, myToday);
+	}
+}
