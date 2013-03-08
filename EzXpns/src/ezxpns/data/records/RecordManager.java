@@ -23,6 +23,12 @@ public class RecordManager<T extends Record> implements
 		}
 	}
 	
+	public static class CategoryUpdateException extends Exception{
+		public CategoryUpdateException(String message){
+			super(message);
+		}
+	}
+	
 	private HashMap<Long, Category> categories;
 	private HashMap<Long, TreeSet<T> > recordsByCategory;
 	// note that the records is transient since it contains duplicate data as recordsByCategory
@@ -34,9 +40,11 @@ public class RecordManager<T extends Record> implements
 
 	public RecordManager(){
 		categories = new HashMap<Long, Category>();
+		categories.put(Category.undefined.getID(), Category.undefined);
 		recordsByCategory = new HashMap<Long, TreeSet<T> >();
 		records = new TreeMap<Date, Vector<T> >();
 		recordsByName = new HashMap<String, TreeSet<T> >();
+		ids = new TreeSet<Long>();
 	}
 	
 	/**
@@ -120,9 +128,12 @@ public class RecordManager<T extends Record> implements
 	}
 	
 	@SuppressWarnings("unchecked")
-	public T addNewRecord(T toAdd){
+	public T addNewRecord(T toAdd) throws RecordUpdateException{
 		T record = (T)toAdd.copy();
 		record.category = categories.get(toAdd.category.getID());
+		if(record.category == null){
+			throw new RecordUpdateException("Invalid category!");
+		}
 		if(ids.contains(record.id)){
 			record.id = (new Date()).getTime();
 		}
@@ -163,7 +174,10 @@ public class RecordManager<T extends Record> implements
 		updated = true;
 	}
 	
-	public void updateCategory(long id, String newName){
+	public void updateCategory(long id, String newName) throws CategoryUpdateException{
+		if(categories.get(id) == null){
+			throw new CategoryUpdateException("The category with the id does not exist!");
+		}
 		categories.get(id).setName(newName);
 		updated = true;
 	}
