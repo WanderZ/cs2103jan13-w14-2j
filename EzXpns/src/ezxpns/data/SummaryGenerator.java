@@ -3,28 +3,34 @@ package ezxpns.data;
 import java.util.Date;
 import java.util.Vector;
 
-import ezxpns.data.ReportGenerator.DataProvider;
 import ezxpns.data.records.ExpenseRecord;
 import ezxpns.data.records.IncomeRecord;
-import ezxpns.data.records.Record;
 import ezxpns.util.Pair;
 
 /**
- * Generate a Summary Object 
+ * Generate a Summary Object
+ * 
  * @author tingzhe
  * 
  */
 
 public class SummaryGenerator {
-	
+
 	public static interface DataProvider {
 		Pair<Vector<ExpenseRecord>, Vector<IncomeRecord>> getDataInDateRange(
 				Date start, Date end);
+
+		SummaryDetails getTodaySummary();
+
+		SummaryDetails getMonthlySummary();
+
+		SummaryDetails getYearlySummary();
+
+		SummaryDetails getAllTimeSummary();
 	}
-	
+
 	private DataProvider data;
 
-	
 	/**
 	 * Hook up the data provider
 	 * 
@@ -33,23 +39,14 @@ public class SummaryGenerator {
 	public SummaryGenerator(DataProvider data) {
 		this.data = data;
 	}
-	
-	public Summary generateSummary(){
-		SummaryDetails myAllTime = computeSummaryDetails(??); // argument is Pair<Vector<ExpenseRecord>, Vector<IncomeRecord>>
-		SummaryDetails myYearly = computeSummaryDetails(??);
-		SummaryDetails myMonthly = computeSummaryDetails(??);
-		SummaryDetails myToday = computeSummaryDetails(??);
-		
+
+	// Generate a Summary object
+	public Summary generateSummary() {
+		SummaryDetails myAllTime = data.getAllTimeSummary();
+		SummaryDetails myYearly = data.getYearlySummary();
+		SummaryDetails myMonthly = data.getMonthlySummary();
+		SummaryDetails myToday = data.getTodaySummary();
+
 		return new Summary(myAllTime, myYearly, myMonthly, myToday);
 	}
-
-	private SummaryDetails computeSummaryDetails(Pair<Vector<ExpenseRecord>, Vector<IncomeRecord>> pair) {
-		double expense = Record.sumAmount(pair.getLeft());
-		double income = Record.sumAmount(pair.getRight());
-		
-		return new SummaryDetails(income, expense);
-	}
-
-	
-
 }
