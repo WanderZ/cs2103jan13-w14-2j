@@ -38,6 +38,8 @@ public class RecordFrame extends JFrame implements ActionListener {
 	public static final int TAB_INCOME = 0011;
 	public static final int TAB_EXPENSE = 1100;
 	
+	private RecordHandlerInterface recHandler;
+	
 	/**
 	 * Normal constructor for RecordFrame - Starts the window with the expenses view
 	 */
@@ -95,6 +97,7 @@ public class RecordFrame extends JFrame implements ActionListener {
 		if(this.panOpt.getSaveBtn() == e.getSource()) { // Save button has been invoked.
 			if(panMain.validateForm()) { // Invoke validation
 				// all is good. save as new Record.
+				
 			}
 		}
 		if(this.panOpt.getCancelBtn() == e.getSource()) {
