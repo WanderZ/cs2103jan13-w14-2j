@@ -52,6 +52,10 @@ public class Ezxpns implements
 					RecordFrame recordMgrE = new RecordFrame();
 					recordMgrE.showScreen();
 					
+					/* Test Report Frame*/
+					ReportFrame tzTestFrame = new ReportFrame();
+					tzTestFrame.showScreen();
+					
 					/*
 					SearchFrame searchMgr = new SearchFrame();
 					searchMgr.setVisible(true);
