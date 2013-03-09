@@ -31,6 +31,8 @@ public class ReportFrame extends JFrame{
 	private JButton btnGeneral, btnExpense;
 	public static final int DEFAULT_WIDTH = 600;
 	public static final int DEFAULT_HEIGHT = 400; 
+	private JPanel generateReport;
+	private JPanel curtain;
 	
 	public ReportFrame() {
 		super("EzXpns - Report");
@@ -41,8 +43,15 @@ public class ReportFrame extends JFrame{
 		JLayeredPane layeredPane = new JLayeredPane();
 		getContentPane().add(layeredPane);
 		
-		JPanel generateReport = new JPanel();
+		
+		
+		generateReport = new JPanel();
 		layeredPane.add(generateReport);
+		
+		curtain = new JPanel();
+		curtain.setBackground(new Color(255, 255, 255, 230));
+		curtain.setBounds(0, 0, 600, 400);
+		layeredPane.add(curtain);
 		
 		JPanel report = new JPanel();
 		layeredPane.add(report);
@@ -210,8 +219,10 @@ public class ReportFrame extends JFrame{
 		
 		
 		report.setLayout(gl_report);
-		//generateReport.setBackground(Color.CYAN.darker());
-		//generateReport.setBounds(0, 80, 500, 120); // x, y, width, height
+		
+		// GENERATE A REPORT
+		generateReport.setBackground(Color.CYAN.darker());
+		generateReport.setBounds(0, 80, 600, 120); // x, y, width, height
 		
 		JLabel lblGenerateAReport = new JLabel("Generate a Report");
 		lblGenerateAReport.setFont(new Font("Lucida Grande", Font.PLAIN, 21));
@@ -230,6 +241,12 @@ public class ReportFrame extends JFrame{
 		endDateField.setColumns(10);
 		
 		JButton btnGenerate = new JButton("Generate");
+		btnGenerate.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				generateReport.setVisible(false);
+				curtain.setVisible(false);
+			}
+		});
 		GroupLayout gl_generateReport = new GroupLayout(generateReport);
 		gl_generateReport.setHorizontalGroup(
 			gl_generateReport.createParallelGroup(Alignment.LEADING)
