@@ -25,6 +25,8 @@ import ezxpns.data.records.Record;
 public class TargetManager implements Storable {
 	public static interface DataProvider{
 		Pair<Vector<ExpenseRecord>, Vector<IncomeRecord> > getDataInDateRange(Date start, Date end);
+		get
+		
 	}
 	private Vector<Target> targets;
 	private transient boolean	updated = false, 
@@ -33,8 +35,8 @@ public class TargetManager implements Storable {
 	
 	
 	private transient Vector<ExpenseRecord>  expenseRecord;
-	public Vector <Bar> alerts = new Vector <Bar>(); //keeps a Vector of Bars that are requires attention 
-	public Vector <Bar> ordered = new Vector <Bar>(); //keeps a ordered sequence of Bars
+	public transient Vector <Bar> alerts = new Vector <Bar>(); //keeps a Vector of Bars that are requires attention 
+	public transient Vector <Bar> ordered = new Vector <Bar>(); //keeps a ordered sequence of Bars
 	private Hashtable<Category,Target> mapTarget = new Hashtable<Category, Target>();	// maps category to target // maybe not necessary if max number of targets is small
 	
 	
@@ -58,6 +60,8 @@ public class TargetManager implements Storable {
 	
 	public Target setTarget(Date start, Category cat, double targetAmt){
 		Target target = new Target(start, getLastDayOfMonth(start), cat, targetAmt);
+		
+		updated = true;
 		return target;
 		}
 		
