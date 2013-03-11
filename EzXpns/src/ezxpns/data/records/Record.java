@@ -1,15 +1,11 @@
-/**
- * 
- */
 package ezxpns.data.records;
 
 import java.util.Date;
-
+import java.util.List;
 
 /**
  * @author yyjhao
  * A container for some basic record attributes
- * No getter/setter since it's purely data representation without any internal logic
  */
 public abstract class Record implements Comparable<Record>{
 	protected double amount;
@@ -18,6 +14,15 @@ public abstract class Record implements Comparable<Record>{
 	protected Date date;
 	protected transient Category category = Category.undefined;
 	protected long id;
+	
+	public static <T extends Record> double sumAmount(List<T> rs){
+		double sum = 0;
+		for(Record r : rs){
+			sum += r.getAmount();
+		}
+		return sum;
+	}
+
 	
 	public Record(double amount, String name, String remark, Date date, Category category){
 		this.amount = amount;
@@ -28,15 +33,20 @@ public abstract class Record implements Comparable<Record>{
 		this.id = (new Date()).getTime();
 	}
 	
+	/**
+	 * A method to check if the other Record supplied is the same as this Record object
+	 * @param other A record object to check if they are the same object
+	 */
 	public boolean equals(Record other){
 		return other.id == this.id;
 	}
+	
 	
 	public int compareTo(Record other){
 		if(date.equals(other.date)){
 			return (int)(id - other.id);
 		}
-		return (int)(date.getTime() - other.date.getTime());
+		return -(int)(date.getTime() - other.date.getTime());
 	}
 	
 	public abstract Record copy();
@@ -55,51 +65,21 @@ public abstract class Record implements Comparable<Record>{
 		category = other.category;
 	}
 
-	public double getAmount() {
-		return amount;
-	}
+	public double getAmount() {return amount;}
+	protected void setAmount(double amount) {this.amount = amount;}
 
-	protected void setAmount(double amount) {
-		this.amount = amount;
-	}
+	public String getName() {return name;}
+	protected void setName(String name) {this.name = name;}
 
-	public String getName() {
-		return name;
-	}
+	public String getRemark() {return remark;}
+	protected void setRemark(String remark) {this.remark = remark;}
 
-	protected void setName(String name) {
-		this.name = name;
-	}
+	public Date getDate() {return new Date(date.getTime());}
+	protected void setDate(Date date) {this.date = new Date(date.getTime());}
 
-	public String getRemark() {
-		return remark;
-	}
+	public Category getCategory() {return category;}
+	protected void setCategory(Category category) {this.category = category;}
 
-	protected void setRemark(String remark) {
-		this.remark = remark;
-	}
-
-	public Date getDate() {
-		return new Date(date.getTime());
-	}
-
-	protected void setDate(Date date) {
-		this.date = new Date(date.getTime());
-	}
-
-	public Category getCategory() {
-		return category;
-	}
-
-	protected void setCategory(Category category) {
-		this.category = category;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	protected void setId(long id) {
-		this.id = id;
-	}
+	public long getId() {return id;}
+	protected void setId(long id) {this.id = id;}
 }
