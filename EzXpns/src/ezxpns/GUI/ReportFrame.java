@@ -39,7 +39,6 @@ public class ReportFrame extends JFrame{
 		this.setBounds(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
 		
-		
 		JLayeredPane layeredPane = new JLayeredPane();
 		getContentPane().add(layeredPane);
 		

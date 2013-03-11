@@ -25,24 +25,26 @@ import javax.swing.SpringLayout;
 
 /**
  * This is a JFrame object (Window) that allows users to enter a new record (Expense/Income) into the EzXpns
- *
+ * @param <T>An object that implements RecordHandlerInterface and CategoryHandlerInterface.
  */
 @SuppressWarnings("serial")
-public class RecordFrame extends JFrame implements ActionListener {
+public class RecordFrame<T extends RecordHandlerInterface & CategoryHandlerInterface> extends JFrame implements ActionListener {
 	
 	private PanelMain panMain;
 	private PanelOption panOpt;
+	
 	public static final int DEFAULT_WIDTH = 600;
 	public static final int DEFAULT_HEIGHT = 400; 
 	
 	public static final int TAB_INCOME = 0011;
 	public static final int TAB_EXPENSE = 1100;
 	
-	private RecordHandlerInterface recHandler;
-	
 	/**
-	 * Normal constructor for RecordFrame - Starts the window with the expenses view
+	 * The master class that handles all the data
 	 */
+	private T handler;
+	
+	/** Normal constructor for RecordFrame - Starts the window with the expenses view */
 	public RecordFrame() {
 		super();
 		this.init();
@@ -56,10 +58,10 @@ public class RecordFrame extends JFrame implements ActionListener {
 		this();
 		switch(initTab) {
 			case TAB_INCOME: 
-				((PanelMain)panMain).toggleIncomeTab();
+				panMain.toggleIncomeTab();
 				break;
 			case TAB_EXPENSE:
-				((PanelMain)panMain).toggleExpenseTab();
+				panMain.toggleExpenseTab();
 			default:break;
 		}
 	}
@@ -82,14 +84,7 @@ public class RecordFrame extends JFrame implements ActionListener {
 		this.add(panOpt, BorderLayout.SOUTH);	
 	}
 	
-	public void showScreen() {this.setVisible(true);}
-	public void hideScreen() {this.setVisible(false);}
-	
-	public void disposeFrame() { this.dispose(); }
-	
-	/**
-	 * To update the preview panel when the user does changes...
-	 */
+	/** To update the preview panel when the user does changes... */
 	public void updatePreview() {}
 
 	@Override
@@ -97,16 +92,33 @@ public class RecordFrame extends JFrame implements ActionListener {
 		if(this.panOpt.getSaveBtn() == e.getSource()) { // Save button has been invoked.
 			if(panMain.validateForm()) { // Invoke validation
 				// all is good. save as new Record.
+				Record newRecord = panMain.save(); 
+				handler.createRecord(newRecord); // Probably need to know which type (Ex/In) this record is
 				
+				// Check if the user subtlety created a new category
+				// handler.createCategory(newCat);
+				
+				// Check if it is a recurring record
+				// do the necessary to ensure that EzXpns knows it. 
+				
+				// Display confirmation?
 			}
 		}
 		if(this.panOpt.getCancelBtn() == e.getSource()) {
 			// Cancel button has been invoked. 
 			// Invoke confirmation? - will it be retarded to invoke confirmation?
-			disposeFrame();
+			this.dispose();
 		}
 	}
-
+	
+	/**
+	 * Set the reference for the handler that will be doing all 
+	 * the data management
+	 * @param handlerRef reference for the handler
+	 */
+	public void setHandler(T handlerRef) {
+		this.handler = handlerRef;
+	}
 }
 
 @SuppressWarnings("serial")
@@ -118,21 +130,23 @@ class PanelRecur extends JPanel implements ActionListener{
 	
 	public PanelRecur() {
 		super();
+		this.setBackground(Color.WHITE);
 		this.setLayout(new java.awt.FlowLayout());
 		init();
 	}
 	
 	private void init() {
-		this.chkRecur = new JCheckBox("Repeating Record");
-		this.chkRecur.addActionListener(this);
+		chkRecur = new JCheckBox("Repeating Record");
+		chkRecur.setBackground(Color.WHITE);
+		chkRecur.addActionListener(this);
 		this.add(chkRecur);
-		this.cboxFrequency = new JComboBox();
-		this.cboxFrequency.setEditable(false);
+		cboxFrequency = new JComboBox();
+		cboxFrequency.setEditable(false);
 		
-		this.txtStart = new JTextField("Commence Date");
-		this.txtStart.setEnabled(false);
-		this.txtEnd = new JTextField("Terminate Date");
-		this.txtEnd.setEnabled(false);
+		txtStart = new JTextField("Commence Date");
+		txtStart.setEnabled(false);
+		txtEnd = new JTextField("Terminate Date");
+		txtEnd.setEnabled(false);
 		this.add(txtStart);
 		this.add(txtEnd);
 	}
@@ -172,23 +186,17 @@ class PanelRecur extends JPanel implements ActionListener{
 	/**
 	 * Method to retrieve the entered starting date of the recurrence
 	 */
-	public void getStart() {
-		
-	}
+	public void getStart() {}
 	
 	/**
 	 * Method to retrieve the entered ending date of the recurrence
 	 */
-	public void getEnd() {
-		
-	}
+	public void getEnd() {}
 	
 	/**
 	 * Method to retrieve the frequency of the recurrence
 	 */
-	public void getFrequency() {
-		
-	}
+	public void getFrequency() {}
 	
 	public boolean isToRecur() { return this.chkRecur.isSelected(); }
 
@@ -207,13 +215,15 @@ class PanelMain extends JPanel {
 	public PanelMain() {
 		super();
 		this.setLayout(new BorderLayout());
-		this.tabs = new JTabbedPane();
 		
-		this.panExpense = new PanelExpense();
-		this.panIncome = new PanelIncome();
+		tabs = new JTabbedPane();
+		tabs.setBackground(Color.WHITE);
 		
-		this.tabs.addTab("Expense", null, this.panExpense, "Expenses");
-		this.tabs.addTab("Income", null, this.panIncome, "Income");
+		panExpense = new PanelExpense();
+		panIncome = new PanelIncome();
+		
+		tabs.addTab("Expense", null, this.panExpense, "Expenses");
+		tabs.addTab("Income", null, this.panIncome, "Income");
 		// this.tabs.setMnemonicAt(); // setting keyboard shortcut
 		
 		this.add(tabs, BorderLayout.CENTER);
@@ -223,9 +233,33 @@ class PanelMain extends JPanel {
 		this.add(panRecurOpt, BorderLayout.SOUTH);
 	}
 	
+	/**
+	 * Invoke the validation methods for either live screen
+	 * @return true if successful, otherwise false
+	 */
 	public boolean validateForm() {
-		return tabs.getSelectedIndex()==0 ? panExpense.validateFields(): panIncome.validateFields();
+		return isExpense() ? panExpense.validateFields(): panIncome.validateFields();
 	}
+	
+	/**
+	 * Invoke the save method on either live screen
+	 * @return the new Record object containing the user inputs.
+	 */
+	public Record save() {
+		return isExpense() ? panExpense.save() : panIncome.save();
+	}
+	
+	/**
+	 * To check if the current tab is the Expense Tab
+	 * @return true if it is, otherwise false
+	 */
+	private boolean isExpense() {return tabs.getSelectedIndex()==0;}
+	
+	/**
+	 * To check if the current tab is the Expense Tab
+	 * @return true if it is, otherwise false
+	 */
+	private boolean isIncome() {return tabs.getSelectedIndex()==1;}
 	
 	/**
 	 * Method to toggle to the tab for a new income record
@@ -246,7 +280,6 @@ class PanelMain extends JPanel {
 	// Auto-calculate - requires action listener
 }
 
-/* Panel is missing payment modes field */
 @SuppressWarnings("serial")
 class PanelExpense extends JPanel {
 	
@@ -254,6 +287,7 @@ class PanelExpense extends JPanel {
 	public final int COL1_PAD = 15;
 	public final int COL2_PAD = 120;
 	public final int TEXTFIELD_SIZE = 20;
+	
 	private ButtonGroup bgType;
 	private JRadioButton rbtnNeed, rbtnWant;
 	private JLabel lblAmt, lblName, lblType, lblCat, lblPayment, lblDate, lblDesc;
@@ -263,7 +297,7 @@ class PanelExpense extends JPanel {
 	
 	public PanelExpense() {
 		super();
-		
+		this.setBackground(Color.WHITE);
 		/* The Layout governing the positions */
 		SpringLayout loForm = new SpringLayout();
 		this.setLayout(loForm);
@@ -272,7 +306,9 @@ class PanelExpense extends JPanel {
 		this.lblType = new JLabel("Type");
 		this.bgType = new ButtonGroup();
 		this.rbtnNeed = new JRadioButton("Need");
+		rbtnNeed.setBackground(Color.WHITE);
 		this.rbtnWant = new JRadioButton("Want");
+		rbtnWant.setBackground(Color.WHITE);
 		this.rbtnNeed.setSelected(true);
 		this.bgType.add(rbtnNeed);
 		this.bgType.add(rbtnWant);
@@ -399,10 +435,12 @@ class PanelExpense extends JPanel {
 		// Validation method (mainly for calculation)
 	}
 	
-	// Save method - to send for saving into "database" or GUI internal memory.
-	public Record getRecord() {
-		Record record = null;
-		return record;
+	/** 
+	 * Save the entered field as a new record
+	 * @return Record object containing the user input
+	 */
+	public Record save() {
+		return null;
 	}
 }
 
@@ -423,7 +461,7 @@ class PanelIncome extends JPanel {
 	
 	public PanelIncome() {
 		super();
-		
+		this.setBackground(Color.WHITE);
 		/* The Layout governing the positions */
 		SpringLayout loForm = new SpringLayout();
 		this.setLayout(loForm);
@@ -440,7 +478,7 @@ class PanelIncome extends JPanel {
 		
 		lblCat = new JLabel("Category");
 		cboxCat = new JComboBox(this.getCategories());
-		cboxCat.setEnabled(true);
+		cboxCat.setEditable(true);
 		this.add(lblCat);
 		this.add(cboxCat);
 		loForm.putConstraint(SpringLayout.WEST, lblCat, COL1_PAD, SpringLayout.WEST, this);
@@ -493,6 +531,14 @@ class PanelIncome extends JPanel {
 	public boolean validateFields() {
 		return true;
 	}
+	
+	/** 
+	 * Save the entered field as a new record
+	 * @return Record object containing the user input
+	 */
+	public Record save() {
+		return null;
+	}
 }
 
 /**
@@ -505,6 +551,9 @@ class PanelOption extends JPanel {
 	
 	public PanelOption(ActionListener frame) {
 		super();
+		
+		this.setBackground(Color.WHITE);
+		
 		btnSave = new JButton("Save");
 		btnCancel = new JButton("Or discard changes");
 		btnCancel.setBorderPainted(false);

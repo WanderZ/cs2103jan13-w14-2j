@@ -43,6 +43,7 @@ public class Ezxpns implements
 				try {
 					
 					main.showHomeScreen();
+					main.showRecWin();
 					
 					/*
 					HomeScreen main = new HomeScreen();
