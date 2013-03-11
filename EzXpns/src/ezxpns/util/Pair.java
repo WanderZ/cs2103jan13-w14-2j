@@ -1,7 +1,7 @@
 package ezxpns.util;
 
 public class Pair<L, R> {
-private final L left;
+	private final L left;
 	private final R right;
 	
 	public Pair(L left, R right) {
