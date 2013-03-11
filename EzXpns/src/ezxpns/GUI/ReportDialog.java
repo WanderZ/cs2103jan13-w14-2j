@@ -16,6 +16,11 @@ import java.awt.FlowLayout;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
+/**
+ * Note: This class is marked for removal,
+ * but currently kept for referencing sake
+ *
+ */
 public class ReportDialog extends JDialog {
 	ReportDialog() {
 		setBounds(100, 100, 450, 300);

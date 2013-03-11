@@ -5,6 +5,14 @@ import java.util.Date;
 
 public class IncomeRecord extends Record {
 
+	/**
+	 * 
+	 * @param amount
+	 * @param name
+	 * @param remark
+	 * @param date
+	 * @param category
+	 */
 	public IncomeRecord(double amount, String name, String remark, Date date,
 			Category category) {
 		super(amount, name, remark, date, category);

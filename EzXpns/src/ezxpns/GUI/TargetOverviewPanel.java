@@ -16,6 +16,7 @@ public class TargetOverviewPanel extends JPanel {
 		
 		lblMsg = new javax.swing.JLabel("Targets - Under Construction :(");
 		this.add(lblMsg);
+		this.setOpaque(false);
 	}
 	
 	// Will there be any interactions enabled for this panel? 
