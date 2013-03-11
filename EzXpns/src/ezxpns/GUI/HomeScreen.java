@@ -1,6 +1,7 @@
 package ezxpns.GUI;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.JComponent;
@@ -25,6 +26,8 @@ public class HomeScreen extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // To change to dispose if doing daemon 
 		// this.setVisible(true);
 		this.setJMenuBar(getMenu());
+		
+		this.getContentPane().setBackground(Color.WHITE);
 		
 		this.recHandler = recHandler;
 				
