@@ -25,18 +25,13 @@ import ezxpns.data.records.Record;
 public class TargetManager implements Storable {
 	public static interface DataProvider{
 		Pair<Vector<ExpenseRecord>, Vector<IncomeRecord> > getDataInDateRange(Date start, Date end);
-		get
-		
+		double getTotalExpense(Category cat, Date start, Date end);
 	}
 	private Vector<Target> targets;
 	private transient boolean	updated = false, 
 								alertUpdated = false;
 	private transient DataProvider data;
-	
-	
 	private transient Vector<ExpenseRecord>  expenseRecord;
-	public transient Vector <Bar> alerts = new Vector <Bar>(); //keeps a Vector of Bars that are requires attention 
-	public transient Vector <Bar> ordered = new Vector <Bar>(); //keeps a ordered sequence of Bars
 	private Hashtable<Category,Target> mapTarget = new Hashtable<Category, Target>();	// maps category to target // maybe not necessary if max number of targets is small
 	
 	
@@ -54,44 +49,69 @@ public class TargetManager implements Storable {
 		
 	}
 	
-		/*
-		 * creates a Target object
-		 */
-	
-	public Target setTarget(Date start, Category cat, double targetAmt){
+
+	/*Preconditions: cannot add more than one target for the same category.
+	 * 				 can only set targets for the SAME month
+	 */
+		public Target setTarget(Date start, Category cat, double targetAmt){
+			if(mapTarget.containsKey(cat)){
+				System.out.println("You have already set a target for "+cat.getName()+".");
+				return null;
+			}
 		Target target = new Target(start, getLastDayOfMonth(start), cat, targetAmt);
-		
-		updated = true;
+		addTarget(target);
 		return target;
 		}
 		
 		
-		/*
-		 * assumes target is unique
-		 * add to targets
+		/*UPDATE METHODS
+		 * after making the necessary changes
+		 * call getOrdered() and getAlert() to receive latest data
 		 */
 		
-		public void addTarget(Target target){
-			
+		/* ADD/REMOVE/EDIT target
+		 * to make things simple. I suggest only allowing user to make modifications within the same month
+		 * All data regarding targets is archived after that month 
+		 * so no modification should be made available after that
+		 */
+		private void addTarget(Target target){
 			targets.add(target);
 			mapTarget.put(target.getCategory(),target);
-			Bar bar = new Bar(target, getCurrent(target));
-			ordered.add(bar);
-			Collections.sort(ordered);
-			addAlert(bar);
+			updated = true;
 		}
 		
-		public int addAlert(Bar bar){
-			
-			if (isAnAlert(bar))
-				alerts.add(bar);
-			
-			return alerts.size();
+		public void removeTarget(Target target){
+			targets.remove(target);
+			mapTarget.remove(target.getCategory());
+			updated = true;
 		}
 		
+		public void editTarget(Target oldTarget, 
+				Date start, Category cat, double targetAmt){
+			removeTarget(oldTarget);
+			setTarget(start, cat, targetAmt);		
+			updated = true;
+		}
 		
+		/* EDITED categories
+		 * if user renamed the category and decided to keep 
+		 * all the old entries under the new name
+		 * invoke getOrdered(); and getAlerts();
+		 */
+
+		/* REMOVED categories
+		 * we will remove the target for this category;
+		 */
 		
-		//getters
+		public void removeCategory(Category cat){
+			if(mapTarget.containsKey(cat)){
+				targets.remove(mapTarget.get(cat));
+				mapTarget.remove(cat);
+			}
+			updated=true;
+		}
+		
+	
 		 
 		/*
 		 * @return a copy of the internal targets, alerts, or ordered targets
@@ -103,76 +123,35 @@ public class TargetManager implements Storable {
 		}
 		
 		public Vector<Bar> getAlerts(){
-			Vector<Bar> copy = new Vector<Bar>();
-			copy = alerts;
-			return copy;
-		}
-		
-		public Vector<Bar> getOrderedTargets(){
-			Vector<Bar> copy = new Vector<Bar>();
-			copy = ordered;
-			return copy;
-		}
-		
-		
-		
-		//Modifiers
-		
-		/*
-		 * this updates ordered and alerts when there is a change in ExpenseRecords:
-		 * 1. add an expense 2.remove an expense 3. modify an expense(amount ONLY)
-		 * This function works for all 3 types of change
-		 */		
-		public void addOrRemoveExpense(ExpenseRecord expense){
-
-			//if the expense category has a target set on it
-			if(mapTarget.containsKey(expense.getCategory())){
-				Target target = mapTarget.get(expense.getCategory());
-				Bar bar = new Bar(target, getCurrent(target));
-				
-				removeAlert(target);
-				
-				//modify from ordered
-				for(int i=0; i<ordered.size(); i++){
-					if(ordered.get(i).getTarget().equals(target))
-						ordered.set(i, bar);
-				}
-				
-				Collections.sort(ordered);
-				 
-				if(isAnAlert(bar))
-					alerts.add(bar);		
-				}
-		}
-		
-
-		public void modifiedExpense(ExpenseRecord original, ExpenseRecord current){
-			//if category is modified, we have to remove the original record, then add the current record
-			if(!(original.getCategory().equals(current.getCategory()))){
-				addOrRemoveExpense(original);
-				addOrRemoveExpense(current);
+			Vector<Bar> ordered = getOrderedBar();
+			Vector<Bar> alerts = new Vector<Bar>();
+			Bar bar;
+			for(int i = ordered.size()-1; i>=0; i--){
+				bar = ordered.get(i);
+			if (isAnAlert(bar))
+				alerts.add(bar);
+			else break;
 			}
-			
-			//add current record
-			else
-				addOrRemoveExpense(current);			
-			
+			return alerts;
 		}
-		
+
+		/*
+		 * @returns  Vector of Bar objects that are increasing order
+		 */
+		public Vector<Bar> getOrderedBar(){
+			Vector<Bar> ordered = new Vector<Bar>();
+			for(Target target: targets){
+			Bar bar = new Bar(target, data.getTotalExpense(target.getCategory(),
+					target.getStart(), new Date()));
+			ordered.add(bar);
+			}
+			Collections.sort(ordered);
+			return ordered;
+		}
 
 		
 		//helper methods
-		public double getCurrent(Target target){
-			Date now = new Date();
-			if( now.before(target.getEnd()))
-				expenseRecord = data.getDataInDateRange(target.getStart(), now).getLeft();
-			else
-				expenseRecord = data.getDataInDateRange(target.getStart(), target.getEnd()).getLeft();			
-						
-			return Record.sumAmount(expenseRecord); //how to use sumAmount
-		}
-		
-		public Date getLastDayOfMonth(Date start){
+		private Date getLastDayOfMonth(Date start){
 			// set last date of month
 			int lastDay = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH); //last day of current month
 			Calendar myCal  = new GregorianCalendar();
@@ -180,24 +159,12 @@ public class TargetManager implements Storable {
 			Calendar calEnd = new GregorianCalendar();
 			calEnd.set(myCal.get(Calendar.YEAR), myCal.get(Calendar.MONTH), lastDay);
 			Date end = calEnd.getTime(); // convert Calendar object to Date object
-			
 			return end;
 		}
 		
-		public boolean removeAlert(Target target){
-			for(int i=0; i<alerts.size(); i++)
-				if(alerts.get(i).getTarget().equals(target)){
-					alerts.remove(i);
-					return true;
-				}
-			
-			return false;
-		}
-		
-		public boolean isAnAlert(Bar bar){
+		private boolean isAnAlert(Bar bar){
 			if(bar.getColour().equals("RED") || bar.getColour().equals("ORANGE")) 
 				return true;
-			
 			else 
 				return false;
 		}
