@@ -1,7 +1,7 @@
 package ezxpns.data;
 
 public abstract class Storable {
-	private boolean updated;
+	private transient boolean updated;
 	/**
 	 * @return if the object has been updated and needs to be stored again
 	 */
