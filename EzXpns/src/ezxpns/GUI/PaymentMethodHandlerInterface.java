@@ -1,33 +1,34 @@
 package ezxpns.GUI;
 
 import java.util.List;
+import ezxpns.data.records.*;
 
 /**
  *	Interface to handle the payment modes between the Graphical User Interface and the data storage (upon GUI Exit)
  */
-public interface PayModeHandlerInterface {
+public interface PaymentMethodHandlerInterface {
 	
 	/**
 	 * Get all defined payment modes
 	 * @return List of all the stored payment modes
 	 */
-	public List<Object> getAllPaymentModes();
+	public List<PaymentMethod> getAllPaymentMethod();
 	
 	/**
 	 * To create a new user defined payment mode
 	 * @return true if successful, else false
 	 */
-	public boolean createPaymentMode(Object paymentRef);
+	public boolean createPaymentMethod(PaymentMethod paymentRef);
 	
 	/**
 	 * To remove a user defined payment mode
 	 * @return true if successful, else false
 	 */
-	public boolean removePaymentMode(Object paymentRef);
+	public boolean removePaymentMethod(PaymentMethod paymentRef);
 	
 	/**
 	 * To modify a user defined payment mode 
 	 * @return true if successful, else false
 	 */
-	public boolean modifyPaymentMode(Object paymentRef);
+	public boolean modifyPaymentMethod(PaymentMethod paymentRef);
 }
