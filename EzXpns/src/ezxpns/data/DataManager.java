@@ -125,55 +125,46 @@ public class DataManager implements
 
 	@Override
 	public double getMonthlyExpense(Category cat) {
-		// TODO Auto-generated method stub
-		return 0;
+		return _expenses.getMonthlySum(cat);
 	}
 
 	@Override
 	public double getTotalExpense() {
-		// TODO Auto-generated method stub
-		return 0;
+		return _expenses.getAllTimeSum();
 	}
 
 	@Override
 	public double getTotalIncome() {
-		// TODO Auto-generated method stub
-		return 0;
+		return _incomes.getAllTimeSum();
 	}
 
 	@Override
 	public double getDailyExpense() {
-		// TODO Auto-generated method stub
-		return 0;
+		return _expenses.getDailySum();
 	}
 
 	@Override
 	public double getDailyIncome() {
-		// TODO Auto-generated method stub
-		return 0;
+		return _incomes.getDailySum();
 	}
 
 	@Override
 	public double getMonthlyExpense() {
-		// TODO Auto-generated method stub
-		return 0;
+		return _expenses.getMonthlySum();
 	}
 
 	@Override
 	public double getMonthlyIncome() {
-		// TODO Auto-generated method stub
-		return 0;
+		return _incomes.getMonthlySum();
 	}
 
 	@Override
 	public double getYearlyExpense() {
-		// TODO Auto-generated method stub
-		return 0;
+		return _expenses.getYearlySum();
 	}
 
 	@Override
 	public double getYearlyIncome() {
-		// TODO Auto-generated method stub
-		return 0;
+		return _expenses.getYearlySum();
 	}
 }
