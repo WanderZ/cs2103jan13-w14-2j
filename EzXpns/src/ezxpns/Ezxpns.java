@@ -12,8 +12,6 @@ import java.awt.EventQueue;
 import java.util.*;
 
 import ezxpns.GUI.CategoryHandlerInterface;
-import ezxpns.GUI.MainWindow;
-import ezxpns.GUI.MainScreen;
 import ezxpns.GUI.RecordHandlerInterface;
 import ezxpns.GUI.SearchHandlerInterface;
 import ezxpns.GUI.SearchRequest;
@@ -31,6 +29,7 @@ public class Ezxpns implements
 	private TargetManager targetManager;
 	
 	public Ezxpns(){
+		final UIControl<Ezxpns> main  = new UIControl(this);
 		try{
 			store = new StorageManager("data.json");
 			store.read();
@@ -42,15 +41,21 @@ public class Ezxpns implements
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-
-					MainScreen main = new MainScreen();
-					main.showScreen();
 					
+					main.showHomeScreen();
+					main.showRecWin();
+					
+					/*
 					RecordFrame recordMgrI = new RecordFrame(RecordFrame.TAB_INCOME);
 					recordMgrI.showScreen();
 					
 					RecordFrame recordMgrE = new RecordFrame();
 					recordMgrE.showScreen();
+					*/
+					
+					/* Test Report Frame*/
+					// ReportFrame tzTestFrame = new ReportFrame();
+					// tzTestFrame.showScreen();
 					
 					/*
 					SearchFrame searchMgr = new SearchFrame();

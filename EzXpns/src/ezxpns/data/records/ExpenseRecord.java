@@ -10,8 +10,14 @@ import java.util.Date;
 public class ExpenseRecord extends Record{
 	public ExpenseType expenseType;
 	public PaymentMethod paymentMethod;
-	public ExpenseRecord(double amount, String name, String remark, Date date,
-			Category category, ExpenseType expenseType, PaymentMethod paymentMethod) {
+	public ExpenseRecord(
+			double amount, 
+			String name, 
+			String remark, 
+			Date date,
+			Category category, 
+			ExpenseType expenseType, 
+			PaymentMethod paymentMethod) {
 		super(amount, name, remark, date, category);
 		this.expenseType = expenseType;
 		this.paymentMethod = paymentMethod;

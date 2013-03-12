@@ -15,6 +15,10 @@ import javax.swing.JLabel;
 import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 
+/** 
+ * Note: This class is now marked for removal, but kept for reference
+ * <br />
+ */
 public class AlertManagerDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
