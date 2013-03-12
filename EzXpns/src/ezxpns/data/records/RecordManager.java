@@ -78,12 +78,11 @@ public class RecordManager<T extends Record>
 	 * Find the reference to the record with the same id
 	 * @param record
 	 * @return A record with the same id as record
-	 * @throws RecordUpdateException
 	 */
-	private T findRecord(T record) throws RecordUpdateException{
+	private T findRecord(T record){
 		if(!records.containsKey(record.date) ||
 				!recordsByCategory.containsKey(record.category.getID())){
-			throw new RecordUpdateException("Record does not exist.\n");
+			return null;
 		}
 		Vector<T> list = records.get(record.date);
 		for(T r : list){
@@ -91,7 +90,7 @@ public class RecordManager<T extends Record>
 				return r;
 			}
 		}
-		throw new RecordUpdateException("Record does not exist.\n");
+		return null;
 	}
 	
 	public T updateRecord(T original, T updated) throws RecordUpdateException{
@@ -101,6 +100,7 @@ public class RecordManager<T extends Record>
 	
 	public void removeRecord(T toRemove) throws RecordUpdateException{
 		T record = findRecord(toRemove);
+		if(record == null)throw new RecordUpdateException("Record does not exist.");
 		records.get(record.date).remove(record);
 		recordsByCategory.get(record.category.getID()).remove(record);
 		recordsByName.get(record.name).remove(record);

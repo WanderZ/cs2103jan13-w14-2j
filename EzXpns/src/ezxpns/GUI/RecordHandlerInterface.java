@@ -1,6 +1,6 @@
 package ezxpns.GUI;
 
-import ezxpns.data.records.Record;
+import ezxpns.data.records.*;
 import java.util.List;
 
 
@@ -10,16 +10,16 @@ import java.util.List;
 public interface RecordHandlerInterface {
 	
 	/**
-	 * Get all records stored
-	 * @return List of all the records stored
+	 * Get some records stored
+	 * @return List of maximum n records
 	 */
-	public List<Record> getAllRecords();
+	public List<Record> getRecords(int n);
 	
 	/**
 	 * Retrieve a specific record based on the identifier given
 	 * @return a Record object if found, else null if not found
 	 */
-	public Record getRecord(int identifier);
+	public Record getRecord(long identifier);
 	
 	/**
 	 * Create a new record
@@ -33,7 +33,7 @@ public interface RecordHandlerInterface {
 	 * @param identifier The Unique identifier for the record to be removed
 	 * @return true if successful, else false
 	 */
-	public boolean removeRecord(int identifier);
+	public boolean removeRecord(long identifier);
 	
 	/**
 	 * Remove record
@@ -49,17 +49,23 @@ public interface RecordHandlerInterface {
 	 * @param selectedRecord a record to be modified into
 	 * @return true if successful, else false.
 	 */
-	public boolean modifyRecord(Record selectedRecord);
+	public boolean modifyRecord(ExpenseRecord selectedRecord);
 	
 	/**
-	 * Basic Search Request
-	 * @param request Object containing all the user entered queries
-	 * @return List of relevant records
+	 * Modify Record Method
+	 * @precond The given record must have the identifier in it
+	 * @param selectedRecord a record to be modified into
+	 * @return true if successful, else false.
 	 */
-	public List<Record> searchRecord(SearchRequest request);
+	public boolean modifyRecord(IncomeRecord selectedRecord);
 	
-	// Probably have more for the report side 
-	// (calDailyAverage, getHighestRecords (int size or limit or amount)
-	// All income/expense records
-	// All of a certain category? (Ambiguous - can be either here or at CategoryHandler
+	/**
+	 * Return the latest expense record matching the name, or null
+	 */
+	public ExpenseRecord lastExpenseRecord(String name);
+	
+	/**
+	 * Return the latest expense record matching the name, or null
+	 */
+	public IncomeRecord lastIncomeRecord(String name);
 }

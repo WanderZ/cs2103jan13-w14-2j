@@ -90,17 +90,6 @@ public class Ezxpns implements
 		return null;
 	}
 
-	@Override
-	public List<Record> getAllRecords() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Record getRecord(int identifier) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public boolean createRecord(Record newRecord) {
@@ -109,27 +98,9 @@ public class Ezxpns implements
 	}
 
 	@Override
-	public boolean removeRecord(int identifier) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public boolean removeRecord(Record selectedRecord) {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	@Override
-	public boolean modifyRecord(Record selectedRecord) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public List<Record> searchRecord(SearchRequest request) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -160,5 +131,40 @@ public class Ezxpns implements
 	public boolean modifyCategory(Category selectedCat) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	@Override
+	public List<Record> getRecords(int n) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Record getRecord(long identifier) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public boolean removeRecord(long identifier) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean modifyRecord(ExpenseRecord selectedRecord) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean modifyRecord(IncomeRecord selectedRecord) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public ExpenseRecord lastExpenseRecord(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public IncomeRecord lastIncomeRecord(String name) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
