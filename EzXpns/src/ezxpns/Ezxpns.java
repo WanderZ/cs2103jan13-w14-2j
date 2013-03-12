@@ -25,6 +25,7 @@ public class Ezxpns implements
 	private DataManager data;
 	private ReportGenerator reportGenerator;
 	private TargetManager targetManager;
+	private SummaryGenerator summaryGenerator;
 	
 	public Ezxpns(){
 		final UIControl<Ezxpns> main  = new UIControl(this);
@@ -66,6 +67,7 @@ public class Ezxpns implements
 			}
 		});
 		reportGenerator = new ReportGenerator(data);
+		summaryGenerator = new SummaryGenerator(data);
 		targetManager = data.targetManager();
 	}
 	public void addTarget(){
