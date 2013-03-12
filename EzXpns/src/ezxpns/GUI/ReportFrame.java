@@ -1,25 +1,47 @@
 package ezxpns.GUI;
 
-import javax.swing.JFrame;
-
+import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Insets;
-
-import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JTextField;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JButton;
-import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.util.Vector;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SwingConstants;
+import javax.swing.table.AbstractTableModel;
+
+import net.miginfocom.swing.MigLayout;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PiePlot;
+import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.general.PieDataset;
+import org.jfree.util.Rotation;
+
+import ezxpns.data.Report;
+import ezxpns.data.ReportCategory;
+import java.awt.BorderLayout;
 
 /**
  * The window to handle all the extensive record analysis and report
@@ -30,7 +52,6 @@ public class ReportFrame extends JFrame implements ComponentListener{
 	private JTextField startDateField;
 	private JTextField endDateField;
 	private JPanel cards;
-	private JButton btnGeneral, btnExpense;
 	public static final int DEFAULT_WIDTH = 600;
 	public static final int DEFAULT_HEIGHT = 400; 
 	private JPanel generateReport;
@@ -41,15 +62,35 @@ public class ReportFrame extends JFrame implements ComponentListener{
 	private JPanel cardExpense;
 	JLayeredPane layeredPane;
 	JPanel report;
+	Report test;
+	private JPanel expenseTable;
+	private JLabel lblIncome;
+	private JLabel lblExpense;
+	private int PARAGRAPH_SPACE = 20;
+	private JPanel button;
+	private int WIDTH = 600;
+	private JButton btnGeneral;
+	private JButton btnExpense;
+	private JTable table;
+	private InteractiveTableModel tableModel;
+	
+	public static final String[] columnNames = {
+        "Category", "Frequency", "Amount", "Percentage", "Amount/Frequency"
+    };
 	
 	public ReportFrame() {
 		super("EzXpns - Report");
 		this.setBounds(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
+
+		tzReportData tz = new tzReportData();
+		test = tz.createTestReport();
 		
 		// http://stackoverflow.com/questions/852631/java-swing-how-to-show-a-panel-on-top-of-another-panel
 		// resize issue http://geti.dcc.ufrj.br/cursos/fes_2008_1/javatutorial/uiswing/events/componentlistener.html
 		// http://stackoverflow.com/questions/8792075/overlay-panel-above-another
+		// resizable font: http://java-sl.com/tip_adapt_label_font_size.html
+		// resizable image: http://www.java2s.com/Tutorial/Java/0261__2D-Graphics/Resizeanimage.htm
 		
 		// Layaered Pane
 		layeredPane = new JLayeredPane();
@@ -67,11 +108,41 @@ public class ReportFrame extends JFrame implements ComponentListener{
 		curtain.setBounds(0, 0, 600, 400);
 		layeredPane.add(curtain);
 		
+		// test button panel
+		button = new JPanel();
+		button.setBounds(0, 0, WIDTH, 400);
+		button.setOpaque(false);
+		layeredPane.add(button);
+		
+		btnGeneral = new JButton("General");
+		
+		btnExpense = new JButton("Expense");
+		GroupLayout gl_button = new GroupLayout(button);
+		gl_button.setHorizontalGroup(
+			gl_button.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_button.createSequentialGroup()
+					.addContainerGap(300, Short.MAX_VALUE)
+					.addComponent(btnGeneral, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnExpense)
+					.addGap(60))
+		);
+		gl_button.setVerticalGroup(
+			gl_button.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_button.createSequentialGroup()
+					.addGap(78)
+					.addGroup(gl_button.createParallelGroup(Alignment.BASELINE, false)
+						.addComponent(btnGeneral)
+						.addComponent(btnExpense))
+					.addGap(293))
+		);
+		button.setLayout(gl_button);
+		
 		// Actual Report Panel
 		report = new JPanel();
 		layeredPane.add(report);	
 		report.setBackground(Color.WHITE);
-		report.setBounds(0, 0, 600, 400);
+		report.setBounds(0, 0, WIDTH, 400);
 		
 		// Report Header in Report Panel
 		JLabel lblReport = new JLabel("Report");
@@ -80,10 +151,6 @@ public class ReportFrame extends JFrame implements ComponentListener{
 		// cards -> CardLayout
 		cards = new JPanel();
 		report.add(cards);
-		
-		// Buttons - "General", "Expense"
-		btnGeneral = new JButton("General");
-		btnExpense = new JButton("Expense");
 		
 		// Setting up the cards
 		cards.setLayout(new CardLayout(0, 0));
@@ -95,85 +162,14 @@ public class ReportFrame extends JFrame implements ComponentListener{
 		cardExpense.setForeground(Color.MAGENTA);
 		cards.add(cardGeneral, "GeneralCard");
 		cards.add(cardExpense, "ExpenseCard");
+		cardExpense.setLayout(new MigLayout("", "[262.00,grow,center][260.00,grow,right]", "[280.00,grow,fill]"));
 		
-		// Stuff inside card
-		JLabel lblGeneralTest = new JLabel("General test");
+		JPanel expensePieChart = new JPanel();
+		cardExpense.add(expensePieChart, "cell 0 0,grow");
+		expensePieChart.setLayout(new BoxLayout(expensePieChart, BoxLayout.X_AXIS));
 		
-		JLabel lblTotalIncome = new JLabel("Income:");
-		
-		JLabel lblTotalExpense = new JLabel("Expense:");
-		
-		JLabel lblBalance = new JLabel("Balance:");
-		
-		JLabel lblUniquePieChart = new JLabel("Unique Pie chart");
-		GroupLayout gl_cardGeneral = new GroupLayout(cardGeneral);
-		gl_cardGeneral.setHorizontalGroup(
-			gl_cardGeneral.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_cardGeneral.createSequentialGroup()
-					.addGap(193)
-					.addComponent(lblGeneralTest)
-					.addGap(91))
-				.addGroup(Alignment.TRAILING, gl_cardGeneral.createSequentialGroup()
-					.addGap(37)
-					.addComponent(lblUniquePieChart)
-					.addPreferredGap(ComponentPlacement.RELATED, 215, Short.MAX_VALUE)
-					.addGroup(gl_cardGeneral.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblBalance)
-						.addComponent(lblTotalExpense)
-						.addComponent(lblTotalIncome))
-					.addGap(184))
-		);
-		gl_cardGeneral.setVerticalGroup(
-			gl_cardGeneral.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_cardGeneral.createSequentialGroup()
-					.addGap(5)
-					.addComponent(lblGeneralTest)
-					.addGap(42)
-					.addComponent(lblTotalIncome)
-					.addGap(18)
-					.addGroup(gl_cardGeneral.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblTotalExpense)
-						.addComponent(lblUniquePieChart))
-					.addGap(18)
-					.addComponent(lblBalance)
-					.addContainerGap(149, Short.MAX_VALUE))
-		);
-		cardGeneral.setLayout(gl_cardGeneral);
-		
-		
-		JLabel lblExpenseTest = new JLabel("Expense Test");
-		
-		JLabel lblTables = new JLabel("Tables");
-		
-		JLabel lblPieChart = new JLabel("Pie Chart");
-		GroupLayout gl_cardExpense = new GroupLayout(cardExpense);
-		gl_cardExpense.setHorizontalGroup(
-			gl_cardExpense.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_cardExpense.createSequentialGroup()
-					.addGap(235)
-					.addComponent(lblExpenseTest))
-				.addGroup(Alignment.TRAILING, gl_cardExpense.createSequentialGroup()
-					.addGap(48)
-					.addComponent(lblPieChart)
-					.addPreferredGap(ComponentPlacement.RELATED, 209, Short.MAX_VALUE)
-					.addComponent(lblTables)
-					.addGap(194))
-		);
-		gl_cardExpense.setVerticalGroup(
-			gl_cardExpense.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_cardExpense.createSequentialGroup()
-					.addGroup(gl_cardExpense.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_cardExpense.createSequentialGroup()
-							.addGap(5)
-							.addComponent(lblExpenseTest)
-							.addGap(90)
-							.addComponent(lblTables))
-						.addGroup(gl_cardExpense.createSequentialGroup()
-							.addGap(120)
-							.addComponent(lblPieChart)))
-					.addContainerGap(160, Short.MAX_VALUE))
-		);
-		cardExpense.setLayout(gl_cardExpense);
+		expenseTable = new JPanel();
+		cardExpense.add(expenseTable, "cell 1 0,grow");
 		
 		btnGeneral.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
@@ -225,31 +221,20 @@ public class ReportFrame extends JFrame implements ComponentListener{
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(toDisplay)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(endDateDisplay)
-							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(btnGeneral)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnExpense)))
+							.addComponent(endDateDisplay)))
 					.addGap(27))
 		);
 		gl_report.setVerticalGroup(
 			gl_report.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_report.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_report.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_report.createSequentialGroup()
-							.addGroup(gl_report.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblReport)
-								.addComponent(fromDisplay)
-								.addComponent(startDateDisplay)
-								.addComponent(toDisplay)
-								.addComponent(endDateDisplay))
-							.addGap(24))
-						.addGroup(gl_report.createSequentialGroup()
-							.addGroup(gl_report.createParallelGroup(Alignment.BASELINE)
-								.addComponent(btnGeneral)
-								.addComponent(btnExpense))
-							.addPreferredGap(ComponentPlacement.UNRELATED)))
+					.addGroup(gl_report.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblReport)
+						.addComponent(fromDisplay)
+						.addComponent(startDateDisplay)
+						.addComponent(toDisplay)
+						.addComponent(endDateDisplay))
+					.addGap(24)
 					.addComponent(cards, GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
 					.addGap(48))
 		);
@@ -290,9 +275,9 @@ public class ReportFrame extends JFrame implements ComponentListener{
 		});
 		GroupLayout gl_generateReport = new GroupLayout(generateReport);
 		gl_generateReport.setHorizontalGroup(
-			gl_generateReport.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_generateReport.createSequentialGroup()
-					.addContainerGap(352, Short.MAX_VALUE)
+			gl_generateReport.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_generateReport.createSequentialGroup()
+					.addContainerGap(452, Short.MAX_VALUE)
 					.addComponent(btnGenerate)
 					.addGap(49))
 				.addGroup(gl_generateReport.createSequentialGroup()
@@ -307,14 +292,14 @@ public class ReportFrame extends JFrame implements ComponentListener{
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(endDateField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addComponent(lblGenerateAReport))
-					.addContainerGap(103, Short.MAX_VALUE))
+					.addContainerGap(203, Short.MAX_VALUE))
 		);
 		gl_generateReport.setVerticalGroup(
 			gl_generateReport.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_generateReport.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(lblGenerateAReport)
-					.addPreferredGap(ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addGroup(gl_generateReport.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblStartDate)
 						.addComponent(startDateField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -322,7 +307,7 @@ public class ReportFrame extends JFrame implements ComponentListener{
 						.addComponent(endDateField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btnGenerate)
-					.addContainerGap())
+					.addGap(22))
 		);
 		generateReport.setLayout(gl_generateReport);
 		
@@ -332,6 +317,64 @@ public class ReportFrame extends JFrame implements ComponentListener{
 		report.addComponentListener(this);
 		cardGeneral.addComponentListener(this);
 		cardExpense.addComponentListener(this);
+		
+		// PIE CHART
+		// This will create the dataset 
+        PieDataset dataset = createDataset();
+        // based on the dataset we create the chart
+        JFreeChart chart = createChart(dataset, "MY SUMMARY");
+        ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setPreferredSize(new java.awt.Dimension(250, 130));
+        cardGeneral.setLayout(new MigLayout("", "[262.00,grow,center][260.00,grow,right]", "[280.00,grow,fill]"));
+        
+        JPanel generalPieChart = new JPanel();
+        generalPieChart.add(chartPanel);
+        cardGeneral.add(generalPieChart, "cell 0 0,grow");
+        generalPieChart.setLayout(new BoxLayout(generalPieChart, BoxLayout.X_AXIS));
+        
+        JPanel generalSummary = new JPanel();
+        cardGeneral.add(generalSummary, "cell 1 0,grow");
+        generalSummary.setLayout(new BoxLayout(generalSummary, BoxLayout.PAGE_AXIS));
+        
+        lblIncome = new JLabel("Income:");
+        lblIncome.setAlignmentX(0.4f);
+        lblIncome.setAlignmentY(Component.TOP_ALIGNMENT);
+        lblIncome.setHorizontalAlignment(SwingConstants.LEFT);
+        generalSummary.add(Box.createVerticalGlue());
+        generalSummary.add(lblIncome);
+        generalSummary.add(Box.createRigidArea(new Dimension(0,PARAGRAPH_SPACE)));
+
+        
+        lblExpense = new JLabel("Expense:");
+        lblExpense.setAlignmentX(0.4f);
+        lblExpense.setAlignmentY(0.0f);
+        lblExpense.setHorizontalAlignment(SwingConstants.LEFT);
+        generalSummary.add(lblExpense);
+        generalSummary.add(Box.createRigidArea(new Dimension(0,PARAGRAPH_SPACE)));
+        
+        lblExpense = new JLabel("Balance:");
+        lblExpense.setAlignmentX(0.4f);
+        lblExpense.setAlignmentY(0.0f);
+        lblExpense.setHorizontalAlignment(SwingConstants.LEFT);
+        generalSummary.add(lblExpense);
+        generalSummary.add(Box.createVerticalGlue());
+        
+        
+        // Table
+        tableModel = new InteractiveTableModel(columnNames);
+        expenseTable.setLayout(new BoxLayout(expenseTable, BoxLayout.Y_AXIS));
+        table = new JTable();
+        table.setModel(tableModel);
+        table.setPreferredScrollableViewportSize(new Dimension (20, 10));
+        JScrollPane scrollPane = new JScrollPane(table);
+        //table.setFillsViewportHeight(true);
+        expenseTable.add(Box.createVerticalGlue());
+        expenseTable.add(scrollPane);	
+        expenseTable.add(Box.createVerticalGlue());
+
+
+
+        
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -371,6 +414,7 @@ public class ReportFrame extends JFrame implements ComponentListener{
 		generateReport.setBounds(0, 80, getWidth(), 120);
 		cardGeneral.setBounds(cards.getX(),cards.getY(),cardGeneral.getWidth()+widthDiff,cardGeneral.getHeight()+heightDiff);
 		cardExpense.setBounds(cards.getX(),cards.getY(),cardExpense.getWidth()+widthDiff,cardExpense.getHeight()+heightDiff);*/
+        button.setSize(w,h);
         curtain.setSize(w, h);
         cards.setBounds(cards.getX(),cards.getY(),w,h);
         report.setSize(w,h);
@@ -388,4 +432,103 @@ public class ReportFrame extends JFrame implements ComponentListener{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	/**
+     * Creates a sample dataset 
+     */
+
+    private  PieDataset createDataset() {
+        DefaultPieDataset result = new DefaultPieDataset();
+        result.setValue("Balance", 10);
+        result.setValue("Expense", 40);
+        result.setValue("Income", 50);
+        return result;
+        
+    }
+    
+    
+/**
+     * Creates a chart
+     */
+
+    private JFreeChart createChart(PieDataset dataset, String title) {
+        
+        JFreeChart chart = ChartFactory.createPieChart(title,          // chart title
+            dataset,                // data
+            true,                   // include legend
+            true,
+            false);
+
+        PiePlot plot = (PiePlot) chart.getPlot();
+        plot.setExplodePercent("Income", 0.2);
+        plot.setStartAngle(0);
+        plot.setDirection(Rotation.CLOCKWISE);
+        plot.setOutlineVisible(false);
+        plot.setBackgroundPaint(Color.white);
+        plot.setForegroundAlpha(0.5f);
+        return chart;
+        
+    }
+    
+    public class InteractiveTableModel extends AbstractTableModel {
+        public static final int CATEGORY_INDEX = 0;
+        public static final int FREQUENCY_INDEX = 1;
+        public static final int AMOUNT_INDEX = 2;
+        public static final int PERCENTAGE_INDEX = 3;
+        public static final int AMTFEQ_INDEX = 4;
+
+        protected String[] columnNames;
+        protected Vector<ReportCategory> dataVector;
+
+        public InteractiveTableModel(String[] columnNames) {
+            this.columnNames = columnNames;
+            //dataVector = new Vector<ReportCategory>();
+            dataVector = test.getExpenseCategory();
+        }
+
+        public String getColumnName(int column) {
+            return columnNames[column];
+        }
+
+
+        public Class<?> getColumnClass(int column) {
+            switch (column) {
+                case CATEGORY_INDEX:
+                case FREQUENCY_INDEX:
+                case AMOUNT_INDEX:
+                case PERCENTAGE_INDEX:
+                case AMTFEQ_INDEX:
+                   return String.class;
+                default:
+                   return Object.class;
+            }
+        }
+
+        public Object getValueAt(int row, int column) {
+            ReportCategory report = (ReportCategory)dataVector.get(row);
+            switch (column) {
+                case CATEGORY_INDEX:
+                   return report.getCategory();
+                case FREQUENCY_INDEX:
+                   return report.getFrequency();
+                case AMOUNT_INDEX:
+                   return report.getAmount();
+                case PERCENTAGE_INDEX:
+                	return report.getPercentage();
+                case AMTFEQ_INDEX:
+                	return report.getAmtPerFreq();
+                default:
+                   return new Object();
+            }
+        }
+
+
+        public int getRowCount() {
+            return dataVector.size();
+        }
+
+        public int getColumnCount() {
+            return columnNames.length;
+        }
+    }
 }
