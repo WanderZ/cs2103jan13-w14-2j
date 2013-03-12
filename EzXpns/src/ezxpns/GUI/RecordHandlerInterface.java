@@ -26,7 +26,8 @@ public interface RecordHandlerInterface {
 	 * @param newRecord Object containing all the necessary data to create a new record
 	 * @return true if successful, else false
 	 */
-	public boolean createRecord(Record newRecord);
+	public boolean createRecord(IncomeRecord newRecord);
+	public boolean createRecord(ExpenseRecord newRecord);
 	
 	/**
 	 * Remove record based on an identifier

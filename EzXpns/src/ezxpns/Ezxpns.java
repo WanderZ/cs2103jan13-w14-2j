@@ -15,6 +15,7 @@ import ezxpns.GUI.CategoryHandlerInterface;
 import ezxpns.GUI.RecordHandlerInterface;
 import ezxpns.GUI.SearchHandlerInterface;
 import ezxpns.GUI.SearchRequest;
+import ezxpns.GUI.SearchRequest.RecordType;
 
 
 public class Ezxpns implements
@@ -70,39 +71,59 @@ public class Ezxpns implements
 		summaryGenerator = new SummaryGenerator(data);
 		targetManager = data.targetManager();
 	}
-	public void addTarget(){
-		
-	}
 	
 	public void applicationQuitting(){
 		store.save();
 	}
-	
-	public void addRecord(ExpenseRecord r) throws RecordUpdateException{
-		data.expenses().addNewRecord(r);
-	}
-	
-	public void addRecord(IncomeRecord r) throws RecordUpdateException{
-		data.incomes().addNewRecord(r);
-	}
 
 	@Override
 	public Vector<Record> search(SearchRequest req) {
-		// TODO Auto-generated method stub
-		return null;
+		RecordQueryHandler tofind = data.combined();
+		switch(req.getType()){
+		case EXPENSE:
+			tofind = data.expenses();
+		break;
+		case INCOME:
+			tofind = data.incomes();
+		break;
+		}
+		if(req.getName() != null){
+			return tofind.getRecordsBy(req.getName(), -1);
+		}else if(req.getDateRange() != null){
+			Date start = req.getDateRange().getLeft(),
+				 end = req.getDateRange().getRight();
+			return tofind.getRecordsBy(start, end, -1, false);
+		}else if(req.getCategory() != null){
+			return tofind.getRecordsBy(req.getCategory(), -1);
+		}else{
+			return null;
+		}
 	}
 
 
 	@Override
-	public boolean createRecord(Record newRecord) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean createRecord(IncomeRecord newRecord) {
+		try {
+			data.incomes().addNewRecord(newRecord);
+		} catch (RecordUpdateException e) {
+			return false;
+		}
+		return true;
+	}
+	
+	@Override
+	public boolean createRecord(ExpenseRecord newRecord) {
+		try {
+			data.expenses().addNewRecord(newRecord);
+		} catch (RecordUpdateException e) {
+			return false;
+		}
+		return true;
 	}
 
 	@Override
-	public boolean removeRecord(Record selectedRecord) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean removeRecord(Record r) {
+		return removeRecord(r.getId());
 	}
 
 	@Override
@@ -130,23 +151,42 @@ public class Ezxpns implements
 	}
 	@Override
 	public List<Record> getRecords(int n) {
-		// TODO Auto-generated method stub
-		return null;
+		return data.combined().getRecordsBy(new Date(0), new Date(), n, false);
 	}
 	@Override
 	public Record getRecord(long identifier) {
-		// TODO Auto-generated method stub
-		return null;
+		if(data.expenses().getRecordBy(identifier) == null){
+			return data.incomes().getRecordBy(identifier);
+		}else{
+			return data.expenses().getRecordBy(identifier);
+		}
 	}
 	@Override
 	public boolean removeRecord(long identifier) {
-		// TODO Auto-generated method stub
-		return false;
+		if(data.expenses().getRecordBy(identifier) != null){
+			try {
+				data.expenses().removeRecord(identifier);
+			} catch (RecordUpdateException e) {
+				return false;
+			}
+			return true;
+		}else{
+			try {
+				data.incomes().removeRecord(identifier);
+			} catch (RecordUpdateException e) {
+				return false;
+			}
+			return true;
+		}
 	}
 	@Override
 	public boolean modifyRecord(ExpenseRecord r) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			data.expenses().updateRecord(r);
+		} catch (RecordUpdateException e) {
+			return false;
+		}
+		return true;
 	}
 	@Override
 	public boolean modifyRecord(IncomeRecord r) {
