@@ -17,7 +17,6 @@ public class TargetManager extends Storable {
 		double getMonthlyExpense(Category cat);
 	}
 	private transient DataProvider data;
-	private transient Vector<ExpenseRecord>  expenseRecord;
 	private TreeMap<Long,Target> mapTarget = new TreeMap<Long, Target>();	// maps category to target // maybe not necessary if max number of targets is small
 	
 	public TargetManager(DataProvider data){
