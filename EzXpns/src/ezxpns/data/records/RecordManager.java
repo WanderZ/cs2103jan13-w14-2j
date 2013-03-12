@@ -11,9 +11,9 @@ import ezxpns.data.Storable;
  * A java Generic to manage records
  * @param <T> the type of records (expense/income) to manage
  */
-public class RecordManager<T extends Record> implements
-	Storable,
-	RecordQueryHandler<T>{
+public class RecordManager<T extends Record>
+	extends Storable
+	implements RecordQueryHandler<T>{
 	public static class RecordUpdateException extends Exception{
 		public RecordUpdateException(){
 			super();
@@ -46,26 +46,6 @@ public class RecordManager<T extends Record> implements
 		recordsByName = new HashMap<String, TreeSet<T> >();
 		ids = new TreeSet<Long>();
 	}
-	
-	/**
-	 * A state about whether the object has been updated since the last save
-	 */
-	private transient boolean updated = false;
-	
-	/**
-	 * @return if the object has been modified since the last time it was saved
-	 */
-	public boolean isUpdated(){
-		return updated;
-	}
-	
-	/**
-	 * Tells the object to reset the updated attribute
-	 */
-	public void saved(){
-		updated = false;
-	}
-	
 	/**
 	 * Populate data structures containing duplicate data
 	 * Also add the category reference to the records
@@ -124,7 +104,7 @@ public class RecordManager<T extends Record> implements
 		records.get(record.date).remove(record);
 		recordsByCategory.get(record.category.getID()).remove(record);
 		recordsByName.get(record.name).remove(record);
-		updated = true;
+		markUpdate();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -158,7 +138,7 @@ public class RecordManager<T extends Record> implements
 			set.add(record);
 			recordsByName.put(record.name, set);
 		}
-		updated = true;
+		markUpdate();
 		return record;
 	}
 	
@@ -171,7 +151,7 @@ public class RecordManager<T extends Record> implements
 			recordsByCategory.remove(category.getID());
 		}
 		categories.remove(category.getID());
-		updated = true;
+		markUpdate();
 	}
 	
 	public void updateCategory(long id, String newName) throws CategoryUpdateException{
@@ -179,7 +159,7 @@ public class RecordManager<T extends Record> implements
 			throw new CategoryUpdateException("The category with the id does not exist!");
 		}
 		categories.get(id).setName(newName);
-		updated = true;
+		markUpdate();
 	}
 	
 	public void addNewCategory(Category toAdd){
@@ -187,7 +167,7 @@ public class RecordManager<T extends Record> implements
 		if(!categories.containsKey(category.getID())){
 			categories.put(category.getID(), category);
 		}
-		updated = true;
+		markUpdate();
 	}
 	
 	public Category getCategory(Long id){

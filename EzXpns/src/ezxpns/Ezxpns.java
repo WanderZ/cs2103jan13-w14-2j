@@ -62,7 +62,6 @@ public class Ezxpns implements
 		});
 		reportGenerator = new ReportGenerator(data);
 		targetManager = data.targetManager();
-		// targetManager.setDataProvider(this);
 	}
 	public void addTarget(){
 		

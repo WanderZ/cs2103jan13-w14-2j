@@ -17,10 +17,12 @@ import ezxpns.util.Pair;
  * Remember to add transient if the data is not meant to be persistent
  * 
  */
-public class DataManager implements ReportGenerator.DataProvider {
+public class DataManager implements
+	ReportGenerator.DataProvider,
+	TargetManager.DataProvider,
+	SummaryGenerator.DataProvider{
 	private static class CombinedRecordsQueryHandler
-		implements RecordQueryHandler<Record>,
-				   SummaryGenerator.DataProvider{
+		implements RecordQueryHandler<Record>{
 		private RecordManager<IncomeRecord> incomes;
 		private RecordManager<ExpenseRecord> expenses;
 		public CombinedRecordsQueryHandler(
@@ -69,54 +71,6 @@ public class DataManager implements ReportGenerator.DataProvider {
 			}
 			return rs;
 		}
-
-		@Override
-		public double getTotalExpense() {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-
-		@Override
-		public double getTotalIncome() {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-
-		@Override
-		public double getDailyExpense() {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-
-		@Override
-		public double getDailyIncome() {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-
-		@Override
-		public double getMonthlyExpense() {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-
-		@Override
-		public double getMonthlyIncome() {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-
-		@Override
-		public double getYearlyExpense() {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-
-		@Override
-		public double getYearlyIncome() {
-			// TODO Auto-generated method stub
-			return 0;
-		}
 		
 	}
 	
@@ -124,7 +78,7 @@ public class DataManager implements ReportGenerator.DataProvider {
 	private RecordManager<IncomeRecord> _incomes = new RecordManager<IncomeRecord>();
 	private transient CombinedRecordsQueryHandler _combined;
 	
-	private TargetManager _targetManager = new TargetManager();
+	private TargetManager _targetManager = new TargetManager(this);
 	
 	@Override
 	public Pair<Vector<ExpenseRecord>, Vector<IncomeRecord>> getDataInDateRange(
@@ -162,6 +116,7 @@ public class DataManager implements ReportGenerator.DataProvider {
 		_incomes.afterDeserialize();
 		_expenses.afterDeserialize();
 		_combined = new CombinedRecordsQueryHandler(_incomes, _expenses);
+		_targetManager.setDataProvider(this);
 	}
 	/**
 	 * A function to be called after objects are saved
@@ -170,5 +125,59 @@ public class DataManager implements ReportGenerator.DataProvider {
 		_expenses.saved();
 		_incomes.saved();
 		_targetManager.saved();
+	}
+
+	@Override
+	public double getMonthlyExpense(Category cat) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getTotalExpense() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getTotalIncome() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getDailyExpense() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getDailyIncome() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getMonthlyExpense() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getMonthlyIncome() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getYearlyExpense() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getYearlyIncome() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }
