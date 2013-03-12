@@ -44,9 +44,24 @@ public abstract class Record implements Comparable<Record>{
 	
 	public int compareTo(Record other){
 		if(date.equals(other.date)){
-			return (int)(id - other.id);
+			if(this.id > other.id){
+				return 1;
+			}else if(this.id < other.id){
+				return -1;
+			}else{
+				return 0;
+			}
+		}else{
+			long a = date.getTime(),
+				 b = other.date.getTime();
+			if(a > b){
+				return -1;
+			}else if(a < b){
+				return 1;
+			}else{
+				return 0;
+			}
 		}
-		return -(int)(date.getTime() - other.date.getTime());
 	}
 	
 	public abstract Record copy();

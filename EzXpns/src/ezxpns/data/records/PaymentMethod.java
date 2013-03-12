@@ -2,7 +2,7 @@ package ezxpns.data.records;
 
 import java.util.Date;
 
-public class PaymentMethod {
+public class PaymentMethod implements Comparable<PaymentMethod> {
 	/**
 	 * The default category for records without a category
 	 */
@@ -44,5 +44,16 @@ public class PaymentMethod {
 	
 	public PaymentMethod copy(){
 		return new PaymentMethod(id, name);
+	}
+
+	@Override
+	public int compareTo(PaymentMethod o) {
+		if(o.id > this.id){
+			return -1;
+		}else if(o.id < this.id){
+			return 1;
+		}else{
+			return 0;
+		}
 	}
 }
