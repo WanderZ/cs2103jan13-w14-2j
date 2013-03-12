@@ -1,5 +1,7 @@
 package ezxpns.data.records;
 
+import java.util.Date;
+
 public class PaymentMethod {
 	/**
 	 * The default category for records without a category
@@ -15,6 +17,16 @@ public class PaymentMethod {
 	 */
 	public PaymentMethod(long id, String name){
 		this.id = id;
+		this.name = name;
+	}
+	
+	/**
+	 * A convenient constructor that automatically creates an ID
+	 * that is likely unique
+	 * @param name 
+	 */
+	public PaymentMethod(String name){
+		this.id = (new Date()).getTime();
 		this.name = name;
 	}
 	

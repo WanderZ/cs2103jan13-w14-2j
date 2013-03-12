@@ -1,5 +1,7 @@
 package ezxpns.data.records;
 
+import java.util.Date;
+
 /**
  * @author yyjhao
  * 
@@ -21,6 +23,16 @@ public class Category{
 	 */
 	public Category(long id, String name){
 		this.id = id;
+		this.name = name;
+	}
+	
+	/**
+	 * A convenient constructor that automatically creates an ID
+	 * that is likely unique
+	 * @param name 
+	 */
+	public Category(String name){
+		this.id = (new Date()).getTime();
 		this.name = name;
 	}
 	
