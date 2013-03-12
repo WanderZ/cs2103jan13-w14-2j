@@ -20,8 +20,6 @@ import ezxpns.GUI.SearchRequest;
 
 
 public class Ezxpns implements
-		ReportGenerator.DataProvider,
-		TargetManager.DataProvider,
 		CategoryHandlerInterface,
 		RecordHandlerInterface,
 		SearchHandlerInterface{
@@ -62,19 +60,11 @@ public class Ezxpns implements
 				}
 			}
 		});
-		reportGenerator = new ReportGenerator(this);
+		reportGenerator = new ReportGenerator(data);
 		targetManager = data.targetManager();
 		// targetManager.setDataProvider(this);
 	}
 
-	@Override
-	public Pair<Vector<ExpenseRecord>, Vector<IncomeRecord>> getDataInDateRange(
-			Date start, Date end) {
-		return new Pair<Vector<ExpenseRecord>, Vector<IncomeRecord>>(
-				data.expenses().getRecordsBy(start, end, -1, false),
-				data.incomes().getRecordsBy(start, end, -1, false));
-	}
-	
 	public void addTarget(){
 		
 	}
