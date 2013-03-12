@@ -2,11 +2,7 @@ package ezxpns.data;
 
 import java.util.*;
 
-import ezxpns.data.records.Category;
-import ezxpns.data.records.ExpenseRecord;
-import ezxpns.data.records.IncomeRecord;
-import ezxpns.data.records.Record;
-import ezxpns.data.records.RecordManager;
+import ezxpns.data.records.*;
 import ezxpns.util.Pair;
 
 /**
@@ -24,12 +20,12 @@ public class DataManager implements
 	private static class CombinedRecordsQueryHandler
 		implements RecordQueryHandler<Record>{
 		private RecordManager<IncomeRecord> incomes;
-		private RecordManager<ExpenseRecord> expenses;
+		private ExpenseRecordManager expenses;
 		public CombinedRecordsQueryHandler(
 				RecordManager<IncomeRecord> _incomes,
 				RecordManager<ExpenseRecord> _expenses) {
 			incomes = _incomes;
-			expenses = _expenses;
+			expenses = (ExpenseRecordManager) _expenses;
 		}
 
 		public Vector<Record> getRecordsBy(String name, int max) {

@@ -18,7 +18,7 @@ public interface PaymentMethodHandlerInterface {
 	 * To create a new user defined payment mode
 	 * @return true if successful, else false
 	 */
-	public boolean createPaymentMethod(PaymentMethod paymentRef);
+	public boolean addNewPaymentMethod(PaymentMethod paymentRef);
 	
 	/**
 	 * To remove a user defined payment mode
@@ -30,5 +30,5 @@ public interface PaymentMethodHandlerInterface {
 	 * To modify a user defined payment mode 
 	 * @return true if successful, else false
 	 */
-	public boolean modifyPaymentMethod(PaymentMethod paymentRef);
+	public boolean updatePaymentMethod(PaymentMethod paymentRef);
 }
