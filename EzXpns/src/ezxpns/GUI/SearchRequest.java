@@ -5,46 +5,18 @@ import ezxpns.util.*;
 import ezxpns.data.records.*;
 
 /**
- * Contains search query parameters
- * May support multiple queries but not handled in the master class for now.
+ * Wrapper class to contains search query parameters
+ * <br />May support multiple queries (future iterations)
+ * <br />but not handled in the master class for now.
  */
 public class SearchRequest {
-	public enum RecordType {
-		EXPENSE, INCOME, BOTH;
-	}
+
+	public enum RecordType {EXPENSE, INCOME, BOTH;}
 	
 	private RecordType type = RecordType.BOTH;
-	
 	private String name;
-	
-	public RecordType getType() {
-		return type;
-	}
-
-	public void setType(RecordType type) {
-		this.type = type;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public Category getCategory() {
-		return category;
-	}
-
-	public boolean isMultiple() {
-		return multiple;
-	}
-
 	private Category category;
-	
 	private Pair<Date, Date> dateRange;
-	
-	public Pair<Date, Date> getDateRange() {
-		return dateRange;
-	}
-
 	private boolean multiple = false;
 	
 	// no empty request allowed!
@@ -62,4 +34,12 @@ public class SearchRequest {
 		this.category = category;
 	}
 	
+	public RecordType getType() {return type;}
+	public String getName() {return name;}
+	public Pair<Date, Date> getDateRange() {return dateRange;}
+	
+	public void setType(RecordType type) {this.type = type;}
+	public Category getCategory() {return category;}
+
+	public boolean isMultiple() {return multiple;}
 }
