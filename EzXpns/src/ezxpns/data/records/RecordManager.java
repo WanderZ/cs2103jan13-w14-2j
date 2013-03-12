@@ -61,6 +61,10 @@ public class RecordManager<T extends Record>
 	public double getYearlySum() {
 		return yearlySum;
 	}
+	
+	public double getMonthlySum(Category cat){
+		return monthlySumByCategory.get(cat.getID());
+	}
 	public RecordManager(){
 		categories = new HashMap<Long, Category>();
 		categories.put(Category.undefined.getID(), Category.undefined);
