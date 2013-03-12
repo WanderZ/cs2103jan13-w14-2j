@@ -14,6 +14,12 @@ public class UIControl<T extends RecordHandlerInterface & CategoryHandlerInterfa
 	public UIControl(T masterRef) {
 		master = masterRef;
 		homeScreen = new HomeScreen(master);
+		
+		/*JWindow jWin = new JWindow();
+		jWin.getContentPane().add(new JLabel("helloworld!"));
+		jWin.setSize(800,600);
+		jWin.setLocationRelativeTo(null);
+		jWin.setVisible(true);*/
 	}
 	
 	/**

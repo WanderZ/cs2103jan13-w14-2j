@@ -35,7 +35,7 @@ public class HomeScreen extends JFrame {
 		// Temporary set to grid layout for even distribution
 		this.setLayout(new BorderLayout());
 		JPanel contentDivider = new JPanel();
-		contentDivider.setLayout(new java.awt.GridLayout(2,2));
+		contentDivider.setLayout(new java.awt.GridLayout(2, 2, 0, 0));
 		contentDivider.add(getOverviewPanel());
 		contentDivider.add(getSavingsPanel());
 		contentDivider.add(getTargetsPanel());
@@ -100,6 +100,7 @@ class PanelTip extends JPanel {
 		this.setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.Y_AXIS));
 		addLabel("Tips Panel - Under Construction", this);
 		addLabel("Quote of the day: 'Be the change you wish to see in this world'",this);
+		this.setOpaque(false); // Transparent background
 	}
 	
 	private void addLabel(String txt, java.awt.Container container) {

@@ -6,10 +6,15 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.font.TextAttribute;
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -24,12 +29,13 @@ public class RecordsDisplayPanel extends JPanel implements ActionListener {
 	public static final int DEFAULT_MAX_ONSCREEN = 12;
 	private RecordsListerPanel panListIncome, panListExpense; 
 	private JButton btnEx, btnIn;
+	private Font btnFont;
 	
 	List<Record> records;
 	
 	public RecordsDisplayPanel() {
 		super();
-		
+		initFont();
 		this.setBackground(Color.WHITE);
 		this.setLayout(new BorderLayout());
 		// CardLayout - for toggling between expenses and income...?
@@ -39,22 +45,60 @@ public class RecordsDisplayPanel extends JPanel implements ActionListener {
 		tabs.addLayoutComponent(getPanIncomeList(), "Component.CENTER_ALIGNMENT");
 		
 		
+		
 		// Mouse Adapter (hover click...)		
 	}
 	
 	// Load records (expenses, income)
 	// Display
 	
+	private void initFont() {
+		btnFont = new Font("Segoe UI", 0, 30); // Font name, Font Style, Font Size
+	}
+	
 	private JButton getBtnEx() {
 		if(btnEx == null) {
-			btnEx = new JButton();
+			btnEx = new JButton("Expenses");
+			btnEx.setFont(btnFont);
+			btnEx.setBorderPainted(false);
+			btnEx.setContentAreaFilled(false);
+			btnEx.setFocusPainted(false);
+			
+			btnEx.addMouseListener(new MouseAdapter() {
+				public void mouseEntered(MouseEvent mEvent) { // Hover start
+					JButton btn = (JButton) mEvent.getSource();
+					btn.setForeground(Color.BLUE);
+					// btn.setBackground(Color.LIGHT_GRAY); // Currently useless as the content area is set to be transparent 
+					
+					/* Underlining the word for "hover*/
+					Font btnFont = btn.getFont();
+					Map attribute = btnFont.getAttributes();
+					attribute.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+					btn.setFont(btnFont.deriveFont(attribute));
+				}
+				
+				public void mousePressed(MouseEvent mEvent) {
+					System.out.println("Clicked btnEx!");
+				}
+				
+				public void mouseExited(MouseEvent mEvent) { // Hover end
+					JButton btn = (JButton) mEvent.getSource();
+					btn.setFont(btnFont); // return to original font (without the underline - workaround)
+					btn.setForeground(Color.DARK_GRAY);
+					// Current Issue: unable to remove the underlining from after hovering over it.
+				}
+			});
 		}
 		return btnEx;
 	}
 	
 	private JButton getBtnIn() {
 		if(btnIn == null) {
-			btnIn = new JButton();
+			btnIn = new JButton("Income");
+			btnIn.setFont(btnFont);
+			btnIn.setBorderPainted(false);
+			btnIn.setContentAreaFilled(false);
+			
 		}
 		return btnIn;
 	}
