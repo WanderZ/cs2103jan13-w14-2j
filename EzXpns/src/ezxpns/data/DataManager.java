@@ -7,6 +7,7 @@ import ezxpns.data.records.ExpenseRecord;
 import ezxpns.data.records.IncomeRecord;
 import ezxpns.data.records.Record;
 import ezxpns.data.records.RecordManager;
+import ezxpns.util.Pair;
 
 /**
  * @author yyjhao
@@ -16,7 +17,7 @@ import ezxpns.data.records.RecordManager;
  * Remember to add transient if the data is not meant to be persistent
  * 
  */
-public class DataManager {
+public class DataManager implements ReportGenerator.DataProvider {
 	private static class CombinedRecordsQueryHandler
 		implements RecordQueryHandler<Record>,
 				   SummaryGenerator.DataProvider{
@@ -124,6 +125,14 @@ public class DataManager {
 	private transient CombinedRecordsQueryHandler _combined;
 	
 	private TargetManager _targetManager = new TargetManager();
+	
+	@Override
+	public Pair<Vector<ExpenseRecord>, Vector<IncomeRecord>> getDataInDateRange(
+			Date start, Date end) {
+		return new Pair<Vector<ExpenseRecord>, Vector<IncomeRecord>>(
+				_expenses.getRecordsBy(start, end, -1, false),
+				_incomes.getRecordsBy(start, end, -1, false));
+	}
 	
 	public TargetManager targetManager(){
 		return _targetManager;
