@@ -5,7 +5,6 @@ import java.util.Date;
 import ezxpns.data.records.Category;
 
 /*
- * @author shuzhen
  * This class holds information of a Target
  */
 
@@ -21,11 +20,12 @@ public class Target{
 		this.start = start;
 		this.end = end;
 		this.cat = cat;
-		this.targetAmt = targetAmt;
+		this.targetAmt = targetAmt;		
 	}
 	
-	
+
 	public Target copy(){
+		
 		return new Target(start, end, cat, targetAmt);
 	} 
 	
@@ -33,10 +33,10 @@ public class Target{
 		return cat;
 	}
 	
-	public double getTargetAmt(){
+	public double getTarget(){
 		return targetAmt;
 	}
-	
+		
 	public Date getStart(){
 		return start;
 	}
@@ -44,5 +44,5 @@ public class Target{
 	public Date getEnd(){
 		return end;
 	}
-	
+
 }
