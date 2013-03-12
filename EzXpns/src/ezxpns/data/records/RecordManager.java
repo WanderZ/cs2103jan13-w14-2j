@@ -5,6 +5,8 @@ import java.util.*;
 import ezxpns.data.RecordQueryHandler;
 import ezxpns.data.Storable;
 
+import ezxpns.GUI.*;
+
 /**
  * @author yyjhao
  * 
@@ -142,16 +144,8 @@ public class RecordManager<T extends Record>
 		return record;
 	}
 	
-	public void removeCategory(Category category){
-		if(recordsByCategory.containsKey(category.getID())){
-			TreeSet<T> rs = recordsByCategory.get(category.getID());
-			for(Record r : rs){
-				r.category = Category.undefined;
-			}
-			recordsByCategory.remove(category.getID());
-		}
-		categories.remove(category.getID());
-		markUpdate();
+	public boolean removeCategory(Category category){
+		return removeCategory(category.getID());
 	}
 	
 	public void updateCategory(long id, String newName) throws CategoryUpdateException{
@@ -162,12 +156,15 @@ public class RecordManager<T extends Record>
 		markUpdate();
 	}
 	
-	public void addNewCategory(Category toAdd){
+	public boolean addNewCategory(Category toAdd){
 		Category category = toAdd.copy();
 		if(!categories.containsKey(category.getID())){
 			categories.put(category.getID(), category);
+			markUpdate();
+			return true;
+		}else{
+			return false;
 		}
-		markUpdate();
 	}
 	
 	public Category getCategory(Long id){
@@ -227,5 +224,21 @@ public class RecordManager<T extends Record>
 			}
 		}
 		return rs;
+	}
+	public boolean removeCategory(long identifier) {
+		if(recordsByCategory.containsKey(identifier)){
+			TreeSet<T> rs = recordsByCategory.get(identifier);
+			for(Record r : rs){
+				r.category = Category.undefined;
+			}
+			recordsByCategory.remove(identifier);
+		}
+		if(categories.containsKey(identifier)){
+			categories.remove(identifier);
+			markUpdate();
+			return true;
+		}else{
+			return false;
+		}
 	}
 }
