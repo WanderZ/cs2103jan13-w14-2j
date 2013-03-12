@@ -64,7 +64,6 @@ public class Ezxpns implements
 		targetManager = data.targetManager();
 		// targetManager.setDataProvider(this);
 	}
-	
 	public void addTarget(){
 		
 	}
