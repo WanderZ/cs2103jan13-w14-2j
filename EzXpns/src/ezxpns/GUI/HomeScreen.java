@@ -1,20 +1,24 @@
 package ezxpns.GUI;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
-public class MainScreen extends JFrame {
+public class HomeScreen extends JFrame {
 	
 	public final int DEFAULT_HEIGHT = 800;
 	public final int DEFAULT_WEIGHT = 600;
 	private JMenuBar menu;
 	private JPanel panOverview, panSavings, panTargets, panRecords, panTips;
+	private RecordHandlerInterface recHandler;
 	
-	public MainScreen(){
+	public HomeScreen(RecordHandlerInterface recHandler){
 		super("EzXpns - Main Menu"); // Setting the title
 		this.setBounds(0, 0, DEFAULT_HEIGHT, DEFAULT_WEIGHT); /*x coordinate, y coordinate, width, height*/
 		this.setLocationRelativeTo(null);
@@ -23,11 +27,15 @@ public class MainScreen extends JFrame {
 		// this.setVisible(true);
 		this.setJMenuBar(getMenu());
 		
+		this.getContentPane().setBackground(Color.WHITE);
 		
-		// To set Layout - grid or maybe grid bag layout
+		this.recHandler = recHandler;
+				
+		// To set Layout - grid or maybe grid bag layout 
+		// Temporary set to grid layout for even distribution
 		this.setLayout(new BorderLayout());
 		JPanel contentDivider = new JPanel();
-		contentDivider.setLayout(new java.awt.GridLayout(2,2));
+		contentDivider.setLayout(new java.awt.GridLayout(2, 2, 0, 0));
 		contentDivider.add(getOverviewPanel());
 		contentDivider.add(getSavingsPanel());
 		contentDivider.add(getTargetsPanel());
@@ -36,9 +44,6 @@ public class MainScreen extends JFrame {
 		this.add(contentDivider, BorderLayout.NORTH);
 		this.add(getTipsPanel(), BorderLayout.SOUTH);
 	}
-	
-	public void showScreen() {super.setVisible(true);}
-	public void hideScreen() {super.setVisible(false);}
 	
 	private JMenuBar getMenu() {
 		if(this.menu==null) {
@@ -85,13 +90,22 @@ public class MainScreen extends JFrame {
 
 /** 
  * This panel contains the educational tips displays at the bottom of the screen 
- * [To Be Moved to a file on its on in the next inter
+ * <br />[To Be Moved to a file on its on in the next iteration]
  */
 @SuppressWarnings("serial")
 class PanelTip extends JPanel {
 	
 	public PanelTip() {
 		super();
-		this.add(new javax.swing.JLabel("Tips Panel - Under Construction"));
+		this.setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.Y_AXIS));
+		addLabel("Tips Panel - Under Construction", this);
+		addLabel("Quote of the day: 'Be the change you wish to see in this world'",this);
+		this.setOpaque(false); // Transparent background
+	}
+	
+	private void addLabel(String txt, java.awt.Container container) {
+		javax.swing.JLabel lbl = new javax.swing.JLabel(txt);
+		lbl.setAlignmentY(CENTER_ALIGNMENT);
+		container.add(lbl);
 	}
 }
