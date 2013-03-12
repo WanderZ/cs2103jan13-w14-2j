@@ -10,23 +10,18 @@ import ezxpns.data.records.Category;
 
 public class Target{
 	
-	private Date start;
-	private Date end;
 	private Category cat;
 	private double targetAmt;
 
 
-	public Target(Date start, Date end, Category cat, double targetAmt){
-		this.start = start;
-		this.end = end;
+	public Target(Category cat, double targetAmt){
 		this.cat = cat;
 		this.targetAmt = targetAmt;		
 	}
 	
 
 	public Target copy(){
-		
-		return new Target(start, end, cat, targetAmt);
+		return new Target(cat, targetAmt);
 	} 
 	
 	public Category getCategory(){
@@ -37,12 +32,4 @@ public class Target{
 		return targetAmt;
 	}
 		
-	public Date getStart(){
-		return start;
-	}
-	
-	public Date getEnd(){
-		return end;
-	}
-
 }
