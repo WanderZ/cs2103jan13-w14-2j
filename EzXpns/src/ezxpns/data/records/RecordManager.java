@@ -38,21 +38,54 @@ public class RecordManager<T extends Record>
 	private transient HashMap<String, TreeSet<T> > recordsByName;
 	
 	// used to make sure no id is repeated
-	private transient TreeSet<Long> ids;
+	private transient TreeMap<Long, T> recordsById;
+	
+	private transient double allTimeSum = 0,
+							 monthlySum = 0,
+							 dailySum = 0,
+							 yearlySum = 0;
+	private transient HashMap<Long, Double> monthlySumByCategory;
+	
+	private transient Calendar cal = Calendar.getInstance();
+	private transient Date today, startOfYear, startOfMonth;
 
+	public double getAllTimeSum() {
+		return allTimeSum;
+	}
+	public double getMonthlySum() {
+		return monthlySum;
+	}
+	public double getDailySum() {
+		return dailySum;
+	}
+	public double getYearlySum() {
+		return yearlySum;
+	}
 	public RecordManager(){
 		categories = new HashMap<Long, Category>();
 		categories.put(Category.undefined.getID(), Category.undefined);
 		recordsByCategory = new HashMap<Long, TreeSet<T> >();
 		records = new TreeMap<Date, Vector<T> >();
 		recordsByName = new HashMap<String, TreeSet<T> >();
-		ids = new TreeSet<Long>();
+		recordsById = new TreeMap<Long, T>();
+		monthlySumByCategory = new HashMap<Long, Double>();
 	}
 	/**
 	 * Populate data structures containing duplicate data
 	 * Also add the category reference to the records
 	 */
 	public void afterDeserialize(){
+		cal.set(Calendar.HOUR, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		today = cal.getTime();
+		cal.set(Calendar.DAY_OF_MONTH, 0);
+		startOfMonth = cal.getTime();
+		cal.set(Calendar.MONTH, 0);
+		startOfYear = cal.getTime();
+		for(long c : categories.keySet()){
+			monthlySumByCategory.put(c, 0.0);
+		}
 		for(Map.Entry<Long, TreeSet<T> > entry : recordsByCategory.entrySet()){
 			TreeSet<T> rs = entry.getValue();
 			Category cat = getCategory(entry.getKey());
@@ -72,8 +105,40 @@ public class RecordManager<T extends Record>
 					set.add(record);
 					recordsByName.put(record.name, set);
 				}
+				recordsById.put(record.id, record);
+				addSums(record);
 			}
 		}
+	}
+	
+	private void addSums(Record record){
+		if(record.date.after(today)){
+			dailySum += record.amount;
+		}
+		if(record.date.after(startOfMonth)){
+			monthlySum += record.amount;
+			monthlySumByCategory.put(record.category.getID(),
+					monthlySumByCategory.get(record.category.getID()) + record.amount);
+		}
+		if(record.date.after(startOfYear)){
+			yearlySum += record.amount;
+		}
+		allTimeSum += record.amount;
+	}
+	
+	private void removeSums(Record record){
+		if(record.date.after(today)){
+			dailySum -= record.amount;
+		}
+		if(record.date.after(startOfMonth)){
+			monthlySum -= record.amount;
+			monthlySumByCategory.put(record.category.getID(),
+					monthlySumByCategory.get(record.category.getID()) - record.amount);
+		}
+		if(record.date.after(startOfYear)){
+			yearlySum -= record.amount;
+		}
+		allTimeSum -= record.amount;
 	}
 	
 	/**
@@ -81,31 +146,26 @@ public class RecordManager<T extends Record>
 	 * @param record
 	 * @return A record with the same id as record
 	 */
-	private T findRecord(T record){
-		if(!records.containsKey(record.date) ||
-				!recordsByCategory.containsKey(record.category.getID())){
-			return null;
-		}
-		Vector<T> list = records.get(record.date);
-		for(T r : list){
-			if(r.equals(record)){
-				return r;
-			}
-		}
-		return null;
+	private T findRecord(long id){
+		return recordsById.get(id);
 	}
 	
-	public T updateRecord(T original, T updated) throws RecordUpdateException{
-		removeRecord(original);
+	public T updateRecord(T updated) throws RecordUpdateException{
+		removeRecord(updated.getId());
 		return addNewRecord(updated);
 	}
 	
-	public void removeRecord(T toRemove) throws RecordUpdateException{
-		T record = findRecord(toRemove);
-		if(record == null)throw new RecordUpdateException("Record does not exist.");
+	public void removeRecord(long id) throws RecordUpdateException{
+		T record = findRecord(id);
+		System.out.println(id);
+		if(record == null){
+			throw new RecordUpdateException("Record does not exist.");
+		}
+		removeSums(record);
 		records.get(record.date).remove(record);
 		recordsByCategory.get(record.category.getID()).remove(record);
 		recordsByName.get(record.name).remove(record);
+		recordsById.remove(id);
 		markUpdate();
 	}
 	
@@ -116,7 +176,7 @@ public class RecordManager<T extends Record>
 		if(record.category == null){
 			throw new RecordUpdateException("Invalid category!");
 		}
-		if(ids.contains(record.id)){
+		if(recordsById.containsKey(record.id)){
 			record.id = (new Date()).getTime();
 		}
 		if(records.containsKey(record.date)){
@@ -140,6 +200,8 @@ public class RecordManager<T extends Record>
 			set.add(record);
 			recordsByName.put(record.name, set);
 		}
+		recordsById.put(record.id, record);
+		addSums(record);
 		markUpdate();
 		return record;
 	}
@@ -160,6 +222,7 @@ public class RecordManager<T extends Record>
 		Category category = toAdd.copy();
 		if(!categories.containsKey(category.getID())){
 			categories.put(category.getID(), category);
+			monthlySumByCategory.put(category.getID(), 0.0);
 			markUpdate();
 			return true;
 		}else{
@@ -169,6 +232,12 @@ public class RecordManager<T extends Record>
 	
 	public Category getCategory(Long id){
 		return categories.get(id);
+	}
+	
+	public T getRecordBy(long id){
+		T r = findRecord(id);
+		if(r == null) return r;
+		else return (T)r.copy();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -235,6 +304,7 @@ public class RecordManager<T extends Record>
 		}
 		if(categories.containsKey(identifier)){
 			categories.remove(identifier);
+			monthlySumByCategory.remove(identifier);
 			markUpdate();
 			return true;
 		}else{

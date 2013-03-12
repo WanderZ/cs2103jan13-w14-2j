@@ -48,12 +48,13 @@ public class DataQueryTest {
 		if(m.getRecordsBy(r.getName(), 1).size() == 0){
 			fail("Adding record failed!");
 		}
-		
+		if(m.getRecordBy(r.getId()) == null){
+			fail("Adding record failed!");
+		}
 		IncomeRecord newR = new IncomeRecord(r.getId(), r.getName() + "hoho", r.getRemark() + "hoho", r.getDate(), r.getCategory());
 		try {
-			m.updateRecord(r, newR);
+			m.updateRecord(newR);
 		} catch (RecordUpdateException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			fail("Updating record results in an error!");
 		}
@@ -66,7 +67,7 @@ public class DataQueryTest {
 		}
 		
 		try {
-			m.removeRecord(newR);
+			m.removeRecord(newR.getId());
 		} catch (RecordUpdateException e) {
 			e.printStackTrace();
 			fail("Removing record results in an error!");

@@ -144,24 +144,36 @@ public class Ezxpns implements
 		return false;
 	}
 	@Override
-	public boolean modifyRecord(ExpenseRecord selectedRecord) {
+	public boolean modifyRecord(ExpenseRecord r) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 	@Override
-	public boolean modifyRecord(IncomeRecord selectedRecord) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean modifyRecord(IncomeRecord r) {
+		try {
+			data.incomes().updateRecord(r);
+		} catch (RecordUpdateException e) {
+			return false;
+		}
+		return true;
 	}
 	@Override
 	public ExpenseRecord lastExpenseRecord(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		List<ExpenseRecord> rs = data.expenses().getRecordsBy(name, 1);
+		if(rs.size() > 0){
+			return rs.get(0);
+		}else{
+			return null;
+		}
 	}
 	@Override
 	public IncomeRecord lastIncomeRecord(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		List<IncomeRecord> rs = data.incomes().getRecordsBy(name, 1);
+		if(rs.size() > 0){
+			return rs.get(0);
+		}else{
+			return null;
+		}
 	}
 	@Override
 	public boolean removeCategory(long identifier) {
