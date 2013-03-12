@@ -30,6 +30,16 @@ public class PaymentMethod implements Comparable<PaymentMethod> {
 		this.name = name;
 	}
 	
+	/**
+	 * A convenient constructor that automatically creates an ID
+	 * that is likely unique
+	 * @param name 
+	 */
+	public PaymentMethod(String name){
+		this.id = (new Date()).getTime();
+		this.name = name;
+	}
+	
 	protected void setName(String name){
 		this.name = name;
 	}

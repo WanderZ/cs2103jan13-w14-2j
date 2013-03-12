@@ -15,6 +15,7 @@ public class UIControl<T extends RecordHandlerInterface & CategoryHandlerInterfa
 		master = masterRef;
 		homeScreen = new HomeScreen(master);
 		
+		// Faking a pop up :)
 		/*JWindow jWin = new JWindow();
 		jWin.getContentPane().add(new JLabel("helloworld!"));
 		jWin.setSize(800,600);
@@ -43,8 +44,7 @@ public class UIControl<T extends RecordHandlerInterface & CategoryHandlerInterfa
 	/** Displays the new record handler window */
 	public void showRecWin() {
 		if(recWin == null) {
-			recWin = new RecordFrame();
-			recWin.setHandler(master);
+			recWin = new RecordFrame(master);
 		}
 		recWin.setVisible(true);
 	}
@@ -56,8 +56,7 @@ public class UIControl<T extends RecordHandlerInterface & CategoryHandlerInterfa
 	 */
 	public void showRecWin(int recordType) {
 		if(recWin == null) {
-			recWin = new RecordFrame(recordType);
-			recWin.setHandler(master);
+			recWin = new RecordFrame(master, recordType);
 		}
 		recWin.setVisible(true);
 	}
@@ -65,7 +64,7 @@ public class UIControl<T extends RecordHandlerInterface & CategoryHandlerInterfa
 	/** Displays the search handler window */
 	public void showSearchWin() {
 		if(searchWin == null) {
-			searchWin = new SearchFrame();
+			searchWin = new SearchFrame(master);
 		}
 		searchWin.setVisible(true);
 	}

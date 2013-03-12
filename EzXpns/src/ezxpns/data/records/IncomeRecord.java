@@ -9,15 +9,20 @@ import java.util.Date;
 public class IncomeRecord extends Record {
 
 	/**
-	 * 
-	 * @param amount
-	 * @param name
-	 * @param remark
-	 * @param date
-	 * @param category
+	 * Normal constructor for an Income Record
+	 * @param amount the specific amount in which this income record refers to
+	 * @param name the name of this income record
+	 * @param remark (s) for this income record, if any
+	 * @param date the Date object in which this income record is created (not in this prog, but in user's context)
+	 * @param category Category object in which this income is categorised to
 	 */
-	public IncomeRecord(double amount, String name, String remark, Date date,
-			Category category) {
+	public IncomeRecord(
+			double amount, 
+			String name, 
+			String remark, 
+			Date date,
+			Category category
+			) {
 		super(amount, name, remark, date, category);
 		// nothing new here
 	}
