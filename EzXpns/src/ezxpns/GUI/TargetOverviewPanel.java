@@ -14,7 +14,7 @@ public class TargetOverviewPanel extends JPanel {
 	public TargetOverviewPanel() {
 		super(); // new Panel();
 		
-		lblMsg = new javax.swing.JLabel("Targets - Under Construction :(");
+		lblMsg = new javax.swing.JLabel("Targets - Under Construction XD!");
 		this.add(lblMsg);
 		this.setOpaque(false);
 	}
