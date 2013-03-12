@@ -12,31 +12,21 @@ import ezxpns.data.records.ExpenseRecord;
  * A generator that takes in targets and data and produce alert info
  * 
  */
-public class TargetManager implements Storable {
+public class TargetManager extends Storable {
 	public static interface DataProvider{
-		double getMonthlyTotalExpense(Category cat);
+		double getMonthlyExpense(Category cat);
 	}
-	private transient boolean	updated = false, 
-								alertUpdated = false;
 	private transient DataProvider data;
 	private transient Vector<ExpenseRecord>  expenseRecord;
 	private TreeMap<Long,Target> mapTarget = new TreeMap<Long, Target>();	// maps category to target // maybe not necessary if max number of targets is small
 	
-	
-	/**
-	 * @return if the internal data store is updated (and therefore needs to be stored)
-	 */
-	@Override
-	public boolean isUpdated() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public void saved() {
-		// TODO Auto-generated method stub
-		
+	public TargetManager(DataProvider data){
+		this.data = data;
 	}
 	
+	public void setDataProvider(DataProvider data){
+		this.data = data;
+	}
 
 	/*Preconditions: cannot add more than one target for the same category.
 	 * 				 can only set targets for the SAME month
@@ -63,18 +53,18 @@ public class TargetManager implements Storable {
 	 */
 	private void addTarget(Target target){
 		mapTarget.put(target.getCategory().getID(),target);
-		updated = true;
+		markUpdate();
 	}
 		
 	public void removeTarget(Target target){
 		mapTarget.remove(target.getCategory());
-		updated = true;
+		markUpdate();
 	}
 		
 	public void modifyTarget(Target oldTarget, double targetAmt){
 		removeTarget(oldTarget);
 		setTarget(oldTarget.getCategory(), targetAmt);		
-		updated = true;
+		markUpdate();
 	}
 		
 	/* EDITED categories
@@ -91,7 +81,7 @@ public class TargetManager implements Storable {
 		if(mapTarget.containsKey(cat.getID())){
 			mapTarget.remove(cat.getID());
 		}
-		updated=true;
+		markUpdate();
 	}
 	
 	/*
@@ -124,7 +114,7 @@ public class TargetManager implements Storable {
 	public Vector<Bar> getOrderedBar(){
 		Vector<Bar> ordered = new Vector<Bar>();
 		for(Target target: mapTarget.values()){
-			Bar bar = new Bar(target, data.getMonthlyTotalExpense(target.getCategory()));
+			Bar bar = new Bar(target, data.getMonthlyExpense(target.getCategory()));
 			ordered.add(bar);
 		}
 		Collections.sort(ordered);

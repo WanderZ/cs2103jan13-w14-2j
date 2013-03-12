@@ -1,13 +1,25 @@
 package ezxpns.data;
 
-public interface Storable {
+public abstract class Storable {
+	private boolean updated;
 	/**
 	 * @return if the object has been updated and needs to be stored again
 	 */
-	public boolean isUpdated();
+	public boolean isUpdated(){
+		return updated;
+	}
 	
 	/**
 	 * Tells the object that it has been stored
 	 */
-	public void saved();
+	public void saved(){
+		updated = false;
+	}
+	
+	/**
+	 * Mark the object as updated
+	 */
+	protected void markUpdate(){
+		updated = true;
+	}
 }
