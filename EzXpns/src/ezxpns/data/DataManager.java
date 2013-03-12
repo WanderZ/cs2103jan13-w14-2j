@@ -17,7 +17,7 @@ public class DataManager implements
 	ReportGenerator.DataProvider,
 	TargetManager.DataProvider,
 	SummaryGenerator.DataProvider{
-	private static class CombinedRecordsQueryHandler
+	public static class CombinedRecordsQueryHandler
 		implements RecordQueryHandler<Record>{
 		private RecordManager<IncomeRecord> incomes;
 		private ExpenseRecordManager expenses;
