@@ -65,10 +65,10 @@ public class RecordFrame<T extends RecordHandlerInterface & CategoryHandlerInter
 		this();
 		switch(initTab) {
 			case TAB_INCOME: 
-				// panMain.toggleIncomeTab();
+				panMain.toggleIncomeTab();
 				break;
 			case TAB_EXPENSE:
-				// panMain.toggleExpenseTab();
+				panMain.toggleExpenseTab();
 			default:break;
 		}
 	}
@@ -230,8 +230,7 @@ class PanelMain extends JPanel {
 		super();
 		this.setLayout(new BorderLayout());
 		
-		// tabs = new JTabbedPane();
-		metroTabs = new JPanel();
+		metroTabs = new JPanel(); // the main panel for keeping everything together
 		metroTabs.setLayout(new BorderLayout());
 		metroTabs.setBackground(Color.WHITE);
 		
@@ -254,14 +253,9 @@ class PanelMain extends JPanel {
 		metroTabContent.add(panExpense, PanelMain.CARD_EXPENSE);
 		metroTabContent.add(panIncome, PanelMain.CARD_INCOME);
 		metroTabs.add(metroTabContent, BorderLayout.CENTER);
-		// loCard.addLayoutComponent(panIncome, CARD_INCOME);
-		// loCard.addLayoutComponent(panExpense, CARD_EXPENSE);
 		
 		loCard.show(metroTabContent, CARD_EXPENSE);
 		
-		// tabs.setBackground(Color.WHITE);
-		// tabs.addTab("Expense", null, this.panExpense, "Expenses");
-		// tabs.addTab("Income", null, this.panIncome, "Income");
 		// this.tabs.setMnemonicAt(); // setting keyboard shortcut
 		
 		// this.add(tabs, BorderLayout.CENTER);
@@ -272,23 +266,31 @@ class PanelMain extends JPanel {
 		this.add(panRecurOpt, BorderLayout.SOUTH);
 	}
 	
+	/**
+	 * Retrieve the tab for the expenses
+	 * @return JButton object of the initialised JButton for the expense tab
+	 */
 	private JButton getExpenseTab() {
 		if(mtabExpense == null) {
 			mtabExpense = new JButton(CARD_EXPENSE);
-			mtabExpense.setFont(new Font("Segoe UI", 0, 24));
+			mtabExpense.setFont(new Font("Segoe UI", 0, 24)); // #Font
 			mtabExpense.setBorderPainted(false);
 			mtabExpense.setFocusPainted(false);
 			mtabExpense.setContentAreaFilled(false);
 			mtabExpense.addMouseListener(new MouseAdapter() {
+				
+				@Override
 				public void mouseEntered(MouseEvent mEvent) { // Hover start
 					JButton btn = (JButton) mEvent.getSource();
 					btn.setForeground(Color.LIGHT_GRAY);
 				}
 				
+				@Override
 				public void mousePressed(MouseEvent mEvent) {
 					toggleExpenseTab();
 				}
 				
+				@Override
 				public void mouseExited(MouseEvent mEvent) { // Hover end
 					JButton btn = (JButton) mEvent.getSource();
 					btn.setForeground(Color.DARK_GRAY);
@@ -300,10 +302,14 @@ class PanelMain extends JPanel {
 		return mtabExpense;
 	}
 	
+	/** 
+	 * Retrieve the tab for the income
+	 * @return JButton object of the initialised JButton for the income tab
+	 */
 	private JButton getIncomeTab() {
 		if(mtabIncome == null) {
 			mtabIncome = new JButton(CARD_INCOME);
-			mtabIncome.setFont(new Font("Segoe UI", 0, 24));
+			mtabIncome.setFont(new Font("Segoe UI", 0, 24)); // #Font
 			mtabIncome.setBorderPainted(false);
 			mtabIncome.setFocusPainted(false);
 			mtabIncome.setContentAreaFilled(false);
@@ -515,7 +521,7 @@ class PanelExpense extends JPanel {
 		// NOTE: MAY HAVE TO STORE A THE LIST TO RETRIEVE IN VIA INDEX.
 		return this.cboxCategory.getSelectedItem().toString();
 	}
-	public String getDate() {return null;}
+	public String getDate() {return this.txtDate.getText();}
 	public String getMode() {
 		if(this.cboxPayment.getSelectedIndex() < 0) {
 			// User defined new payment
@@ -525,16 +531,19 @@ class PanelExpense extends JPanel {
 		// NOTE: MAY HAVE TO STORE A THE LIST TO RETRIEVE IN VIA INDEX.
 		return this.cboxPayment.getSelectedItem().toString();
 	}
+	public String getDesc() {
+		return taDesc.getText();
+	}
 	
 	/**
 	 * to validate the fields entered into the system.
 	 * @return true is there is no problem with inputs, else false;
 	 */
 	public boolean validateFields() {
-		System.out.println(txtAmt.getText());
-		System.out.println(txtName.getText());
-		System.out.println(txtDate.getText());
-		System.out.println(taDesc.getText());
+		System.out.println(getName());
+		System.out.println(getAmt());
+		System.out.println(getDate());
+		System.out.println(getDesc());
 		System.out.println(getCat());
 		System.out.println(getMode());
 		return true;
@@ -547,9 +556,9 @@ class PanelExpense extends JPanel {
 	 */
 	public Record save() {
 		ExpenseRecord eRecord = new ExpenseRecord(
-				Double.parseDouble(txtAmt.getText()), 
-				txtName.getText(),
-				taDesc.getText(),
+				Double.parseDouble(getAmt()), 
+				getName(),
+				getDesc(),
 				new Date(),
 				new Category(new Long(1), getCat()),
 				ExpenseType.NEED,

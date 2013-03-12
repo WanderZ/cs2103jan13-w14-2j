@@ -2,7 +2,10 @@ package ezxpns.data.records;
 
 import java.util.Date;
 
-
+/**
+ * A Record object that specifically stores income details
+ *
+ */
 public class IncomeRecord extends Record {
 
 	/**
