@@ -46,10 +46,6 @@ public class Ezxpns implements
 					main.showRecWin();
 					
 					/*
-					HomeScreen main = new HomeScreen();
-					main.showScreen();
-					*/
-					/*
 					RecordFrame recordMgrI = new RecordFrame(RecordFrame.TAB_INCOME);
 					recordMgrI.showScreen();
 					
@@ -58,8 +54,8 @@ public class Ezxpns implements
 					*/
 					
 					/* Test Report Frame*/
-					ReportFrame tzTestFrame = new ReportFrame();
-					tzTestFrame.showScreen();
+					// ReportFrame tzTestFrame = new ReportFrame();
+					// tzTestFrame.showScreen();
 					
 					/*
 					SearchFrame searchMgr = new SearchFrame();
