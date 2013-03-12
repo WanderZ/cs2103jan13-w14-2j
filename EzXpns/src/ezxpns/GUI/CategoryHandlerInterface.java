@@ -18,14 +18,14 @@ public interface CategoryHandlerInterface {
 	 * @param newCat Object containing all the necessary data to create a new category
 	 * @return true if successful, else false
 	 */
-	public boolean createCategory(Category newCat);
+	public boolean addNewCategory(Category newCat);
 	
 	/**
 	 * Remove a user defined category based on the given identifier
 	 * @param identifier The unique identifier for the category to be removed
 	 * @return true if successful, else false
 	 */
-	public boolean removeCategory(int identifier);
+	public boolean removeCategory(long identifier);
 	
 	/**
 	 * Remove Category
@@ -41,10 +41,5 @@ public interface CategoryHandlerInterface {
 	 * @param selectedCat The selected category to be modified
 	 * @return true if successful, else false
 	 */
-	public boolean modifyCategory(Category selectedCat);
-	
-	// Targets modifier?
-	// Set New Target
-	// Modify Existing Target
-	// Remove Target (if this is possible)
+	public boolean updateCategory(Category selectedCat);
 }

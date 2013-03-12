@@ -112,13 +112,7 @@ public class Ezxpns implements
 	}
 
 	@Override
-	public boolean createCategory(Category newCat) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean removeCategory(int identifier) {
+	public boolean addNewCategory(Category newCat) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -130,7 +124,7 @@ public class Ezxpns implements
 	}
 
 	@Override
-	public boolean modifyCategory(Category selectedCat) {
+	public boolean updateCategory(Category selectedCat) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -168,5 +162,10 @@ public class Ezxpns implements
 	public IncomeRecord lastIncomeRecord(String name) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public boolean removeCategory(long identifier) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
