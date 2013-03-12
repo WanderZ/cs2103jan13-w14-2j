@@ -23,8 +23,8 @@ import javax.swing.SpringLayout;
 @SuppressWarnings("serial")
 public class SearchFrame extends JFrame {
 	
-	public final int WIDTH = 600;
-	public final int HEIGHT = 400;
+	public final int DEFAULT_WIDTH = 600;
+	public final int DEFAULT_HEIGHT = 400;
 	// Time frame of the report (start and end)
 	
 	// 2 main panels, the top (querying time frame) and the bottom (results, content)
@@ -45,7 +45,7 @@ public class SearchFrame extends JFrame {
 	
 	public void init() {
 		this.setTitle("EzXpns - Search");
-		this.setBounds(0, 0, WIDTH, HEIGHT); /*x coordinate, y coordinate, width, height*/
+		this.setBounds(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT); /*x coordinate, y coordinate, width, height*/
 		this.setLocationRelativeTo(null); // Set to start in the central area of the screen
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); 

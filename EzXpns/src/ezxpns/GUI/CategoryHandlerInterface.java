@@ -3,7 +3,7 @@ import ezxpns.data.records.Category;
 import java.util.List;
 
 /**
- *	To handler the categories between the Graphical User Interface and the data storage (upon GUI Exit)
+ *	Interface to handle the categories between the Graphical User Interface and the data storage (upon GUI Exit)
  */
 public interface CategoryHandlerInterface {
 	
@@ -16,7 +16,7 @@ public interface CategoryHandlerInterface {
 	/**
 	 * Create a new category
 	 * @param newCat Object containing all the necessary data to create a new category
-	 * @return
+	 * @return true if successful, else false
 	 */
 	public boolean createCategory(Category newCat);
 	
