@@ -115,6 +115,7 @@ public class Ezxpns implements
 	public boolean createRecord(ExpenseRecord newRecord) {
 		try {
 			data.expenses().addNewRecord(newRecord);
+			targetManager.markDataUpdated();
 		} catch (RecordUpdateException e) {
 			return false;
 		}
@@ -166,6 +167,7 @@ public class Ezxpns implements
 		if(data.expenses().getRecordBy(identifier) != null){
 			try {
 				data.expenses().removeRecord(identifier);
+				targetManager.markDataUpdated();
 			} catch (RecordUpdateException e) {
 				return false;
 			}
@@ -183,6 +185,7 @@ public class Ezxpns implements
 	public boolean modifyRecord(ExpenseRecord r) {
 		try {
 			data.expenses().updateRecord(r);
+			targetManager.markDataUpdated();
 		} catch (RecordUpdateException e) {
 			return false;
 		}
