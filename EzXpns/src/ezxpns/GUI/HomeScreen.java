@@ -12,8 +12,8 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class HomeScreen extends JFrame {
 	
-	public final int DEFAULT_HEIGHT = 800;
-	public final int DEFAULT_WEIGHT = 600;
+	public final int DEFAULT_HEIGHT = 860;
+	public final int DEFAULT_WEIGHT = 680;
 	private JMenuBar menu;
 	private JPanel panOverview, panSavings, panTargets, panRecords, panTips;
 	private RecordHandlerInterface recHandler;
@@ -43,6 +43,7 @@ public class HomeScreen extends JFrame {
 		
 		this.add(contentDivider, BorderLayout.NORTH);
 		this.add(getTipsPanel(), BorderLayout.SOUTH);
+		
 	}
 	
 	private JMenuBar getMenu() {

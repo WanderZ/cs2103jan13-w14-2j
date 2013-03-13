@@ -1,5 +1,8 @@
 package ezxpns.GUI;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 /**
  * To assist EzXpns in managing all the GUI Windows
  * @param <T>
@@ -14,12 +17,20 @@ public class UIControl<T extends RecordHandlerInterface & CategoryHandlerInterfa
 	public UIControl(T masterRef) {
 		master = masterRef;
 		homeScreen = new HomeScreen(master);
+		homeScreen.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent wEvent) {
+				// Method here
+				System.exit(0);
+			}
+		});
 		
+		// Faking a pop up :)
 		/*JWindow jWin = new JWindow();
 		jWin.getContentPane().add(new JLabel("helloworld!"));
 		jWin.setSize(800,600);
 		jWin.setLocationRelativeTo(null);
-		jWin.setVisible(true);*/
+		jWin.setVisible(true);
+		*/
 	}
 	
 	/**
@@ -43,8 +54,7 @@ public class UIControl<T extends RecordHandlerInterface & CategoryHandlerInterfa
 	/** Displays the new record handler window */
 	public void showRecWin() {
 		if(recWin == null) {
-			recWin = new RecordFrame();
-			recWin.setHandler(master);
+			recWin = new RecordFrame(master);
 		}
 		recWin.setVisible(true);
 	}
@@ -56,8 +66,7 @@ public class UIControl<T extends RecordHandlerInterface & CategoryHandlerInterfa
 	 */
 	public void showRecWin(int recordType) {
 		if(recWin == null) {
-			recWin = new RecordFrame(recordType);
-			recWin.setHandler(master);
+			recWin = new RecordFrame(master, recordType);
 		}
 		recWin.setVisible(true);
 	}
@@ -65,7 +74,7 @@ public class UIControl<T extends RecordHandlerInterface & CategoryHandlerInterfa
 	/** Displays the search handler window */
 	public void showSearchWin() {
 		if(searchWin == null) {
-			searchWin = new SearchFrame();
+			searchWin = new SearchFrame(master);
 		}
 		searchWin.setVisible(true);
 	}
