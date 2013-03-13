@@ -7,6 +7,7 @@ import java.util.List;
  */
 public interface CategoryHandlerInterface {
 	
+	
 	/**
 	 * Get all user defined categories
 	 * @return List of all the Categories stored
@@ -19,6 +20,9 @@ public interface CategoryHandlerInterface {
 	 * @return true if successful, else false
 	 */
 	public boolean addNewCategory(Category newCat);
+	
+	/** to be implemented */
+	public Category addNewCategory(String catName);
 	
 	/**
 	 * Remove a user defined category based on the given identifier
