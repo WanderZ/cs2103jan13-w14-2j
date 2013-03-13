@@ -70,7 +70,7 @@ public class DataManager implements
 		
 	}
 	
-	private RecordManager<ExpenseRecord> _expenses = new RecordManager<ExpenseRecord>();
+	private ExpenseRecordManager _expenses = new ExpenseRecordManager();
 	private RecordManager<IncomeRecord> _incomes = new RecordManager<IncomeRecord>();
 	private transient CombinedRecordsQueryHandler _combined;
 	
@@ -88,7 +88,7 @@ public class DataManager implements
 		return _targetManager;
 	}
 	
-	public RecordManager<ExpenseRecord> expenses(){
+	public ExpenseRecordManager expenses(){
 		return _expenses;
 	}
 	

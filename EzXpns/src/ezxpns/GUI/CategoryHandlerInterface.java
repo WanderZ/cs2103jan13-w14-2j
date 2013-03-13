@@ -19,7 +19,7 @@ public interface CategoryHandlerInterface {
 	 * @param newCat Object containing all the necessary data to create a new category
 	 * @return true if successful, else false
 	 */
-	public boolean addNewCategory(Category newCat);
+	public Category addNewCategory(Category newCat);
 	
 	/** to be implemented */
 	public Category addNewCategory(String catName);
