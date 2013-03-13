@@ -44,4 +44,12 @@ public class Category{
 	public Category copy(){
 		return new Category(id, name);
 	}
+	
+	public boolean equals(Category oCat) {
+		return this.name.equalsIgnoreCase(oCat.name);
+	}
+	
+	public String toString() {
+		return this.id + ":" + this.name;
+	}
 }

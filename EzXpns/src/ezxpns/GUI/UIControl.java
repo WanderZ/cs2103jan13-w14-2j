@@ -130,7 +130,8 @@ public class UIControl {
 		reportWin.setVisible(true);
 	}
 	
-	public void showTargetWin() { 
+	/** Displays the category handler window */
+	public void showCatWin() { 
 		if(catWin == null) {
 			catWin = new CategoryFrame(targetMgr);
 		}
