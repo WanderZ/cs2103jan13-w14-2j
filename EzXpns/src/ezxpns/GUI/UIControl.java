@@ -1,5 +1,8 @@
 package ezxpns.GUI;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 /**
  * To assist EzXpns in managing all the GUI Windows
  * @param <T>
@@ -14,13 +17,20 @@ public class UIControl<T extends RecordHandlerInterface & CategoryHandlerInterfa
 	public UIControl(T masterRef) {
 		master = masterRef;
 		homeScreen = new HomeScreen(master);
+		homeScreen.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent wEvent) {
+				// Method here
+				System.exit(0);
+			}
+		});
 		
 		// Faking a pop up :)
 		/*JWindow jWin = new JWindow();
 		jWin.getContentPane().add(new JLabel("helloworld!"));
 		jWin.setSize(800,600);
 		jWin.setLocationRelativeTo(null);
-		jWin.setVisible(true);*/
+		jWin.setVisible(true);
+		*/
 	}
 	
 	/**

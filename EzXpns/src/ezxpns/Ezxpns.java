@@ -4,6 +4,7 @@ import ezxpns.data.*;
 import ezxpns.data.records.Category;
 import ezxpns.data.records.ExpenseRecord;
 import ezxpns.data.records.IncomeRecord;
+import ezxpns.data.records.PaymentMethod;
 import ezxpns.data.records.Record;
 import ezxpns.data.records.RecordManager.RecordUpdateException;
 import ezxpns.util.Pair;
@@ -20,7 +21,8 @@ import ezxpns.GUI.SearchRequest;
 public class Ezxpns implements
 		CategoryHandlerInterface,
 		RecordHandlerInterface,
-		SearchHandlerInterface{
+		SearchHandlerInterface,
+		PaymentMethodHandlerInterface {
 	private StorageManager store;
 	private DataManager data;
 	private ReportGenerator reportGenerator;
@@ -43,25 +45,13 @@ public class Ezxpns implements
 					
 					main.showHomeScreen();
 					main.showRecWin();
-					
-					/*
-					RecordFrame recordMgrI = new RecordFrame(RecordFrame.TAB_INCOME);
-					recordMgrI.showScreen();
-					
-					RecordFrame recordMgrE = new RecordFrame();
-					recordMgrE.showScreen();
-					*/
-					
+										
 					/* Test Report Frame*/
 					// ReportFrame tzTestFrame = new ReportFrame();
 					// tzTestFrame.showScreen();
 					
-					/*
-					SearchFrame searchMgr = new SearchFrame();
-					searchMgr.setVisible(true);
-					*/
-					
-				} catch (Exception e) {
+				} 
+				catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
@@ -74,7 +64,7 @@ public class Ezxpns implements
 		
 	}
 	
-	public void applicationQuitting(){
+	public void applicationQuitting() {
 		store.save();
 	}
 	
@@ -96,6 +86,7 @@ public class Ezxpns implements
 	@Override
 	public boolean createRecord(Record newRecord) {
 		// TODO Auto-generated method stub
+		
 		return false;
 	}
 
@@ -108,7 +99,8 @@ public class Ezxpns implements
 	@Override
 	public List<Category> getAllCategories() {
 		// TODO Auto-generated method stub
-		return null;
+		List cat = Arrays.asList(new String[] {"Food", "Transport", "Entertainment", "School", "Books"});
+		return cat;
 	}
 
 	@Override
@@ -165,6 +157,27 @@ public class Ezxpns implements
 	}
 	@Override
 	public boolean removeCategory(long identifier) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public List<PaymentMethod> getAllPaymentMethod() {
+		// TODO Auto-generated method stub
+		List pay = Arrays.asList(new String[]{"Cash", "iBank", "Cheque"});
+		return pay;
+	}
+	@Override
+	public boolean addNewPaymentMethod(PaymentMethod paymentRef) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean removePaymentMethod(PaymentMethod paymentRef) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean updatePaymentMethod(PaymentMethod paymentRef) {
 		// TODO Auto-generated method stub
 		return false;
 	}
