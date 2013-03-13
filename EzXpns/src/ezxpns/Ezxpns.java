@@ -20,9 +20,7 @@ import ezxpns.GUI.SearchRequest.RecordType;
 
 
 public class Ezxpns implements
-		CategoryHandlerInterface,
 		RecordHandlerInterface,
-		PaymentMethodHandlerInterface,
 		SearchHandlerInterface{
 	private StorageManager store;
 	private DataManager data;
@@ -31,7 +29,6 @@ public class Ezxpns implements
 	private SummaryGenerator summaryGenerator;
 	
 	public Ezxpns(){
-		final UIControl main  = new UIControl(this, this, this, this, this, targetManager, reportGenerator, summaryGenerator);
 		try{
 			store = new StorageManager("data.json");
 			store.read();
@@ -40,6 +37,16 @@ public class Ezxpns implements
 			System.out.println(e.toString());
 			System.exit(1);
 		}
+		reportGenerator = new ReportGenerator(data);
+		summaryGenerator = new SummaryGenerator(data);
+		targetManager = data.targetManager();
+		final UIControl main  = new UIControl(this,
+				this, data.incomes(),
+				data.incomes(),
+				data.expenses(),
+				targetManager,
+				reportGenerator,
+				summaryGenerator);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -58,9 +65,6 @@ public class Ezxpns implements
 				}
 			}
 		});
-		reportGenerator = new ReportGenerator(data);
-		summaryGenerator = new SummaryGenerator(data);
-		targetManager = data.targetManager();
 	}
 	
 	public void applicationQuitting(){
@@ -106,6 +110,7 @@ public class Ezxpns implements
 	public boolean createRecord(ExpenseRecord newRecord) {
 		try {
 			data.expenses().addNewRecord(newRecord);
+			targetManager.markDataUpdated();
 		} catch (RecordUpdateException e) {
 			return false;
 		}
@@ -116,30 +121,7 @@ public class Ezxpns implements
 	public boolean removeRecord(Record r) {
 		return removeRecord(r.getId());
 	}
-
-	@Override
-	public List<Category> getAllCategories() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean addNewCategory(Category newCat) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean removeCategory(Category selectedCat) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean updateCategory(Category selectedCat) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 	@Override
 	public List<Record> getRecords(int n) {
 		return data.combined().getRecordsBy(new Date(0), new Date(), n, false);
@@ -157,6 +139,8 @@ public class Ezxpns implements
 		if(data.expenses().getRecordBy(identifier) != null){
 			try {
 				data.expenses().removeRecord(identifier);
+				targetManager.markDataUpdated();
+				summaryGenerator.markDataUpdated();
 			} catch (RecordUpdateException e) {
 				return false;
 			}
@@ -164,6 +148,7 @@ public class Ezxpns implements
 		}else{
 			try {
 				data.incomes().removeRecord(identifier);
+				summaryGenerator.markDataUpdated();
 			} catch (RecordUpdateException e) {
 				return false;
 			}
@@ -174,6 +159,8 @@ public class Ezxpns implements
 	public boolean modifyRecord(ExpenseRecord r) {
 		try {
 			data.expenses().updateRecord(r);
+			targetManager.markDataUpdated();
+			summaryGenerator.markDataUpdated();
 		} catch (RecordUpdateException e) {
 			return false;
 		}
@@ -183,6 +170,7 @@ public class Ezxpns implements
 	public boolean modifyRecord(IncomeRecord r) {
 		try {
 			data.incomes().updateRecord(r);
+			summaryGenerator.markDataUpdated();
 		} catch (RecordUpdateException e) {
 			return false;
 		}
@@ -205,40 +193,5 @@ public class Ezxpns implements
 		}else{
 			return null;
 		}
-	}
-	@Override
-	public boolean removeCategory(long identifier) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public Category addNewCategory(String catName) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<PaymentMethod> getAllPaymentMethod() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean addNewPaymentMethod(PaymentMethod paymentRef) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean removePaymentMethod(PaymentMethod paymentRef) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean updatePaymentMethod(PaymentMethod paymentRef) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 }
