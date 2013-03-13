@@ -51,7 +51,7 @@ public class DataQueryTest {
 		if(m.getRecordBy(r.getId()) == null){
 			fail("Adding record failed!");
 		}
-		IncomeRecord newR = new IncomeRecord(r.getId(), r.getName() + "hoho", r.getRemark() + "hoho", r.getDate(), r.getCategory());
+		IncomeRecord newR = new IncomeRecord(r.getAmount(), r.getName() + "hoho", r.getRemark() + "hoho", r.getDate(), r.getCategory());
 		try {
 			m.updateRecord(newR);
 		} catch (RecordUpdateException e) {
