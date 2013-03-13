@@ -62,11 +62,13 @@ public interface RecordHandlerInterface {
 	
 	/**
 	 * Return the latest expense record matching the name, or null
+	 * @param name the name to match find the match with
 	 */
 	public ExpenseRecord lastExpenseRecord(String name);
 	
 	/**
 	 * Return the latest expense record matching the name, or null
+	 * @param name the name to match find the match with
 	 */
 	public IncomeRecord lastIncomeRecord(String name);
 }
