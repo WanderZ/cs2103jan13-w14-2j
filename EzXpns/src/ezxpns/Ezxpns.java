@@ -33,32 +33,30 @@ public class Ezxpns implements
 			store = new StorageManager("data.json");
 			store.read();
 			data = store.getDataManager();
-		}catch(Exception e){
+		} catch(Exception e){
 			System.out.println(e.toString());
 			System.exit(1);
 		}
 		reportGenerator = new ReportGenerator(data);
 		summaryGenerator = new SummaryGenerator(data);
 		targetManager = data.targetManager();
-		final UIControl main  = new UIControl(this,
-				this, data.incomes(),
-				data.incomes(),
-				data.expenses(),
-				targetManager,
-				reportGenerator,
-				summaryGenerator);
+		final UIControl main  = new UIControl( 	this, 				// SearchHandler
+												this, 				// RecordHandler
+												data.incomes(), 	// IncomeCategoryHandler
+												data.incomes(), 	// ExpenseCategoryHandler
+												data.expenses(),	// PaymentMethodHandler
+												targetManager, 		// Target Manager
+												reportGenerator, 	// Report Generator
+												summaryGenerator); 	// Summary Generator
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					
 					main.showHomeScreen();
 					main.showRecWin();
-					
 					
 					/* Test Report Frame*/
 					// ReportFrame tzTestFrame = new ReportFrame();
 					// tzTestFrame.showScreen();
-					
 					
 				} catch (Exception e) {
 					e.printStackTrace();

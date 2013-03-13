@@ -8,11 +8,11 @@ import ezxpns.data.TargetManager;
  * Window for users to manage their targets and / or categories [?]
  */
 @SuppressWarnings("serial")
-public class TargetFrame extends JFrame {
+public class CategoryFrame extends JFrame {
 	
 	private TargetManager targetMgr;
 	
-	public TargetFrame(TargetManager targetMgrRef) {
+	public CategoryFrame(TargetManager targetMgrRef) {
 		super(); // new JFrame();
 		targetMgr = targetMgrRef;
 		
