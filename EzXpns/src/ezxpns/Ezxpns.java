@@ -4,6 +4,7 @@ import ezxpns.data.*;
 import ezxpns.data.records.Category;
 import ezxpns.data.records.ExpenseRecord;
 import ezxpns.data.records.IncomeRecord;
+import ezxpns.data.records.PaymentMethod;
 import ezxpns.data.records.Record;
 import ezxpns.data.records.RecordManager.RecordUpdateException;
 import ezxpns.util.Pair;
@@ -21,6 +22,7 @@ import ezxpns.GUI.SearchRequest.RecordType;
 public class Ezxpns implements
 		CategoryHandlerInterface,
 		RecordHandlerInterface,
+		PaymentMethodHandlerInterface,
 		SearchHandlerInterface{
 	private StorageManager store;
 	private DataManager data;
@@ -29,7 +31,7 @@ public class Ezxpns implements
 	private SummaryGenerator summaryGenerator;
 	
 	public Ezxpns(){
-		final UIControl<Ezxpns> main  = new UIControl(this);
+		final UIControl main  = new UIControl(this, this, this, this, this, targetManager, reportGenerator, summaryGenerator);
 		try{
 			store = new StorageManager("data.json");
 			store.read();
@@ -45,22 +47,11 @@ public class Ezxpns implements
 					main.showHomeScreen();
 					main.showRecWin();
 					
-					/*
-					RecordFrame recordMgrI = new RecordFrame(RecordFrame.TAB_INCOME);
-					recordMgrI.showScreen();
-					
-					RecordFrame recordMgrE = new RecordFrame();
-					recordMgrE.showScreen();
-					*/
 					
 					/* Test Report Frame*/
 					// ReportFrame tzTestFrame = new ReportFrame();
 					// tzTestFrame.showScreen();
 					
-					/*
-					SearchFrame searchMgr = new SearchFrame();
-					searchMgr.setVisible(true);
-					*/
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -217,6 +208,36 @@ public class Ezxpns implements
 	}
 	@Override
 	public boolean removeCategory(long identifier) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Category addNewCategory(String catName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<PaymentMethod> getAllPaymentMethod() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean addNewPaymentMethod(PaymentMethod paymentRef) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean removePaymentMethod(PaymentMethod paymentRef) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean updatePaymentMethod(PaymentMethod paymentRef) {
 		// TODO Auto-generated method stub
 		return false;
 	}

@@ -17,6 +17,9 @@ public class HomeScreen extends JFrame {
 	private JMenuBar menu;
 	private JPanel panOverview, panSavings, panTargets, panRecords, panTips;
 	private RecordHandlerInterface recHandler;
+	private CategoryHandlerInterface inCatHandler;
+	private CategoryHandlerInterface exCatHandler;
+	
 	
 	public HomeScreen(RecordHandlerInterface recHandler){
 		super("EzXpns - Main Menu"); // Setting the title
