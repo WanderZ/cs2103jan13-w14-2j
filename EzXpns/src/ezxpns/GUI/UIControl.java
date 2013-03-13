@@ -17,6 +17,7 @@ public class UIControl {
 	private RecordFrame recWin;
 	private SearchFrame searchWin;	
 	private ReportFrame reportWin;
+	private TargetFrame targetWin;
 	
 	private SearchHandlerInterface findHandler;
 	private RecordHandlerInterface recHandler;
@@ -47,10 +48,10 @@ public class UIControl {
 		rptGen = rptGenRef;		
 		
 		homeScreen = new HomeScreen(recHandlerRef);
+		
 		homeScreen.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent wEvent) {
-				// Method here
-				
+				// Method here before application closes?
 				System.exit(0);
 			}
 		});
@@ -113,8 +114,16 @@ public class UIControl {
 	/** Displays the report handler window */
 	public void showReportWin() {
 		if(reportWin == null) {
-			reportWin = new ReportFrame();
+			reportWin = new ReportFrame(rptGen);
 		}
 		reportWin.setVisible(true);
+	}
+	
+	public void showTargetWin() { 
+		if(targetWin == null) {
+			targetWin = new TargetFrame(targetMgr);
+		}
+		targetWin.setVisible(true); 
+		
 	}
 }

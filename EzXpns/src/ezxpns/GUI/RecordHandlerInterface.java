@@ -22,11 +22,17 @@ public interface RecordHandlerInterface {
 	public Record getRecord(long identifier);
 	
 	/**
-	 * Create a new record
+	 * Create a new income record
 	 * @param newRecord Object containing all the necessary data to create a new record
 	 * @return true if successful, else false
 	 */
 	public boolean createRecord(IncomeRecord newRecord);
+	
+	/**
+	 * Create a new expense record
+	 * @param newRecord Object containing all the necessary data to create a new record
+	 * @return true if successful, else false
+	 */
 	public boolean createRecord(ExpenseRecord newRecord);
 	
 	/**
@@ -45,7 +51,7 @@ public interface RecordHandlerInterface {
 	public boolean removeRecord(Record selectedRecord);
 	
 	/**
-	 * Modify Record Method
+	 * Modify an expense record
 	 * @precond The given record must have the identifier in it
 	 * @param selectedRecord a record to be modified into
 	 * @return true if successful, else false.
@@ -53,7 +59,7 @@ public interface RecordHandlerInterface {
 	public boolean modifyRecord(ExpenseRecord selectedRecord);
 	
 	/**
-	 * Modify Record Method
+	 * Modify an income record
 	 * @precond The given record must have the identifier in it
 	 * @param selectedRecord a record to be modified into
 	 * @return true if successful, else false.

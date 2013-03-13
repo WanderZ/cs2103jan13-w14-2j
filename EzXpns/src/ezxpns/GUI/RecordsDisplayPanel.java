@@ -31,8 +31,6 @@ public class RecordsDisplayPanel extends JPanel implements ActionListener {
 	private JButton btnEx, btnIn;
 	private Font btnFont;
 	
-	List<Record> records;
-	
 	public RecordsDisplayPanel() {
 		super();
 		initFont();
@@ -43,7 +41,6 @@ public class RecordsDisplayPanel extends JPanel implements ActionListener {
 		
 		tabs.addLayoutComponent(getPanExpenseList(), "Component.CENTER_ALIGNMENT");
 		tabs.addLayoutComponent(getPanIncomeList(), "Component.CENTER_ALIGNMENT");
-		
 		
 		
 		// Mouse Adapter (hover click...)		

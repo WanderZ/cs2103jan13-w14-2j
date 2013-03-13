@@ -15,6 +15,9 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
+
+import ezxpns.data.ReportGenerator;
+
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,25 +27,31 @@ import java.awt.event.ActionListener;
  * <br />Should contain a form for the user to enter the starting and the ending date of the records analysis
  */
 @SuppressWarnings("serial")
-public class ReportFrame extends JFrame{
+public class ReportFrame extends JFrame {
+	
 	private JTextField startDateField;
 	private JTextField endDateField;
 	private JPanel cards;
 	private JButton btnGeneral, btnExpense;
+	
 	public static final int DEFAULT_WIDTH = 600;
 	public static final int DEFAULT_HEIGHT = 400; 
+	
 	private JPanel generateReport;
 	private JPanel curtain;
 	
-	public ReportFrame() {
+	private ReportGenerator rptGen; // Place to store the reference
+	
+	public ReportFrame(ReportGenerator rptGenRef) { // Passing in the reference
 		super("EzXpns - Report");
+		
+		rptGen = rptGenRef; // Storing the reference
+		
 		this.setBounds(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
 		
 		JLayeredPane layeredPane = new JLayeredPane();
 		getContentPane().add(layeredPane);
-		
-		
 		
 		generateReport = new JPanel();
 		layeredPane.add(generateReport);
