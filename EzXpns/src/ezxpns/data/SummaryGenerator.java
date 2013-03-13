@@ -56,7 +56,7 @@ public class SummaryGenerator {
 	}
 
 	// Generate a Summary object
-	public void update() {
+	public void markDataUpdated() {
 		allTime = new SummaryDetails(data.getTotalIncome(), data.getTotalExpense());
 		yearly = new SummaryDetails(data.getYearlyIncome(), data.getYearlyExpense());
 		monthly = new SummaryDetails(data.getMonthlyIncome(), data.getMonthlyExpense());

@@ -168,6 +168,7 @@ public class Ezxpns implements
 			try {
 				data.expenses().removeRecord(identifier);
 				targetManager.markDataUpdated();
+				summaryGenerator.markDataUpdated();
 			} catch (RecordUpdateException e) {
 				return false;
 			}
@@ -175,6 +176,7 @@ public class Ezxpns implements
 		}else{
 			try {
 				data.incomes().removeRecord(identifier);
+				summaryGenerator.markDataUpdated();
 			} catch (RecordUpdateException e) {
 				return false;
 			}
@@ -186,6 +188,7 @@ public class Ezxpns implements
 		try {
 			data.expenses().updateRecord(r);
 			targetManager.markDataUpdated();
+			summaryGenerator.markDataUpdated();
 		} catch (RecordUpdateException e) {
 			return false;
 		}
@@ -195,6 +198,7 @@ public class Ezxpns implements
 	public boolean modifyRecord(IncomeRecord r) {
 		try {
 			data.incomes().updateRecord(r);
+			summaryGenerator.markDataUpdated();
 		} catch (RecordUpdateException e) {
 			return false;
 		}

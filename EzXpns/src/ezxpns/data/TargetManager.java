@@ -38,6 +38,7 @@ public class TargetManager extends Storable {
 		}
 		Target target = new Target(cat, targetAmt);
 		addTarget(target);
+		dataUpdated = true;
 		return target;
 	}
 		
@@ -59,12 +60,14 @@ public class TargetManager extends Storable {
 		
 	public void removeTarget(Target target){
 		mapTarget.remove(target.getCategory());
+		dataUpdated = true;
 		markUpdate();
 	}
 		
 	public void modifyTarget(Target oldTarget, double targetAmt){
 		removeTarget(oldTarget);
-		setTarget(oldTarget.getCategory(), targetAmt);		
+		setTarget(oldTarget.getCategory(), targetAmt);	
+		dataUpdated = true;
 		markUpdate();
 	}
 		
