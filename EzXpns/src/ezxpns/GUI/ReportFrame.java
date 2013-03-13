@@ -371,6 +371,11 @@ public class ReportFrame extends JFrame implements ComponentListener{
         expenseTable.add(Box.createVerticalGlue());
         expenseTable.add(scrollPane);	
         expenseTable.add(Box.createVerticalGlue());
+        
+        // Pie Chart in Expense
+        JFreeChart chart2 = createChart(dataset, "MY SUMMARY");
+        ChartPanel chartPanel2 = new ChartPanel(chart2);
+        expensePieChart.add(chartPanel2);
 
 
 
@@ -470,6 +475,11 @@ public class ReportFrame extends JFrame implements ComponentListener{
         
     }
     
+    /** TableModel
+     * 
+     * @author yan
+     *
+     */
     public class InteractiveTableModel extends AbstractTableModel {
         public static final int CATEGORY_INDEX = 0;
         public static final int FREQUENCY_INDEX = 1;
