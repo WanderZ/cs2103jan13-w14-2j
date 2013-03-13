@@ -32,18 +32,10 @@ public interface CategoryHandlerInterface {
 	public boolean removeCategory(long identifier);
 	
 	/**
-	 * Remove Category
-	 * @precond The given category object must contain the identifier in it
-	 * @param selectedCat The selected category to be remove
-	 * @return true if successful, else false
-	 */
-	public boolean removeCategory(Category selectedCat);
-	
-	/**
 	 * Modify Category Method
 	 * @precond The provided category object must include the identifier in it
 	 * @param selectedCat The selected category to be modified
 	 * @return true if successful, else false
 	 */
-	public boolean updateCategory(Category selectedCat);
+	public boolean updateCategory(long identifier, Category selectedCat);
 }
