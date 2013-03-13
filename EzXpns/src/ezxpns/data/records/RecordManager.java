@@ -15,7 +15,9 @@ import ezxpns.GUI.*;
  */
 public class RecordManager<T extends Record>
 	extends Storable
-	implements RecordQueryHandler<T>{
+	implements
+		RecordQueryHandler<T>,
+		CategoryHandlerInterface{
 	public static class RecordUpdateException extends Exception{
 		public RecordUpdateException(){
 			super();
@@ -222,15 +224,15 @@ public class RecordManager<T extends Record>
 		markUpdate();
 	}
 	
-	public boolean addNewCategory(Category toAdd){
+	public Category addNewCategory(Category toAdd){
 		Category category = toAdd.copy();
 		if(!categories.containsKey(category.getID())){
 			categories.put(category.getID(), category);
 			monthlySumByCategory.put(category.getID(), 0.0);
 			markUpdate();
-			return true;
+			return category;
 		}else{
-			return false;
+			return null;
 		}
 	}
 	
@@ -314,5 +316,18 @@ public class RecordManager<T extends Record>
 		}else{
 			return false;
 		}
+	}
+	@Override
+	public List<Category> getAllCategories() {
+		return new Vector<Category>(categories.values());
+	}
+	@Override
+	public Category addNewCategory(String catName) {
+		return addNewCategory(new Category((new Date()).getTime(), catName));
+	}
+	@Override
+	public boolean updateCategory(Category selectedCat) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

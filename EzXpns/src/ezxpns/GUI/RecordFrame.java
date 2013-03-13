@@ -2,6 +2,7 @@ package ezxpns.GUI;
 import ezxpns.data.records.Category;
 import ezxpns.data.records.ExpenseRecord;
 import ezxpns.data.records.ExpenseType;
+import ezxpns.data.records.IncomeRecord;
 import ezxpns.data.records.PaymentMethod;
 import ezxpns.data.records.Record;
 import java.awt.BorderLayout;
@@ -15,7 +16,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.font.TextAttribute;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.ButtonGroup;
@@ -35,34 +38,53 @@ import javax.swing.SpringLayout;
  * @param <T>An object that implements RecordHandlerInterface and CategoryHandlerInterface.
  */
 @SuppressWarnings("serial")
-public class RecordFrame<T extends RecordHandlerInterface & CategoryHandlerInterface> extends JFrame implements ActionListener {
+public class RecordFrame extends JFrame implements ActionListener {
+	
+	private RecordHandlerInterface recHandler;
+	private CategoryHandlerInterface inCatHandler, exCatHandler;
+	private PaymentMethodHandlerInterface payHandler;
 	
 	private PanelMain panMain;
 	private PanelOption panOpt;
 	
 	public static final int DEFAULT_WIDTH = 760;
-	public static final int DEFAULT_HEIGHT = 600; 
+	public static final int DEFAULT_HEIGHT = 550; 
 	
 	public static final int TAB_INCOME = 0011;
 	public static final int TAB_EXPENSE = 1100;
 	
-	/**
-	 * The master class that handles all the data
+	/** 
+	 * Normal constructor for RecordFrame - Starts the window with the expenses view
+	 * @param handlerRef Reference to the handler that will handle all the data management  
 	 */
-	private T handler;
-	
-	/** Normal constructor for RecordFrame - Starts the window with the expenses view */
-	public RecordFrame() {
+	public RecordFrame(
+			RecordHandlerInterface recHandlerRef, 
+			CategoryHandlerInterface inCatHandlerRef, 
+			CategoryHandlerInterface exCatHandlerRef,
+			PaymentMethodHandlerInterface payHandlerRef
+			) {
 		super();
+		recHandler = recHandlerRef;
+		inCatHandler = inCatHandlerRef;
+		exCatHandler = exCatHandlerRef;
+		payHandler = payHandlerRef;
+		
 		this.init();
 	}
 	
 	/**
 	 * Constructor to specify the initial tab to be displayed
 	 * @param initTab use either TAB_INCOME or TAB_EXPENSE to indicate which tab to choose
+	 * @param handlerRef Reference to the handler that will handle all the data management
 	 */
-	public RecordFrame(int initTab) {
-		this();
+	public RecordFrame(
+			RecordHandlerInterface recHandlerRef, 
+			CategoryHandlerInterface inCatHandlerRef, 
+			CategoryHandlerInterface exCatHandlerRef,
+			PaymentMethodHandlerInterface payHandlerRef,
+			int initTab) {
+		
+		this(recHandlerRef, inCatHandlerRef, exCatHandlerRef, payHandlerRef);
 		switch(initTab) {
 			case TAB_INCOME: 
 				panMain.toggleIncomeTab();
@@ -84,7 +106,7 @@ public class RecordFrame<T extends RecordHandlerInterface & CategoryHandlerInter
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
-		panMain = new PanelMain();
+		panMain = new PanelMain(recHandler, exCatHandler, exCatHandler, payHandler);
 		this.add(panMain, BorderLayout.CENTER);
 		
 		panOpt = new PanelOption(this);
@@ -101,7 +123,7 @@ public class RecordFrame<T extends RecordHandlerInterface & CategoryHandlerInter
 			if(panMain.validateForm()) { // Invoke validation
 				// all is good. save as new Record.
 				Record newRecord = panMain.save(); 
-				handler.createRecord(newRecord); // Probably need to know which type (Ex/In) this record is
+				// handler.createRecord(newRecord); // Probably need to know which type (Ex/In) this record is
 				
 				// Check if the user subtlety created a new category
 				// handler.createCategory(newCat);
@@ -117,15 +139,6 @@ public class RecordFrame<T extends RecordHandlerInterface & CategoryHandlerInter
 			// Invoke confirmation? - will it be retarded to invoke confirmation?
 			this.dispose();
 		}
-	}
-	
-	/**
-	 * Set the reference for the handler that will be doing all 
-	 * the data management
-	 * @param handlerRef reference for the handler
-	 */
-	public void setHandler(T handlerRef) {
-		this.handler = handlerRef;
 	}
 }
 
@@ -147,6 +160,7 @@ class PanelRecur extends JPanel implements ActionListener{
 		chkRecur = new JCheckBox("Repeating Record");
 		chkRecur.setBackground(Color.WHITE);
 		chkRecur.addActionListener(this);
+		chkRecur.setFont(new Font("Segoe UI", 0, 18)); // #Font)
 		this.add(chkRecur);
 		cboxFrequency = new JComboBox();
 		cboxFrequency.setEditable(false);
@@ -218,7 +232,6 @@ class PanelMain extends JPanel {
 	private PanelExpense panExpense;
 	private PanelIncome panIncome;
 	private PanelRecur panRecurOpt;
-	private JTabbedPane tabs;
 	private CardLayout loCard;
 	private JPanel metroTabs, metroTabBtns, metroTabContent;
 	private JButton mtabExpense, mtabIncome;
@@ -226,7 +239,12 @@ class PanelMain extends JPanel {
 	public static final String CARD_EXPENSE = "Expenses";
 	public static final String CARD_INCOME = "Income";
 	
-	public PanelMain() {
+	public PanelMain(
+			RecordHandlerInterface recHandlerRef,
+			CategoryHandlerInterface inCatHandlerRef,
+			CategoryHandlerInterface exCatHandlerRef,
+			PaymentMethodHandlerInterface payHandlerRef
+			) {
 		super();
 		this.setLayout(new BorderLayout());
 		
@@ -244,12 +262,14 @@ class PanelMain extends JPanel {
 		
 		metroTabs.add(metroTabBtns, BorderLayout.NORTH);
 		
-		panExpense = new PanelExpense();
-		panIncome = new PanelIncome();
+		panExpense = new PanelExpense(recHandlerRef, exCatHandlerRef, payHandlerRef);
+		panIncome = new PanelIncome(recHandlerRef, exCatHandlerRef);
 
 		metroTabContent = new JPanel();
+		
 		loCard = new CardLayout(0, 0);
 		metroTabContent.setLayout(loCard);
+		
 		metroTabContent.add(panExpense, PanelMain.CARD_EXPENSE);
 		metroTabContent.add(panIncome, PanelMain.CARD_INCOME);
 		metroTabs.add(metroTabContent, BorderLayout.CENTER);
@@ -258,7 +278,6 @@ class PanelMain extends JPanel {
 		
 		// this.tabs.setMnemonicAt(); // setting keyboard shortcut
 		
-		// this.add(tabs, BorderLayout.CENTER);
 		this.add(metroTabs, BorderLayout.CENTER);
 		
 		// Create Recurring options panel
@@ -274,7 +293,7 @@ class PanelMain extends JPanel {
 		if(mtabExpense == null) {
 			mtabExpense = new JButton(CARD_EXPENSE);
 			mtabExpense.setFont(new Font("Segoe UI", 0, 24)); // #Font
-			mtabExpense.setBorderPainted(false);
+			// mtabExpense.setBorderPainted(false);
 			mtabExpense.setFocusPainted(false);
 			mtabExpense.setContentAreaFilled(false);
 			mtabExpense.addMouseListener(new MouseAdapter() {
@@ -310,7 +329,7 @@ class PanelMain extends JPanel {
 		if(mtabIncome == null) {
 			mtabIncome = new JButton(CARD_INCOME);
 			mtabIncome.setFont(new Font("Segoe UI", 0, 24)); // #Font
-			mtabIncome.setBorderPainted(false);
+			// mtabIncome.setBorderPainted(false);
 			mtabIncome.setFocusPainted(false);
 			mtabIncome.setContentAreaFilled(false);
 			mtabIncome.addMouseListener(new MouseAdapter() {
@@ -389,11 +408,16 @@ class PanelMain extends JPanel {
 @SuppressWarnings("serial")
 class PanelExpense extends JPanel {
 	
+	// #Constants
 	public final int TOP_PAD = 27;
 	public final int COL1_PAD = 15;
 	public final int COL2_PAD = 120;
 	public final int TEXTFIELD_SIZE = 20;
 	
+	public final String EXPENSE_TYPE_NEED = "Need";
+	public final String EXPENSE_TYPE_WANT = "Want";
+	
+	// #Swing Components
 	private ButtonGroup bgType;
 	private JRadioButton rbtnNeed, rbtnWant;
 	private JLabel lblAmt, lblName, lblType, lblCat, lblPayment, lblDate, lblDesc;
@@ -401,8 +425,23 @@ class PanelExpense extends JPanel {
 	private TextArea taDesc;
 	private JComboBox cboxCategory, cboxPayment;
 	
-	public PanelExpense() {
+	// #Logic Components
+	private RecordHandlerInterface recHandler; 
+	private CategoryHandlerInterface catHandler;
+	private PaymentMethodHandlerInterface payHandler;
+	
+	public PanelExpense(
+			RecordHandlerInterface recHandlerRef, 
+			CategoryHandlerInterface catHandlerRef, 
+			PaymentMethodHandlerInterface payHandlerRef
+		) {
+		
 		super();
+		
+		recHandler = recHandlerRef; 
+		catHandler = catHandlerRef;
+		payHandler = payHandlerRef;
+				
 		this.setBackground(Color.WHITE);
 		/* The Layout governing the positions */
 		SpringLayout loForm = new SpringLayout();
@@ -411,9 +450,9 @@ class PanelExpense extends JPanel {
 		// Initialise Radio Buttons
 		this.lblType = new JLabel("Type");
 		this.bgType = new ButtonGroup();
-		this.rbtnNeed = new JRadioButton("Need");
+		this.rbtnNeed = new JRadioButton(EXPENSE_TYPE_NEED);
 		rbtnNeed.setBackground(Color.WHITE);
-		this.rbtnWant = new JRadioButton("Want");
+		this.rbtnWant = new JRadioButton(EXPENSE_TYPE_WANT);
 		rbtnWant.setBackground(Color.WHITE);
 		this.rbtnNeed.setSelected(true);
 		this.bgType.add(rbtnNeed);
@@ -422,12 +461,12 @@ class PanelExpense extends JPanel {
 		
 		// Initialise Combo Box - To be a dynamic updating list.
 		this.lblCat = new JLabel("Category");
-		this.cboxCategory = new JComboBox(getCategories());
+		this.cboxCategory = new JComboBox(this.catHandler.getAllCategories().toArray());
 		this.cboxCategory.setEditable(true);
 		
 		// Initialise Combo Box - To be a dynamic updating list.
 		this.lblPayment = new JLabel("Payment Mode");
-		this.cboxPayment = new JComboBox(getPayModes());
+		this.cboxPayment = new JComboBox(this.payHandler.getAllPaymentMethod().toArray());
 		this.cboxPayment .setEditable(true);
 		
 		this.lblName = new JLabel("Name");
@@ -495,23 +534,21 @@ class PanelExpense extends JPanel {
 	}
 	
 	/**
-	 * To retrieve the list of user-defined categories
-	 * @return User-defined categories
+	 * Access method to retrieve the user entered name for this record
+	 * @return the string input user entered the name
 	 */
-	private String[] getCategories() {
-		return new String [] {" Food", " Transport", " Misc.", " Entertainment", " Studies"};
-	}
+	public String getName() {return this.txtName.getText().trim();}
 	
 	/**
-	 * To retrieve the list of user-defined & pre-defined payment modes
-	 * @return Stored payment modes 
+	 * Access method to retrieve the user entered amount for this record
+	 * @return the string input user entered for the amount
 	 */
-	private String[] getPayModes() {
-		return new String [] {" Cash", " PayPal", " Cheque"}; 
-	}
+	public String getAmt() {return this.txtAmt.getText().trim();}
 	
-	public String getName() {return this.txtName.getText();}
-	public String getAmt() {return this.txtAmt.getText();}
+	/**
+	 * Access method to retrieve the user specified category (name)
+	 * @return
+	 */
 	public String getCat() {
 		if(this.cboxCategory.getSelectedIndex() < 0) {
 			// User defined new category
@@ -519,9 +556,14 @@ class PanelExpense extends JPanel {
 			return userInput.trim();
 		}
 		// NOTE: MAY HAVE TO STORE A THE LIST TO RETRIEVE IN VIA INDEX.
-		return this.cboxCategory.getSelectedItem().toString();
+		return this.cboxCategory.getSelectedItem().toString().trim();
 	}
-	public String getDate() {return this.txtDate.getText();}
+	
+	public Date getDate() {
+		return new Date();
+		//return this.txtDate.getText();
+	}
+	
 	public String getMode() {
 		if(this.cboxPayment.getSelectedIndex() < 0) {
 			// User defined new payment
@@ -531,8 +573,17 @@ class PanelExpense extends JPanel {
 		// NOTE: MAY HAVE TO STORE A THE LIST TO RETRIEVE IN VIA INDEX.
 		return this.cboxPayment.getSelectedItem().toString();
 	}
+	
 	public String getDesc() {
-		return taDesc.getText();
+		return taDesc.getText().trim();
+	}
+	
+	public String getType() {
+		return isNeed() ? EXPENSE_TYPE_NEED : EXPENSE_TYPE_WANT ;
+	}
+	
+	public boolean isNeed() {
+		return this.rbtnNeed.isSelected();
 	}
 	
 	/**
@@ -546,6 +597,7 @@ class PanelExpense extends JPanel {
 		System.out.println(getDesc());
 		System.out.println(getCat());
 		System.out.println(getMode());
+		System.out.println(getType());
 		return true;
 		// Validation method (mainly for calculation)
 	}
@@ -555,14 +607,19 @@ class PanelExpense extends JPanel {
 	 * @return Record object containing the user input
 	 */
 	public Record save() {
+		/*if category is new
+			cat = new cateogry(name)
+			createCategory(cat)
+		Record = new (adsfsaf, cat);*/
 		ExpenseRecord eRecord = new ExpenseRecord(
-				Double.parseDouble(getAmt()), 
-				getName(),
-				getDesc(),
-				new Date(),
-				new Category(new Long(1), getCat()),
-				ExpenseType.NEED,
-				new PaymentMethod(new Long(1), getMode()));
+				Double.parseDouble(getAmt()), 					// the amount - double might not suffice
+				getName(),										// the name reference of the record
+				getDesc(),										// the description/remarks for this record, if any
+				getDate(),										// Date of this record (in user's context, not system time)
+				new Category(getCat()),							// Category of this record
+				isNeed()? ExpenseType.NEED : ExpenseType.WANT, 	// The ExpenseType of the record (need/want) Ternary operator used for simplicity
+				new PaymentMethod(getMode())					// Payment method/mode of this record
+			);
 		return eRecord;
 	}
 }
@@ -582,9 +639,21 @@ class PanelIncome extends JPanel {
 	private JComboBox cboxCat;
 	private TextArea taDesc;
 	
-	public PanelIncome() {
+	RecordHandlerInterface recHandler; 
+	CategoryHandlerInterface catHandler;
+	
+	public PanelIncome(
+			RecordHandlerInterface recHandlerRef, 
+			CategoryHandlerInterface catHandlerRef
+		) {
+		
 		super();
+		
+		recHandler = recHandlerRef;
+		catHandler = catHandlerRef;
+		
 		this.setBackground(Color.WHITE);
+		
 		/* The Layout governing the positions */
 		SpringLayout loForm = new SpringLayout();
 		this.setLayout(loForm);
@@ -600,7 +669,7 @@ class PanelIncome extends JPanel {
 		// AutoComplete (for the rest of the fields - when completed?)
 		
 		lblCat = new JLabel("Category");
-		cboxCat = new JComboBox(this.getCategories());
+		cboxCat = new JComboBox(catHandler.getAllCategories().toArray());
 		cboxCat.setEditable(true);
 		this.add(lblCat);
 		this.add(cboxCat);
@@ -655,11 +724,38 @@ class PanelIncome extends JPanel {
 		return true;
 	}
 	
+	public String getName() {
+		return txtName.getText().trim();
+	}
+	
+	public String getAmt() {
+		return txtAmt.getText().trim();
+	}
+	
+	public Date getDate() {
+		return new Date();
+	}
+	
+	public String getCat() {
+		return null;
+	}
+	
+	public String getDesc() {
+		return taDesc.getText().trim();
+	}
+	
 	/** 
 	 * Save the entered field as a new record
 	 * @return Record object containing the user input
 	 */
 	public Record save() {
+		IncomeRecord iRecord = new IncomeRecord(
+				Double.parseDouble(getAmt()), 
+				getName(), 
+				getDesc(), 
+				getDate(), 
+				null
+			);
 		return null;
 	}
 }
@@ -678,7 +774,14 @@ class PanelOption extends JPanel {
 		this.setBackground(Color.WHITE);
 		
 		btnSave = new JButton("Save");
+		btnSave.setFont(new Font("Segoe UI", 0, 18)); // #Font
+		btnSave.setBorderPainted(false);
+		btnSave.setFocusPainted(false);
+		btnSave.setBackground(Color.LIGHT_GRAY);
+		btnSave.setForeground(Color.BLACK);
+		
 		btnCancel = new JButton("Or discard changes");
+		btnCancel.setFont(new Font("Segoe UI", 0, 18)); // #Font
 		btnCancel.setBorderPainted(false);
 		btnCancel.setContentAreaFilled(false);
 		btnCancel.setForeground(Color.DARK_GRAY);
@@ -701,6 +804,7 @@ class PanelOption extends JPanel {
 			public void mouseExited(MouseEvent mEvent) { // Hover end
 				JButton btn = (JButton) mEvent.getSource();
 				btn.setForeground(Color.DARK_GRAY);
+				btn.setFont(new Font("Segoe UI", 0, 18)); // #Font
 				// Current Issue: unable to remove the underlining from after hovering over it.
 				
 			}

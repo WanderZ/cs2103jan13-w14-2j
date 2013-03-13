@@ -25,15 +25,19 @@ public class SearchFrame extends JFrame {
 	
 	public final int DEFAULT_WIDTH = 600;
 	public final int DEFAULT_HEIGHT = 400;
-	// Time frame of the report (start and end)
+	
+	private SearchHandlerInterface handler;
 	
 	// 2 main panels, the top (querying time frame) and the bottom (results, content)
-	private JPanel panForm, panResult;
+	private SearchFormPanel panForm;
+	private ResultPanel panResult;
 	
-	public SearchFrame() {
+	public SearchFrame(SearchHandlerInterface handlerRef) {
 		super();
 		this.init();
-		// Layout
+		
+		this.handler = handlerRef;
+		
 		this.setLayout(new BorderLayout());
 				
 		this.panForm = new SearchFormPanel();
