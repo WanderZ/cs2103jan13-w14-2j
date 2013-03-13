@@ -43,6 +43,7 @@ public class HomeScreen extends JFrame {
 		
 		this.add(contentDivider, BorderLayout.NORTH);
 		this.add(getTipsPanel(), BorderLayout.SOUTH);
+		
 	}
 	
 	private JMenuBar getMenu() {

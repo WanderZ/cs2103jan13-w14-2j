@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.font.TextAttribute;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +38,7 @@ import javax.swing.SpringLayout;
  * @param <T>An object that implements RecordHandlerInterface and CategoryHandlerInterface.
  */
 @SuppressWarnings("serial")
-public class RecordFrame<T extends RecordHandlerInterface & CategoryHandlerInterface> 
+public class RecordFrame<T extends RecordHandlerInterface & CategoryHandlerInterface & PaymentMethodHandlerInterface> 
 							extends JFrame implements ActionListener {
 	
 	private PanelMain panMain;
@@ -60,8 +61,8 @@ public class RecordFrame<T extends RecordHandlerInterface & CategoryHandlerInter
 	 */
 	public RecordFrame(T handlerRef) {
 		super();
-		this.init();
 		this.handler = handlerRef;
+		this.init();
 	}
 	
 	/**
@@ -92,7 +93,10 @@ public class RecordFrame<T extends RecordHandlerInterface & CategoryHandlerInter
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
-		panMain = new PanelMain();
+		panMain = new PanelMain(
+				handler.getAllCategories(), 
+				handler.getAllPaymentMethod()
+			);
 		this.add(panMain, BorderLayout.CENTER);
 		
 		panOpt = new PanelOption(this);
@@ -225,7 +229,7 @@ class PanelMain extends JPanel {
 	public static final String CARD_EXPENSE = "Expenses";
 	public static final String CARD_INCOME = "Income";
 	
-	public PanelMain() {
+	public PanelMain(List<Category> listCat, List<PaymentMethod> listPay) {
 		super();
 		this.setLayout(new BorderLayout());
 		
@@ -243,8 +247,8 @@ class PanelMain extends JPanel {
 		
 		metroTabs.add(metroTabBtns, BorderLayout.NORTH);
 		
-		panExpense = new PanelExpense();
-		panIncome = new PanelIncome();
+		panExpense = new PanelExpense(listCat, listPay);
+		panIncome = new PanelIncome(listCat);
 
 		metroTabContent = new JPanel();
 		
@@ -274,7 +278,7 @@ class PanelMain extends JPanel {
 		if(mtabExpense == null) {
 			mtabExpense = new JButton(CARD_EXPENSE);
 			mtabExpense.setFont(new Font("Segoe UI", 0, 24)); // #Font
-			mtabExpense.setBorderPainted(false);
+			// mtabExpense.setBorderPainted(false);
 			mtabExpense.setFocusPainted(false);
 			mtabExpense.setContentAreaFilled(false);
 			mtabExpense.addMouseListener(new MouseAdapter() {
@@ -310,7 +314,7 @@ class PanelMain extends JPanel {
 		if(mtabIncome == null) {
 			mtabIncome = new JButton(CARD_INCOME);
 			mtabIncome.setFont(new Font("Segoe UI", 0, 24)); // #Font
-			mtabIncome.setBorderPainted(false);
+			// mtabIncome.setBorderPainted(false);
 			mtabIncome.setFocusPainted(false);
 			mtabIncome.setContentAreaFilled(false);
 			mtabIncome.addMouseListener(new MouseAdapter() {
@@ -410,7 +414,7 @@ class PanelExpense extends JPanel {
 	private List<Category> listCat;
 	private List<PaymentMethod> listPay;
 	
-	public PanelExpense() {
+	public PanelExpense(List<Category> listCat, List<PaymentMethod> listPay) {
 		super();
 		this.setBackground(Color.WHITE);
 		/* The Layout governing the positions */
@@ -431,12 +435,14 @@ class PanelExpense extends JPanel {
 		
 		// Initialise Combo Box - To be a dynamic updating list.
 		this.lblCat = new JLabel("Category");
-		this.cboxCategory = new JComboBox(getCategories());
+		this.listCat = listCat;										// Retrieval of existing categories
+		this.cboxCategory = new JComboBox(listCat.toArray());
 		this.cboxCategory.setEditable(true);
 		
 		// Initialise Combo Box - To be a dynamic updating list.
 		this.lblPayment = new JLabel("Payment Mode");
-		this.cboxPayment = new JComboBox(getPayModes());
+		this.listPay = listPay;										// Retrieval of existing payment methods
+		this.cboxPayment = new JComboBox(listPay.toArray());
 		this.cboxPayment .setEditable(true);
 		
 		this.lblName = new JLabel("Name");
@@ -501,22 +507,6 @@ class PanelExpense extends JPanel {
 		loForm.putConstraint(SpringLayout.WEST, taDesc, COL2_PAD, SpringLayout.WEST, this);
 		loForm.putConstraint(SpringLayout.NORTH, lblDesc, TOP_PAD, SpringLayout.NORTH, lblDate);
 		loForm.putConstraint(SpringLayout.NORTH, taDesc, TOP_PAD, SpringLayout.NORTH, txtDate);
-	}
-	
-	/**
-	 * To retrieve the list of user-defined categories
-	 * @return User-defined categories
-	 */
-	private String[] getCategories() {
-		return new String [] {" Food", " Transport", " Misc.", " Entertainment", " Studies"};
-	}
-	
-	/**
-	 * To retrieve the list of user-defined & pre-defined payment modes
-	 * @return Stored payment modes 
-	 */
-	private String[] getPayModes() {
-		return new String [] {" Cash", " PayPal", " Cheque"}; 
 	}
 	
 	/**
@@ -621,9 +611,10 @@ class PanelIncome extends JPanel {
 	private JComboBox cboxCat;
 	private TextArea taDesc;
 	
-	public PanelIncome() {
+	public PanelIncome(List<Category> listCat) {
 		super();
 		this.setBackground(Color.WHITE);
+		
 		/* The Layout governing the positions */
 		SpringLayout loForm = new SpringLayout();
 		this.setLayout(loForm);
@@ -639,7 +630,7 @@ class PanelIncome extends JPanel {
 		// AutoComplete (for the rest of the fields - when completed?)
 		
 		lblCat = new JLabel("Category");
-		cboxCat = new JComboBox(this.getCategories());
+		cboxCat = new JComboBox(listCat.toArray());
 		cboxCat.setEditable(true);
 		this.add(lblCat);
 		this.add(cboxCat);
