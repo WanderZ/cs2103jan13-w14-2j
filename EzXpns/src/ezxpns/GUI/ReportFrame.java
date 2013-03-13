@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Vector;
 
 import javax.swing.Box;
@@ -18,13 +20,13 @@ import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 import javax.swing.table.AbstractTableModel;
@@ -50,11 +52,9 @@ import ezxpns.data.ReportGenerator;
 @SuppressWarnings("serial")
 public class ReportFrame extends JFrame implements ComponentListener {
 	
-	private JTextField startDateField;
-	private JTextField endDateField;
+	private JFormattedTextField startDateField;
+	private JFormattedTextField endDateField;
 	private JPanel cards;
-	public static final int DEFAULT_WIDTH = 600;
-	public static final int DEFAULT_HEIGHT = 400; 
 	private JPanel generateReport;
 	private JPanel curtain;
 	private JLabel startDateDisplay;
@@ -64,6 +64,7 @@ public class ReportFrame extends JFrame implements ComponentListener {
 	JLayeredPane layeredPane;
 	JPanel report;
 	Report test;
+	Report myReportData;
 	private JPanel expenseTable;
 	private JLabel lblIncome;
 	private JLabel lblExpense;
@@ -75,12 +76,16 @@ public class ReportFrame extends JFrame implements ComponentListener {
 	private JTable table;
 	private InteractiveTableModel tableModel;
 	
+	// Date Format
+	SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy"); 
 	
-	private ReportGenerator rptGen; // Place to store the reference
-	
+	public static final int DEFAULT_WIDTH = 600;
+	public static final int DEFAULT_HEIGHT = 400; 
 	public static final String[] columnNames = {
         "Category", "Frequency", "Amount", "Percentage", "Amount/Frequency"
     };
+	
+	private ReportGenerator rptGen; // Place to store the reference
 	
 	public ReportFrame(ReportGenerator rptGenRef) { // Passing in the reference
 		super("EzXpns - Report");
@@ -259,23 +264,38 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		JLabel lblStartDate = new JLabel("Start Date");
 		lblStartDate.setForeground(Color.WHITE);
 		
+		
 		// Start Date
-		startDateField = new JTextField();
+		startDateField = new JFormattedTextField(dateFormat);  
 		startDateField.setColumns(10);
 		
 		JLabel lblEndDate = new JLabel("End Date");
 		lblEndDate.setForeground(Color.WHITE);
 		
 		// End Date
-		endDateField = new JTextField();
+		endDateField = new JFormattedTextField(dateFormat);  
 		endDateField.setColumns(10);
 		
 		// "Generate" Button
 		JButton btnGenerate = new JButton("Generate");
 		btnGenerate.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
+								
+				
+				try {
+					myReportData = rptGen.generateReport(dateFormat.parse(startDateField.getText()),dateFormat.parse(endDateField.getText()));
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				// Disappear
 				generateReport.setVisible(false);
 				curtain.setVisible(false);
+				
 				startDateDisplay.setText(startDateField.getText());
 				endDateDisplay.setText(endDateField.getText());
 			}
@@ -325,7 +345,7 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		cardGeneral.addComponentListener(this);
 		cardExpense.addComponentListener(this);
 		
-		// PIE CHART
+		// PIE CHART IN GENERAL
 		// This will create the dataset 
         PieDataset dataset = createDataset();
         // based on the dataset we create the chart
@@ -380,9 +400,12 @@ public class ReportFrame extends JFrame implements ComponentListener {
         expenseTable.add(Box.createVerticalGlue());
         
         // Pie Chart in Expense
-        JFreeChart chart2 = createChart(dataset, "MY SUMMARY");
-        ChartPanel chartPanel2 = new ChartPanel(chart2);
-        expensePieChart.add(chartPanel2);
+        // This will create the dataset 
+        PieDataset datasetexpense = createDatasetExpense();
+        // based on the dataset we create the chart
+        JFreeChart chartExpense = createChart(datasetexpense, "MY EXPENSE");
+        ChartPanel chartPanelExpense = new ChartPanel(chartExpense);
+        expensePieChart.add(chartPanelExpense);
 
 
 
@@ -451,9 +474,19 @@ public class ReportFrame extends JFrame implements ComponentListener {
 
     private  PieDataset createDataset() {
         DefaultPieDataset result = new DefaultPieDataset();
-        result.setValue("Balance", 10);
-        result.setValue("Expense", 40);
-        result.setValue("Income", 50);
+        result.setValue("Balance", myReportData.getBalance());
+        result.setValue("Expense", myReportData.getTotalExpense());
+        result.setValue("Income", myReportData.getTotalIncome());
+        return result;
+        
+    }
+    
+    private  PieDataset createDatasetExpense() {
+        DefaultPieDataset result = new DefaultPieDataset();
+        Vector<ReportCategory> list = myReportData.getExpenseCategory();
+        for (int i = 0; i < list.size(); i++){
+        	result.setValue(list.get(i).getCategory(), list.get(i).getPercentage());
+        }
         return result;
         
     }
