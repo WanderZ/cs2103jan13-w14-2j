@@ -156,8 +156,9 @@ public class RecordManager<T extends Record>
 		return recordsById.get(id);
 	}
 	
-	public T updateRecord(T updated) throws RecordUpdateException{
-		removeRecord(updated.getId());
+	public T updateRecord(long id, T updated) throws RecordUpdateException{
+		removeRecord(id);
+		updated.id = id;
 		return addNewRecord(updated);
 	}
 	
@@ -326,9 +327,9 @@ public class RecordManager<T extends Record>
 		return addNewCategory(new Category((new Date()).getTime(), catName));
 	}
 	@Override
-	public boolean updateCategory(Category selectedCat) {
+	public boolean updateCategory(long identifier, Category selectedCat) {
 		try {
-			updateCategory(selectedCat.getID(), selectedCat.getName());
+			this.updateCategory(identifier, selectedCat.getName());
 			return true;
 		} catch (CategoryUpdateException e) {
 			return false;

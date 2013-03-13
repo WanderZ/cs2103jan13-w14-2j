@@ -53,7 +53,7 @@ public class DataQueryTest {
 		}
 		IncomeRecord newR = new IncomeRecord(r.getAmount(), r.getName() + "hoho", r.getRemark() + "hoho", r.getDate(), r.getCategory());
 		try {
-			m.updateRecord(newR);
+			m.updateRecord(r.getId(), newR);
 		} catch (RecordUpdateException e) {
 			e.printStackTrace();
 			fail("Updating record results in an error!");

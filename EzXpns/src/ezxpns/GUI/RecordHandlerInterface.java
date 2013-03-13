@@ -41,14 +41,7 @@ public interface RecordHandlerInterface {
 	 * @return true if successful, else false
 	 */
 	public boolean removeRecord(long identifier);
-	
-	/**
-	 * Remove record
-	 * @precond The given record object must contain the identifier in it
-	 * @param selectedRecord a record to be removed
-	 * @return true if successful, else false
-	 */
-	public boolean removeRecord(Record selectedRecord);
+
 	
 	/**
 	 * Modify an expense record
@@ -56,7 +49,7 @@ public interface RecordHandlerInterface {
 	 * @param selectedRecord a record to be modified into
 	 * @return true if successful, else false.
 	 */
-	public boolean modifyRecord(ExpenseRecord selectedRecord);
+	public boolean modifyRecord(long id, ExpenseRecord selectedRecord);
 	
 	/**
 	 * Modify an income record
@@ -64,7 +57,7 @@ public interface RecordHandlerInterface {
 	 * @param selectedRecord a record to be modified into
 	 * @return true if successful, else false.
 	 */
-	public boolean modifyRecord(IncomeRecord selectedRecord);
+	public boolean modifyRecord(long id, IncomeRecord selectedRecord);
 	
 	/**
 	 * Return the latest expense record matching the name, or null
