@@ -327,7 +327,11 @@ public class RecordManager<T extends Record>
 	}
 	@Override
 	public boolean updateCategory(Category selectedCat) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			updateCategory(selectedCat.getID(), selectedCat.getName());
+			return true;
+		} catch (CategoryUpdateException e) {
+			return false;
+		}
 	}
 }
