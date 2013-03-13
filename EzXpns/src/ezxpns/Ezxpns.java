@@ -114,11 +114,6 @@ public class Ezxpns implements
 		}
 		return true;
 	}
-
-	@Override
-	public boolean removeRecord(Record r) {
-		return removeRecord(r.getId());
-	}
 	
 	@Override
 	public List<Record> getRecords(int n) {
@@ -154,9 +149,9 @@ public class Ezxpns implements
 		}
 	}
 	@Override
-	public boolean modifyRecord(ExpenseRecord r) {
+	public boolean modifyRecord(long id, ExpenseRecord r) {
 		try {
-			data.expenses().updateRecord(r);
+			data.expenses().updateRecord(id, r);
 			targetManager.markDataUpdated();
 			summaryGenerator.markDataUpdated();
 		} catch (RecordUpdateException e) {
@@ -165,9 +160,9 @@ public class Ezxpns implements
 		return true;
 	}
 	@Override
-	public boolean modifyRecord(IncomeRecord r) {
+	public boolean modifyRecord(long id, IncomeRecord r) {
 		try {
-			data.incomes().updateRecord(r);
+			data.incomes().updateRecord(id, r);
 			summaryGenerator.markDataUpdated();
 		} catch (RecordUpdateException e) {
 			return false;

@@ -41,7 +41,6 @@ public abstract class Record implements Comparable<Record>{
 		return other.id == this.id;
 	}
 	
-	
 	public int compareTo(Record other){
 		if(date.equals(other.date)){
 			if(this.id > other.id){
