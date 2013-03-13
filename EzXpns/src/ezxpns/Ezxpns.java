@@ -4,6 +4,7 @@ import ezxpns.data.*;
 import ezxpns.data.records.Category;
 import ezxpns.data.records.ExpenseRecord;
 import ezxpns.data.records.IncomeRecord;
+import ezxpns.data.records.PaymentMethod;
 import ezxpns.data.records.Record;
 import ezxpns.data.records.RecordManager.RecordUpdateException;
 import ezxpns.util.Pair;
@@ -19,7 +20,6 @@ import ezxpns.GUI.SearchRequest.RecordType;
 
 
 public class Ezxpns implements
-		CategoryHandlerInterface,
 		RecordHandlerInterface,
 		SearchHandlerInterface{
 	private StorageManager store;
@@ -29,7 +29,6 @@ public class Ezxpns implements
 	private SummaryGenerator summaryGenerator;
 	
 	public Ezxpns(){
-		final UIControl<Ezxpns> main  = new UIControl(this);
 		try{
 			store = new StorageManager("data.json");
 			store.read();
@@ -38,6 +37,16 @@ public class Ezxpns implements
 			System.out.println(e.toString());
 			System.exit(1);
 		}
+		reportGenerator = new ReportGenerator(data);
+		summaryGenerator = new SummaryGenerator(data);
+		targetManager = data.targetManager();
+		final UIControl main  = new UIControl(this,
+				this, data.incomes(),
+				data.incomes(),
+				data.expenses(),
+				targetManager,
+				reportGenerator,
+				summaryGenerator);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -45,31 +54,17 @@ public class Ezxpns implements
 					main.showHomeScreen();
 					main.showRecWin();
 					
-					/*
-					RecordFrame recordMgrI = new RecordFrame(RecordFrame.TAB_INCOME);
-					recordMgrI.showScreen();
-					
-					RecordFrame recordMgrE = new RecordFrame();
-					recordMgrE.showScreen();
-					*/
 					
 					/* Test Report Frame*/
 					// ReportFrame tzTestFrame = new ReportFrame();
 					// tzTestFrame.showScreen();
 					
-					/*
-					SearchFrame searchMgr = new SearchFrame();
-					searchMgr.setVisible(true);
-					*/
 					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
-		reportGenerator = new ReportGenerator(data);
-		summaryGenerator = new SummaryGenerator(data);
-		targetManager = data.targetManager();
 	}
 	
 	public void applicationQuitting(){
@@ -126,30 +121,7 @@ public class Ezxpns implements
 	public boolean removeRecord(Record r) {
 		return removeRecord(r.getId());
 	}
-
-	@Override
-	public List<Category> getAllCategories() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean addNewCategory(Category newCat) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean removeCategory(Category selectedCat) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean updateCategory(Category selectedCat) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 	@Override
 	public List<Record> getRecords(int n) {
 		return data.combined().getRecordsBy(new Date(0), new Date(), n, false);
@@ -221,10 +193,5 @@ public class Ezxpns implements
 		}else{
 			return null;
 		}
-	}
-	@Override
-	public boolean removeCategory(long identifier) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 }

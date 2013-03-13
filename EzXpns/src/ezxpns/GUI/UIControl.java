@@ -1,25 +1,67 @@
 package ezxpns.GUI;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+import ezxpns.data.ReportGenerator;
+import ezxpns.data.SummaryGenerator;
+import ezxpns.data.TargetManager;
+
 /**
  * To assist EzXpns in managing all the GUI Windows
  * @param <T>
  */
-public class UIControl<T extends RecordHandlerInterface & CategoryHandlerInterface & SearchHandlerInterface> {
-	private T master;
+public class UIControl {
+	
 	private HomeScreen homeScreen;
 	private RecordFrame recWin;
 	private SearchFrame searchWin;	
 	private ReportFrame reportWin;
 	
-	public UIControl(T masterRef) {
-		master = masterRef;
-		homeScreen = new HomeScreen(master);
+	private SearchHandlerInterface findHandler;
+	private RecordHandlerInterface recHandler;
+	private CategoryHandlerInterface inCatHandler, exCatHandler;
+	private PaymentMethodHandlerInterface payHandler;
+	private TargetManager targetMgr;
+	private ReportGenerator rptGen; // Personal this should be an interface as well some best practice
+	private SummaryGenerator sumGen; // This should be an interface
+	
+	public UIControl(
+			SearchHandlerInterface searchHandlerRef, 
+			RecordHandlerInterface recHandlerRef, 
+			CategoryHandlerInterface inCatHandlerRef, 
+			CategoryHandlerInterface exCatHandlerRef,
+			PaymentMethodHandlerInterface payHandlerRef,
+			TargetManager targetMgrRef,
+			ReportGenerator rptGenRef,
+			SummaryGenerator sumGenRef
+			) {
 		
+		// Handlers for the various places
+		findHandler = searchHandlerRef;
+		recHandler = recHandlerRef;
+		inCatHandler = inCatHandlerRef;
+		exCatHandler = exCatHandlerRef;
+		targetMgr = targetMgrRef;
+		sumGen = sumGenRef;
+		rptGen = rptGenRef;		
+		
+		homeScreen = new HomeScreen(recHandlerRef);
+		homeScreen.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent wEvent) {
+				// Method here
+				
+				System.exit(0);
+			}
+		});
+		
+		// Faking a pop up :)
 		/*JWindow jWin = new JWindow();
 		jWin.getContentPane().add(new JLabel("helloworld!"));
 		jWin.setSize(800,600);
 		jWin.setLocationRelativeTo(null);
-		jWin.setVisible(true);*/
+		jWin.setVisible(true);
+		*/
 	}
 	
 	/**
@@ -43,8 +85,7 @@ public class UIControl<T extends RecordHandlerInterface & CategoryHandlerInterfa
 	/** Displays the new record handler window */
 	public void showRecWin() {
 		if(recWin == null) {
-			recWin = new RecordFrame();
-			recWin.setHandler(master);
+			recWin = new RecordFrame(recHandler, exCatHandler, exCatHandler, payHandler);
 		}
 		recWin.setVisible(true);
 	}
@@ -56,8 +97,7 @@ public class UIControl<T extends RecordHandlerInterface & CategoryHandlerInterfa
 	 */
 	public void showRecWin(int recordType) {
 		if(recWin == null) {
-			recWin = new RecordFrame(recordType);
-			recWin.setHandler(master);
+			recWin = new RecordFrame(recHandler, exCatHandler, exCatHandler, payHandler, recordType);
 		}
 		recWin.setVisible(true);
 	}
@@ -65,7 +105,7 @@ public class UIControl<T extends RecordHandlerInterface & CategoryHandlerInterfa
 	/** Displays the search handler window */
 	public void showSearchWin() {
 		if(searchWin == null) {
-			searchWin = new SearchFrame();
+			searchWin = new SearchFrame(findHandler);
 		}
 		searchWin.setVisible(true);
 	}
