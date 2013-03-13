@@ -17,7 +17,7 @@ public class UIControl {
 	private RecordFrame recWin;
 	private SearchFrame searchWin;	
 	private ReportFrame reportWin;
-	private TargetFrame targetWin;
+	private CategoryFrame catWin;
 	
 	private SearchHandlerInterface findHandler;
 	private RecordHandlerInterface recHandler;
@@ -27,6 +27,17 @@ public class UIControl {
 	private ReportGenerator rptGen; // Personal this should be an interface as well some best practice
 	private SummaryGenerator sumGen; // This should be an interface
 	
+	/**
+	 * To create a UI Manager. 
+	 * @param searchHandlerRef the reference to the search handling logic component
+	 * @param recHandlerRef the reference to the record handling logic component
+	 * @param inCatHandlerRef the reference to the income category handling logic component
+	 * @param exCatHandlerRef the reference to the expense category handling logic component
+	 * @param payHandlerRef the reference to the payment method handling logic component
+	 * @param targetMgrRef the reference to the target management logic component
+	 * @param rptGenRef the reference to the report generator logic component
+	 * @param sumGenRef the reference to the summary generator logic component
+	 */
 	public UIControl(
 			SearchHandlerInterface searchHandlerRef, 
 			RecordHandlerInterface recHandlerRef, 
@@ -120,10 +131,9 @@ public class UIControl {
 	}
 	
 	public void showTargetWin() { 
-		if(targetWin == null) {
-			targetWin = new TargetFrame(targetMgr);
+		if(catWin == null) {
+			catWin = new CategoryFrame(targetMgr);
 		}
-		targetWin.setVisible(true); 
-		
+		catWin.setVisible(true); 
 	}
 }
