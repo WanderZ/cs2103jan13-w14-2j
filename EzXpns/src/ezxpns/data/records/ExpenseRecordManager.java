@@ -7,7 +7,7 @@ import ezxpns.GUI.PaymentMethodHandlerInterface;
 public class ExpenseRecordManager extends RecordManager<ExpenseRecord>
 	implements PaymentMethodHandlerInterface{
 	
-	private TreeSet<PaymentMethod> payms;
+	private TreeSet<PaymentMethod> payms = new TreeSet<PaymentMethod>();
 
 	@Override
 	public Vector<PaymentMethod> getAllPaymentMethod() {

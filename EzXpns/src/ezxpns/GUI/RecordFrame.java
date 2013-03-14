@@ -441,7 +441,7 @@ class PanelExpense extends JPanel {
 		recHandler = recHandlerRef; 
 		catHandler = catHandlerRef;
 		payHandler = payHandlerRef;
-				
+		
 		this.setBackground(Color.WHITE);
 		/* The Layout governing the positions */
 		SpringLayout loForm = new SpringLayout();
