@@ -66,6 +66,7 @@ public class ReportFrame extends JFrame implements ComponentListener {
 	private JPanel expenseTable;
 	private JLabel lblIncome;
 	private JLabel lblExpense;
+	private JLabel lblBalance;
 	private JPanel button;
 	private JButton btnGeneral;
 	private JButton btnExpense;
@@ -290,12 +291,15 @@ public class ReportFrame extends JFrame implements ComponentListener {
 				// Disappear
 				initPieChart();
 				initTable();
+				initSummary();
 				generateReport.setVisible(false);
 				curtain.setVisible(false);
 				
 				startDateDisplay.setText(startDateField.getText());
 				endDateDisplay.setText(endDateField.getText());
 			}
+
+			
 		});
 		GroupLayout gl_generateReport = new GroupLayout(generateReport);
 		gl_generateReport.setHorizontalGroup(
@@ -367,11 +371,11 @@ public class ReportFrame extends JFrame implements ComponentListener {
         generalSummary.add(lblExpense);
         generalSummary.add(Box.createRigidArea(new Dimension(0,PARAGRAPH_SPACE)));
         
-        lblExpense = new JLabel("Balance:");
-        lblExpense.setAlignmentX(0.4f);
-        lblExpense.setAlignmentY(0.0f);
-        lblExpense.setHorizontalAlignment(SwingConstants.LEFT);
-        generalSummary.add(lblExpense);
+        lblBalance = new JLabel("Balance:");
+        lblBalance.setAlignmentX(0.4f);
+        lblBalance.setAlignmentY(0.0f);
+        lblBalance.setHorizontalAlignment(SwingConstants.LEFT);
+        generalSummary.add(lblBalance);
         generalSummary.add(Box.createVerticalGlue());
         
         
@@ -523,6 +527,14 @@ public class ReportFrame extends JFrame implements ComponentListener {
         expenseTable.add(scrollPane);	
         expenseTable.add(Box.createVerticalGlue());
     }
+    
+    private void initSummary() {
+		// TODO Auto-generated method stub
+    	lblIncome.setText("Income:\t"+myReportData.getTotalIncome());
+    	lblExpense.setText("Expense:\t"+myReportData.getTotalExpense());
+    	lblBalance.setText("Balance:\t"+myReportData.getBalance());
+		
+	}
     
     /** TableModel
      * 
