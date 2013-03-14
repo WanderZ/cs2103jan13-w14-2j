@@ -130,13 +130,9 @@ public class RecordFrame extends JFrame implements ActionListener {
 				
 				// Check if it is a recurring record
 				// do the necessary to ensure that EzXpns knows it. 
-				
-				// Display confirmation?
 			}
 		}
 		if(this.panOpt.getCancelBtn() == e.getSource()) {
-			// Cancel button has been invoked. 
-			// Invoke confirmation? - will it be retarded to invoke confirmation?
 			this.dispose();
 		}
 	}
