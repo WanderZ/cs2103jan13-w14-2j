@@ -61,24 +61,23 @@ public class ReportFrame extends JFrame implements ComponentListener {
 	private JLabel endDateDisplay;
 	private JPanel cardGeneral;
 	private JPanel cardExpense;
-	JLayeredPane layeredPane;
-	JPanel report;
-	Report test;
-	Report myReportData;
+	private JLayeredPane layeredPane;
+	private JPanel report;
 	private JPanel expenseTable;
 	private JLabel lblIncome;
 	private JLabel lblExpense;
-	private int PARAGRAPH_SPACE = 20;
 	private JPanel button;
-	private int WIDTH = 600;
 	private JButton btnGeneral;
 	private JButton btnExpense;
 	private JTable table;
 	private InteractiveTableModel tableModel;
+	private Report myReportData;
+
 	
 	// Date Format
 	SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy"); 
 	
+	private int PARAGRAPH_SPACE = 20;
 	public static final int DEFAULT_WIDTH = 600;
 	public static final int DEFAULT_HEIGHT = 400; 
 	public static final String[] columnNames = {
@@ -95,8 +94,6 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		this.setBounds(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
 
-		tzReportData tz = new tzReportData();
-		test = tz.createTestReport();
 		
 		// http://stackoverflow.com/questions/852631/java-swing-how-to-show-a-panel-on-top-of-another-panel
 		// resize issue http://geti.dcc.ufrj.br/cursos/fes_2008_1/javatutorial/uiswing/events/componentlistener.html
@@ -176,9 +173,7 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		cards.add(cardExpense, "ExpenseCard");
 		cardExpense.setLayout(new MigLayout("", "[262.00,grow,center][260.00,grow,right]", "[280.00,grow,fill]"));
 		
-		JPanel expensePieChart = new JPanel();
-		cardExpense.add(expensePieChart, "cell 0 0,grow");
-		expensePieChart.setLayout(new BoxLayout(expensePieChart, BoxLayout.X_AXIS));
+		
 		
 		expenseTable = new JPanel();
 		cardExpense.add(expenseTable, "cell 1 0,grow");
@@ -293,6 +288,8 @@ public class ReportFrame extends JFrame implements ComponentListener {
 				}
 				
 				// Disappear
+				initPieChart();
+				initTable();
 				generateReport.setVisible(false);
 				curtain.setVisible(false);
 				
@@ -345,19 +342,10 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		cardGeneral.addComponentListener(this);
 		cardExpense.addComponentListener(this);
 		
-		// PIE CHART IN GENERAL
-		// This will create the dataset 
-        PieDataset dataset = createDataset();
-        // based on the dataset we create the chart
-        JFreeChart chart = createChart(dataset, "MY SUMMARY");
-        ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setPreferredSize(new java.awt.Dimension(250, 130));
+		
         cardGeneral.setLayout(new MigLayout("", "[262.00,grow,center][260.00,grow,right]", "[280.00,grow,fill]"));
         
-        JPanel generalPieChart = new JPanel();
-        generalPieChart.add(chartPanel);
-        cardGeneral.add(generalPieChart, "cell 0 0,grow");
-        generalPieChart.setLayout(new BoxLayout(generalPieChart, BoxLayout.X_AXIS));
+       
         
         JPanel generalSummary = new JPanel();
         cardGeneral.add(generalSummary, "cell 1 0,grow");
@@ -387,26 +375,7 @@ public class ReportFrame extends JFrame implements ComponentListener {
         generalSummary.add(Box.createVerticalGlue());
         
         
-        // Table
-        tableModel = new InteractiveTableModel(columnNames);
-        expenseTable.setLayout(new BoxLayout(expenseTable, BoxLayout.Y_AXIS));
-        table = new JTable();
-        table.setModel(tableModel);
-        table.setPreferredScrollableViewportSize(new Dimension (20, 10));
-        JScrollPane scrollPane = new JScrollPane(table);
-        //table.setFillsViewportHeight(true);
-        expenseTable.add(Box.createVerticalGlue());
-        expenseTable.add(scrollPane);	
-        expenseTable.add(Box.createVerticalGlue());
         
-        // Pie Chart in Expense
-        // This will create the dataset 
-        PieDataset datasetexpense = createDatasetExpense();
-        // based on the dataset we create the chart
-        JFreeChart chartExpense = createChart(datasetexpense, "MY EXPENSE");
-        ChartPanel chartPanelExpense = new ChartPanel(chartExpense);
-        expensePieChart.add(chartPanelExpense);
-
 
 
         
@@ -515,6 +484,46 @@ public class ReportFrame extends JFrame implements ComponentListener {
         
     }
     
+    private void initPieChart(){
+    	// PIE CHART IN GENERAL
+    			// This will create the dataset 
+    	        PieDataset dataset = createDataset();
+    	        // based on the dataset we create the chart
+    	        JFreeChart chart = createChart(dataset, "MY SUMMARY");
+    	        ChartPanel chartPanel = new ChartPanel(chart);
+    	        chartPanel.setPreferredSize(new java.awt.Dimension(250, 130));
+    	        
+    	        JPanel generalPieChart = new JPanel();
+    	        generalPieChart.add(chartPanel);
+    	        cardGeneral.add(generalPieChart, "cell 0 0,grow");
+    	        generalPieChart.setLayout(new BoxLayout(generalPieChart, BoxLayout.X_AXIS));
+    	        
+    	     // Pie Chart in Expense
+    	        // This will create the dataset 
+    	        PieDataset datasetexpense = createDatasetExpense();
+    	        // based on the dataset we create the chart
+    	        JFreeChart chartExpense = createChart(datasetexpense, "MY EXPENSE");
+    	        ChartPanel chartPanelExpense = new ChartPanel(chartExpense);
+    	        JPanel expensePieChart = new JPanel();
+    			cardExpense.add(expensePieChart, "cell 0 0,grow");
+    			expensePieChart.setLayout(new BoxLayout(expensePieChart, BoxLayout.X_AXIS));
+    	        expensePieChart.add(chartPanelExpense);
+    }
+    
+    private void initTable(){
+    	// Table
+        tableModel = new InteractiveTableModel(columnNames);
+        expenseTable.setLayout(new BoxLayout(expenseTable, BoxLayout.Y_AXIS));
+        table = new JTable();
+        table.setModel(tableModel);
+        table.setPreferredScrollableViewportSize(new Dimension (20, 10));
+        JScrollPane scrollPane = new JScrollPane(table);
+        //table.setFillsViewportHeight(true);
+        expenseTable.add(Box.createVerticalGlue());
+        expenseTable.add(scrollPane);	
+        expenseTable.add(Box.createVerticalGlue());
+    }
+    
     /** TableModel
      * 
      * @author yan
@@ -533,7 +542,7 @@ public class ReportFrame extends JFrame implements ComponentListener {
         public InteractiveTableModel(String[] columnNames) {
             this.columnNames = columnNames;
             //dataVector = new Vector<ReportCategory>();
-            dataVector = test.getExpenseCategory();
+            dataVector = myReportData.getExpenseCategory();
         }
 
         public String getColumnName(int column) {
