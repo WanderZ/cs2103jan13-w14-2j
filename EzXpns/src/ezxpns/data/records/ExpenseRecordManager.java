@@ -8,6 +8,11 @@ public class ExpenseRecordManager extends RecordManager<ExpenseRecord>
 	implements PaymentMethodHandlerInterface{
 	
 	private TreeMap<Long, PaymentMethod> payms = new TreeMap<Long, PaymentMethod>();
+	
+	public ExpenseRecordManager(){
+		super();
+		payms.put(PaymentMethod.undefined.id, PaymentMethod.undefined);
+	}
 
 	@Override
 	public void afterDeserialize(){
@@ -41,6 +46,11 @@ public class ExpenseRecordManager extends RecordManager<ExpenseRecord>
 			return false;
 		}else{
 			payms.remove(paymentRef.id);
+			for(ExpenseRecord r : recordsById.values()){
+				if(r.paymentMethod == paymentRef){
+					r.paymentMethod = PaymentMethod.undefined;
+				}
+			}
 			return true;
 		}
 	}

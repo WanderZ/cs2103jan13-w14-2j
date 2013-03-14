@@ -45,4 +45,8 @@ public class Category{
 	public Category copy(){
 		return new Category(id, name);
 	}
+	
+	public String toString(){
+		return name;
+	}
 }

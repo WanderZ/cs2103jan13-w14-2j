@@ -56,4 +56,8 @@ public class PaymentMethod implements Comparable<PaymentMethod> {
 			return 0;
 		}
 	}
+	
+	public String toString(){
+		return name;
+	}
 }
