@@ -109,7 +109,7 @@ public class RecordFrame extends JFrame implements ActionListener {
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
-		panMain = new PanelMain(recHandler, exCatHandler, exCatHandler, payHandler);
+		panMain = new PanelMain(recHandler, inCatHandler, exCatHandler, payHandler);
 		this.add(panMain, BorderLayout.CENTER);
 		
 		panOpt = new PanelOption(this);
@@ -237,6 +237,13 @@ class PanelMain extends JPanel {
 	private JPanel metroTabs, metroTabBtns, metroTabContent;
 	private JButton mtabExpense, mtabIncome;
 		
+	/**
+	 * Constructor for the main content panel for new record
+	 * @param recHandlerRef reference to the record handler
+	 * @param inCatHandlerRef reference to the income category handler
+	 * @param exCatHandlerRef reference to the expense category handler
+	 * @param payHandlerRef reference to the payment method handler
+	 */
 	public PanelMain(
 			RecordHandlerInterface recHandlerRef,
 			CategoryHandlerInterface inCatHandlerRef,
@@ -261,7 +268,7 @@ class PanelMain extends JPanel {
 		metroTabs.add(metroTabBtns, BorderLayout.NORTH);
 		
 		panExpense = new PanelExpense(recHandlerRef, exCatHandlerRef, payHandlerRef);
-		panIncome = new PanelIncome(recHandlerRef, exCatHandlerRef);
+		panIncome = new PanelIncome(recHandlerRef, inCatHandlerRef);
 
 		metroTabContent = new JPanel();
 		
