@@ -2,6 +2,7 @@ package ezxpns.data.records;
 
 import java.util.Date;
 
+
 /**
  * @author yyjhao
  * 
@@ -14,8 +15,8 @@ public class Category{
 	 */
 	public static final Category undefined = new Category(0, "undefined");
 	
-	private long id;
-	private String name;
+	protected long id;
+	protected String name;
 	
 	/**
 	 * @param id an immutable attribute that should be unique
@@ -43,6 +44,10 @@ public class Category{
 	
 	public Category copy(){
 		return new Category(id, name);
+	}
+	
+	public String toString(){
+		return name;
 	}
 	
 	public boolean equals(Category oCat) {
