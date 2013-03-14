@@ -9,7 +9,6 @@ import ezxpns.data.TargetManager;
 
 /**
  * To assist EzXpns in managing all the GUI Windows
- * @param <T>
  */
 public class UIControl {
 	
@@ -59,7 +58,7 @@ public class UIControl {
 		payHandler = payHandlerRef;
 		rptGen = rptGenRef;		
 		
-		homeScreen = new HomeScreen(recHandlerRef);
+		homeScreen = new HomeScreen(recHandlerRef, targetMgr);
 		
 		homeScreen.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent wEvent) {
@@ -98,7 +97,7 @@ public class UIControl {
 	/** Displays the new record handler window */
 	public void showRecWin() {
 		if(recWin == null) {
-			recWin = new RecordFrame(recHandler, exCatHandler, exCatHandler, payHandler);
+			recWin = new RecordFrame(recHandler, inCatHandler, exCatHandler, payHandler);
 		}
 		recWin.setVisible(true);
 	}
@@ -110,7 +109,7 @@ public class UIControl {
 	 */
 	public void showRecWin(int recordType) {
 		if(recWin == null) {
-			recWin = new RecordFrame(recHandler, exCatHandler, exCatHandler, payHandler, recordType);
+			recWin = new RecordFrame(recHandler, inCatHandler, exCatHandler, payHandler, recordType);
 		}
 		recWin.setVisible(true);
 	}

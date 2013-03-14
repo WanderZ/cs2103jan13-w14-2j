@@ -35,10 +35,15 @@ import javax.swing.SpringLayout;
 
 /**
  * This is a JFrame object (Window) that allows users to enter a new record (Expense/Income) into the EzXpns
- * @param <T>An object that implements RecordHandlerInterface and CategoryHandlerInterface.
  */
 @SuppressWarnings("serial")
 public class RecordFrame extends JFrame implements ActionListener {
+	
+	public static final int DEFAULT_WIDTH = 760;
+	public static final int DEFAULT_HEIGHT = 550; 
+	
+	public static final int TAB_INCOME = 0011;
+	public static final int TAB_EXPENSE = 1100;
 	
 	private RecordHandlerInterface recHandler;
 	private CategoryHandlerInterface inCatHandler, exCatHandler;
@@ -46,12 +51,6 @@ public class RecordFrame extends JFrame implements ActionListener {
 	
 	private PanelMain panMain;
 	private PanelOption panOpt;
-	
-	public static final int DEFAULT_WIDTH = 760;
-	public static final int DEFAULT_HEIGHT = 550; 
-	
-	public static final int TAB_INCOME = 0011;
-	public static final int TAB_EXPENSE = 1100;
 	
 	/** 
 	 * Normal constructor for RecordFrame - Starts the window with the expenses view
@@ -72,7 +71,8 @@ public class RecordFrame extends JFrame implements ActionListener {
 		payHandler = payHandlerRef;
 		
 		this.init();
-
+		
+		
 	}
 	
 	/**
@@ -113,7 +113,9 @@ public class RecordFrame extends JFrame implements ActionListener {
 		this.add(panMain, BorderLayout.CENTER);
 		
 		panOpt = new PanelOption(this);
-		this.add(panOpt, BorderLayout.SOUTH);	
+		this.add(panOpt, BorderLayout.SOUTH);
+		
+		panMain.toggleExpenseTab(); // Default
 	}
 
 	@Override
@@ -301,11 +303,10 @@ class PanelMain extends JPanel {
 			mtabExpense.setFocusPainted(false);
 			mtabExpense.setContentAreaFilled(false);
 			mtabExpense.addMouseListener(new MouseAdapter() {
-				
 				@Override
 				public void mouseEntered(MouseEvent mEvent) { // Hover start
 					JButton btn = (JButton) mEvent.getSource();
-					btn.setForeground(Color.LIGHT_GRAY);
+					btn.setForeground(Color.CYAN);
 				}
 				
 				@Override
@@ -316,7 +317,9 @@ class PanelMain extends JPanel {
 				@Override
 				public void mouseExited(MouseEvent mEvent) { // Hover end
 					JButton btn = (JButton) mEvent.getSource();
-					btn.setForeground(Color.DARK_GRAY);
+					btn.setForeground(
+							btn.isEnabled() ? Color.DARK_GRAY : Color.WHITE
+						);
 				}
 			});
 		}
@@ -337,7 +340,7 @@ class PanelMain extends JPanel {
 			mtabIncome.addMouseListener(new MouseAdapter() {
 				public void mouseEntered(MouseEvent mEvent) { // Hover start
 					JButton btn = (JButton) mEvent.getSource();
-					btn.setForeground(Color.LIGHT_GRAY);
+					btn.setForeground(Color.CYAN);
 				}
 				
 				public void mousePressed(MouseEvent mEvent) {
@@ -346,7 +349,9 @@ class PanelMain extends JPanel {
 				
 				public void mouseExited(MouseEvent mEvent) { // Hover end
 					JButton btn = (JButton) mEvent.getSource();
-					btn.setForeground(Color.DARK_GRAY);
+					btn.setForeground(
+							btn.isEnabled() ? Color.DARK_GRAY : Color.WHITE
+						);
 				}
 			});
 		}
@@ -388,6 +393,7 @@ class PanelMain extends JPanel {
 		if(isExpense()) {
 			loCard.show(metroTabContent, CARD_INCOME);
 			// Indicate some difference to let user know that this tab is selected
+			changeFocus(this.mtabIncome, this.mtabExpense);
 		}
 	}
 	
@@ -398,7 +404,20 @@ class PanelMain extends JPanel {
 		if(isIncome()) {
 			loCard.show(metroTabContent, CARD_EXPENSE);
 			// Indicate some difference to let user know that this tab is selected
+			changeFocus(this.mtabExpense, this.mtabIncome);
 		}		
+	}
+	
+	private void changeFocus(JButton toFocus, JButton rmFocus) {
+		toFocus.setBackground(Color.DARK_GRAY);
+		toFocus.setContentAreaFilled(true);
+		toFocus.setForeground(Color.WHITE);
+		toFocus.setEnabled(false);
+		
+		rmFocus.setBackground(Color.WHITE);
+		rmFocus.setContentAreaFilled(false);
+		rmFocus.setForeground(Color.DARK_GRAY);
+		rmFocus.setEnabled(true);
 	}
 	
 	// Access and Mutate methods (for internal internal components)
@@ -412,7 +431,7 @@ class PanelExpense extends JPanel {
 	// #Constants
 	public final int TOP_PAD = 27;
 	public final int COL1_PAD = 15;
-	public final int COL2_PAD = 120;
+	public final int COL2_PAD = 200;
 	public final int TEXTFIELD_SIZE = 20;
 	
 	public final String EXPENSE_TYPE_NEED = "Need";
@@ -682,6 +701,7 @@ class PanelExpense extends JPanel {
 				this.getType(), 									// The ExpenseType of the record (need/want)
 				this.getMode()										// Payment method/mode of this record
 			);
+		this.recHandler.createRecord(eRecord);
 		return eRecord;
 	}
 }
@@ -847,6 +867,7 @@ class PanelIncome extends JPanel {
 				this.getDate(), 
 				this.getCat()
 			);
+		this.recHandler.createRecord(iRecord);
 		return iRecord;
 	}
 }

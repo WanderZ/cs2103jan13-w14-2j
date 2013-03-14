@@ -9,19 +9,29 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
+import ezxpns.data.TargetManager;
+
 @SuppressWarnings("serial")
 public class HomeScreen extends JFrame {
 	
 	public final int DEFAULT_HEIGHT = 860;
 	public final int DEFAULT_WEIGHT = 680;
+	
 	private JMenuBar menu;
-	private JPanel panOverview, panSavings, panTargets, panRecords, panTips;
+	private JPanel panOverview, panTips;
+	private SavingsOverviewPanel panSavings;
+	private RecordsDisplayPanel panRecords;
+	private TargetOverviewPanel panTargets;
+	
 	private RecordHandlerInterface recHandler;
 	private CategoryHandlerInterface inCatHandler;
 	private CategoryHandlerInterface exCatHandler;
+	private TargetManager targetMgr;
 	
-	
-	public HomeScreen(RecordHandlerInterface recHandler){
+	public HomeScreen(
+			RecordHandlerInterface recHandlerRef,
+			TargetManager targetMgrRef
+			){
 		super("EzXpns - Main Menu"); // Setting the title
 		this.setBounds(0, 0, DEFAULT_HEIGHT, DEFAULT_WEIGHT); /*x coordinate, y coordinate, width, height*/
 		this.setLocationRelativeTo(null);
@@ -32,7 +42,8 @@ public class HomeScreen extends JFrame {
 		
 		this.getContentPane().setBackground(Color.WHITE);
 		
-		this.recHandler = recHandler;
+		this.recHandler = recHandlerRef;
+		this.targetMgr = targetMgrRef;
 				
 		// To set Layout - grid or maybe grid bag layout 
 		// Temporary set to grid layout for even distribution
@@ -65,7 +76,7 @@ public class HomeScreen extends JFrame {
 	
 	private JPanel getTargetsPanel() {
 		if(panTargets==null) {
-			panTargets = new TargetOverviewPanel();
+			panTargets = new TargetOverviewPanel(targetMgr);
 		}
 		return panTargets;
 	}
