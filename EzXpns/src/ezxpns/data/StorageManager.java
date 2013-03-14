@@ -19,7 +19,8 @@ public class StorageManager {
 	private File file;
 	private DataManager manager;
 	private Timer timer = new Timer();
-	private Gson gson = new Gson();
+//	private Gson gson = new Gson();
+	private Gson gson = new GsonBuilder().setPrettyPrinting().create(); // for testing purpose
 	private Vector<StorageEventListener> listeners = new Vector<StorageEventListener>();
 	
 	private final int writeInterval = 5 * 1000;
@@ -35,6 +36,13 @@ public class StorageManager {
 		if(!file.exists()){
 			file.createNewFile();
 		}
+		
+		Runtime.getRuntime().addShutdownHook(new Thread(){
+			@Override
+			public void run(){
+				save();
+			}
+		});
 	}
 	
 	/*
@@ -88,6 +96,8 @@ public class StorageManager {
 		if(manager == null){
 			manager = new DataManager();
 			writeToFile();
+		}else{
+			manager.afterDeserialize();
 		}
 		timer.schedule(new TimerTask(){
 			public void run(){
