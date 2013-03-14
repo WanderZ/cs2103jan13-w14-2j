@@ -64,10 +64,7 @@ public class Ezxpns implements
 				try {
 					main.showHomeScreen();
 					main.showRecWin();
-					
-					/* Test Report Frame*/
-					// ReportFrame tzTestFrame = new ReportFrame();
-					// tzTestFrame.showScreen();
+					main.showTargetWin();
 					
 				} catch (Exception e) {
 					e.printStackTrace();
