@@ -24,8 +24,8 @@ public class UIControl {
 	private CategoryHandlerInterface inCatHandler, exCatHandler;
 	private PaymentMethodHandlerInterface payHandler;
 	private TargetManager targetMgr;
-	private ReportGenerator rptGen; // Personal this should be an interface as well some best practice
-	private SummaryGenerator sumGen; // This should be an interface
+	private ReportGenerator rptGen;
+	private SummaryGenerator sumGen;
 	
 	/**
 	 * To create a UI Manager. 
@@ -56,6 +56,7 @@ public class UIControl {
 		exCatHandler = exCatHandlerRef;
 		targetMgr = targetMgrRef;
 		sumGen = sumGenRef;
+		payHandler = payHandlerRef;
 		rptGen = rptGenRef;		
 		
 		homeScreen = new HomeScreen(recHandlerRef);

@@ -40,7 +40,8 @@ public class RecordManager<T extends Record>
 	private transient HashMap<String, TreeSet<T> > recordsByName;
 	
 	// used to make sure no id is repeated
-	private transient TreeMap<Long, T> recordsById;
+	protected transient TreeMap<Long, T> recordsById;
+	protected transient Random ran = new Random();
 	
 	private transient double allTimeSum = 0,
 							 monthlySum = 0,
@@ -75,12 +76,6 @@ public class RecordManager<T extends Record>
 		recordsByName = new HashMap<String, TreeSet<T> >();
 		recordsById = new TreeMap<Long, T>();
 		monthlySumByCategory = new HashMap<Long, Double>();
-	}
-	/**
-	 * Populate data structures containing duplicate data
-	 * Also add the category reference to the records
-	 */
-	public void afterDeserialize(){
 		cal.set(Calendar.HOUR, 0);
 		cal.set(Calendar.MINUTE, 0);
 		cal.set(Calendar.SECOND, 0);
@@ -89,9 +84,16 @@ public class RecordManager<T extends Record>
 		startOfMonth = cal.getTime();
 		cal.set(Calendar.MONTH, 0);
 		startOfYear = cal.getTime();
+	}
+	/**
+	 * Populate data structures containing duplicate data
+	 * Also add the category reference to the records
+	 */
+	public void afterDeserialize(){
 		for(long c : categories.keySet()){
 			monthlySumByCategory.put(c, 0.0);
 		}
+		ran = new Random();
 		for(Map.Entry<Long, TreeSet<T> > entry : recordsByCategory.entrySet()){
 			TreeSet<T> rs = entry.getValue();
 			Category cat = getCategory(entry.getKey());
@@ -183,8 +185,8 @@ public class RecordManager<T extends Record>
 		if(record.category == null){
 			throw new RecordUpdateException("Invalid category!");
 		}
-		if(recordsById.containsKey(record.id)){
-			record.id = (new Date()).getTime();
+		while(recordsById.containsKey(record.id)){
+			record.id = (new Date()).getTime() + ran.nextInt();
 		}
 		if(records.containsKey(record.date)){
 			records.get(record.date).add(record);
@@ -227,14 +229,13 @@ public class RecordManager<T extends Record>
 	
 	public Category addNewCategory(Category toAdd){
 		Category category = toAdd.copy();
-		if(!categories.containsKey(category.getID())){
-			categories.put(category.getID(), category);
-			monthlySumByCategory.put(category.getID(), 0.0);
-			markUpdate();
-			return category;
-		}else{
-			return null;
+		while(categories.containsKey(category.getID())){
+			category.id = (new Date()).getTime() + ran.nextInt();
 		}
+		categories.put(category.getID(), category);
+		monthlySumByCategory.put(category.getID(), 0.0);
+		markUpdate();
+		return category;
 	}
 	
 	public Category getCategory(Long id){

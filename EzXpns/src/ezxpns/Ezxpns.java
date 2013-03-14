@@ -23,6 +23,17 @@ public class Ezxpns implements
 		RecordHandlerInterface,
 		SearchHandlerInterface{
 	private StorageManager store;
+	public StorageManager getStore() {
+		return store;
+	}
+
+	public DataManager getDataMng() {
+		return data;
+	}
+
+	public TargetManager getTargetManager() {
+		return targetManager;
+	}
 	private DataManager data;
 	private ReportGenerator reportGenerator;
 	private TargetManager targetManager;
@@ -63,12 +74,9 @@ public class Ezxpns implements
 				}
 			}
 		});
+		
 	}
 	
-	public void applicationQuitting(){
-		store.save();
-	}
-
 	@Override
 	public Vector<Record> search(SearchRequest req) {
 		RecordQueryHandler tofind = data.combined();
