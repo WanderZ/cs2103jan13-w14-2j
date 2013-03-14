@@ -15,14 +15,13 @@ public interface CategoryHandlerInterface {
 	public List<Category> getAllCategories();
 	
 	/**
-	 * Create a new category
+	 * Create a new category, note that the new category will be a copied with perhaps different id
 	 * @param newCat Object containing all the necessary data to create a new category
-	 * @return true if successful, else false
+	 * @return the created category, or null if failed
 	 */
 	public Category addNewCategory(Category newCat);
-	
-	/** to be implemented */
-	public Category addNewCategory(String catName);
+
+	public Category addNewCategory(String name);
 	
 	/**
 	 * Remove a user defined category based on the given identifier
@@ -35,7 +34,7 @@ public interface CategoryHandlerInterface {
 	 * Modify Category Method
 	 * @precond The provided category object must include the identifier in it
 	 * @param selectedCat The selected category to be modified
-	 * @return true if successful, else false
+	 * @return the modified category, or null if failed
 	 */
-	public boolean updateCategory(long identifier, Category selectedCat);
+	public Category updateCategory(long identifier, Category selectedCat);
 }

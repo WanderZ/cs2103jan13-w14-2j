@@ -23,7 +23,7 @@ public class ReportGenerator {
 	private Vector<ExpenseRecord> expenseRecord;
 	private Vector<IncomeRecord> incomeRecord;
 	private Report myReport;
-	private Vector<ReportCategory> expenseCategory;
+	private Vector<ReportCategory> expenseCategory = new Vector<ReportCategory>();
 	static int INVALID = -1;
 
 	/**
@@ -138,14 +138,14 @@ public class ReportGenerator {
 	 * @return array index of expenseRecord if exist, else return -1
 	 */
 	private int getCategoryIndex(String categoryName) {
-		if (expenseRecord.size() == 0)
-			return -1;
-		for (int i = 0; i < expenseRecord.size(); i++) {
-			if (expenseRecord.get(i).getCategory().getName()
+		if (expenseCategory.size() == 0)
+			return INVALID;
+		for (int i = 0; i < expenseCategory.size(); i++) {
+			if (expenseCategory.get(i).getCategory()
 					.equals(categoryName))
 				return i;
 		}
-		return -1;
+		return INVALID;
 	}
 
 	/**
