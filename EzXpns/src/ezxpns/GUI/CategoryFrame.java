@@ -33,6 +33,10 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 /**
  * Window for users to manage their targets and / or categories [?]
@@ -48,13 +52,14 @@ public class CategoryFrame extends JFrame {
 	
 	private JTextField targetAmountField;
 	private JTextField exnameField;
-	private JTextField textField_2;
+	private JTextField inNameField;
 	private Category addNew;
 	
 	private Category curCat;
 	private Target curTar;
 	
 	private JButton removeExBtn, changeExBtn;
+	private JButton removeInBtn, changeInBtn;
 	
 	public CategoryFrame(CategoryHandlerInterface excats,
 			CategoryHandlerInterface incats, TargetManager targetMgrRef) {
@@ -67,6 +72,8 @@ public class CategoryFrame extends JFrame {
 			public void windowOpened(WindowEvent arg0) {
 				loadExList();
 				loadInList();
+				inlist.setSelectedIndex(0);
+				exlist.setSelectedIndex(0);
 			}
 		});
 		this.setSize(500, 400);
@@ -78,6 +85,12 @@ public class CategoryFrame extends JFrame {
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
 		
 		JPanel panel_1 = new JPanel();
+		panel_1.addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentShown(ComponentEvent arg0) {
+				exlist.setSelectedIndex(0);
+			}
+		});
 		tabbedPane.addTab("Expense", null, panel_1, null);
 		panel_1.setLayout(new BorderLayout(0, 0));
 		
@@ -110,6 +123,12 @@ public class CategoryFrame extends JFrame {
 		panel.add(lblName, gbc_lblName);
 		
 		exnameField = new JTextField();
+		exnameField.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				exnameField.selectAll();
+			}
+		});
 		GridBagConstraints gbc_exnameField = new GridBagConstraints();
 		gbc_exnameField.insets = new Insets(0, 0, 5, 0);
 		gbc_exnameField.fill = GridBagConstraints.HORIZONTAL;
@@ -127,6 +146,12 @@ public class CategoryFrame extends JFrame {
 		panel.add(lblTargetAmount, gbc_lblTargetAmount);
 		
 		targetAmountField = new JTextField();
+		targetAmountField.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				targetAmountField.selectAll();
+			}
+		});
 		GridBagConstraints gbc_targetAmountField = new GridBagConstraints();
 		gbc_targetAmountField.anchor = GridBagConstraints.NORTHWEST;
 		gbc_targetAmountField.insets = new Insets(0, 0, 5, 0);
@@ -161,10 +186,21 @@ public class CategoryFrame extends JFrame {
 		panel.add(removeExBtn, gbc_removeExBtn);
 		
 		JPanel panel_2 = new JPanel();
+		panel_2.addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentShown(ComponentEvent e) {
+				inlist.setSelectedIndex(0);
+			}
+		});
 		tabbedPane.addTab("Income", null, panel_2, null);
 		panel_2.setLayout(new BorderLayout(0, 0));
 		
 		inlist = new JList();
+		inlist.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent arg0) {
+				updateInDisplay((Category) inlist.getSelectedValue());
+			}
+		});
 		inlist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		inlist.setMinimumSize(new Dimension(150, 500));
 		panel_2.add(inlist);
@@ -186,29 +222,45 @@ public class CategoryFrame extends JFrame {
 		gbc_lblName_1.gridy = 3;
 		panel_3.add(lblName_1, gbc_lblName_1);
 		
-		textField_2 = new JTextField();
-		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
-		gbc_textField_2.anchor = GridBagConstraints.NORTHWEST;
-		gbc_textField_2.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_2.gridx = 2;
-		gbc_textField_2.gridy = 3;
-		panel_3.add(textField_2, gbc_textField_2);
-		textField_2.setColumns(10);
+		inNameField = new JTextField();
+		inNameField.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				inNameField.selectAll();
+			}
+		});
+		GridBagConstraints gbc_inNameField = new GridBagConstraints();
+		gbc_inNameField.anchor = GridBagConstraints.NORTHWEST;
+		gbc_inNameField.insets = new Insets(0, 0, 5, 0);
+		gbc_inNameField.gridx = 2;
+		gbc_inNameField.gridy = 3;
+		panel_3.add(inNameField, gbc_inNameField);
+		inNameField.setColumns(10);
 		
-		JButton btnChange_1 = new JButton("Change");
-		GridBagConstraints gbc_btnChange_1 = new GridBagConstraints();
-		gbc_btnChange_1.insets = new Insets(0, 0, 5, 5);
-		gbc_btnChange_1.anchor = GridBagConstraints.NORTHWEST;
-		gbc_btnChange_1.gridx = 1;
-		gbc_btnChange_1.gridy = 4;
-		panel_3.add(btnChange_1, gbc_btnChange_1);
+		changeInBtn = new JButton("Change");
+		changeInBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				modifyIn();
+			}
+		});
+		GridBagConstraints gbc_changeInBtn = new GridBagConstraints();
+		gbc_changeInBtn.insets = new Insets(0, 0, 5, 5);
+		gbc_changeInBtn.anchor = GridBagConstraints.NORTHWEST;
+		gbc_changeInBtn.gridx = 1;
+		gbc_changeInBtn.gridy = 4;
+		panel_3.add(changeInBtn, gbc_changeInBtn);
 		
-		JButton btnRemove = new JButton("Remove");
-		GridBagConstraints gbc_btnRemove = new GridBagConstraints();
-		gbc_btnRemove.insets = new Insets(0, 0, 5, 0);
-		gbc_btnRemove.gridx = 2;
-		gbc_btnRemove.gridy = 4;
-		panel_3.add(btnRemove, gbc_btnRemove);
+		removeInBtn = new JButton("Remove");
+		removeInBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				removeIn();
+			}
+		});
+		GridBagConstraints gbc_removeInBtn = new GridBagConstraints();
+		gbc_removeInBtn.insets = new Insets(0, 0, 5, 0);
+		gbc_removeInBtn.gridx = 2;
+		gbc_removeInBtn.gridy = 4;
+		panel_3.add(removeInBtn, gbc_removeInBtn);
 		targetMgr = targetMgrRef;
 		
 		exlist.setModel(exmo);
@@ -217,18 +269,10 @@ public class CategoryFrame extends JFrame {
 	}
 	
 	private void loadExList(){
-//		List<Category> cats = excats.getAllCategories();
-//		cats.add(addNew);
-//		exlist.setListData(cats.toArray());
-//		exlist.setSelectedIndex(0);
 		exmo.update();
 	}
 	
 	private void loadInList(){
-//		List<Category> cats = incats.getAllCategories();
-//		cats.add(addNew);
-//		inlist.setListData(cats.toArray());
-//		inlist.setSelectedIndex(0);
 		inmo.update();
 	}
 
@@ -255,6 +299,21 @@ public class CategoryFrame extends JFrame {
 		}
 	}
 	
+	private void updateInDisplay(Category cat){
+		curCat = cat;
+		if(cat == null){
+			return;
+		}
+		if(cat != addNew){
+			inNameField.setText(cat.getName());
+			changeInBtn.setText("Change");
+			removeInBtn.setEnabled(true);
+		}else{
+			inNameField.setText("Pick a name");
+			changeInBtn.setText("Add");
+			removeInBtn.setEnabled(false);
+		}
+	}
 	private boolean validateName(String name){
 		return !name.contains(" ") && name.length() > 2 && name.length() < 20;
 	}
@@ -278,7 +337,32 @@ public class CategoryFrame extends JFrame {
 				}
 				exmo.update();
 				exlist.setSelectedIndex(0);
+			}else{
+				Category cat = excats.updateCategory(curCat.getID(), new Category(exnameField.getText()));
+				if(validateTarget(targetAmountField.getText())){
+					targetMgr.setTarget(cat, Double.parseDouble(targetAmountField.getText()));
+				}
+				exmo.update();
+				exlist.setSelectedValue(cat, true);
 			}
+		}else{
+			JOptionPane.showMessageDialog(this, "Invalid name!!!!!!", "Error!!!!!", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	private void modifyIn(){
+		if(validateName(inNameField.getText())){
+			if(curCat == addNew){
+				Category cat = incats.addNewCategory(new Category(inNameField.getText()));
+				inmo.update();
+				inlist.setSelectedIndex(0);
+			}else{
+				Category cat = incats.updateCategory(curCat.getID(), new Category(inNameField.getText()));
+				inmo.update();
+				inlist.setSelectedValue(cat, true);
+			}
+		}else{
+			JOptionPane.showMessageDialog(this, "Invalid name!!!!!!", "Error!!!!!", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
@@ -292,4 +376,15 @@ public class CategoryFrame extends JFrame {
 			exlist.setSelectedIndex(0);
 		}
 	}
+	private void removeIn(){
+			String message = "Are you sure you want to remove this category?\n" +
+			    		"All records under this category will have an undefined category!";
+		if(JOptionPane.showConfirmDialog(this, message, "what?!",
+				JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+			incats.removeCategory(curCat.getID());
+			inmo.update();
+			inlist.setSelectedIndex(0);
+		}
+	}
 }
+
