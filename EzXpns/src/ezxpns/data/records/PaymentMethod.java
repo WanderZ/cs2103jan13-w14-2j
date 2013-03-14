@@ -65,7 +65,4 @@ public class PaymentMethod implements Comparable<PaymentMethod> {
 		return this.name.equalsIgnoreCase(oMethod.name);
 	}
 	
-	public String toString() {
-		return this.id + ":" + this.name;
-	}
 }
