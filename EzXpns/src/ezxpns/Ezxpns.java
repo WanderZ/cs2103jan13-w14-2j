@@ -220,8 +220,7 @@ public class Ezxpns implements
 	}
 
 	@Override
-	public boolean updateCategory(long identifier, Category selectedCat) {
-		// TODO Auto-generated method stub
-		return false;
+	public Category updateCategory(long identifier, Category selectedCat) {
+		return data.expenses().updateCategory(identifier, selectedCat);
 	}
 }

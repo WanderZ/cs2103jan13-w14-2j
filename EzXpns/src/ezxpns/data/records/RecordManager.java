@@ -332,12 +332,12 @@ public class RecordManager<T extends Record>
 		return addNewCategory(new Category((new Date()).getTime(), catName));
 	}
 	@Override
-	public boolean updateCategory(long identifier, Category selectedCat) {
+	public Category updateCategory(long identifier, Category selectedCat) {
 		try {
 			this.updateCategory(identifier, selectedCat.getName());
-			return true;
+			return getCategory(identifier);
 		} catch (CategoryUpdateException e) {
-			return false;
+			return null;
 		}
 	}
 }
