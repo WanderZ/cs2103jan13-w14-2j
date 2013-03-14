@@ -15,8 +15,8 @@ public class Category{
 	 */
 	public static final Category undefined = new Category(0, "undefined");
 	
-	private long id;
-	private String name;
+	protected long id;
+	protected String name;
 	
 	/**
 	 * @param id an immutable attribute that should be unique

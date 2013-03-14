@@ -20,7 +20,7 @@ public class GenData {
 	 * @param args
 	 * Change mein to main to run this
 	 */
-	public static void main(String[] args) {
+	public static void mein(String[] args) {
 		Ezxpns eh = new Ezxpns();
 		Random r = new Random();
 		long now = (new Date()).getTime();
