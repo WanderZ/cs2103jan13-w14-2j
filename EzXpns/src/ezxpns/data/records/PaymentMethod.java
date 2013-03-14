@@ -8,8 +8,8 @@ public class PaymentMethod implements Comparable<PaymentMethod> {
 	 */
 	public static final PaymentMethod undefined = new PaymentMethod(0, "undefined");
 	
-	private long id;
-	private String name;
+	protected long id;
+	protected String name;
 	
 	/**
 	 * @param id an immutable attribute that should be unique

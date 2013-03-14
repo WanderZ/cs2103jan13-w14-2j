@@ -7,12 +7,20 @@ import ezxpns.GUI.PaymentMethodHandlerInterface;
 public class ExpenseRecordManager extends RecordManager<ExpenseRecord>
 	implements PaymentMethodHandlerInterface{
 	
-	private TreeSet<PaymentMethod> payms = new TreeSet<PaymentMethod>();
+	private TreeMap<Long, PaymentMethod> payms = new TreeMap<Long, PaymentMethod>();
 
+	@Override
+	public void afterDeserialize(){
+		super.afterDeserialize();
+		for(ExpenseRecord r : recordsById.values()){
+			r.paymentMethod = payms.get(r.paymentMethod.id);
+		}
+	}
+	
 	@Override
 	public Vector<PaymentMethod> getAllPaymentMethod() {
 		Vector<PaymentMethod> pms = new Vector<PaymentMethod>();
-		for(PaymentMethod p : payms){
+		for(PaymentMethod p : payms.values()){
 			pms.add(p.copy());
 		}
 		return pms;
@@ -20,31 +28,30 @@ public class ExpenseRecordManager extends RecordManager<ExpenseRecord>
 
 	@Override
 	public boolean addNewPaymentMethod(PaymentMethod paymentRef) {
-		if(payms.contains(paymentRef)){
-			return false;
-		}else{
-			payms.add(paymentRef);
-			return true;
+		while(payms.containsKey(paymentRef.id)){
+			paymentRef.id = (new Date()).getTime() + ran.nextInt();
 		}
+		payms.put(paymentRef.id, paymentRef);
+		return true;
 	}
 
 	@Override
 	public boolean removePaymentMethod(PaymentMethod paymentRef) {
-		if(!payms.contains(paymentRef)){
+		if(!payms.containsKey(paymentRef.id)){
 			return false;
 		}else{
-			payms.remove(paymentRef);
+			payms.remove(paymentRef.id);
 			return true;
 		}
 	}
 
 	@Override
 	public boolean updatePaymentMethod(PaymentMethod paymentRef) {
-		if(!payms.contains(paymentRef)){
+		if(!payms.containsKey(paymentRef.id)){
 			return false;
 		}else{
-			payms.remove(paymentRef);
-			payms.add(paymentRef);
+			payms.remove(paymentRef.id);
+			payms.put(paymentRef.id, paymentRef);
 			return true;
 		}
 	}
