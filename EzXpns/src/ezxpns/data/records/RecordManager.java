@@ -93,6 +93,8 @@ public class RecordManager<T extends Record>
 		for(long c : categories.keySet()){
 			monthlySumByCategory.put(c, 0.0);
 		}
+		categories.remove(0);
+		categories.put(0l, Category.undefined);
 		ran = new Random();
 		for(Map.Entry<Long, TreeSet<T> > entry : recordsByCategory.entrySet()){
 			TreeSet<T> rs = entry.getValue();
@@ -321,7 +323,9 @@ public class RecordManager<T extends Record>
 	}
 	@Override
 	public List<Category> getAllCategories() {
-		return new Vector<Category>(categories.values());
+		Vector<Category> vec = new Vector<Category>(categories.values());
+		vec.remove(Category.undefined);
+		return vec;
 	}
 	@Override
 	public Category addNewCategory(String catName) {
