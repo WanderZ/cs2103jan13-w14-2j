@@ -12,28 +12,31 @@ import ezxpns.data.records.ExpenseRecord;
  * A generator that takes in targets and data and produce alert info
  * 
  */
-public class TargetManager extends Storable {
+public class TargetManager implements Storable {
 	public static interface DataProvider{
-		double getMonthlyExpense(Category cat);
+		double getMonthlyTotalExpense(Category cat);
 	}
+	private transient boolean	updated = false, 
+								alertUpdated = false;
 	private transient DataProvider data;
-	private transient Vector<Bar> bars;
+	private transient Vector<ExpenseRecord>  expenseRecord;
 	private TreeMap<Long,Target> mapTarget = new TreeMap<Long, Target>();	// maps category to target // maybe not necessary if max number of targets is small
-	private transient boolean dataUpdated = true;
 	
-	public TargetManager(DataProvider data){
-		this.data = data;
+	
+	/**
+	 * @return if the internal data store is updated (and therefore needs to be stored)
+	 */
+	@Override
+	public boolean isUpdated() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public void saved() {
+		// TODO Auto-generated method stub
+		
 	}
 	
-	public void setDataProvider(DataProvider data){
-		this.data = data;
-	}
-	
-	public void removeCategoryTarget(long identifier){
-		mapTarget.remove(identifier);
-		markUpdate();
-		markDataUpdated();
-	}
 
 	/*Preconditions: cannot add more than one target for the same category.
 	 * 				 can only set targets for the SAME month
@@ -44,7 +47,6 @@ public class TargetManager extends Storable {
 		}
 		Target target = new Target(cat, targetAmt);
 		addTarget(target);
-		dataUpdated = true;
 		return target;
 	}
 		
@@ -61,22 +63,37 @@ public class TargetManager extends Storable {
 	 */
 	private void addTarget(Target target){
 		mapTarget.put(target.getCategory().getID(),target);
-		markUpdate();
+		updated = true;
 	}
 		
 	public void removeTarget(Target target){
 		mapTarget.remove(target.getCategory());
-		dataUpdated = true;
-		markUpdate();
+		updated = true;
 	}
 		
 	public void modifyTarget(Target oldTarget, double targetAmt){
 		removeTarget(oldTarget);
-		setTarget(oldTarget.getCategory(), targetAmt);	
-		dataUpdated = true;
-		markUpdate();
+		setTarget(oldTarget.getCategory(), targetAmt);		
+		updated = true;
 	}
 		
+	/* EDITED categories
+	 * if user renamed the category and decided to keep 
+	 * all the old entries under the new name
+	 * invoke getOrdered(); and getAlerts();
+	 */
+
+	/* REMOVED categories
+	 * we will remove the target for this category;
+	 */
+		
+	public void removeCategory(Category cat){
+		if(mapTarget.containsKey(cat.getID())){
+			mapTarget.remove(cat.getID());
+		}
+		updated=true;
+	}
+	
 	/*
 	 * @return a copy of the internal targets, alerts, or ordered targets
 	 */
@@ -86,10 +103,6 @@ public class TargetManager extends Storable {
 			copy.add(t.copy());
 		}
 		return copy;
-	}
-	
-	public Target getTarget(Category cat){
-		return mapTarget.get(cat.getID());
 	}
 		
 	public Vector<Bar> getAlerts(){
@@ -109,20 +122,13 @@ public class TargetManager extends Storable {
 	 * @returns  Vector of Bar objects that are increasing order
 	 */
 	public Vector<Bar> getOrderedBar(){
-		if(dataUpdated){
-			genBars();
-			dataUpdated = false;
-		}
-		return bars;
-	}
-	
-	private void genBars(){
-		bars.clear();
+		Vector<Bar> ordered = new Vector<Bar>();
 		for(Target target: mapTarget.values()){
-			Bar bar = new Bar(target, data.getMonthlyExpense(target.getCategory()));
-			bars.add(bar);
+			Bar bar = new Bar(target, data.getMonthlyTotalExpense(target.getCategory()));
+			ordered.add(bar);
 		}
-		Collections.sort(bars);
+		Collections.sort(ordered);
+		return ordered;
 	}
 
 		
@@ -131,10 +137,6 @@ public class TargetManager extends Storable {
 			return true;
 		else 
 			return false;
-	}
-	
-	public void markDataUpdated(){
-		dataUpdated = true;
 	}
 		
 }
