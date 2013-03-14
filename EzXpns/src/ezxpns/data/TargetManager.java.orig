@@ -12,16 +12,32 @@ import ezxpns.data.records.ExpenseRecord;
  * A generator that takes in targets and data and produce alert info
  * 
  */
-public class TargetManager implements Storable {
+public class TargetManager extends Storable {
 	public static interface DataProvider{
+<<<<<<< local
 		double getMonthlyTotalExpense(Category cat);
+=======
+		double getMonthlyExpense(Category cat);
+>>>>>>> other
 	}
+<<<<<<< local
 	private transient boolean	updated = false, 
 								alertUpdated = false;
+=======
+>>>>>>> other
 	private transient DataProvider data;
+<<<<<<< local
 	private transient Vector<ExpenseRecord>  expenseRecord;
+=======
+	private transient Vector<Bar> bars;
+>>>>>>> other
 	private TreeMap<Long,Target> mapTarget = new TreeMap<Long, Target>();	// maps category to target // maybe not necessary if max number of targets is small
+<<<<<<< local
+=======
+	private transient boolean dataUpdated = true;
+>>>>>>> other
 	
+<<<<<<< local
 	
 	/**
 	 * @return if the internal data store is updated (and therefore needs to be stored)
@@ -35,10 +51,15 @@ public class TargetManager implements Storable {
 	public void saved() {
 		// TODO Auto-generated method stub
 		
+=======
+	public TargetManager(DataProvider data){
+		this.data = data;
+>>>>>>> other
 	}
 	
+<<<<<<< local
 
-	/**Preconditions: cannot add more than one target for the same category.
+	/*Preconditions: cannot add more than one target for the same category.
 	 * 				 can only set targets for the SAME month
 	 */
 	public Target setTarget(Category cat, double targetAmt){
@@ -48,52 +69,119 @@ public class TargetManager implements Storable {
 		Target target = new Target(cat, targetAmt);
 		addTarget(target);
 		return target;
+=======
+	public void setDataProvider(DataProvider data){
+		this.data = data;
+>>>>>>> other
+	}
+<<<<<<< local
+		
+		
+	/*UPDATE METHODS
+	 * after making the necessary changes
+	 * call getOrdered() and getAlert() to receive latest data
+	 */
+=======
+>>>>>>> other
+	
+<<<<<<< local
+=======
+	public void removeCategoryTarget(long identifier){
+		mapTarget.remove(identifier);
+		markUpdate();
+		markDataUpdated();
+	}
+
+	/*Preconditions: cannot add more than one target for the same category.
+	 * 				 can only set targets for the SAME month
+	 */
+	public Target setTarget(Category cat, double targetAmt){
+		if(mapTarget.containsKey(cat.getID())){
+			return null;
+		}
+		Target target = new Target(cat, targetAmt);
+		addTarget(target);
+		dataUpdated = true;
+		return target;
 	}
 		
 		
-	/**UPDATE METHODS
+	/*UPDATE METHODS
 	 * after making the necessary changes
 	 * call getOrdered() and getAlert() to receive latest data
 	 */
 	
-	/** ADD/REMOVE/EDIT target
+>>>>>>> other
+	/* ADD/REMOVE/EDIT target
 	 * to make things simple. I suggest only allowing user to make modifications within the same month
 	 * All data regarding targets is archived after that month 
 	 * so no modification should be made available after that
 	 */
 	private void addTarget(Target target){
 		mapTarget.put(target.getCategory().getID(),target);
+<<<<<<< local
 		updated = true;
+=======
+		markUpdate();
+>>>>>>> other
 	}
 		
 	public void removeTarget(Target target){
 		mapTarget.remove(target.getCategory());
+<<<<<<< local
 		updated = true;
+=======
+		dataUpdated = true;
+		markUpdate();
+>>>>>>> other
 	}
 		
 	public void modifyTarget(Target oldTarget, double targetAmt){
 		removeTarget(oldTarget);
+<<<<<<< local
 		setTarget(oldTarget.getCategory(), targetAmt);		
 		updated = true;
+=======
+		setTarget(oldTarget.getCategory(), targetAmt);	
+		dataUpdated = true;
+		markUpdate();
+>>>>>>> other
 	}
 		
-	/** EDITED categories
+<<<<<<< local
+	/* EDITED categories
 	 * if user renamed the category and decided to keep 
 	 * all the old entries under the new name
 	 * invoke getOrdered(); and getAlerts();
+=======
+	/*
+	 * @return a copy of the internal targets, alerts, or ordered targets
+>>>>>>> other
 	 */
+<<<<<<< local
 
-	/** REMOVED categories
+	/* REMOVED categories
 	 * we will remove the target for this category;
 	 */
 		
 	public void removeCategory(Category cat){
 		if(mapTarget.containsKey(cat.getID())){
 			mapTarget.remove(cat.getID());
+=======
+	public Vector<Target> getTargets(){
+		Vector<Target> copy = new Vector<Target>();
+		for(Target t : this.mapTarget.values()){
+			copy.add(t.copy());
+>>>>>>> other
 		}
+<<<<<<< local
 		updated=true;
+=======
+		return copy;
+>>>>>>> other
 	}
 	
+<<<<<<< local
 	/*
 	 * @return a copy of the internal targets, alerts, or ordered targets
 	 */
@@ -103,6 +191,10 @@ public class TargetManager implements Storable {
 			copy.add(t.copy());
 		}
 		return copy;
+=======
+	public Target getTarget(Category cat){
+		return mapTarget.get(cat.getID());
+>>>>>>> other
 	}
 		
 	public Vector<Bar> getAlerts(){
@@ -118,18 +210,40 @@ public class TargetManager implements Storable {
 		return alerts;
 	}
 
-	/**
+	/*
 	 * @returns  Vector of Bar objects that are increasing order
 	 */
 	public Vector<Bar> getOrderedBar(){
+<<<<<<< local
 		Vector<Bar> ordered = new Vector<Bar>();
 		for(Target target: mapTarget.values()){
 			Bar bar = new Bar(target, data.getMonthlyTotalExpense(target.getCategory()));
 			ordered.add(bar);
+=======
+		if(dataUpdated){
+			genBars();
+			dataUpdated = false;
+>>>>>>> other
 		}
+<<<<<<< local
 		Collections.sort(ordered);
 		return ordered;
+=======
+		return bars;
+>>>>>>> other
 	}
+<<<<<<< local
+=======
+	
+	private void genBars(){
+		bars.clear();
+		for(Target target: mapTarget.values()){
+			Bar bar = new Bar(target, data.getMonthlyExpense(target.getCategory()));
+			bars.add(bar);
+		}
+		Collections.sort(bars);
+	}
+>>>>>>> other
 
 		
 	private boolean isAnAlert(Bar bar){
@@ -137,6 +251,15 @@ public class TargetManager implements Storable {
 			return true;
 		else 
 			return false;
+	}
+<<<<<<< local
+		
+}
+=======
+>>>>>>> other
+	
+	public void markDataUpdated(){
+		dataUpdated = true;
 	}
 		
 }

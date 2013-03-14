@@ -3,28 +3,28 @@ package ezxpns.data;
 public class Bar implements Comparable<Bar> {
 	private Target target;
 	private double currentAmt;
-	private String colour;
+	private BarColour colour;
 	private double ratio;
 	
 	public Bar(Target target, double currentAmt){
 		this.target = target; 
 		this.currentAmt = currentAmt;
-		ratio = currentAmt/target.getTarget();		
+		ratio = currentAmt/target.getTargetAmt();		
 		
 		if(ratio>=0.8){
-			colour = "RED";
+			colour = BarColour.HIGH;
 		}
 		
 		if(ratio>=0.65 && ratio<0.8){
-			colour = "ORANGE";
+			colour = BarColour.MEDIUM;
 		}
 		
 		if(ratio>=0.35 && ratio<0.65){
-			colour = "YELLOW";
+			colour = BarColour.LOW;
 		}
 		
 		if(ratio<0.35){
-			colour = "GREEN";
+			colour = BarColour.SAFE;
 		}	
 	}
 	
@@ -32,7 +32,7 @@ public class Bar implements Comparable<Bar> {
 		return ratio;
 	}
 	
-	public String getColour(){
+	public BarColour getColour(){
 		return colour;
 	}
 	
