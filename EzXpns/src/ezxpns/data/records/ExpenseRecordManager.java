@@ -11,7 +11,6 @@ public class ExpenseRecordManager extends RecordManager<ExpenseRecord>
 	
 	public ExpenseRecordManager(){
 		super();
-		payms.put(PaymentMethod.undefined.id, PaymentMethod.undefined);
 	}
 
 	@Override
@@ -20,13 +19,17 @@ public class ExpenseRecordManager extends RecordManager<ExpenseRecord>
 		for(ExpenseRecord r : recordsById.values()){
 			r.paymentMethod = payms.get(r.paymentMethod.id);
 		}
+		payms.remove(PaymentMethod.undefined.id);
+		payms.put(PaymentMethod.undefined.id, PaymentMethod.undefined);
 	}
 	
 	@Override
 	public Vector<PaymentMethod> getAllPaymentMethod() {
 		Vector<PaymentMethod> pms = new Vector<PaymentMethod>();
 		for(PaymentMethod p : payms.values()){
-			pms.add(p.copy());
+			if(p != PaymentMethod.undefined){
+				pms.add(p);
+			}
 		}
 		return pms;
 	}

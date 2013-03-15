@@ -1,5 +1,9 @@
 package ezxpns.GUI;
 
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -8,18 +12,20 @@ import javax.swing.JSeparator;
 @SuppressWarnings("serial")
 public class EzXpnMainMenu extends JMenuBar {
 	
-	private JMenu mRecord, mEdit;
+	private JMenu mRecord, mEdit, mReport;
+	private UIControl guiCtrl;
 	
-	public EzXpnMainMenu() {
-		mRecord = new MenuRecord("Record");
-		mEdit = new MenuEdit("Edit");
-		// mReport = new MenuReport("Report");
-		// mAlert = new MenuAlert("Alert");
+	public EzXpnMainMenu(UIControl guiControlRef) {
+		
+		guiCtrl = guiControlRef;
+		
+		mRecord = new MenuRecord("Record", guiCtrl);
+		mEdit = new MenuEdit("Edit", guiCtrl);
+		mReport = new MenuReport("Report", guiCtrl);
 		
 		this.add(mRecord);
 		this.add(mEdit);
-		// this.add(mReport);
-		// this.add(mAlert);
+		this.add(mReport);
 	}
 }
 
@@ -27,9 +33,12 @@ public class EzXpnMainMenu extends JMenuBar {
 class MenuRecord extends JMenu {
 	
 	private JMenuItem itmExpense, itmIncome, itmCatMgr, itmSearch;
+	private UIControl guiCtrl;
 	
-	public MenuRecord(String name) {
+	public MenuRecord(String name, UIControl guiCtrlRef) {
 		super(name);
+		
+		this.guiCtrl = guiCtrlRef;
 		
 		itmExpense = new JMenuItem("New Expense");
 		itmIncome = new JMenuItem("New Income");
@@ -44,6 +53,31 @@ class MenuRecord extends JMenu {
 		
 		this.add(itmCatMgr);
 		this.add(itmSearch);
+		
+		itmExpense.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent mEvent) {
+				guiCtrl.showRecWin(RecordFrame.TAB_EXPENSE);
+			}
+		});
+		
+		itmIncome.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent mEvent) {
+				guiCtrl.showRecWin(RecordFrame.TAB_INCOME);
+			}
+			
+		});
+		
+		itmSearch.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				guiCtrl.showSearchWin();
+			}
+			
+		});
+		
 	}
 }
 
@@ -51,15 +85,31 @@ class MenuRecord extends JMenu {
 class MenuEdit extends JMenu {
 	
 	private JMenuItem itmUndo, itmConfig;
+	private UIControl guiCtrl;
 	
-	public MenuEdit(String name) { 
+	public MenuEdit(String name, UIControl guiCtrlRef) { 
 		super(name);
+		
+		this.guiCtrl = guiCtrlRef;
 		
 		itmUndo = new JMenuItem("Undo <something here>");
 		itmConfig = new JMenuItem("Settings");
 		
 		this.add(this.itmUndo);
 		this.add(this.itmConfig);
+		
+		itmUndo.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// do undo from UIControl.				
+			}
+			
+		});
+	}
+	
+	public void updateUndoText(String msg) {
+		this.itmUndo.setText(msg);
 	}
 }
 
@@ -67,34 +117,29 @@ class MenuEdit extends JMenu {
 class MenuReport extends JMenu {
 	
 	private JMenuItem itmReport;
+	private UIControl guiCtrl;
 	
-	public MenuReport(String name) {
+	public MenuReport(String name, UIControl guiCtrlRef) {
 		super(name);
+		
+		guiCtrl = guiCtrlRef;
 		
 		itmReport = new JMenuItem("View Report");
 		this.add(this.itmReport);
+		
+		itmReport.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				guiCtrl.showReportWin();
+			}
+			
+		});
 	}
 }
 
-@SuppressWarnings("serial")
-class MenuAlert extends JMenu {
-	
-	private JMenuItem itmNewAlert, itmEditAlert, itmRmAlert;
-	
-	public MenuAlert(String name) {
-		super(name);
-		
-		itmNewAlert = new JMenuItem("Create New Reminder");
-		itmEditAlert = new JMenuItem("Edit Reminder");
-		itmRmAlert = new JMenuItem("Remove Reminder");
-		
-		this.add(this.itmNewAlert);
-		this.add(this.itmEditAlert);
-		this.add(this.itmRmAlert);
-	}
-}
 
-/*
+
 @SuppressWarnings("serial")
 class MenuTarget extends JMenu {
 
@@ -114,4 +159,3 @@ class MenuTarget extends JMenu {
 		this.add(this.itmRmGoal);
 	}
 }
-*/

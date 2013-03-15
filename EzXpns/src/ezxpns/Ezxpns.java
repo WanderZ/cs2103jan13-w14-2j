@@ -65,7 +65,7 @@ public class Ezxpns implements
 				try {
 					main.showHomeScreen();
 					main.showRecWin();
-					main.showTargetWin();
+					main.showCatWin();
 					main.showReportWin();
 					
 				} catch (Exception e) {
@@ -119,6 +119,7 @@ public class Ezxpns implements
 		} catch (RecordUpdateException e) {
 			return false;
 		}
+		store.save();
 		return true;
 	}
 	
