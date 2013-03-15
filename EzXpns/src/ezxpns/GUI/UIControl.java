@@ -49,7 +49,7 @@ public class UIControl {
 			TargetManager targetMgrRef,
 			ReportGenerator rptGenRef,
 			SummaryGenerator sumGenRef
-			) {
+		) {
 		
 		// Handlers for the various places
 		findHandler = searchHandlerRef;

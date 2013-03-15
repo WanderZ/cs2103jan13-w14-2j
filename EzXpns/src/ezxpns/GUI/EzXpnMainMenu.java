@@ -69,15 +69,19 @@ class MenuRecord extends JMenu {
 			
 		});
 		
+		itmCatMgr.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				guiCtrl.showCatWin();
+			}
+		});
+		
 		itmSearch.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				guiCtrl.showSearchWin();
 			}
-			
 		});
-		
 	}
 }
 
@@ -102,7 +106,8 @@ class MenuEdit extends JMenu {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// do undo from UIControl.				
+				// do undo from UIControl.
+				
 			}
 			
 		});

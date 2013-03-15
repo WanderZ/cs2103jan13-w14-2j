@@ -182,7 +182,7 @@ class RecordsListerPanel extends JPanel {
 	public static final int TAB_INCOME = 0011;
 	public static final int TAB_EXPENSE = 1100;
 	
-	public final int MAX_RECORDS_IN_PAGE = 25;
+	public final int MAX_RECORDS_IN_PAGE = 12;
 	
 	private JLabel lblTitle;
 	private JButton btnNew;
@@ -259,10 +259,11 @@ class RecordsListerPanel extends JPanel {
 	}
 	
 	// This panel should be a generic panel that can contain both expenses and income
-	// 1. "Recently..." Label (title label)
-	// 2. "New..." Button (To create new expense/record)
-	// 3. List all the records down - dynamically generate all the records out, and paging! 
-	// 4. Scroll pane for the 12 records?
+	// > Done < 1. "Recently..." Label (title label) 
+	// > Done < 2. "New..." Button (To create new expense/record)
+	// 2.1 Linking new button to a new record window 
+	// > Done < 3. List all the records down - dynamically generate all the records out, and paging! 
+	// > Done < 4. Scroll pane for the 12 records?
 	// 5. the next and previous button (paging) - not really required...
 }
 
@@ -274,7 +275,7 @@ class RecordsListerPanel extends JPanel {
 class RecordDisplayPanel extends JPanel {
 	
 	private Record record;
-	private JLabel lblAmtName, lblCat, lblDate, lblTime;
+	private JLabel lblAmtName, lblCat, lblDate;
 	private final DecimalFormat MONEY_FORMAT = new DecimalFormat("$###,###,##0.00");
 	
 	public RecordDisplayPanel(Record record) {
