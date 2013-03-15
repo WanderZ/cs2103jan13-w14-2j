@@ -58,15 +58,13 @@ public class UIControl {
 		payHandler = payHandlerRef;
 		rptGen = rptGenRef;		
 		
-		homeScreen = new HomeScreen(recHandlerRef, targetMgr);
+		homeScreen = new HomeScreen(recHandlerRef, targetMgrRef);
 		
 		homeScreen.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent wEvent) {
-				// Method here before application closes?
 				System.exit(0);
 			}
 		});
-		
 		// Faking a pop up :)
 		/*JWindow jWin = new JWindow();
 		jWin.getContentPane().add(new JLabel("helloworld!"));
@@ -133,7 +131,7 @@ public class UIControl {
 	/** Displays the category handler window */
 	public void showCatWin() { 
 		if(catWin == null) {
-			catWin = new CategoryFrame(targetMgr);
+			catWin = new CategoryFrame(exCatHandler, inCatHandler, targetMgr);
 		}
 		catWin.setVisible(true); 
 	}

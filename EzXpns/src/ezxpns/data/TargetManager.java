@@ -28,6 +28,12 @@ public class TargetManager extends Storable {
 	public void setDataProvider(DataProvider data){
 		this.data = data;
 	}
+	
+	public void removeCategoryTarget(long identifier){
+		mapTarget.remove(identifier);
+		markUpdate();
+		markDataUpdated();
+	}
 
 	/*Preconditions: cannot add more than one target for the same category.
 	 * 				 can only set targets for the SAME month
@@ -80,6 +86,10 @@ public class TargetManager extends Storable {
 			copy.add(t.copy());
 		}
 		return copy;
+	}
+	
+	public Target getTarget(Category cat){
+		return mapTarget.get(cat.getID());
 	}
 		
 	public Vector<Bar> getAlerts(){
