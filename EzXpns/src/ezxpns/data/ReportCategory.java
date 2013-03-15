@@ -76,9 +76,9 @@ public class ReportCategory implements Comparable<ReportCategory>{
 	 */
 	@Override
 	public int compareTo(ReportCategory anotherCategory) {
-		if (this.percentage > anotherCategory.getPercentage())
+		if (this.percentage < anotherCategory.getPercentage())
 			return 1;
-		else if (this.percentage < anotherCategory.getPercentage())
+		else if (this.percentage > anotherCategory.getPercentage())
 			return -1;
 		else
 			return 0;
