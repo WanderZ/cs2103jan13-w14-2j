@@ -71,8 +71,6 @@ public class RecordFrame extends JFrame implements ActionListener {
 		payHandler = payHandlerRef;
 		
 		this.init();
-		
-		
 	}
 	
 	/**
@@ -88,6 +86,8 @@ public class RecordFrame extends JFrame implements ActionListener {
 			int initTab) {
 		
 		this(recHandlerRef, inCatHandlerRef, exCatHandlerRef, payHandlerRef);
+		
+		/* This part may need refactoring to enums */
 		switch(initTab) {
 			case TAB_INCOME: 
 				panMain.toggleIncomeTab();
@@ -124,12 +124,6 @@ public class RecordFrame extends JFrame implements ActionListener {
 		if(this.panOpt.getSaveBtn() == e.getSource()) { // Save button has been invoked.
 			if(panMain.validateForm()) { // Invoke validation
 				// all is good. save as new Record.
-				// Record newRecord = panMain.save(); 
-				// handler.createRecord(newRecord); // Probably need to know which type (Ex/In) this record is
-				
-				// Check if the user subtlety created a new category
-				// handler.createCategory(newCat);
-				
 				// Check if it is a recurring record
 				// do the necessary to ensure that EzXpns knows it. 
 			}
