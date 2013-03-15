@@ -57,13 +57,13 @@ public ActionExample4() {
  JPanel columnpanel = new JPanel();
  borderlaoutpanel.add(columnpanel, BorderLayout.NORTH);
  columnpanel.setLayout(new GridLayout(0, 1, 0, 1));
- columnpanel.setBackground(Color.gray);
+ columnpanel.setBackground(Color.red);
 
 
  for(int i=0;i<15;i++) //i < ordered.size()
  {
   JPanel rowPanel = new JPanel();
- rowPanel.setPreferredSize(new Dimension(300,30));
+ rowPanel.setPreferredSize(new Dimension(200,20));
  columnpanel.add(rowPanel);
  rowPanel.setLayout(null);
 
