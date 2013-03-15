@@ -45,7 +45,7 @@ public class ReportGenerator {
 	public Report generateReport(Date start, Date end) throws Exception {
 		// Exception to handle cases where end > start
 		if (dateError(start, end))
-			throw (new Exception("start date > end date"));
+			throw (new DateOrderException());
 
 		records = getRecords(start, end);
 		seperatePair(records);
@@ -159,6 +159,10 @@ public class ReportGenerator {
 		if (start.getTime() > end.getTime())
 			return true;
 		return false;
+	}
+	
+	public class DateOrderException extends Exception{
+		public DateOrderException() { super(); }
 	}
 
 }
