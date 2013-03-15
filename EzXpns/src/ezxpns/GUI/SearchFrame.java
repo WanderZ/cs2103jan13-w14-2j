@@ -3,19 +3,14 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.font.TextAttribute;
-import java.util.Map;
 
-import javax.swing.ButtonGroup;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JTextField;
-import javax.swing.SpringLayout;
 
 /**
  * The window to handle the searching and querying needs of the user
@@ -83,22 +78,72 @@ class SearchFormPanel extends JPanel {
 	
 	public SearchFormPanel() {
 		
+		// 3 main parts
+		// 1. Title of the place - technically its on the top of the screen
+		// 2. The form for searching - this one would be the simple form first.
+		// 3. Buttons to support searching.
+		
 	}
 	
 	private JLabel getTitleLabel() {
 		if(lblTitle == null) {
 			lblTitle = new JLabel("Simple Search");
-			lblTitle.setFont(new Font("", 0, 30));
+			lblTitle.setFont(new Font("Segoe UI", 0, 30)); // #Font
+		}
+		return lblTitle;
+	}
+	
+	private JLabel getNameLabel() {
+		if(lblTitle == null) {
+			lblTitle = new JLabel("Name");
+			lblTitle.setFont(new Font("Segoe UI", 0, 18)); // #Font
 		}
 		return lblTitle;
 	}
 }
 
+/**
+ * Panel to containing the buttons for functionality
+ */
 class SearchBtnPanel extends JPanel {
 	
 	private JButton btnSearch, btnCancel;
 	
 	public SearchBtnPanel() {
+		super();
+		BoxLayout loBtn = new BoxLayout(this, BoxLayout.Y_AXIS);
+		this.setLayout(loBtn);
 		
+		// Layout to make it fill the width completely, and glue to the base
+		
+		this.add(Box.createVerticalGlue());
+		this.add(this.getSearchBtn());
+		this.add(this.getCancelBtn());
+	}
+	
+	private JButton getSearchBtn() {
+		if(btnSearch == null) {
+			btnSearch = new JButton("Find it!");
+			btnSearch.setBackground(Color.DARK_GRAY);
+			
+			btnSearch.addMouseListener(new MouseAdapter() {
+				
+			});
+		}
+		return btnSearch;
+	}
+	
+	private JButton getCancelBtn() {
+		if(btnCancel == null) {
+			btnCancel = new JButton("Abondon Everything");
+			btnCancel.setContentAreaFilled(false);
+			btnCancel.setFocusPainted(false);
+			btnCancel.setBorderPainted(false);
+			
+			btnCancel.addMouseListener(new MouseAdapter() {
+				
+			});
+		}
+		return btnCancel;
 	}
 }
