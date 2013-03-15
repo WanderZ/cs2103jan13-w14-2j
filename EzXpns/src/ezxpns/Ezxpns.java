@@ -21,6 +21,7 @@ import ezxpns.GUI.SearchRequest.RecordType;
 
 public class Ezxpns implements
 		RecordHandlerInterface,
+		CategoryHandlerInterface,
 		SearchHandlerInterface{
 	private StorageManager store;
 	public StorageManager getStore() {
@@ -51,24 +52,21 @@ public class Ezxpns implements
 		reportGenerator = new ReportGenerator(data);
 		summaryGenerator = new SummaryGenerator(data);
 		targetManager = data.targetManager();
-		final UIControl main  = new UIControl( 	
-				this, 				// SearchHandler
-				this, 				// RecordHandler
-				data.incomes(), 	// IncomeCategoryHandler
-				data.incomes(), 	// ExpenseCategoryHandler
-				data.expenses(),	// PaymentMethodHandler
-				targetManager, 		// Target Manager
-				reportGenerator, 	// Report Generator
-				summaryGenerator); 	// Summary Generator
+		final UIControl main  = new UIControl( 	this, 				// SearchHandler
+												this, 				// RecordHandler
+												data.incomes(), 	// IncomeCategoryHandler
+												this, 				// ExpenseCategoryHandler
+												data.expenses(),	// PaymentMethodHandler
+												targetManager, 		// Target Manager
+												reportGenerator, 	// Report Generator
+												summaryGenerator); 	// Summary Generator
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					main.showHomeScreen();
 					main.showRecWin();
-					
-					/* Test Report Frame*/
-					// ReportFrame tzTestFrame = new ReportFrame();
-					// tzTestFrame.showScreen();
+					main.showTargetWin();
+					main.showReportWin();
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -195,5 +193,35 @@ public class Ezxpns implements
 		}else{
 			return null;
 		}
+	}
+
+	@Override
+	public List<Category> getAllCategories() {
+		return data.expenses().getAllCategories();
+	}
+
+	@Override
+	public Category addNewCategory(Category newCat) {
+		return data.expenses().addNewCategory(newCat);
+	}
+
+	@Override
+	public Category addNewCategory(String catName) {
+		return data.expenses().addNewCategory(catName);
+	}
+
+	@Override
+	public boolean removeCategory(long identifier) {
+		if(data.expenses().removeCategory(identifier)){
+			data.targetManager().removeCategoryTarget(identifier);
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	@Override
+	public Category updateCategory(long identifier, Category selectedCat) {
+		return data.expenses().updateCategory(identifier, selectedCat);
 	}
 }
