@@ -26,12 +26,10 @@ public class TargetManager implements Storable {
 	/**
 	 * @return if the internal data store is updated (and therefore needs to be stored)
 	 */
-	@Override
 	public boolean isUpdated() {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	@Override
 	public void saved() {
 		// TODO Auto-generated method stub
 		
@@ -118,6 +116,15 @@ public class TargetManager implements Storable {
 		return alerts;
 	}
 
+	public int getAlertNumber(){
+		if(getAlerts()!=null) return getAlerts().size();
+		else return 0;
+	}
+	
+	public int getOrderedNumber(){
+		if(getOrderedBar()!=null) return getOrderedBar().size();
+		else return 0;
+	}
 	/**
 	 * @returns  Vector of Bar objects that are increasing order
 	 */
@@ -128,12 +135,13 @@ public class TargetManager implements Storable {
 			ordered.add(bar);
 		}
 		Collections.sort(ordered);
+		
 		return ordered;
 	}
 
 		
 	private boolean isAnAlert(Bar bar){
-		if(bar.getColour().equals("RED") || bar.getColour().equals("ORANGE")) 
+		if(bar.getColor().equals("RED") || bar.getColor().equals("ORANGE")) 
 			return true;
 		else 
 			return false;
