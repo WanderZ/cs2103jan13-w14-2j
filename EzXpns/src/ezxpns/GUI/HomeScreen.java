@@ -2,37 +2,53 @@ package ezxpns.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-
-import javax.swing.JComponent;
+import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+
+import ezxpns.data.TargetManager;
+import ezxpns.data.SummaryGenerator;;
 
 @SuppressWarnings("serial")
 public class HomeScreen extends JFrame {
 	
 	public final int DEFAULT_HEIGHT = 860;
 	public final int DEFAULT_WEIGHT = 680;
+	
 	private JMenuBar menu;
-	private JPanel panOverview, panSavings, panTargets, panRecords, panTips;
+	private JPanel panOverview, panTips;
+	private SavingsOverviewPanel panSavings;
+	private RecordsDisplayPanel panRecords;
+	private TargetOverviewPanel panTargets;
+	
 	private RecordHandlerInterface recHandler;
 	private CategoryHandlerInterface inCatHandler;
 	private CategoryHandlerInterface exCatHandler;
 	
+	private TargetManager targetMgr;
+	private SummaryGenerator sumGen;
 	
-	public HomeScreen(RecordHandlerInterface recHandler){
+	private UIControl guiControl;
+	
+	public HomeScreen(
+			UIControl guiControlRef,
+			RecordHandlerInterface recHandlerRef,
+			TargetManager targetMgrRef,
+			SummaryGenerator sumGenRef
+			){
 		super("EzXpns - Main Menu"); // Setting the title
 		this.setBounds(0, 0, DEFAULT_HEIGHT, DEFAULT_WEIGHT); /*x coordinate, y coordinate, width, height*/
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // To change to dispose if doing daemon 
 		// this.setVisible(true);
-		this.setJMenuBar(getMenu());
+		this.setJMenuBar(getMenu(guiControlRef));
 		
 		this.getContentPane().setBackground(Color.WHITE);
 		
-		this.recHandler = recHandler;
+		this.recHandler = recHandlerRef;
+		this.targetMgr = targetMgrRef;
 				
 		// To set Layout - grid or maybe grid bag layout 
 		// Temporary set to grid layout for even distribution
@@ -49,9 +65,9 @@ public class HomeScreen extends JFrame {
 		
 	}
 	
-	private JMenuBar getMenu() {
+	private JMenuBar getMenu(UIControl control) {
 		if(this.menu==null) {
-			this.menu = new EzXpnMainMenu();
+			this.menu = new EzXpnMainMenu(control);
 		}
 		return this.menu;
 	}
@@ -65,21 +81,21 @@ public class HomeScreen extends JFrame {
 	
 	private JPanel getTargetsPanel() {
 		if(panTargets==null) {
-			panTargets = new TargetOverviewPanel();
+			panTargets = new TargetOverviewPanel(targetMgr);
 		}
 		return panTargets;
 	}
 	
 	private JPanel getOverviewPanel() {
 		if(panOverview == null) {
-			panOverview = new OverviewPanel();
+			panOverview = new OverviewPanel(sumGen);
 		}
 		return panOverview;
 	}
 	
 	private JPanel getRecordsPanel() {
 		if(panRecords == null) {
-			panRecords = new RecordsDisplayPanel();
+			panRecords = new RecordsDisplayPanel(recHandler, exCatHandler, exCatHandler);
 		}
 		return panRecords;
 	}

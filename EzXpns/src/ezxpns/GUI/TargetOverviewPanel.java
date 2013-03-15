@@ -2,6 +2,8 @@ package ezxpns.GUI;
 
 import javax.swing.JPanel;
 
+import ezxpns.data.TargetManager;
+
 /**
  * This is the panel in which will be slotted into the MainGUI 
  * (the main interface) as the display for the visual breakdown of the targets 
@@ -11,9 +13,13 @@ import javax.swing.JPanel;
 public class TargetOverviewPanel extends JPanel {
 
 	private javax.swing.JLabel lblMsg;
-	public TargetOverviewPanel() {
+	
+	private TargetManager targetMgr;
+	
+	public TargetOverviewPanel(TargetManager targetMgrRef) {
 		super(); // new Panel();
 		
+		this.targetMgr = targetMgrRef;
 		lblMsg = new javax.swing.JLabel("Targets - Under Construction XD!");
 		this.add(lblMsg);
 		this.setOpaque(false);

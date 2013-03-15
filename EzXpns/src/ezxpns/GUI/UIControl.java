@@ -1,5 +1,7 @@
 package ezxpns.GUI;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -9,7 +11,7 @@ import ezxpns.data.TargetManager;
 
 /**
  * To assist EzXpns in managing all the GUI Windows
- * @param <T>
+ * Implements ActionListener for the main menu.
  */
 public class UIControl {
 	
@@ -55,11 +57,11 @@ public class UIControl {
 		inCatHandler = inCatHandlerRef;
 		exCatHandler = exCatHandlerRef;
 		targetMgr = targetMgrRef;
-		sumGen = sumGenRef;
 		payHandler = payHandlerRef;
-		rptGen = rptGenRef;		
+		rptGen = rptGenRef;
+		sumGen = sumGenRef;
 		
-		homeScreen = new HomeScreen(recHandlerRef);
+		homeScreen = new HomeScreen(this, recHandlerRef, targetMgr, sumGen);
 		
 		homeScreen.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent wEvent) {
@@ -96,7 +98,7 @@ public class UIControl {
 	/** Displays the new record handler window */
 	public void showRecWin() {
 		if(recWin == null) {
-			recWin = new RecordFrame(recHandler, exCatHandler, exCatHandler, payHandler);
+			recWin = new RecordFrame(recHandler, inCatHandler, exCatHandler, payHandler);
 		}
 		recWin.setVisible(true);
 	}
@@ -108,7 +110,7 @@ public class UIControl {
 	 */
 	public void showRecWin(int recordType) {
 		if(recWin == null) {
-			recWin = new RecordFrame(recHandler, exCatHandler, exCatHandler, payHandler, recordType);
+			recWin = new RecordFrame(recHandler, inCatHandler, exCatHandler, payHandler, recordType);
 		}
 		recWin.setVisible(true);
 	}
@@ -129,7 +131,8 @@ public class UIControl {
 		reportWin.setVisible(true);
 	}
 	
-	public void showTargetWin() { 
+	/** Displays the category handler window */
+	public void showCatWin() { 
 		if(catWin == null) {
 			catWin = new CategoryFrame(exCatHandler, inCatHandler, targetMgr);
 		}
