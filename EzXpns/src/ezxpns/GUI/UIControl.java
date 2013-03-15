@@ -11,7 +11,10 @@ import ezxpns.data.TargetManager;
 
 /**
  * To assist EzXpns in managing all the GUI Windows
+<<<<<<< local
+=======
  * Implements ActionListener for the main menu.
+>>>>>>> other
  */
 public class UIControl {
 	
