@@ -20,7 +20,10 @@ import ezxpns.GUI.SearchRequest.RecordType;
 
 
 public class Ezxpns implements
+<<<<<<< local
+=======
 		RecordHandlerInterface,
+>>>>>>> other
 		CategoryHandlerInterface,
 		SearchHandlerInterface{
 	private StorageManager store;
@@ -72,6 +75,14 @@ public class Ezxpns implements
 				}
 			}
 		});
+<<<<<<< local
+		reportGenerator = new ReportGenerator(data);
+		targetManager = data.targetManager();
+		// targetManager.setDataProvider(this);
+	}
+	public void addTarget(){
+=======
+>>>>>>> other
 		
 	}
 	
