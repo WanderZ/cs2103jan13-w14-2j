@@ -6,6 +6,12 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JButton;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.SystemColor;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
@@ -24,15 +30,15 @@ public class TargetOverviewPanel extends JPanel {
 		
 		JPanel panel = new JPanel();
 		
-		JScrollPane scrollPane = new JScrollPane();
+		JScrollPane targetScroll = new JScrollPane();
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(20)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 354, GroupLayout.PREFERRED_SIZE)
-						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 355, GroupLayout.PREFERRED_SIZE))
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addComponent(targetScroll, Alignment.LEADING)
+						.addComponent(panel, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 410, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(20, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
@@ -40,10 +46,11 @@ public class TargetOverviewPanel extends JPanel {
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
-					.addGap(22))
+					.addGap(29)
+					.addComponent(targetScroll, GroupLayout.PREFERRED_SIZE, 189, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(22, Short.MAX_VALUE))
 		);
+		
 		
 		JLabel lblTargets = new JLabel("Targets");
 		
