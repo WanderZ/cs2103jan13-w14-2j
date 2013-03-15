@@ -2,14 +2,13 @@ package ezxpns.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-
-import javax.swing.JComponent;
+import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
 import ezxpns.data.TargetManager;
+import ezxpns.data.SummaryGenerator;;
 
 @SuppressWarnings("serial")
 public class HomeScreen extends JFrame {
@@ -26,11 +25,17 @@ public class HomeScreen extends JFrame {
 	private RecordHandlerInterface recHandler;
 	private CategoryHandlerInterface inCatHandler;
 	private CategoryHandlerInterface exCatHandler;
+	
 	private TargetManager targetMgr;
+	private SummaryGenerator sumGen;
+	
+	private UIControl guiControl;
 	
 	public HomeScreen(
+			UIControl guiControlRef,
 			RecordHandlerInterface recHandlerRef,
-			TargetManager targetMgrRef
+			TargetManager targetMgrRef,
+			SummaryGenerator sumGenRef
 			){
 		super("EzXpns - Main Menu"); // Setting the title
 		this.setBounds(0, 0, DEFAULT_HEIGHT, DEFAULT_WEIGHT); /*x coordinate, y coordinate, width, height*/
@@ -38,7 +43,7 @@ public class HomeScreen extends JFrame {
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // To change to dispose if doing daemon 
 		// this.setVisible(true);
-		this.setJMenuBar(getMenu());
+		this.setJMenuBar(getMenu(guiControlRef));
 		
 		this.getContentPane().setBackground(Color.WHITE);
 		
@@ -60,9 +65,9 @@ public class HomeScreen extends JFrame {
 		
 	}
 	
-	private JMenuBar getMenu() {
+	private JMenuBar getMenu(UIControl control) {
 		if(this.menu==null) {
-			this.menu = new EzXpnMainMenu();
+			this.menu = new EzXpnMainMenu(control);
 		}
 		return this.menu;
 	}
@@ -83,14 +88,14 @@ public class HomeScreen extends JFrame {
 	
 	private JPanel getOverviewPanel() {
 		if(panOverview == null) {
-			panOverview = new OverviewPanel();
+			panOverview = new OverviewPanel(sumGen);
 		}
 		return panOverview;
 	}
 	
 	private JPanel getRecordsPanel() {
 		if(panRecords == null) {
-			panRecords = new RecordsDisplayPanel();
+			panRecords = new RecordsDisplayPanel(recHandler, exCatHandler, exCatHandler);
 		}
 		return panRecords;
 	}

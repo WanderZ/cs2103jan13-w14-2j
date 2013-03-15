@@ -2,14 +2,21 @@ package ezxpns.GUI;
 
 import javax.swing.JPanel;
 
+import ezxpns.data.SummaryGenerator;
+
+
 /**
  * This is the overview a.k.a summary panel that display the user's balance, in and out cash flow.
  */
 @SuppressWarnings("serial")
 public class OverviewPanel extends JPanel {
 	
-	public OverviewPanel() {
+	private SummaryGenerator sumGen;
+	
+	public OverviewPanel(SummaryGenerator sumGenRef) {
 		super();
+		
+		this.sumGen = sumGenRef;
 		this.setLayout(new java.awt.BorderLayout());
 		JPanel temp = new JPanel(new java.awt.GridLayout(0, 1, 0, 0));
 		this.add(temp, java.awt.BorderLayout.CENTER);

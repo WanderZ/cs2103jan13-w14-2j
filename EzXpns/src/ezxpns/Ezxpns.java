@@ -51,14 +51,15 @@ public class Ezxpns implements
 		reportGenerator = new ReportGenerator(data);
 		summaryGenerator = new SummaryGenerator(data);
 		targetManager = data.targetManager();
-		final UIControl main  = new UIControl( 	this, 				// SearchHandler
-												this, 				// RecordHandler
-												data.incomes(), 	// IncomeCategoryHandler
-												data.incomes(), 	// ExpenseCategoryHandler
-												data.expenses(),	// PaymentMethodHandler
-												targetManager, 		// Target Manager
-												reportGenerator, 	// Report Generator
-												summaryGenerator); 	// Summary Generator
+		final UIControl main  = new UIControl( 	
+				this, 				// SearchHandler
+				this, 				// RecordHandler
+				data.incomes(), 	// IncomeCategoryHandler
+				data.incomes(), 	// ExpenseCategoryHandler
+				data.expenses(),	// PaymentMethodHandler
+				targetManager, 		// Target Manager
+				reportGenerator, 	// Report Generator
+				summaryGenerator); 	// Summary Generator
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

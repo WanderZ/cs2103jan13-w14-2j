@@ -1,5 +1,7 @@
 package ezxpns.GUI;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -9,6 +11,7 @@ import ezxpns.data.TargetManager;
 
 /**
  * To assist EzXpns in managing all the GUI Windows
+ * Implements ActionListener for the main menu.
  */
 public class UIControl {
 	
@@ -54,11 +57,11 @@ public class UIControl {
 		inCatHandler = inCatHandlerRef;
 		exCatHandler = exCatHandlerRef;
 		targetMgr = targetMgrRef;
-		sumGen = sumGenRef;
 		payHandler = payHandlerRef;
-		rptGen = rptGenRef;		
+		rptGen = rptGenRef;
+		sumGen = sumGenRef;
 		
-		homeScreen = new HomeScreen(recHandlerRef, targetMgr);
+		homeScreen = new HomeScreen(this, recHandlerRef, targetMgr, sumGen);
 		
 		homeScreen.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent wEvent) {
