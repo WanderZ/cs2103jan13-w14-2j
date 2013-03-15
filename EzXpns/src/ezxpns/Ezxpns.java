@@ -64,10 +64,6 @@ public class Ezxpns implements
 			public void run() {
 				try {
 					main.showHomeScreen();
-					main.showRecWin();
-					main.showCatWin();
-					main.showReportWin();
-					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
