@@ -1,24 +1,25 @@
 package ezxpns.data;
 
 /**
- * A data structure representing rows for the Expense table
- * in the report
+ * A data structure representing rows for the Expense table in the report
+ * 
  * @author yan
  */
 
-public class ReportCategory implements Comparable<ReportCategory>{
-	
+public class ReportCategory implements Comparable<ReportCategory> {
+
 	private String category;
 	private int frequency = 0;
 	private double amount = 0;
 	private double percentage = 0;
 	private double amtPerFreq = 0; // Amount/Frequency
-	
+
 	/**
 	 * Constructor, initialise category name
+	 * 
 	 * @param name
 	 */
-	public ReportCategory(String name){
+	public ReportCategory(String name) {
 		category = name;
 	}
 
@@ -30,49 +31,72 @@ public class ReportCategory implements Comparable<ReportCategory>{
 	}
 
 	/**
-	 * Increment amount 
+	 * Increment amount
+	 * 
 	 * @param amount
 	 */
 	public void incrementAmount(double amount) {
 		this.amount += amount;
 	}
 
-	// Setter
+	/**
+	 * Set percentage for expense of this category
+	 * 
+	 * @param percentage
+	 */
 	public void setPercentage(double percentage) {
 		this.percentage = percentage;
 	}
-	
+
 	/**
-	 * Calculate amtPerFreq
+	 * Calculate the amount per frequency ratio
 	 */
-	public void calAmtPerFreq(){
-		amtPerFreq = amount/frequency;
+	public void calAmtPerFreq() {
+		amtPerFreq = amount / frequency;
 	}
-	
-	// Getters
-	public String getCategory(){
+
+	/**
+	 * Get the name of this category
+	 * @return
+	 */
+	public String getCategory() {
 		return category;
 	}
-	
-	public int getFrequency(){
+
+	/** 
+	 * Get the requency of this category
+	 * @return
+	 */
+	public int getFrequency() {
 		return frequency;
 	}
-	
+
+	/**
+	 * Get the total expense for this category
+	 * @return
+	 */
 	public double getAmount() {
 		return amount;
 	}
-	
-	public double getPercentage(){
+
+	/**
+	 * Get the percentage of expense of this category
+	 * @return
+	 */
+	public double getPercentage() {
 		return percentage;
 	}
-	
-	public double getAmtPerFreq(){
+
+	/**
+	 * Get the amount per frequency ratio for this category
+	 * @return
+	 */
+	public double getAmtPerFreq() {
 		return amtPerFreq;
 	}
 
 	/**
-	 * Comparable, for sorting Vector in decending order
-	 * according to percentage
+	 * Comparable, for sorting Vector in descending order according to percentage
 	 */
 	@Override
 	public int compareTo(ReportCategory anotherCategory) {
