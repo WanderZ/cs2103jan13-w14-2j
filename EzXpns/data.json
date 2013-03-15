@@ -1,45 +1,29 @@
 {
   "_expenses": {
     "payms": {
-      "1361424079978": {
-        "id": 1361424079978,
-        "name": "5q0bjzi4p5vk"
+      "0": {
+        "id": 0,
+        "name": "undefined"
       },
-      "1362234520101": {
-        "id": 1362234520101,
-        "name": "5175l40ss4xs"
+      "1361389433075": {
+        "id": 1361389433075,
+        "name": "4z4lv6vjnmyo"
       },
-      "1362403929031": {
-        "id": 1362403929031,
-        "name": "49bj99j4c4xs"
+      "1361694372893": {
+        "id": 1361694372893,
+        "name": "2s1rqfh8rtog"
       },
-      "1362441472572": {
-        "id": 1362441472572,
-        "name": "1h2tyvclqq9s"
+      "1363314106821": {
+        "id": 1363314106821,
+        "name": "6uexg5bx1h1c"
       },
-      "1362882441051": {
-        "id": 1362882441051,
-        "name": "6wy594bfklfk"
+      "1364521902224": {
+        "id": 1364521902224,
+        "name": "27oy7mceim80"
       },
-      "1363232396257": {
-        "id": 1363232396257,
-        "name": "301a3a3mfgn4"
-      },
-      "1363254680230": {
-        "id": 1363254680230,
-        "name": "25tbzs9wtxj4"
-      },
-      "1363674739883": {
-        "id": 1363674739883,
-        "name": "31xdqfi7p4w0"
-      },
-      "1364856978400": {
-        "id": 1364856978400,
-        "name": "4gu7ogfhnzls"
-      },
-      "1365203254011": {
-        "id": 1365203254011,
-        "name": "36d2yr1pkyo0"
+      "1364965439275": {
+        "id": 1364965439275,
+        "name": "1p0xf2yzpm2o"
       }
     },
     "categories": {
@@ -47,88 +31,154 @@
         "id": 0,
         "name": "undefined"
       },
-      "1363801789860": {
-        "id": 1363801789860,
-        "name": "24aq4j04eqo0"
+      "1364176606098": {
+        "id": 1364176606098,
+        "name": "5n9lbxas8znk"
       },
-      "1363255208372": {
-        "id": 1363255208372,
-        "name": "Food"
+      "1363314106821": {
+        "id": 1363314106821,
+        "name": "71ynipumvc3k"
       },
-      "1361110806506": {
-        "id": 1361110806506,
-        "name": "Shit"
+      "1362931386819": {
+        "id": 1362931386819,
+        "name": "2fwfswfz7mgw"
       },
-      "1363255219633": {
-        "id": 1363255219633,
-        "name": "asfd"
+      "1365065985829": {
+        "id": 1365065985829,
+        "name": "7ugqur2ywikg"
+      },
+      "1364704133024": {
+        "id": 1364704133024,
+        "name": "5jhy4mouwc1s"
       }
     },
     "recordsByCategory": {
-      "0": [
+      "1364176606098": [
         {
           "expenseType": "NEED",
           "paymentMethod": {
-            "id": 1365203254011,
-            "name": "36d2yr1pkyo0"
+            "id": 1364965439275,
+            "name": "1p0xf2yzpm2o"
           },
-          "amount": 1.721931964E7,
-          "name": "502cnxm908zk",
+          "amount": 498.42,
+          "name": "3m3q9dlf4ccg",
           "remark": "nil",
-          "date": "Sep 22, 2011 11:36:36 PM",
-          "id": 1363378367760
+          "date": "Jul 1, 2012 3:19:59 AM",
+          "id": 1363179814806
         }
       ],
-      "1363801789860": [
+      "1363314106821": [
         {
           "expenseType": "NEED",
           "paymentMethod": {
-            "id": 1362403929031,
-            "name": "49bj99j4c4xs"
+            "id": 1363314106821,
+            "name": "6uexg5bx1h1c"
           },
-          "amount": -1.177380511E7,
-          "name": "9fjf7cy1x1c",
+          "amount": 165.81,
+          "name": "1jaa73uagt4w",
           "remark": "nil",
-          "date": "Mar 5, 2013 6:55:24 PM",
-          "id": 1363202632314
+          "date": "Feb 27, 2012 9:59:13 PM",
+          "id": 1365249491970
         },
         {
           "expenseType": "NEED",
           "paymentMethod": {
-            "id": 1364856978400,
-            "name": "4gu7ogfhnzls"
+            "id": 1361389433075,
+            "name": "4z4lv6vjnmyo"
           },
-          "amount": 9979412.41,
-          "name": "2e0p8l1to4n4",
+          "amount": 769.99,
+          "name": "1qrp6cycdfy8",
           "remark": "nil",
-          "date": "Mar 4, 2013 6:43:26 PM",
-          "id": 1363254680230
-        }
-      ],
-      "1361110806506": [
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1362441472572,
-            "name": "1h2tyvclqq9s"
-          },
-          "amount": 1.732411368E7,
-          "name": "6zwk8oi2nw8w",
-          "remark": "nil",
-          "date": "Sep 26, 2011 10:09:07 AM",
-          "id": 1363800894480
+          "date": "Feb 27, 2012 5:45:00 PM",
+          "id": 1363314106823
         },
         {
           "expenseType": "NEED",
           "paymentMethod": {
-            "id": 1361424079978,
-            "name": "5q0bjzi4p5vk"
+            "id": 0,
+            "name": "undefined"
           },
-          "amount": -1.286306553E7,
-          "name": "5ressv0g92ps",
+          "amount": 250.82,
+          "name": "3zubfq3gtsow",
           "remark": "nil",
-          "date": "May 31, 2011 1:21:26 AM",
-          "id": 1364949612435
+          "date": "Nov 16, 2011 2:52:42 AM",
+          "id": 1361743350635
+        }
+      ],
+      "1365065985829": [
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1363314106821,
+            "name": "6uexg5bx1h1c"
+          },
+          "amount": 656.37,
+          "name": "3fhdbirxly4g",
+          "remark": "nil",
+          "date": "Jan 4, 2013 3:27:37 AM",
+          "id": 1363709431388
+        }
+      ],
+      "1362931386819": [
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1363314106821,
+            "name": "6uexg5bx1h1c"
+          },
+          "amount": 367.4,
+          "name": "4ttpkqztzslc",
+          "remark": "nil",
+          "date": "Feb 3, 2013 1:03:54 PM",
+          "id": 1363314106822
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1363314106821,
+            "name": "6uexg5bx1h1c"
+          },
+          "amount": 585.01,
+          "name": "1611lehfamtc",
+          "remark": "nil",
+          "date": "Aug 17, 2012 8:19:02 AM",
+          "id": 1363665007712
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1364521902224,
+            "name": "27oy7mceim80"
+          },
+          "amount": 651.53,
+          "name": "2rcvvo1f3o8w",
+          "remark": "nil",
+          "date": "Jul 2, 2012 1:56:47 PM",
+          "id": 1364374557898
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1364965439275,
+            "name": "1p0xf2yzpm2o"
+          },
+          "amount": 890.24,
+          "name": "7zfgr8gh27i8",
+          "remark": "nil",
+          "date": "Nov 30, 2011 7:17:19 AM",
+          "id": 1363560179613
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1361389433075,
+            "name": "4z4lv6vjnmyo"
+          },
+          "amount": 17.31,
+          "name": "12wy38yhdq80",
+          "remark": "nil",
+          "date": "May 27, 2011 3:07:46 PM",
+          "id": 1365324848957
         }
       ]
     }
@@ -139,220 +189,109 @@
         "id": 0,
         "name": "undefined"
       },
-      "1363482627153": {
-        "id": 1363482627153,
-        "name": "6djn39wq3tz4"
+      "1364097417024": {
+        "id": 1364097417024,
+        "name": "49zp2im2srnk"
       },
-      "1362157575417": {
-        "id": 1362157575417,
-        "name": "1hqj33plopz4"
+      "1362480320970": {
+        "id": 1362480320970,
+        "name": "88fk73io1w8w"
       },
-      "1364604527743": {
-        "id": 1364604527743,
-        "name": "4m6m1ojord34"
+      "1362122547530": {
+        "id": 1362122547530,
+        "name": "2ih39ev4m77k"
       },
-      "1364257477488": {
-        "id": 1364257477488,
-        "name": "2xjpadtujxc0"
+      "1364935492692": {
+        "id": 1364935492692,
+        "name": "6g079oqvz1q8"
       },
-      "1363254680230": {
-        "id": 1363254680230,
-        "name": "6b23r4fq04xs"
-      },
-      "1362989366399": {
-        "id": 1362989366399,
-        "name": "1a4mw4fepy80"
-      },
-      "1363232396257": {
-        "id": 1363232396257,
-        "name": "8dhr04zy2hs0"
-      },
-      "1363258462512": {
-        "id": 1363258462512,
-        "name": "asdf"
-      },
-      "1361587411724": {
-        "id": 1361587411724,
-        "name": "rcw6ef9hbls"
-      },
-      "1364059069315": {
-        "id": 1364059069315,
-        "name": "RedBag"
+      "1363314106821": {
+        "id": 1363314106821,
+        "name": "815uyni8w3gg"
       }
     },
     "recordsByCategory": {
-      "0": [
+      "1364097417024": [
         {
-          "amount": 1.469360415E7,
-          "name": "1994hhe6dpq8",
+          "amount": 225.97,
+          "name": "1srithadcsqo",
           "remark": "nil",
-          "date": "Jan 26, 2013 5:34:19 AM",
-          "id": 1364321859587
-        },
-        {
-          "amount": 1.65527674E7,
-          "name": "2uq3d6eue0w0",
-          "remark": "nil",
-          "date": "Dec 25, 2011 2:47:20 PM",
-          "id": 1361993000480
+          "date": "Jul 4, 2011 5:55:31 PM",
+          "id": 1365440985060
         }
       ],
-      "1362157575417": [
+      "1362480320970": [
         {
-          "amount": 1.586205199E7,
-          "name": "35wselzzitc",
+          "amount": 85.81,
+          "name": "64ru2kmtvo8w",
           "remark": "nil",
-          "date": "Nov 26, 2012 11:12:46 PM",
-          "id": 1365141762936
+          "date": "Sep 28, 2012 6:08:57 AM",
+          "id": 1362533861098
         },
         {
-          "amount": 1.254025043E7,
-          "name": "2eau8qdalu9s",
+          "amount": 532.88,
+          "name": "gu5qpqh6nwg",
           "remark": "nil",
-          "date": "Apr 9, 2012 4:10:55 PM",
-          "id": 1362197519614
+          "date": "Dec 22, 2011 9:56:45 AM",
+          "id": 1362694204676
         },
         {
-          "amount": -9806736.97,
-          "name": "8fk2leu6jdkw",
+          "amount": 540.91,
+          "name": "527nhkkx0mtc",
           "remark": "nil",
-          "date": "Dec 24, 2011 4:09:23 PM",
-          "id": 1364271230971
-        },
-        {
-          "amount": -1.695088619E7,
-          "name": "1ppvsoke6l4w",
-          "remark": "nil",
-          "date": "Aug 6, 2011 1:11:06 PM",
-          "id": 1362744639873
+          "date": "Sep 10, 2011 2:32:50 AM",
+          "id": 1363715773749
         }
       ],
-      "1364604527743": [
+      "1363314106821": [
         {
-          "amount": -1.204769711E7,
-          "name": "8bcbhgjsmccg",
+          "amount": 950.53,
+          "name": "5snrnsbymdj4",
           "remark": "nil",
-          "date": "Jun 30, 2012 2:13:29 PM",
-          "id": 1362487675097
+          "date": "Apr 28, 2012 10:18:47 AM",
+          "id": 1364988487851
         },
         {
-          "amount": -1.712967005E7,
-          "name": "7a5zp54ct0xs",
+          "amount": 66.8,
+          "name": "uwuasknxo8w",
           "remark": "nil",
-          "date": "Jun 26, 2011 4:02:38 AM",
-          "id": 1361614359010
+          "date": "Mar 18, 2012 8:37:38 AM",
+          "id": 1363516385867
         },
         {
-          "amount": 1.566943337E7,
-          "name": "gwsoa9m6kcg",
+          "amount": 586.76,
+          "name": "558zq4vninpc",
           "remark": "nil",
-          "date": "Jun 19, 2011 6:03:38 PM",
-          "id": 1361896025971
+          "date": "Jan 14, 2012 10:00:49 PM",
+          "id": 1361850260409
         },
         {
-          "amount": -1177081.85,
-          "name": "8mtzf0xh5f5s",
+          "amount": 566.21,
+          "name": "7cpqnzzoo0ao",
           "remark": "nil",
-          "date": "Apr 25, 2011 6:05:34 PM",
-          "id": 1363146680504
+          "date": "May 2, 2011 3:56:53 PM",
+          "id": 1365133895255
         }
       ],
-      "1362989366399": [
+      "1364935492692": [
         {
-          "amount": -1.133318661E7,
-          "name": "2z8y96edpn9c",
+          "amount": 183.08,
+          "name": "33iyf5s64rnk",
           "remark": "nil",
-          "date": "Feb 12, 2013 1:14:57 AM",
-          "id": 1363254680230
-        }
-      ],
-      "1363232396257": [
-        {
-          "amount": 1.854744323E7,
-          "name": "z8kffbr0yrk",
-          "remark": "nil",
-          "date": "Jun 5, 2012 10:00:36 AM",
-          "id": 1365333542234
+          "date": "Mar 2, 2013 5:16:57 AM",
+          "id": 1363314106822
         },
         {
-          "amount": 1.062159979E7,
-          "name": "5a7hryj7zu68",
+          "amount": 821.07,
+          "name": "5cccdpl4aha8",
           "remark": "nil",
-          "date": "May 14, 2012 3:46:36 PM",
-          "id": 1365225491322
-        },
-        {
-          "amount": 5756530.8,
-          "name": "4hwtx36vwbr4",
-          "remark": "nil",
-          "date": "Nov 3, 2011 2:33:49 PM",
-          "id": 1363232396258
-        }
-      ],
-      "1361587411724": [
-        {
-          "amount": 1.547858449E7,
-          "name": "5v2dhbdbez28",
-          "remark": "nil",
-          "date": "Jan 4, 2013 2:45:40 PM",
-          "id": 1363148743779
-        },
-        {
-          "amount": -1107422.13,
-          "name": "78hrochoty4g",
-          "remark": "nil",
-          "date": "Dec 2, 2012 10:44:22 PM",
-          "id": 1361761341547
-        },
-        {
-          "amount": -2.043435475E7,
-          "name": "2z9hknju8qkg",
-          "remark": "nil",
-          "date": "Jul 5, 2011 7:20:38 AM",
-          "id": 1363476712644
-        }
-      ],
-      "1364059069315": [
-        {
-          "amount": 1.111434991E7,
-          "name": "5arhpkamp0xs",
-          "remark": "nil",
-          "date": "Jul 19, 2011 9:32:24 AM",
-          "id": 1365215132961
-        },
-        {
-          "amount": -1.521585251E7,
-          "name": "7g0n4ev2cv40",
-          "remark": "nil",
-          "date": "Jun 23, 2011 5:19:39 PM",
-          "id": 1363254680231
-        },
-        {
-          "amount": -1.626422427E7,
-          "name": "1j8hzi05tdog",
-          "remark": "nil",
-          "date": "May 15, 2011 6:15:45 AM",
-          "id": 1361099120908
+          "date": "Dec 30, 2011 1:21:32 PM",
+          "id": 1363314106823
         }
       ]
     }
   },
   "_targetManager": {
-    "mapTarget": {
-      "1361110806506": {
-        "cat": {
-          "id": 1361110806506,
-          "name": "Shit"
-        },
-        "targetAmt": 200.0
-      },
-      "1363255219633": {
-        "cat": {
-          "id": 1363255219633,
-          "name": "Test"
-        },
-        "targetAmt": 100.0
-      }
-    }
+    "mapTarget": {}
   }
 }
