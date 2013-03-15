@@ -57,7 +57,7 @@ public ActionExample4() {
  JPanel columnpanel = new JPanel();
  borderlaoutpanel.add(columnpanel, BorderLayout.NORTH);
  columnpanel.setLayout(new GridLayout(0, 1, 0, 1));
- columnpanel.setBackground(Color.red);
+ columnpanel.setBackground(Color.cyan.darker());
 
 
  for(int i=0;i<15;i++) //i < ordered.size()
