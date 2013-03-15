@@ -48,6 +48,7 @@ public class HomeScreen extends JFrame {
 		
 		this.recHandler = recHandlerRef;
 		this.targetMgr = targetMgrRef;
+		this.sumGen = sumGenRef;
 				
 		// To set Layout - grid or maybe grid bag layout 
 		// Temporary set to grid layout for even distribution

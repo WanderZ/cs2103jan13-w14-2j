@@ -1,6 +1,8 @@
 package ezxpns.GUI;
 
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -9,9 +11,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import ezxpns.data.SummaryDetails;
 import ezxpns.data.SummaryGenerator;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import ezxpns.data.SummaryGenerator.SummaryType;
 
 /**
  * This is the overview a.k.a summary panel that display the user's balance, in and out cash flow.
@@ -19,28 +21,39 @@ import java.awt.event.MouseEvent;
 @SuppressWarnings("serial")
 public class OverviewPanel extends JPanel {
 	
-	private int TODAY = 0;
-	private int MONTH = 1;
-	private int YEAR = 2;
-	private int ALLTIME = 3;
+	private JLabel lblBalance;
+	private JLabel lblIncome;
+	private JLabel lblExpense;
+	private JLabel lblTimeFrame;
+	private SummaryType[] summaryTab = {SummaryType.TODAY, SummaryType.MONTH, SummaryType.YEAR, SummaryType.ALLTIME};
 	private int index = 1;
 	
-	public OverviewPanel() {
+	
+	private SummaryGenerator sumGen;
+	
+	public OverviewPanel(SummaryGenerator sumGenRef) {
 		super();
 		
-		SummaryGenerator mySummary;
+		this.sumGen = sumGenRef;
 		
-		JLabel lblBalance = new JLabel("Balance:");
+		lblBalance = new JLabel("Balance:");
 		lblBalance.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		
-		JLabel lblIncome = new JLabel("Income:");
+		lblIncome = new JLabel("Income:");
 		
-		JLabel lblExpense = new JLabel("Expense:");
+		lblExpense = new JLabel("Expense:");
+		
+		lblTimeFrame = new JLabel("This Month");
+
 		
 		JButton buttonBack = new JButton("<");
 		buttonBack.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				index -= 1;
+				if (index < 0)
+					index = 0;
+				getSummaryData();
 			}
 		});
 		
@@ -48,10 +61,13 @@ public class OverviewPanel extends JPanel {
 		buttonNext.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				index += 1;
+				if (index > 3)
+					index = 3;
+				getSummaryData();
 			}
 		});
 		
-		JLabel lblThisMonth = new JLabel("This Month");
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -69,7 +85,7 @@ public class OverviewPanel extends JPanel {
 							.addContainerGap()
 							.addComponent(buttonBack)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblThisMonth)
+							.addComponent(lblTimeFrame)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(buttonNext)))
 					.addContainerGap(186, Short.MAX_VALUE))
@@ -83,7 +99,7 @@ public class OverviewPanel extends JPanel {
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(buttonBack)
 						.addComponent(buttonNext)
-						.addComponent(lblThisMonth))
+						.addComponent(lblTimeFrame))
 					.addGap(26)
 					.addComponent(lblIncome)
 					.addGap(18)
@@ -91,9 +107,15 @@ public class OverviewPanel extends JPanel {
 					.addContainerGap(126, Short.MAX_VALUE))
 		);
 		setLayout(groupLayout);
+		getSummaryData();
+	}
+	
+	private void getSummaryData(){
+		SummaryDetails mySummaryDetails = sumGen.getSummaryDetails(summaryTab[index]);
 		
-		lblBalance.setText("Balance");
-		lblIncome.setText("Income");
-		lblExpense.setText("Expense");
+		lblBalance.setText("Balance:\t"+mySummaryDetails.getBalance());
+		lblIncome.setText("Income:\t"+mySummaryDetails.getIncome());
+		lblExpense.setText("Expense:\t"+mySummaryDetails.getExpense());
+		lblTimeFrame.setText(mySummaryDetails.getSummaryType().getName());
 	}
 }
