@@ -64,7 +64,6 @@ public class Ezxpns implements
 			public void run() {
 				try {
 					main.showHomeScreen();
-					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -102,6 +101,7 @@ public class Ezxpns implements
 	public boolean createRecord(IncomeRecord newRecord) {
 		try {
 			data.incomes().addNewRecord(newRecord);
+			summaryGenerator.markDataUpdated();
 		} catch (RecordUpdateException e) {
 			return false;
 		}
@@ -113,9 +113,11 @@ public class Ezxpns implements
 		try {
 			data.expenses().addNewRecord(newRecord);
 			targetManager.markDataUpdated();
+			summaryGenerator.markDataUpdated();
 		} catch (RecordUpdateException e) {
 			return false;
 		}
+		store.save();
 		return true;
 	}
 	

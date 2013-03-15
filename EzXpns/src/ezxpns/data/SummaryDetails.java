@@ -1,5 +1,7 @@
 package ezxpns.data;
 
+import ezxpns.data.SummaryGenerator.SummaryType;
+
 /**
  * Data structure containing information on 
  * Summary during a specific timeline
@@ -10,14 +12,16 @@ package ezxpns.data;
 
 public class SummaryDetails {
 	
-	private double income;
-	private double expense;
-	private double balance;
+	private SummaryType summaryType;
+	private double income = 0;
+	private double expense = 0;
+	private double balance = 0;
 	
-	public SummaryDetails(double income, double expense){
+	public SummaryDetails(double income, double expense, SummaryType myType){
 		this.income = income;
 		this.expense = expense;
 		balance = income - expense;
+		summaryType = myType;
 	}
 	
 	// Getters
@@ -32,5 +36,8 @@ public class SummaryDetails {
 	public double getBalance(){
 		return balance;
 	}
-
+	
+	public SummaryType getSummaryType(){
+		return summaryType;
+	}
 }
