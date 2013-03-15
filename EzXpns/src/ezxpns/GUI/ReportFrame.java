@@ -86,6 +86,7 @@ public class ReportFrame extends JFrame implements ComponentListener {
     };
 	
 	private ReportGenerator rptGen; // Place to store the reference
+	private JButton btnGenerateANew;
 	
 	public ReportFrame(ReportGenerator rptGenRef) { // Passing in the reference
 		super("EzXpns - Report");
@@ -118,15 +119,17 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		curtain.setBounds(0, 0, 600, 400);
 		layeredPane.add(curtain);
 		
-		// test button panel
+		// Button Panel
 		button = new JPanel();
 		button.setBounds(0, 0, WIDTH, 400);
 		button.setOpaque(false);
 		layeredPane.add(button);
 		
-		btnGeneral = new JButton("General");
+		// General & Expense Buttons
 		
+		btnGeneral = new JButton("General");
 		btnExpense = new JButton("Expense");
+		
 		GroupLayout gl_button = new GroupLayout(button);
 		gl_button.setHorizontalGroup(
 			gl_button.createParallelGroup(Alignment.TRAILING)
@@ -152,7 +155,7 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		report = new JPanel();
 		layeredPane.add(report);	
 		report.setBackground(Color.WHITE);
-		report.setBounds(0, 0, WIDTH, 400);
+		report.setBounds(0, 0, 579, 400);
 		
 		// Report Header in Report Panel
 		JLabel lblReport = new JLabel("Report");
@@ -179,12 +182,15 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		expenseTable = new JPanel();
 		cardExpense.add(expenseTable, "cell 1 0,grow");
 		
+		
+		// ActionListener for General Button
 		btnGeneral.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 		        CardLayout cl = (CardLayout)(cards.getLayout());
 		        cl.show(cards, "GeneralCard");
 		    }
 		});
+		// ActionListener for Expense Button
 		btnExpense.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 		        CardLayout cl = (CardLayout)(cards.getLayout());
@@ -205,13 +211,13 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		btnExpense.setBorderPainted(false);
 		btnExpense.setOpaque(false);*/
 		
+		// Report JLabel
 		JLabel fromDisplay = new JLabel("from");
-		
 		startDateDisplay = new JLabel("test start");
-		
 		JLabel toDisplay = new JLabel("to");
-		
 		endDateDisplay = new JLabel("test end");
+		
+		btnGenerateANew = new JButton("Generate a new Report");
 		
 		GroupLayout gl_report = new GroupLayout(report);
 		gl_report.setHorizontalGroup(
@@ -219,7 +225,7 @@ public class ReportFrame extends JFrame implements ComponentListener {
 				.addGroup(gl_report.createSequentialGroup()
 					.addGap(20)
 					.addGroup(gl_report.createParallelGroup(Alignment.LEADING)
-						.addComponent(cards, GroupLayout.DEFAULT_SIZE, 553, Short.MAX_VALUE)
+						.addComponent(cards, GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
 						.addGroup(gl_report.createSequentialGroup()
 							.addComponent(lblReport)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
@@ -229,7 +235,10 @@ public class ReportFrame extends JFrame implements ComponentListener {
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(toDisplay)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(endDateDisplay)))
+							.addComponent(endDateDisplay)
+							.addPreferredGap(ComponentPlacement.RELATED, 156, Short.MAX_VALUE)
+							.addComponent(btnGenerateANew)
+							.addGap(10)))
 					.addGap(27))
 		);
 		gl_report.setVerticalGroup(
@@ -241,25 +250,21 @@ public class ReportFrame extends JFrame implements ComponentListener {
 						.addComponent(fromDisplay)
 						.addComponent(startDateDisplay)
 						.addComponent(toDisplay)
-						.addComponent(endDateDisplay))
+						.addComponent(endDateDisplay)
+						.addComponent(btnGenerateANew))
 					.addGap(24)
 					.addComponent(cards, GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
 					.addGap(48))
 		);
-		
-		
-		
 		report.setLayout(gl_report);
 		
-		
-		
+		// Components in Generate a Report
 		JLabel lblGenerateAReport = new JLabel("Generate a Report");
 		lblGenerateAReport.setFont(new Font("Lucida Grande", Font.PLAIN, 21));
 		lblGenerateAReport.setForeground(Color.WHITE);
 		
 		JLabel lblStartDate = new JLabel("Start Date");
 		lblStartDate.setForeground(Color.WHITE);
-		
 		
 		// Start Date
 		startDateField = new JFormattedTextField(dateFormat);  
@@ -275,9 +280,7 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		// "Generate" Button
 		JButton btnGenerate = new JButton("Generate");
 		btnGenerate.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-								
-				
+			public void actionPerformed(ActionEvent e){	
 				try {
 					myReportData = rptGen.generateReport(dateFormat.parse(startDateField.getText()),dateFormat.parse(endDateField.getText()));
 				} catch (ParseException e1) {
@@ -355,6 +358,8 @@ public class ReportFrame extends JFrame implements ComponentListener {
         cardGeneral.add(generalSummary, "cell 1 0,grow");
         generalSummary.setLayout(new BoxLayout(generalSummary, BoxLayout.PAGE_AXIS));
         
+        // Summary Details
+        
         lblIncome = new JLabel("Income:");
         lblIncome.setAlignmentX(0.4f);
         lblIncome.setAlignmentY(Component.TOP_ALIGNMENT);
@@ -363,7 +368,6 @@ public class ReportFrame extends JFrame implements ComponentListener {
         generalSummary.add(lblIncome);
         generalSummary.add(Box.createRigidArea(new Dimension(0,PARAGRAPH_SPACE)));
 
-        
         lblExpense = new JLabel("Expense:");
         lblExpense.setAlignmentX(0.4f);
         lblExpense.setAlignmentY(0.0f);
@@ -377,11 +381,6 @@ public class ReportFrame extends JFrame implements ComponentListener {
         lblBalance.setHorizontalAlignment(SwingConstants.LEFT);
         generalSummary.add(lblBalance);
         generalSummary.add(Box.createVerticalGlue());
-        
-        
-        
-
-
         
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
