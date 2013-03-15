@@ -57,12 +57,22 @@ public class ReportGenerator {
 		return data.getDataInDateRange(start, end);
 	}
 
+	/**
+	 * Separate Pair object into Vector<ExpenseRecord> and Vector<IncomeRecord>
+	 * @param pair
+	 */
 	private void seperatePair(
 			Pair<Vector<ExpenseRecord>, Vector<IncomeRecord>> pair) {
 		expenseRecord = pair.getLeft();
 		incomeRecord = pair.getRight();
 	}
 
+	/**
+	 * Create a new Report object and fill it with new information
+	 * @param start
+	 * @param end
+	 * @return
+	 */
 	private Report writeReport(Date start, Date end) {
 		myReport = new Report(start, end);
 		processHeading(); // process heading
@@ -81,10 +91,18 @@ public class ReportGenerator {
 		myReport.setHeading(totalIncome, totalExpense, balance);
 	}
 
+	/** 
+	 * Calculate sum of income from list of IncomeRecord
+	 * @return
+	 */
 	private double calTotalIncome() {
 		return Record.sumAmount(incomeRecord);
 	}
 
+	/**
+	 * Calculate sum of expense from list of ExpenseRecord
+	 * @return
+	 */
 	private double calTotalExpense() {
 		return Record.sumAmount(expenseRecord);
 	}
@@ -103,6 +121,9 @@ public class ReportGenerator {
 		myReport.setSectionExpense(expenseCategory);
 	}
 
+	/**
+	 * Populate a vector of ReportCategory
+	 */
 	private void populateExpenseCategory() {
 		ReportCategory newCategory;
 		// Store Expenses into Category
@@ -120,6 +141,9 @@ public class ReportGenerator {
 		} // for
 	}
 
+	/**
+	 * Calculate amount per frequency ratio for an expense category
+	 */
 	private void calAmountPerFreq() {
 		// Calculates Amount per Frequency
 		double totalExpense = myReport.getTotalExpense();
@@ -161,6 +185,11 @@ public class ReportGenerator {
 		return false;
 	}
 	
+	/**
+	 * Exception Class when "start date" > "end date"
+	 * @author yan
+	 *
+	 */
 	public class DateOrderException extends Exception{
 		public DateOrderException() { super(); }
 	}
