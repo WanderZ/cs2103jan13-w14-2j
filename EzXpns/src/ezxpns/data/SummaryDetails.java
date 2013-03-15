@@ -4,7 +4,7 @@ import ezxpns.data.SummaryGenerator.SummaryType;
 
 /**
  * Data structure containing information on 
- * Summary during a specific timeline
+ * Summary during a specific time range
  * 
  * @author tingzhe
  *
