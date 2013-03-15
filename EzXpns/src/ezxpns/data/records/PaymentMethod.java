@@ -60,4 +60,9 @@ public class PaymentMethod implements Comparable<PaymentMethod> {
 	public String toString(){
 		return name;
 	}
+	
+	public boolean equals(PaymentMethod oMethod) {
+		return this.name.equalsIgnoreCase(oMethod.name);
+	}
+	
 }

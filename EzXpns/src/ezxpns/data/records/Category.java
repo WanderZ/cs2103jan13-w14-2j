@@ -49,4 +49,8 @@ public class Category{
 	public String toString(){
 		return name;
 	}
+	
+	public boolean equals(Category oCat) {
+		return this.name.equalsIgnoreCase(oCat.name);
+	}
 }
