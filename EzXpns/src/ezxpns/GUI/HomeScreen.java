@@ -2,7 +2,6 @@ package ezxpns.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
@@ -29,7 +28,7 @@ public class HomeScreen extends JFrame {
 	private TargetManager targetMgr;
 	private SummaryGenerator sumGen;
 	
-	private UIControl guiControl;
+	private UIControl guiCtrl;
 	
 	public HomeScreen(
 			UIControl guiControlRef,
@@ -43,7 +42,9 @@ public class HomeScreen extends JFrame {
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // To change to dispose if doing daemon 
 		// this.setVisible(true);
-		this.setJMenuBar(getMenu(guiControlRef));
+		
+		this.guiCtrl = guiControlRef;
+		this.setJMenuBar(getMenu());
 		
 		this.getContentPane().setBackground(Color.WHITE);
 		
@@ -65,9 +66,9 @@ public class HomeScreen extends JFrame {
 		
 	}
 	
-	private JMenuBar getMenu(UIControl control) {
+	private JMenuBar getMenu() {
 		if(this.menu==null) {
-			this.menu = new EzXpnMainMenu(control);
+			this.menu = new EzXpnMainMenu(guiCtrl);
 		}
 		return this.menu;
 	}
@@ -95,7 +96,7 @@ public class HomeScreen extends JFrame {
 	
 	private JPanel getRecordsPanel() {
 		if(panRecords == null) {
-			panRecords = new RecordsDisplayPanel(recHandler, exCatHandler, exCatHandler);
+			panRecords = new RecordsDisplayPanel(recHandler);
 		}
 		return panRecords;
 	}
