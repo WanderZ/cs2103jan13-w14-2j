@@ -16,6 +16,7 @@ public class GenData {
 
 	private final static int recordToGen = 10;
 	private final static int catToGen = 5;
+	private final static int maxAmount = 100000;
 	/**
 	 * @param args
 	 * Change mein to main to run this
@@ -49,13 +50,13 @@ public class GenData {
 		int paysl = pays.size();
 		
 		for(int i = 0; i < recordToGen; i++){
-			eh.createRecord(new ExpenseRecord((double)r.nextInt() / 100,
+			eh.createRecord(new ExpenseRecord((double)r.nextInt(maxAmount) / 100,
 					Long.toString((long)(r.nextDouble()*(1l<<60)), 36),
 					"nil", new Date((long)(r.nextDouble()*(now - earliest) + earliest)),
 					exCat.get(r.nextInt(exCatl)), ExpenseType.NEED,
 					pays.get(r.nextInt(paysl))));
 			
-			eh.createRecord(new IncomeRecord((double)r.nextInt() / 100,
+			eh.createRecord(new IncomeRecord((double)r.nextInt(maxAmount) / 100,
 					Long.toString((long)(r.nextDouble()*(1l<<60)), 36),
 					"nil", new Date((long)(r.nextDouble()*(now - earliest) + earliest)),
 					inCat.get(r.nextInt(inCatl))));

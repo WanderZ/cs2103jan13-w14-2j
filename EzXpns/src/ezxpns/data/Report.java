@@ -14,9 +14,9 @@ public class Report {
 	// Heading
 	private Date start;
 	private Date end;
-	private double totalIncome;
-	private double totalExpense;
-	private double balance;
+	private double totalIncome = 0;
+	private double totalExpense = 0;
+	private double balance = 0;
 	
 	// 1. Expense
 	private Vector<ReportCategory> ExpenseCategory;
