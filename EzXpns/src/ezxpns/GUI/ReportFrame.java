@@ -48,6 +48,8 @@ import ezxpns.data.ReportGenerator;
 /**
  * The window to handle all the extensive record analysis and report
  * <br />Should contain a form for the user to enter the starting and the ending date of the records analysis
+ * 
+ * @author tingzhe
  */
 @SuppressWarnings("serial")
 public class ReportFrame extends JFrame implements ComponentListener {
