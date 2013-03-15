@@ -25,7 +25,6 @@ public class HomeScreen extends JFrame {
 	private RecordHandlerInterface recHandler;
 	private CategoryHandlerInterface inCatHandler;
 	private CategoryHandlerInterface exCatHandler;
-	
 	private TargetManager targetMgr;
 	private SummaryGenerator sumGen;
 	
