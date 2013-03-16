@@ -120,7 +120,8 @@ public class Ezxpns implements
 				 end = req.getDateRange().getRight();
 			return tofind.getRecordsBy(start, end, -1, false);
 		}else if(req.getCategory() != null){
-			return tofind.getRecordsBy(req.getCategory(), -1);
+//			return tofind.getRecordsBy(req.getCategory(), -1);
+			return tofind.getRecordsByCategory(req.getCategory().getName());
 		}else{
 			return null;
 		}

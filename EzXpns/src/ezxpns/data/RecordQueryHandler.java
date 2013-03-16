@@ -34,4 +34,10 @@ public interface RecordQueryHandler<T extends Record> {
 	 * @return records in the date range
 	 */
 	Vector<T> getRecordsBy(Date start, Date end, int max, boolean reverse);
+	
+	/**
+	 * @param name
+	 * @return list of records with same category name
+	 */
+	Vector<T> getRecordsByCategory(String name);
 }
