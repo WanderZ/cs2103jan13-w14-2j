@@ -4,6 +4,12 @@ import java.util.*;
 
 import ezxpns.GUI.PaymentMethodHandlerInterface;
 
+/**
+ * @author yyjhao
+ * A special record manager for expense records, since we need to store
+ * all payment methods for it <br />
+ * To be refactor soon
+ */
 public class ExpenseRecordManager extends RecordManager<ExpenseRecord>
 	implements PaymentMethodHandlerInterface{
 	

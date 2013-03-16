@@ -2,9 +2,13 @@ package ezxpns.data.records;
 
 import java.util.Date;
 
+/**
+ * @author yyjhao
+ * A category-like class that stores payment method
+ */
 public class PaymentMethod implements Comparable<PaymentMethod> {
 	/**
-	 * The default category for records without a category
+	 * The default category for records without a payment method
 	 */
 	public static final PaymentMethod undefined = new PaymentMethod(0, "undefined");
 	
@@ -12,7 +16,7 @@ public class PaymentMethod implements Comparable<PaymentMethod> {
 	protected String name;
 	
 	/**
-	 * @param id an immutable attribute that should be unique
+	 * @param id a unique long
 	 * @param name name of the category
 	 */
 	public PaymentMethod(long id, String name){
@@ -30,18 +34,30 @@ public class PaymentMethod implements Comparable<PaymentMethod> {
 		this.name = name;
 	}
 	
+	/**
+	 * @param name new name
+	 */
 	protected void setName(String name){
 		this.name = name;
 	}
 	
+	/**
+	 * @return name
+	 */
 	public String getName(){
 		return name;
 	}
 	
+	/**
+	 * @return id
+	 */
 	public long getID(){
 		return id;
 	}
 	
+	/**
+	 * @return a copy of itself
+	 */
 	public PaymentMethod copy(){
 		return new PaymentMethod(id, name);
 	}
@@ -57,12 +73,9 @@ public class PaymentMethod implements Comparable<PaymentMethod> {
 		}
 	}
 	
+	@Override
 	public String toString(){
 		return name;
-	}
-	
-	public boolean equals(PaymentMethod oMethod) {
-		return this.name.equalsIgnoreCase(oMethod.name);
 	}
 	
 }

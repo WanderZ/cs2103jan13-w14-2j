@@ -5,9 +5,9 @@ import java.util.Date;
 
 /**
  * @author yyjhao
- * 
- * A class to represent the current category
- * meant to be used in Record as a reference
+ *
+ * An immutable class to represent the current category <br />
+ * meant to be used in Record as a reference <br />
  */
 public class Category{
 	/**
@@ -19,7 +19,7 @@ public class Category{
 	protected String name;
 	
 	/**
-	 * @param id an immutable attribute that should be unique
+	 * @param id a unique long
 	 * @param name name of the category
 	 */
 	public Category(long id, String name){
@@ -37,15 +37,28 @@ public class Category{
 		this.name = name;
 	}
 	
+	/**
+	 * @param name new name
+	 */
 	protected void setName(String name){this.name = name;}
+	/**
+	 * @return the name
+	 */
 	public String getName(){return name;}
 	
+	/**
+	 * @return the id
+	 */
 	public long getID(){return id;}
 	
+	/**
+	 * @return a copy of itself
+	 */
 	public Category copy(){
 		return new Category(id, name);
 	}
 	
+	@Override
 	public String toString(){
 		return name;
 	}
