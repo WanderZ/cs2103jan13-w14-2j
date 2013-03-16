@@ -1,5 +1,11 @@
 package ezxpns.util;
 
+/**
+ * @author yyjhao
+ * If you don't know what Pair is, you may as well don't do CS
+ * @param <L>
+ * @param <R>
+ */
 public class Pair<L, R> {
 	private final L left;
 	private final R right;
