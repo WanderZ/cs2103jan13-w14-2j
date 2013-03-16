@@ -44,6 +44,8 @@ public class Bar implements Comparable<Bar> {
 		return currentAmt;
 	}
 	
+
+	
 	
 	
 	/*

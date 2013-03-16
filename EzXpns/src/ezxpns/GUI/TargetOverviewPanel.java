@@ -54,12 +54,9 @@ public class TargetOverviewPanel extends JPanel {
 		tagsPane.add(lblTargets, "cell 0 0,alignx left,aligny top");
 		
 		JLabel lblalertnumber = new JLabel();
-		if(targetMgr.isEmpty(targetMgr.getAlerts())){
-			lblalertnumber.setText("(0)");
-		}
-		else{
+
 			lblalertnumber.setText("("+targetMgr.getAlerts().size()+")");
-		}
+
 		
 		tagsPane.add(lblalertnumber, "cell 2 0,alignx left,aligny top");
 		
@@ -79,9 +76,10 @@ public class TargetOverviewPanel extends JPanel {
 		 
 		 targetScrollPane.setPreferredSize(new Dimension(50,50));
 		 
-		 if(!targetMgr.isEmpty(targetMgr.getOrderedBar())){
-		 for(Bar bar: targetMgr.getOrderedBar()) 
+		 
+		 for(int i = targetMgr.getOrderedBar().size()-1; i>=0; i--) 
 		 {
+			 Bar bar = targetMgr.getOrderedBar().get(i);
 			 			 
 		 JPanel rowPanel = new JPanel();
 		 rowPanel.setPreferredSize(new Dimension(200,20));
@@ -98,7 +96,7 @@ public class TargetOverviewPanel extends JPanel {
 		 rowPanel.add(lblCurrentAmt);
 		 lblCurrentAmt.setHorizontalAlignment(SwingConstants.CENTER);
 		 
-		 String tAmtName = "$"+ MONEY_FORMAT.format(bar.getTarget());
+		 String tAmtName = "$"+ MONEY_FORMAT.format(bar.getTarget().getTarget()); //to be changed
 		 JLabel lblTargetAmt = new JLabel("/"+tAmtName);
 		 rowPanel.add(lblTargetAmt);
 		 lblTargetAmt.setHorizontalAlignment(SwingConstants.CENTER);
@@ -121,7 +119,7 @@ public class TargetOverviewPanel extends JPanel {
 				lblCurrentAmt.setForeground(new Color(122, 122, 122)); //dark gray
 		 }
 		 }
-		 }
+		 
 		
 	}
 }

@@ -17,16 +17,18 @@ public class TargetManager extends Storable {
 		double getMonthlyExpense(Category cat);
 	}
 	private transient DataProvider data;
-	private transient Vector<Bar> bars;
+	private transient Vector<Bar> bars = new Vector<Bar>();
 	private TreeMap<Long,Target> mapTarget = new TreeMap<Long, Target>();	// maps category to target // maybe not necessary if max number of targets is small
 	private transient boolean dataUpdated = true;
 	
 	public TargetManager(DataProvider data){
 		this.data = data;
+		dataUpdated = true;
 	}
 	
 	public void setDataProvider(DataProvider data){
 		this.data = data;
+		dataUpdated = true;
 	}
 	
 	public void removeCategoryTarget(long identifier){
@@ -161,7 +163,11 @@ public class TargetManager extends Storable {
 	 * Updates the bar
 	 */
 	private void genBars(){
-		bars.clear();
+		if(bars == null){
+			bars = new Vector<Bar>();
+		}else{
+			bars.clear();
+		}
 		for(Target target: mapTarget.values()){
 			Bar bar = new Bar(target, data.getMonthlyExpense(target.getCategory()));
 			bars.add(bar);
@@ -175,7 +181,7 @@ public class TargetManager extends Storable {
 	 * @return true is the Bar qualifies as an Alert
 	 */
 	private boolean isAnAlert(Bar bar){
-		if(bar.getColor().equals("RED") || bar.getColor().equals("ORANGE")) 
+		if(bar.getColor()== BarColor.HIGH || bar.getColor()== BarColor.MEDIUM) 
 			return true;
 		else 
 			return false;
