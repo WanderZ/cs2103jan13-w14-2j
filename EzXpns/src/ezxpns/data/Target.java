@@ -28,7 +28,7 @@ public class Target{
 		return cat;
 	}
 	
-	public double getTarget(){
+	public double getTargetAmt(){
 		return targetAmt;
 	}
 		

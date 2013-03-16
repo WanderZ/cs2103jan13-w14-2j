@@ -9,7 +9,7 @@ public class Bar implements Comparable<Bar> {
 	public Bar(Target target, double currentAmt){
 		this.target = target; 
 		this.currentAmt = currentAmt;
-		ratio = currentAmt/target.getTarget();		
+		ratio = currentAmt/target.getTargetAmt();		
 		
 		if(ratio>=0.8){
 			color = BarColor.HIGH;

@@ -21,16 +21,27 @@ public class TargetManager extends Storable {
 	private TreeMap<Long,Target> mapTarget = new TreeMap<Long, Target>();	// maps category to target // maybe not necessary if max number of targets is small
 	private transient boolean dataUpdated = true;
 	
+	/**
+	 * @param data
+	 */
 	public TargetManager(DataProvider data){
 		this.data = data;
 		dataUpdated = true;
 	}
 	
+	/**
+	 * 
+	 * @param data
+	 */
 	public void setDataProvider(DataProvider data){
 		this.data = data;
 		dataUpdated = true;
 	}
 	
+	/**
+	 * 
+	 * @param identifier
+	 */
 	public void removeCategoryTarget(long identifier){
 		mapTarget.remove(identifier);
 		markUpdate();
@@ -40,6 +51,7 @@ public class TargetManager extends Storable {
 	/*Preconditions: cannot add more than one target for the same category.
 	 * 				 can only set targets for the SAME month
 	 */
+	
 	/**
 	 * 
 	 * @param cat
@@ -69,7 +81,7 @@ public class TargetManager extends Storable {
 	 */
 	
 	/**
-	 * 
+	 * adds a new target into the TreeMap
 	 * @param target
 	 */
 	private void addTarget(Target target){
@@ -113,22 +125,13 @@ public class TargetManager extends Storable {
 	/**
 	 * 
 	 * @param cat
-	 * @return target object that correspond to cat
+	 * @return target object that correspond to Category
 	 */
 	public Target getTarget(Category cat){
 		return mapTarget.get(cat.getID());
 	}
 	
-	/**
-	 * 
-	 * @return true if the vector is empty
-	 */
-	public boolean isEmpty(Vector<Bar> v){
-		if(v == null)
-			return true;
-		return false;
-	}
-	
+
 	/**
 	 * 
 	 * @return a vector of <Bar> 
