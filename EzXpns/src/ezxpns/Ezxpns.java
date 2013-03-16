@@ -104,14 +104,15 @@ public class Ezxpns implements
 	@Override
 	public Vector<Record> search(SearchRequest req) {
 		RecordQueryHandler tofind = data.combined();
-		switch(req.getType()){
-		case EXPENSE:
-			tofind = data.expenses();
-		break;
-		case INCOME:
-			tofind = data.incomes();
-		break;
+		switch(req.getType()) {
+			case EXPENSE:
+				tofind = data.expenses();
+			break;
+			case INCOME:
+				tofind = data.incomes();
+			break;
 		}
+		
 		if(req.getName() != null){
 			return tofind.getRecordsBy(req.getName(), -1);
 		}else if(req.getDateRange() != null){

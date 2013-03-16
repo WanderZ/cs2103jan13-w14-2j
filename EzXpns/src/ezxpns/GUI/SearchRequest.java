@@ -42,4 +42,8 @@ public class SearchRequest {
 	public Category getCategory() {return category;}
 
 	public boolean isMultiple() {return multiple;}
+	
+	public String toString() {
+		return this.name;
+	}
 }

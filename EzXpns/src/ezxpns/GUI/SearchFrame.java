@@ -16,6 +16,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import ezxpns.data.records.Category;
+import ezxpns.data.records.Record;
+
 /**
  * The window to handle the searching and querying needs of the user
  */
@@ -57,8 +60,8 @@ public class SearchFrame extends JFrame implements ActionListener {
 		
 		this.add(panCtrls, BorderLayout.CENTER);
 		
-		// this.panResult = new ResultPanel();
-		// this.add(this.panResult, BorderLayout.SOUTH);
+		this.panResult = new ResultPanel();
+		this.add(this.panResult, BorderLayout.SOUTH);
 	}
 	
 	public void init() {
@@ -76,8 +79,21 @@ public class SearchFrame extends JFrame implements ActionListener {
 		// TODO Auto-generated method stub
 		if(event.getSource() == panBtns.getSearchBtn()) {
 			// User invoked search
-			currReq = new SearchRequest(panForm.getNameField().getText().trim());
-			List results = handler.search(currReq);
+			
+			this.remove(panResult);
+			String sReq = panForm.getNameField().getText().trim();
+			if(sReq.equals("")) {
+				sReq = panForm.getCatField().getText().trim();
+				currReq = new SearchRequest(new Category(sReq));
+			}
+			else {
+				currReq = new SearchRequest(sReq);
+			}
+			List<Record> results = handler.search(currReq);
+			System.out.println("results found: " + results.size());
+			this.panResult = new ResultPanel(results);
+			this.add(this.panResult, BorderLayout.SOUTH);
+			this.validate(); // Force repaint doesn't seem to work here
 			return;
 		}
 		
@@ -93,23 +109,25 @@ public class SearchFrame extends JFrame implements ActionListener {
  */
 @SuppressWarnings("serial")
 class ResultPanel extends JPanel {
-		
-	public ResultPanel() {
-		super();
-		
-	}
 	
-	// Methods to receive results
-	// Methods to format results
-	// Methods to display results
-	// Hover highlight MouseEvent
-	// Paging required?
+	private MultiRecDisplay resultDisplay;
+	
+	public ResultPanel() {super();}
+	
+	public ResultPanel(List<Record> results) {
+		super(new BorderLayout(5, 5));
+		
+		resultDisplay = new MultiRecDisplay(results);
+		
+		this.add(resultDisplay, BorderLayout.CENTER);
+	}
 }
 
+@SuppressWarnings("serial")
 class SearchFormPanel extends JPanel {
 	
-	private JLabel lblName, lblTitle;
-	private JTextField txtName;
+	private JLabel lblName, lblTitle, lblCat;
+	private JTextField txtName, txtCat;
 	
 	public SearchFormPanel() {
 		super();
@@ -119,37 +137,51 @@ class SearchFormPanel extends JPanel {
 		
 		panForm.add(this.getNameLabel());
 		panForm.add(this.getNameField());
+		panForm.add(this.getCatLabel());
+		panForm.add(this.getCatField());
 		
 		this.add(getTitleLabel(), BorderLayout.NORTH);
 		this.add(panForm, BorderLayout.CENTER);
-		
-		// 3 main parts
-		// 1. Title of the place - technically its on the top of the screen
-		// 2. The form for searching - this one would be the simple form first.
-		// 3. Buttons to support searching. (not here, outside)
 	}
 	
 	private JLabel getTitleLabel() {
 		if(lblTitle == null) {
-			lblTitle = new JLabel("Simple Search");
+			lblTitle = new JLabel("  Simple Search");
 			lblTitle.setFont(new Font("Segoe UI", 0, 30)); // #Font
 		}
 		return lblTitle;
 	}
 	
 	private JLabel getNameLabel() {
-		if(lblTitle == null) {
-			lblTitle = new JLabel("Name");
-			lblTitle.setFont(new Font("Segoe UI", 0, 18)); // #Font
+		if(lblName == null) {
+			lblName = new JLabel("            Name");
+			lblName.setFont(new Font("Segoe UI", 0, 18)); // #Font
 		}
-		return lblTitle;
+		return lblName;
 	}
 	
 	public JTextField getNameField() {
 		if(txtName == null) {
-			txtName = new JTextField("", 25);
+			txtName = new JTextField("", 15);
+			txtName.setFont(new Font("Segoe UI", 0, 18)); // #Font
 		}
 		return txtName;
+	}
+	
+	private JLabel getCatLabel() {
+		if(lblCat == null) {
+			lblCat = new JLabel("        Category");
+			lblCat.setFont(new Font("Segoe UI", 0, 18)); // #Font
+		}
+		return lblCat;
+	}
+	
+	public JTextField getCatField() {
+		if(txtCat == null) {
+			txtCat = new JTextField("", 15);
+			txtCat.setFont(new Font("Segoe UI", 0, 18)); // #Font
+		}
+		return txtCat;
 	}
 }
 
@@ -168,9 +200,10 @@ class SearchBtnPanel extends JPanel {
 		
 		// Layout to make it fill the width completely, and glue to the base
 		
-		this.add(Box.createVerticalGlue());
+		
 		this.add(this.getSearchBtn());
 		this.add(this.getCancelBtn());
+		this.add(Box.createVerticalGlue());
 		
 		this.btnSearch.addActionListener(listener);
 		this.btnCancel.addActionListener(listener);
@@ -179,10 +212,11 @@ class SearchBtnPanel extends JPanel {
 	public JButton getSearchBtn() {
 		if(btnSearch == null) {
 			btnSearch = new JButton("Find it!");
-			btnSearch.setBackground(Color.DARK_GRAY);
-			btnSearch.setForeground(Color.LIGHT_GRAY);
+			btnSearch.setBackground(Color.LIGHT_GRAY);
+			btnSearch.setForeground(Color.BLACK);
 			btnSearch.addMouseListener(new MouseAdapter() {
-				
+				// Hover 
+				// Hover off
 			});
 		}
 		return btnSearch;
@@ -196,7 +230,8 @@ class SearchBtnPanel extends JPanel {
 			btnCancel.setBorderPainted(false);
 			
 			btnCancel.addMouseListener(new MouseAdapter() {
-				
+				// Hover
+				// Hover off
 			});
 		}
 		return btnCancel;
