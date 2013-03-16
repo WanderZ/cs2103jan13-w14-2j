@@ -8,35 +8,9 @@ import ezxpns.data.Storable;
 import ezxpns.GUI.*;
 
 /**
- * @author yyjhao
- * 
  * A java Generic to manage records
  * @param <T> the type of records (expense/income) to manage
- */
-/**
- * @author yyjhao
- *
- * @param <T>
- */
-/**
- * @author yyjhao
- *
- * @param <T>
- */
-/**
- * @author yyjhao
- *
- * @param <T>
- */
-/**
- * @author yyjhao
- *
- * @param <T>
- */
-/**
- * @author yyjhao
- *
- * @param <T>
+ * @author yyjhao 
  */
 public class RecordManager<T extends Record>
 	extends Storable
@@ -453,5 +427,24 @@ public class RecordManager<T extends Record>
 		} catch (CategoryUpdateException e) {
 			return null;
 		}
+	}
+	
+	public Vector<Category> getCategoriesBy(String name){
+		Vector<Category> re = new Vector<Category>();
+		for(Category c: categories.values()){
+			if(c.getName().equals(name)){
+				re.add(c);
+			}
+		}
+		return re;
+	}
+	
+	public Vector<T> getRecordsByCategory(String name){
+		Vector<Category> cs = getCategoriesBy(name);
+		Vector<T> rs = new Vector<T>();
+		for(Category c : cs){
+			rs.addAll(getRecordsBy(c, -1));
+		}
+		return rs;
 	}
 }
