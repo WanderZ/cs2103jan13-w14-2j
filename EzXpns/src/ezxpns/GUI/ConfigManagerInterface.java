@@ -22,4 +22,7 @@ public interface ConfigManagerInterface {
 	 */
 	public void save();
 	
+	
+	// Possibly Date formats
+	// Limits for year in the entry of date fields
 }

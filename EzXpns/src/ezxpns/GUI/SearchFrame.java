@@ -6,11 +6,14 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -18,6 +21,7 @@ import javax.swing.JTextField;
 
 import ezxpns.data.records.Category;
 import ezxpns.data.records.Record;
+import ezxpns.util.Pair;
 
 /**
  * The window to handle the searching and querying needs of the user
@@ -82,12 +86,31 @@ public class SearchFrame extends JFrame implements ActionListener {
 			this.remove(panResult);
 			String sReq = panForm.getNameField().getText().trim();
 			if(sReq.equals("")) {
+				// Name field is empty!
 				sReq = panForm.getCatField().getText().trim();
-				currReq = new SearchRequest(new Category(sReq));
+				if(!sReq.equals("")) {
+					currReq = new SearchRequest(new Category(sReq));
+				}	
+				// No Category entered either
+				else {
+					try {
+						Pair<Date, Date> dateRange = new Pair<Date, Date>(
+								SearchFormPanel.DATE_FORMAT.parse(panForm.getDateFromField().getText()), 
+								SearchFormPanel.DATE_FORMAT.parse(panForm.getDateToField().getText())
+								);
+						currReq = new SearchRequest(dateRange);
+					}
+					catch(Exception err) {
+						// Display err with date :(
+						return;
+					}
+				}
+			
 			}
 			else {
 				currReq = new SearchRequest(sReq);
 			}
+			
 			List<Record> results = handler.search(currReq);
 			System.out.println("results found: " + results.size());
 			this.panResult = new ResultPanel(results);
@@ -125,9 +148,12 @@ class ResultPanel extends JPanel {
 @SuppressWarnings("serial")
 class SearchFormPanel extends JPanel {
 	
-	private JLabel lblName, lblTitle, lblCat;
+	private JLabel lblName, lblTitle, lblCat, lblFrmDate, lblToDate;
 	private JTextField txtName, txtCat;
+	private JFormattedTextField txtFrmDate, txtToDate;
+	private final Font FORM_FONT = new Font("Segoe UI", 0, 18); // #Font
 	
+	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yy");
 	public SearchFormPanel() {
 		super();
 		this.setLayout(new BorderLayout());
@@ -138,6 +164,10 @@ class SearchFormPanel extends JPanel {
 		panForm.add(this.getNameField());
 		panForm.add(this.getCatLabel());
 		panForm.add(this.getCatField());
+		panForm.add(this.getFrmDateLabel());
+		panForm.add(this.getDateFromField());
+		panForm.add(this.getToDateLabel());
+		panForm.add(this.getDateToField());
 		
 		this.add(getTitleLabel(), BorderLayout.NORTH);
 		this.add(panForm, BorderLayout.CENTER);
@@ -154,7 +184,7 @@ class SearchFormPanel extends JPanel {
 	private JLabel getNameLabel() {
 		if(lblName == null) {
 			lblName = new JLabel("            Name");
-			lblName.setFont(new Font("Segoe UI", 0, 18)); // #Font
+			lblName.setFont(FORM_FONT); // #Font
 		}
 		return lblName;
 	}
@@ -162,7 +192,7 @@ class SearchFormPanel extends JPanel {
 	public JTextField getNameField() {
 		if(txtName == null) {
 			txtName = new JTextField("", 15);
-			txtName.setFont(new Font("Segoe UI", 0, 18)); // #Font
+			txtName.setFont(FORM_FONT); // #Font
 		}
 		return txtName;
 	}
@@ -170,7 +200,7 @@ class SearchFormPanel extends JPanel {
 	private JLabel getCatLabel() {
 		if(lblCat == null) {
 			lblCat = new JLabel("        Category");
-			lblCat.setFont(new Font("Segoe UI", 0, 18)); // #Font
+			lblCat.setFont(FORM_FONT); // #Font
 		}
 		return lblCat;
 	}
@@ -178,9 +208,44 @@ class SearchFormPanel extends JPanel {
 	public JTextField getCatField() {
 		if(txtCat == null) {
 			txtCat = new JTextField("", 15);
-			txtCat.setFont(new Font("Segoe UI", 0, 18)); // #Font
+			txtCat.setFont(FORM_FONT); // #Font
 		}
 		return txtCat;
+	}
+
+	private JLabel getFrmDateLabel() {
+		if(lblFrmDate == null) {
+			lblFrmDate = new JLabel("        From");
+			lblFrmDate.setFont(FORM_FONT); // #Font
+		}
+		return lblFrmDate;
+	}
+	
+	private JLabel getToDateLabel() {
+		if(lblToDate == null) {
+			lblToDate = new JLabel("  Till");
+			lblToDate.setFont(FORM_FONT); // #Font
+			
+		}
+		return lblToDate;
+	}
+	
+	public JFormattedTextField getDateFromField() {
+		if(txtFrmDate == null) {
+			txtFrmDate = new JFormattedTextField(DATE_FORMAT);
+			txtFrmDate.setFont(FORM_FONT); // #Font
+			txtFrmDate.setValue(new Date());
+		}
+		return txtFrmDate;
+	}
+	
+	public JFormattedTextField getDateToField() {
+		if(txtToDate == null) {
+			txtToDate = new JFormattedTextField(DATE_FORMAT);
+			txtToDate.setFont(FORM_FONT); // #Font
+			txtToDate.setValue(new Date());
+		}
+		return txtToDate;
 	}
 }
 
@@ -223,7 +288,7 @@ class SearchBtnPanel extends JPanel {
 	
 	public JButton getCancelBtn() {
 		if(btnCancel == null) {
-			btnCancel = new JButton("Abondon Everything");
+			btnCancel = new JButton("Discard and exit");
 			btnCancel.setContentAreaFilled(false);
 			btnCancel.setFocusPainted(false);
 			btnCancel.setBorderPainted(false);
