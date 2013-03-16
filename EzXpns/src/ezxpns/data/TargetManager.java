@@ -7,7 +7,7 @@ import ezxpns.data.records.Category;
 import ezxpns.data.records.ExpenseRecord;
 
 /**
- * @author shuzhen
+ * @author Suzzie
  * 
  * A generator that takes in targets and data and produce alert info
  * 
@@ -39,7 +39,8 @@ public class TargetManager extends Storable {
 	}
 	
 	/**
-	 * 
+	 * This removes the target that has the category ID from the TreeMap
+	 * This is called when a Category is deleted
 	 * @param identifier
 	 */
 	public void removeCategoryTarget(long identifier){
@@ -53,10 +54,10 @@ public class TargetManager extends Storable {
 	 */
 	
 	/**
-	 * 
+	 * This returns the target with the same Category and double attribute
 	 * @param cat
 	 * @param targetAmt
-	 * @return
+	 * @return a Target that is newly created
 	 */
 	public Target setTarget(Category cat, double targetAmt){
 		if(mapTarget.containsKey(cat.getID())){
@@ -89,11 +90,11 @@ public class TargetManager extends Storable {
 		markUpdate();
 	}
 	/**
-	 * Removes target and all references to it
+	 * Removes target from the tree map
 	 * @param target
 	 */
 	public void removeTarget(Target target){
-		mapTarget.remove(target.getCategory());
+		mapTarget.remove(target.getCategory().getID());
 		dataUpdated = true;
 		markUpdate();
 	}
@@ -112,7 +113,7 @@ public class TargetManager extends Storable {
 
 	
 	/** 
-	 * 
+	 * This returns a copy of the internal targets
 	 * @return a copy of the internal targets
 	 */
 	public Vector<Target> getTargets(){
@@ -134,7 +135,7 @@ public class TargetManager extends Storable {
 
 	/**
 	 * 
-	 * @return a vector of <Bar> 
+	 * @return a vector of bar that is classified as alerts
 	 */
 	public Vector<Bar> getAlerts(){
 		Vector<Bar> ordered = getOrderedBar();
@@ -151,8 +152,8 @@ public class TargetManager extends Storable {
 
 
 	/**
-	 * 
-	 * @return a vector of <Bar> in increasing order of ratio of currentAmt/targetAmt
+	 * This generates an ordered vector of bars in increasing order of ratio of currentAmt/targetAmt
+	 * @return a vector of bar
 	 */
 	public Vector<Bar> getOrderedBar(){
 		if(dataUpdated){
@@ -163,7 +164,7 @@ public class TargetManager extends Storable {
 	}
 	
 	/**
-	 * Updates the bar
+	 * Updates the bars
 	 */
 	private void genBars(){
 		if(bars == null){
@@ -179,7 +180,7 @@ public class TargetManager extends Storable {
 	}
 
 	/**
-	 * 
+	 * This method checks if a bar qualifies as an alert
 	 * @param bar
 	 * @return true is the Bar qualifies as an Alert
 	 */

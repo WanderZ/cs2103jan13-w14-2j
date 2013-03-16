@@ -112,7 +112,7 @@ public class TargetOverviewPanel extends JPanel {
 			lblCurrentAmt.setHorizontalAlignment(SwingConstants.CENTER);
 
 			String tAmtName = "$"
-					+ MONEY_FORMAT.format(bar.getTarget().getTargetAmt()); // to be
+					+ MONEY_FORMAT.format(bar.getTargetAmt()); // to be
 			// changed
 			JLabel lblTargetAmt = new JLabel("/" + tAmtName);
 			rowPanel.add(lblTargetAmt);
