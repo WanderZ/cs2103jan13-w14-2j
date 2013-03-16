@@ -1,5 +1,6 @@
 package ezxpns.GUI;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -146,5 +147,14 @@ public class OverviewPanel extends JPanel {
 		lblIncome.setText("Income:\t" + df.format(mySummaryDetails.getIncome()));
 		lblExpense.setText("Expense:\t" + df.format(mySummaryDetails.getExpense()));
 		lblTimeFrame.setText(mySummaryDetails.getSummaryType().getName());
+		
+		if (mySummaryDetails.getBalance() > 0)
+			lblBalance.setForeground(Color.GREEN.darker());
+		else if (mySummaryDetails.getBalance() < 0)
+			lblBalance.setForeground(Color.RED.darker());
+	}
+	
+	public void updateOverview(){
+		getSummaryData();
 	}
 }

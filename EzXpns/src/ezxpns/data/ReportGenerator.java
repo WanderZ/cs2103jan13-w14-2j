@@ -115,7 +115,7 @@ public class ReportGenerator {
 	private void processSectionExpense() {
 		populateExpenseCategory();
 		calAmountPerFreq();
-
+		
 		// Sort expenseCategory in decending order (percentage)
 		Collections.sort(expenseCategory);
 		myReport.setSectionExpense(expenseCategory);
