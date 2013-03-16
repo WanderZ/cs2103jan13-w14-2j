@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Vector;
@@ -77,6 +78,8 @@ public class ReportFrame extends JFrame implements ComponentListener {
 	private InteractiveTableModel tableModel;
 	private Report myReportData;
 	private JLabel lblErrorMsg;
+	
+	DecimalFormat df = new DecimalFormat("#.##");
 
 	
 	// Date Format
@@ -546,9 +549,9 @@ public class ReportFrame extends JFrame implements ComponentListener {
     
     private void initSummary() {
 		// TODO Auto-generated method stub
-    	lblIncome.setText("Income:\t"+myReportData.getTotalIncome());
-    	lblExpense.setText("Expense:\t"+myReportData.getTotalExpense());
-    	lblBalance.setText("Balance:\t"+myReportData.getBalance());
+    	lblIncome.setText("Income:\t"+df.format(myReportData.getTotalIncome()));
+    	lblExpense.setText("Expense:\t"+df.format(myReportData.getTotalExpense()));
+    	lblBalance.setText("Balance:\t"+df.format(myReportData.getBalance()));
 		
 	}
     
