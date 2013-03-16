@@ -38,6 +38,12 @@ public class TargetManager extends Storable {
 	/*Preconditions: cannot add more than one target for the same category.
 	 * 				 can only set targets for the SAME month
 	 */
+	/**
+	 * 
+	 * @param cat
+	 * @param targetAmt
+	 * @return
+	 */
 	public Target setTarget(Category cat, double targetAmt){
 		if(mapTarget.containsKey(cat.getID())){
 			return null;
@@ -59,26 +65,41 @@ public class TargetManager extends Storable {
 	 * All data regarding targets is archived after that month 
 	 * so no modification should be made available after that
 	 */
+	
+	/**
+	 * 
+	 * @param target
+	 */
 	private void addTarget(Target target){
 		mapTarget.put(target.getCategory().getID(),target);
 		markUpdate();
 	}
-		
+	/**
+	 * Removes target and all references to it
+	 * @param target
+	 */
 	public void removeTarget(Target target){
 		mapTarget.remove(target.getCategory());
 		dataUpdated = true;
 		markUpdate();
 	}
-		
+	
+	/**
+	 * Removes oldTarget and create a new one using setTarget(Category param1, double param2)
+	 * @param oldTarget
+	 * @param targetAmt
+	 */
 	public void modifyTarget(Target oldTarget, double targetAmt){
 		removeTarget(oldTarget);
 		setTarget(oldTarget.getCategory(), targetAmt);	
 		dataUpdated = true;
 		markUpdate();
 	}
-		
-	/*
-	 * @return a copy of the internal targets, alerts, or ordered targets
+
+	
+	/** 
+	 * 
+	 * @return a copy of the internal targets
 	 */
 	public Vector<Target> getTargets(){
 		Vector<Target> copy = new Vector<Target>();
@@ -87,11 +108,29 @@ public class TargetManager extends Storable {
 		}
 		return copy;
 	}
-	
+	/**
+	 * 
+	 * @param cat
+	 * @return target object that correspond to cat
+	 */
 	public Target getTarget(Category cat){
 		return mapTarget.get(cat.getID());
 	}
-		
+	
+	/**
+	 * 
+	 * @return true if the vector is empty
+	 */
+	public boolean isEmpty(Vector<Bar> v){
+		if(v == null)
+			return true;
+		return false;
+	}
+	
+	/**
+	 * 
+	 * @return a vector of <Bar> 
+	 */
 	public Vector<Bar> getAlerts(){
 		Vector<Bar> ordered = getOrderedBar();
 		Vector<Bar> alerts = new Vector<Bar>();
@@ -105,8 +144,10 @@ public class TargetManager extends Storable {
 		return alerts;
 	}
 
-	/*
-	 * @returns  Vector of Bar objects that are increasing order
+
+	/**
+	 * 
+	 * @return a vector of <Bar> in increasing order of ratio of currentAmt/targetAmt
 	 */
 	public Vector<Bar> getOrderedBar(){
 		if(dataUpdated){
@@ -116,6 +157,9 @@ public class TargetManager extends Storable {
 		return bars;
 	}
 	
+	/**
+	 * Updates the bar
+	 */
 	private void genBars(){
 		bars.clear();
 		for(Target target: mapTarget.values()){
@@ -125,14 +169,21 @@ public class TargetManager extends Storable {
 		Collections.sort(bars);
 	}
 
-		
+	/**
+	 * 
+	 * @param bar
+	 * @return true is the Bar qualifies as an Alert
+	 */
 	private boolean isAnAlert(Bar bar){
-		if(bar.getColour().equals("RED") || bar.getColour().equals("ORANGE")) 
+		if(bar.getColor().equals("RED") || bar.getColor().equals("ORANGE")) 
 			return true;
 		else 
 			return false;
 	}
 	
+	/**
+	 * 
+	 */
 	public void markDataUpdated(){
 		dataUpdated = true;
 	}
