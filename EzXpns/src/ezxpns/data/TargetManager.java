@@ -119,6 +119,16 @@ public class TargetManager extends Storable {
 	
 	/**
 	 * 
+	 * @return true if the vector is empty
+	 */
+	public boolean isEmpty(Vector<Bar> v){
+		if(v == null)
+			return true;
+		return false;
+	}
+	
+	/**
+	 * 
 	 * @return a vector of <Bar> 
 	 */
 	public Vector<Bar> getAlerts(){
@@ -162,10 +172,10 @@ public class TargetManager extends Storable {
 	/**
 	 * 
 	 * @param bar
-	 * @return
+	 * @return true is the Bar qualifies as an Alert
 	 */
 	private boolean isAnAlert(Bar bar){
-		if(bar.getColour().equals("RED") || bar.getColour().equals("ORANGE")) 
+		if(bar.getColor().equals("RED") || bar.getColor().equals("ORANGE")) 
 			return true;
 		else 
 			return false;
