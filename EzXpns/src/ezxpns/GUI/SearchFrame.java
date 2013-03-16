@@ -1,8 +1,12 @@
 package ezxpns.GUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -16,7 +20,7 @@ import javax.swing.JTextField;
  * The window to handle the searching and querying needs of the user
  */
 @SuppressWarnings("serial")
-public class SearchFrame extends JFrame {
+public class SearchFrame extends JFrame implements ActionListener {
 	
 	public final int DEFAULT_WIDTH = 600;
 	public final int DEFAULT_HEIGHT = 400;
@@ -25,8 +29,15 @@ public class SearchFrame extends JFrame {
 	
 	// 2 main panels, the top (querying time frame) and the bottom (results, content)
 	private SearchFormPanel panForm;
+	private SearchBtnPanel panBtns;
 	private ResultPanel panResult;
 	
+	private SearchRequest currReq;
+	
+	/**
+	 * 
+	 * @param handlerRef
+	 */
 	public SearchFrame(SearchHandlerInterface handlerRef) {
 		super();
 		this.init();
@@ -34,12 +45,20 @@ public class SearchFrame extends JFrame {
 		this.handler = handlerRef;
 		
 		this.setLayout(new BorderLayout());
-				
-		this.panForm = new SearchFormPanel();
-		this.add(this.panForm, BorderLayout.CENTER);
 		
-		this.panResult = new ResultPanel();
-		this.add(this.panResult, BorderLayout.SOUTH);
+		JPanel panCtrls = new JPanel();
+		panCtrls.setLayout(new BorderLayout());
+		
+		panForm = new SearchFormPanel();
+		panCtrls.add(panForm, BorderLayout.CENTER);
+		
+		panBtns = new SearchBtnPanel(this);
+		panCtrls.add(panBtns, BorderLayout.EAST);
+		
+		this.add(panCtrls, BorderLayout.CENTER);
+		
+		// this.panResult = new ResultPanel();
+		// this.add(this.panResult, BorderLayout.SOUTH);
 	}
 	
 	public void init() {
@@ -50,6 +69,22 @@ public class SearchFrame extends JFrame {
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); 
 		// this.setExtendedState(JFrame.MAXIMIZED_BOTH); // Full screen
 	    // this.setUndecorated(true); // removes the title bar
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent event) {
+		// TODO Auto-generated method stub
+		if(event.getSource() == panBtns.getSearchBtn()) {
+			// User invoked search
+			currReq = new SearchRequest(panForm.getNameField().getText().trim());
+			List results = handler.search(currReq);
+			return;
+		}
+		
+		if(event.getSource() == panBtns.getCancelBtn()) {
+			// User invoke cancel
+			this.dispose();
+		}
 	}
 }
 
@@ -77,12 +112,21 @@ class SearchFormPanel extends JPanel {
 	private JTextField txtName;
 	
 	public SearchFormPanel() {
+		super();
+		this.setLayout(new BorderLayout());
+		JPanel panForm = new JPanel();
+		panForm.setLayout(new FlowLayout());
+		
+		panForm.add(this.getNameLabel());
+		panForm.add(this.getNameField());
+		
+		this.add(getTitleLabel(), BorderLayout.NORTH);
+		this.add(panForm, BorderLayout.CENTER);
 		
 		// 3 main parts
 		// 1. Title of the place - technically its on the top of the screen
 		// 2. The form for searching - this one would be the simple form first.
-		// 3. Buttons to support searching.
-		
+		// 3. Buttons to support searching. (not here, outside)
 	}
 	
 	private JLabel getTitleLabel() {
@@ -100,16 +144,24 @@ class SearchFormPanel extends JPanel {
 		}
 		return lblTitle;
 	}
+	
+	public JTextField getNameField() {
+		if(txtName == null) {
+			txtName = new JTextField("", 25);
+		}
+		return txtName;
+	}
 }
 
 /**
  * Panel to containing the buttons for functionality
  */
+@SuppressWarnings("serial")
 class SearchBtnPanel extends JPanel {
 	
 	private JButton btnSearch, btnCancel;
 	
-	public SearchBtnPanel() {
+	public SearchBtnPanel(ActionListener listener) {
 		super();
 		BoxLayout loBtn = new BoxLayout(this, BoxLayout.Y_AXIS);
 		this.setLayout(loBtn);
@@ -119,13 +171,16 @@ class SearchBtnPanel extends JPanel {
 		this.add(Box.createVerticalGlue());
 		this.add(this.getSearchBtn());
 		this.add(this.getCancelBtn());
+		
+		this.btnSearch.addActionListener(listener);
+		this.btnCancel.addActionListener(listener);
 	}
 	
-	private JButton getSearchBtn() {
+	public JButton getSearchBtn() {
 		if(btnSearch == null) {
 			btnSearch = new JButton("Find it!");
 			btnSearch.setBackground(Color.DARK_GRAY);
-			
+			btnSearch.setForeground(Color.LIGHT_GRAY);
 			btnSearch.addMouseListener(new MouseAdapter() {
 				
 			});
@@ -133,7 +188,7 @@ class SearchBtnPanel extends JPanel {
 		return btnSearch;
 	}
 	
-	private JButton getCancelBtn() {
+	public JButton getCancelBtn() {
 		if(btnCancel == null) {
 			btnCancel = new JButton("Abondon Everything");
 			btnCancel.setContentAreaFilled(false);

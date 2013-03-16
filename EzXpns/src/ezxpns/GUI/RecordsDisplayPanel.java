@@ -83,6 +83,8 @@ public class RecordsDisplayPanel extends JPanel implements ActionListener {
 			btnEx.setFocusPainted(false);
 			
 			btnEx.addMouseListener(new MouseAdapter() {
+				
+				@Override
 				public void mouseEntered(MouseEvent mEvent) { // Hover start
 					JButton btn = (JButton) mEvent.getSource();
 					btn.setForeground(Color.BLUE);
@@ -95,10 +97,12 @@ public class RecordsDisplayPanel extends JPanel implements ActionListener {
 					btn.setFont(btnFont.deriveFont(attribute));*/
 				}
 				
+				@Override
 				public void mousePressed(MouseEvent mEvent) {
 					loCard.show(panContent, TAB_EX);
 				}
 				
+				@Override
 				public void mouseExited(MouseEvent mEvent) { // Hover end
 					JButton btn = (JButton) mEvent.getSource();
 					btn.setFont(btnFont); // return to original font (without the underline - workaround)
@@ -294,7 +298,7 @@ class RecordDisplayPanel extends JPanel {
 		if(lblAmtName == null) {
 			String colAmtName = MONEY_FORMAT.format(record.getAmount()) + " on " + record.getName();
 			lblAmtName = new JLabel(colAmtName);
-			lblAmtName.setFont(new Font("", 0, 18));
+			lblAmtName.setFont(new Font("", 0, 11));
 		}
 		return lblAmtName;
 	}
@@ -302,7 +306,7 @@ class RecordDisplayPanel extends JPanel {
 	public JLabel getCat() {
 		if(lblCat == null) {
 			lblCat = new JLabel(record.getCategory().getName());
-			lblCat.setFont(new Font("", 0, 18));
+			lblCat.setFont(new Font("", 0, 11));
 		}
 		return lblCat;
 	}
@@ -310,7 +314,7 @@ class RecordDisplayPanel extends JPanel {
 	public JLabel getDate() {
 		if(lblDate == null) {
 			lblDate = new JLabel("yesterday");
-			lblDate.setFont(new Font("", 0, 18));
+			lblDate.setFont(new Font("", 0, 11));
 		}
 		return lblDate;
 	}
