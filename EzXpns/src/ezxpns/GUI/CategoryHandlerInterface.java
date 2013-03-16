@@ -21,6 +21,11 @@ public interface CategoryHandlerInterface {
 	 */
 	public Category addNewCategory(Category newCat);
 
+	/**
+	 * Create a new category with the name
+	 * @param name
+	 * @return the created category, or null if failed
+	 */
 	public Category addNewCategory(String name);
 	
 	/**
@@ -32,7 +37,6 @@ public interface CategoryHandlerInterface {
 	
 	/**
 	 * Modify Category Method
-	 * @precond The provided category object must include the identifier in it
 	 * @param selectedCat The selected category to be modified
 	 * @return the modified category, or null if failed
 	 */

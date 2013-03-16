@@ -5,11 +5,20 @@ import java.util.Date;
 
 /**
  * @author yyjhao
- * With one additional attribute: expenseType{NEED, WANT}
+ * Record with two additional attribute: expenseType{NEED, WANT} and PaymentMethod
  */
 public class ExpenseRecord extends Record{
-	public ExpenseType expenseType;
-	public PaymentMethod paymentMethod;
+	protected ExpenseType expenseType;
+	protected PaymentMethod paymentMethod;
+	/**
+	 * @param amount
+	 * @param name
+	 * @param remark
+	 * @param date
+	 * @param category
+	 * @param expenseType
+	 * @param paymentMethod
+	 */
 	public ExpenseRecord(
 			double amount, 
 			String name, 
@@ -23,26 +32,27 @@ public class ExpenseRecord extends Record{
 		this.paymentMethod = paymentMethod;
 	}
 	
+	/**
+	 * @param t new type
+	 */
 	protected void setExpenseType(ExpenseType t){
 		this.expenseType = t;
 	}
 	
+	/**
+	 * @return expense type
+	 */
 	public ExpenseType getExpenseType(){
 		return expenseType;
 	}
 	
+	/**
+	 * @return payment method
+	 */
 	public PaymentMethod getPaymentMethod(){
 		return paymentMethod;
 	}
 	
-	@Override
-	public void updateInternal(Record other){
-		if(other instanceof ExpenseRecord){
-			super.updateInternal(other);
-			expenseType = ((ExpenseRecord)other).expenseType;
-		}
-	}
-
 	@Override
 	public Record copy() {
 		ExpenseRecord r = new ExpenseRecord(this.getAmount(), this.getName(), this.getRemark(), this.getDate(),
