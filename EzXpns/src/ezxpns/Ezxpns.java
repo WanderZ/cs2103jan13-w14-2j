@@ -20,8 +20,8 @@ import ezxpns.GUI.SearchRequest.RecordType;
 
 
 /**
- * @author yyjhao
  * Main class that links up various components
+ * @author yyjhao
  */
 public class Ezxpns implements
 		RecordHandlerInterface,
@@ -104,14 +104,15 @@ public class Ezxpns implements
 	@Override
 	public Vector<Record> search(SearchRequest req) {
 		RecordQueryHandler tofind = data.combined();
-		switch(req.getType()){
-		case EXPENSE:
-			tofind = data.expenses();
-		break;
-		case INCOME:
-			tofind = data.incomes();
-		break;
+		switch(req.getType()) {
+			case EXPENSE:
+				tofind = data.expenses();
+			break;
+			case INCOME:
+				tofind = data.incomes();
+			break;
 		}
+		
 		if(req.getName() != null){
 			return tofind.getRecordsBy(req.getName(), -1);
 		}else if(req.getDateRange() != null){
@@ -119,7 +120,8 @@ public class Ezxpns implements
 				 end = req.getDateRange().getRight();
 			return tofind.getRecordsBy(start, end, -1, false);
 		}else if(req.getCategory() != null){
-			return tofind.getRecordsBy(req.getCategory(), -1);
+//			return tofind.getRecordsBy(req.getCategory(), -1);
+			return tofind.getRecordsByCategory(req.getCategory().getName());
 		}else{
 			return null;
 		}

@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Vector;
@@ -44,6 +45,7 @@ import org.jfree.util.Rotation;
 import ezxpns.data.Report;
 import ezxpns.data.ReportCategory;
 import ezxpns.data.ReportGenerator;
+import ezxpns.data.ReportGenerator.DateOrderException;
 
 /**
  * The window to handle all the extensive record analysis and report
@@ -75,6 +77,9 @@ public class ReportFrame extends JFrame implements ComponentListener {
 	private JTable table;
 	private InteractiveTableModel tableModel;
 	private Report myReportData;
+	private JLabel lblErrorMsg;
+	
+	DecimalFormat df = new DecimalFormat("#.##");
 
 	
 	// Date Format
@@ -287,6 +292,11 @@ public class ReportFrame extends JFrame implements ComponentListener {
 					myReportData = rptGen.generateReport(dateFormat.parse(startDateField.getText()),dateFormat.parse(endDateField.getText()));
 				} catch (ParseException e1) {
 					// TODO Auto-generated catch block
+					lblErrorMsg.setText("Please enter the date in the following format: dd/mm/yyyy");
+					e1.printStackTrace();
+				} catch (DateOrderException e1) {
+					// TODO Auto-generated catch block
+					lblErrorMsg.setText("Please check the ordering of your start/end date");
 					e1.printStackTrace();
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
@@ -306,26 +316,32 @@ public class ReportFrame extends JFrame implements ComponentListener {
 
 			
 		});
+		
+		lblErrorMsg = new JLabel("");
+		lblErrorMsg.setForeground(Color.RED);
 		GroupLayout gl_generateReport = new GroupLayout(generateReport);
 		gl_generateReport.setHorizontalGroup(
 			gl_generateReport.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_generateReport.createSequentialGroup()
-					.addContainerGap(452, Short.MAX_VALUE)
-					.addComponent(btnGenerate)
-					.addGap(49))
-				.addGroup(gl_generateReport.createSequentialGroup()
+				.addGroup(Alignment.LEADING, gl_generateReport.createSequentialGroup()
 					.addGap(20)
 					.addGroup(gl_generateReport.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_generateReport.createSequentialGroup()
-							.addComponent(lblStartDate)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(startDateField, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(lblEndDate)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(endDateField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addComponent(lblGenerateAReport))
-					.addContainerGap(203, Short.MAX_VALUE))
+							.addComponent(lblErrorMsg)
+							.addPreferredGap(ComponentPlacement.RELATED, 408, Short.MAX_VALUE)
+							.addComponent(btnGenerate)
+							.addGap(49))
+						.addGroup(gl_generateReport.createSequentialGroup()
+							.addGroup(gl_generateReport.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblGenerateAReport)
+								.addGroup(gl_generateReport.createSequentialGroup()
+									.addComponent(lblStartDate)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(startDateField, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
+									.addGap(18)
+									.addComponent(lblEndDate)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(endDateField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+							.addContainerGap(203, Short.MAX_VALUE))))
 		);
 		gl_generateReport.setVerticalGroup(
 			gl_generateReport.createParallelGroup(Alignment.LEADING)
@@ -339,7 +355,9 @@ public class ReportFrame extends JFrame implements ComponentListener {
 						.addComponent(lblEndDate)
 						.addComponent(endDateField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(btnGenerate)
+					.addGroup(gl_generateReport.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnGenerate)
+						.addComponent(lblErrorMsg))
 					.addGap(22))
 		);
 		generateReport.setLayout(gl_generateReport);
@@ -385,7 +403,7 @@ public class ReportFrame extends JFrame implements ComponentListener {
         generalSummary.add(Box.createVerticalGlue());
         
 		
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 
 	
@@ -531,10 +549,9 @@ public class ReportFrame extends JFrame implements ComponentListener {
     
     private void initSummary() {
 		// TODO Auto-generated method stub
-    	lblIncome.setText("Income:\t"+myReportData.getTotalIncome());
-    	lblExpense.setText("Expense:\t"+myReportData.getTotalExpense());
-    	lblBalance.setText("Balance:\t"+myReportData.getBalance());
-		
+    	lblIncome.setText("Income:\t"+df.format(myReportData.getTotalIncome()));
+    	lblExpense.setText("Expense:\t"+df.format(myReportData.getTotalExpense()));
+    	lblBalance.setText("Balance:\t"+df.format(myReportData.getBalance()));
 	}
     
     /** TableModel

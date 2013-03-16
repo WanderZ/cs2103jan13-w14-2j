@@ -6,12 +6,11 @@ import ezxpns.data.records.*;
 import ezxpns.util.Pair;
 
 /**
- * @author yyjhao
  * A wrapper containing all data <br />
  * with some helper functions to query both types <br />
  * Everything here is handled by StorageManager to save to file <br />
  * Remember to add transient if the data is not meant to be persistent
- * 
+ * @author yyjhao
  */
 public class DataManager extends Storable
 	implements
@@ -78,6 +77,15 @@ public class DataManager extends Storable
 					rs.remove(i);
 				}
 			}
+			return rs;
+		}
+
+		@Override
+		public Vector<Record> getRecordsByCategory(String name) {
+			Vector<Record> rs = new Vector<Record>();
+			rs.addAll(incomes.getRecordsByCategory(name));
+			rs.addAll(expenses.getRecordsByCategory(name));
+			Collections.sort(rs);
 			return rs;
 		}
 		
