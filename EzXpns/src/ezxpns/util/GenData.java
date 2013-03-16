@@ -8,9 +8,9 @@ import ezxpns.data.records.*;
 import java.math.*;
 
 /**
- * @author yyjhao
  * Generate some random data for testing
  * strictly for testing purpose, may not be maintained
+ * @author yyjhao
  */
 public class GenData {
 

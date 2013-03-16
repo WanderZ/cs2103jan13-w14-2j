@@ -5,8 +5,8 @@ import java.util.*;
 import ezxpns.data.records.*;
 
 /**
- * @author yyjhao
  * An interface that handles search query for records
+ * @author yyjhao
  * @param <T> A Record type
  */
 public interface RecordQueryHandler<T extends Record> {

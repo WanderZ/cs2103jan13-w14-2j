@@ -3,8 +3,8 @@ package ezxpns.data.records;
 import java.util.Date;
 
 /**
- * @author yyjhao
  * A category-like class that stores payment method
+ * @author yyjhao
  */
 public class PaymentMethod implements Comparable<PaymentMethod> {
 	/**

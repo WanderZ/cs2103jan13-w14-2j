@@ -20,8 +20,8 @@ import ezxpns.GUI.SearchRequest.RecordType;
 
 
 /**
- * @author yyjhao
  * Main class that links up various components
+ * @author yyjhao
  */
 public class Ezxpns implements
 		RecordHandlerInterface,

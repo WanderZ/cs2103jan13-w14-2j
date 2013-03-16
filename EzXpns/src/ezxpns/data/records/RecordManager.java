@@ -7,10 +7,10 @@ import ezxpns.data.Storable;
 
 import ezxpns.GUI.*;
 
-/** @author yyjhao
- * 
+/**
  * A java Generic to manage records
  * @param <T> the type of records (expense/income) to manage
+ * @author yyjhao 
  */
 public class RecordManager<T extends Record>
 	extends Storable
