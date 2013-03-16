@@ -7,6 +7,14 @@ import java.util.List;
  * @author yyjhao
  * A container for some basic record attributes
  */
+/**
+ * @author yyjhao
+ *
+ */
+/**
+ * @author yyjhao
+ *
+ */
 public abstract class Record implements Comparable<Record>{
 	protected double amount;
 	protected String name;
@@ -15,6 +23,11 @@ public abstract class Record implements Comparable<Record>{
 	protected transient Category category = Category.undefined;
 	protected long id;
 	
+	/**
+	 * A helper function to calculate sum of all records
+	 * @param rs list of records
+	 * @return sum of all amounts of the records
+	 */
 	public static <T extends Record> double sumAmount(List<T> rs){
 		double sum = 0;
 		for(Record r : rs){
@@ -24,6 +37,13 @@ public abstract class Record implements Comparable<Record>{
 	}
 
 	
+	/**
+	 * @param amount
+	 * @param name
+	 * @param remark
+	 * @param date
+	 * @param category
+	 */
 	public Record(double amount, String name, String remark, Date date, Category category){
 		this.amount = amount;
 		this.name = name;
@@ -41,6 +61,7 @@ public abstract class Record implements Comparable<Record>{
 		return other.id == this.id;
 	}
 	
+	@Override
 	public int compareTo(Record other){
 		if(date.equals(other.date)){
 			if(this.id > other.id){
@@ -63,37 +84,63 @@ public abstract class Record implements Comparable<Record>{
 		}
 	}
 	
+	
+	/**
+	 * @return A copy of itself
+	 */
 	public abstract Record copy();
 	
 	/**
-	 * Copy data from another object to itself.
-	 * This is to retain the reference to the object
-	 * in the data manager
-	 * @param other the object to copy from
+	 * @return amount
 	 */
-	public void updateInternal(Record other){
-		amount = other.amount;
-		name = other.name;
-		remark = other.remark;
-		date = new Date(other.date.getTime());
-		category = other.category;
-	}
-
 	public double getAmount() {return amount;}
+	/**
+	 * @param amount new amount
+	 */
 	protected void setAmount(double amount) {this.amount = amount;}
 
+	/**
+	 * @return name
+	 */
 	public String getName() {return name;}
+	/**
+	 * @param name new name
+	 */
 	protected void setName(String name) {this.name = name;}
 
+	/**
+	 * @return remark
+	 */
 	public String getRemark() {return remark;}
+	/**
+	 * @param remark new remark
+	 */
 	protected void setRemark(String remark) {this.remark = remark;}
 
+	/**
+	 * @return date
+	 */
 	public Date getDate() {return new Date(date.getTime());}
+	/**
+	 * @param date new date
+	 */
 	protected void setDate(Date date) {this.date = new Date(date.getTime());}
 
+	/**
+	 * @return category
+	 */
 	public Category getCategory() {return category;}
+	/**
+	 * @param category new category
+	 */
 	protected void setCategory(Category category) {this.category = category;}
 
+	/**
+	 * @return id
+	 */
 	public long getId() {return id;}
+	/**
+	 * @param id new id
+	 */
 	protected void setId(long id) {this.id = id;}
 }

@@ -7,20 +7,30 @@ import ezxpns.util.Pair;
 
 /**
  * @author yyjhao
- * A wrapper containing all data
- * with some helper functions to query both types
- * Everything here is handled by StorageManager to save to file
+ * A wrapper containing all data <br />
+ * with some helper functions to query both types <br />
+ * Everything here is handled by StorageManager to save to file <br />
  * Remember to add transient if the data is not meant to be persistent
  * 
  */
-public class DataManager implements
-	ReportGenerator.DataProvider,
-	TargetManager.DataProvider,
-	SummaryGenerator.DataProvider{
+public class DataManager extends Storable
+	implements
+		ReportGenerator.DataProvider,
+		TargetManager.DataProvider,
+		SummaryGenerator.DataProvider{
+	/**
+	 * @author yyjhao
+	 * A helper class that handles query that ask for both
+	 * data types
+	 */
 	public static class CombinedRecordsQueryHandler
 		implements RecordQueryHandler<Record>{
 		private RecordManager<IncomeRecord> incomes;
 		private ExpenseRecordManager expenses;
+		/**
+		 * @param _incomes A record manager that handles income records
+		 * @param _expenses A record manager that handles expense records
+		 */
 		public CombinedRecordsQueryHandler(
 				RecordManager<IncomeRecord> _incomes,
 				RecordManager<ExpenseRecord> _expenses) {
@@ -28,6 +38,7 @@ public class DataManager implements
 			expenses = (ExpenseRecordManager) _expenses;
 		}
 
+		@Override
 		public Vector<Record> getRecordsBy(String name, int max) {
 			Vector<Record> rs = new Vector<Record>();
 			rs.addAll(incomes.getRecordsBy(name, max));
@@ -41,6 +52,7 @@ public class DataManager implements
 			return rs;
 		}
 
+		@Override
 		public Vector<Record> getRecordsBy(Category category, int max) {
 			Vector<Record> rs = new Vector<Record>();
 			rs.addAll(incomes.getRecordsBy(category, max));
@@ -54,6 +66,7 @@ public class DataManager implements
 			return rs;
 		}
 
+		@Override
 		public Vector<Record> getRecordsBy(Date start, Date end, int max,
 				boolean reverse) {
 			Vector<Record> rs = new Vector<Record>();
@@ -72,6 +85,10 @@ public class DataManager implements
 	
 	private ExpenseRecordManager _expenses = new ExpenseRecordManager();
 	private RecordManager<IncomeRecord> _incomes = new RecordManager<IncomeRecord>();
+	/**
+	 * Note that this is a combination of both income and expense record manager, <br />
+	 * so it need not be persistent, since all its data is from the two manager
+	 */
 	private transient CombinedRecordsQueryHandler _combined;
 	
 	private TargetManager _targetManager = new TargetManager(this);
@@ -84,39 +101,50 @@ public class DataManager implements
 				_incomes.getRecordsBy(start, end, -1, false));
 	}
 	
+	/**
+	 * @return The target manager
+	 */
 	public TargetManager targetManager(){
 		return _targetManager;
 	}
 	
+	/**
+	 * @return Expense record manager
+	 */
 	public ExpenseRecordManager expenses(){
 		return _expenses;
 	}
 	
+	/**
+	 * @return Income record manager
+	 */
 	public RecordManager<IncomeRecord> incomes(){
 		return _incomes;
 	}
 	
-	/*
-	 * A query handler that returns both expense and income records
+	/**
+	 * @return A query handler that returns both income and expense records
 	 */
 	public CombinedRecordsQueryHandler combined(){
 		return _combined;
 	}
 	
+	
+	@Override
 	public boolean isUpdated(){
 		return _expenses.isUpdated() || _incomes.isUpdated()
 				|| _targetManager.isUpdated();
 	}
 	
+	@Override
 	public void afterDeserialize(){
 		_incomes.afterDeserialize();
 		_expenses.afterDeserialize();
 		_combined = new CombinedRecordsQueryHandler(_incomes, _expenses);
 		_targetManager.setDataProvider(this);
 	}
-	/**
-	 * A function to be called after objects are saved
-	 */
+	
+	@Override
 	public void saved(){
 		_expenses.saved();
 		_incomes.saved();

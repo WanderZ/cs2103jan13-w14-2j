@@ -13,6 +13,31 @@ import ezxpns.GUI.*;
  * A java Generic to manage records
  * @param <T> the type of records (expense/income) to manage
  */
+/**
+ * @author yyjhao
+ *
+ * @param <T>
+ */
+/**
+ * @author yyjhao
+ *
+ * @param <T>
+ */
+/**
+ * @author yyjhao
+ *
+ * @param <T>
+ */
+/**
+ * @author yyjhao
+ *
+ * @param <T>
+ */
+/**
+ * @author yyjhao
+ *
+ * @param <T>
+ */
 public class RecordManager<T extends Record>
 	extends Storable
 	implements
@@ -33,16 +58,30 @@ public class RecordManager<T extends Record>
 		}
 	}
 	
-	private HashMap<Long, Category> categories;
-	private HashMap<Long, TreeSet<T> > recordsByCategory;
-	// note that the records is transient since it contains duplicate data as recordsByCategory
-	private transient TreeMap<Date, Vector<T> > records;
-	private transient HashMap<String, TreeSet<T> > recordsByName;
 	
-	// used to make sure no id is repeated
+	/**
+	 * all categories
+	 */
+	private HashMap<Long, Category> categories;
+	/**
+	 * The only non-transient record data structure,
+	 * this is the part that gets serilize into json
+	 * <br /> Key is id of category
+	 */
+	private HashMap<Long, TreeSet<T> > recordsByCategory;
+	private transient TreeMap<Date, Vector<T> > recordsByDate;
+	private transient HashMap<String, TreeSet<T> > recordsByName;
 	protected transient TreeMap<Long, T> recordsById;
+	
+	/**
+	 * A random generator used to re-generate id when the supplied
+	 * id to new record is repeated
+	 */
 	protected transient Random ran = new Random();
 	
+	/**
+	 * aggregate info
+	 */
 	private transient double allTimeSum = 0,
 							 monthlySum = 0,
 							 dailySum = 0,
@@ -52,19 +91,39 @@ public class RecordManager<T extends Record>
 	private transient Calendar cal = Calendar.getInstance();
 	private transient Date today, startOfYear, startOfMonth;
 
+	/**
+	 * @return sum of amount of all time
+	 */
 	public double getAllTimeSum() {
 		return allTimeSum;
 	}
+	/**
+	 * @return sum of amount of this month
+	 */
 	public double getMonthlySum() {
 		return monthlySum;
 	}
+	/**
+	 * @return sum of amount of today
+	 * Assume the user do not use this app overnight <br />
+	 * We are not getting this kind of very committed users with this kind of application <br />
+	 * Seriously who will use a desktop finance manager written in java <br />
+	 * Don't feel bad screwing up this kind of user if he is so keen to use it overnight
+	 */
 	public double getDailySum() {
 		return dailySum;
 	}
+	/**
+	 * @return sum of amount of this year
+	 */
 	public double getYearlySum() {
 		return yearlySum;
 	}
 	
+	/**
+	 * @param cat category
+	 * @return sum of amount of a category this month
+	 */
 	public double getMonthlySum(Category cat){
 		return monthlySumByCategory.get(cat.getID());
 	}
@@ -72,7 +131,7 @@ public class RecordManager<T extends Record>
 		categories = new HashMap<Long, Category>();
 		categories.put(Category.undefined.getID(), Category.undefined);
 		recordsByCategory = new HashMap<Long, TreeSet<T> >();
-		records = new TreeMap<Date, Vector<T> >();
+		recordsByDate = new TreeMap<Date, Vector<T> >();
 		recordsByName = new HashMap<String, TreeSet<T> >();
 		recordsById = new TreeMap<Long, T>();
 		monthlySumByCategory = new HashMap<Long, Double>();
@@ -85,10 +144,8 @@ public class RecordManager<T extends Record>
 		cal.set(Calendar.MONTH, 0);
 		startOfYear = cal.getTime();
 	}
-	/**
-	 * Populate data structures containing duplicate data
-	 * Also add the category reference to the records
-	 */
+	
+	@Override
 	public void afterDeserialize(){
 		for(long c : categories.keySet()){
 			monthlySumByCategory.put(c, 0.0);
@@ -101,12 +158,12 @@ public class RecordManager<T extends Record>
 			Category cat = getCategory(entry.getKey());
 			for(T record : rs){
 				record.category = cat;
-				if(records.containsKey(record.date)){
-					records.get(record.date).add(record);
+				if(recordsByDate.containsKey(record.date)){
+					recordsByDate.get(record.date).add(record);
 				}else{
 					Vector<T> list = new Vector<T>();
 					list.add(record);
-					records.put(record.date, list);
+					recordsByDate.put(record.date, list);
 				}
 				if(recordsByName.containsKey(record.name)){
 					recordsByName.get(record.name).add(record);
@@ -121,6 +178,11 @@ public class RecordManager<T extends Record>
 		}
 	}
 	
+	/**
+	 * To be called after adding a record, adds up sums with the
+	 * amount accordingly
+	 * @param record the record added
+	 */
 	private void addSums(Record record){
 		if(record.date.after(today)){
 			dailySum += record.amount;
@@ -136,6 +198,11 @@ public class RecordManager<T extends Record>
 		allTimeSum += record.amount;
 	}
 	
+	/**
+	 * To be called after removing a record, minus sum with
+	 * the amount accordingly
+	 * @param record record removed
+	 */
 	private void removeSums(Record record){
 		if(record.date.after(today)){
 			dailySum -= record.amount;
@@ -160,12 +227,27 @@ public class RecordManager<T extends Record>
 		return recordsById.get(id);
 	}
 	
+	
+	/**
+	 * Update a record. Note that the record stored is not
+	 * guaranteed to be the same as updated, since they can
+	 * have different ids
+	 * @param id
+	 * @param updated
+	 * @return the changed record
+	 * @throws RecordUpdateException
+	 */
 	public T updateRecord(long id, T updated) throws RecordUpdateException{
 		removeRecord(id);
 		updated.id = id;
 		return addNewRecord(updated);
 	}
 	
+	/**
+	 * Remove a record
+	 * @param id id of record to be removed
+	 * @throws RecordUpdateException
+	 */
 	public void removeRecord(long id) throws RecordUpdateException{
 		T record = findRecord(id);
 		System.out.println(id);
@@ -173,13 +255,21 @@ public class RecordManager<T extends Record>
 			throw new RecordUpdateException("Record does not exist.");
 		}
 		removeSums(record);
-		records.get(record.date).remove(record);
+		recordsByDate.get(record.date).remove(record);
 		recordsByCategory.get(record.category.getID()).remove(record);
 		recordsByName.get(record.name).remove(record);
 		recordsById.remove(id);
 		markUpdate();
 	}
 	
+	/**
+	 * Add a new record, returns the record added. Note
+	 * that the added record can have different id from the record
+	 * supplied. It is also going to be of different reference
+	 * @param toAdd
+	 * @return
+	 * @throws RecordUpdateException
+	 */
 	@SuppressWarnings("unchecked")
 	public T addNewRecord(T toAdd) throws RecordUpdateException{
 		T record = (T)toAdd.copy();
@@ -190,12 +280,12 @@ public class RecordManager<T extends Record>
 		while(recordsById.containsKey(record.id)){
 			record.id = (new Date()).getTime() + ran.nextInt();
 		}
-		if(records.containsKey(record.date)){
-			records.get(record.date).add(record);
+		if(recordsByDate.containsKey(record.date)){
+			recordsByDate.get(record.date).add(record);
 		}else{
 			Vector<T> rs = new Vector<T>();
 			rs.add(record);
-			records.put(record.date, rs);
+			recordsByDate.put(record.date, rs);
 		}
 		if(recordsByCategory.containsKey(record.category.getID())){
 			recordsByCategory.get(record.category.getID()).add(record);
@@ -217,10 +307,19 @@ public class RecordManager<T extends Record>
 		return record;
 	}
 	
+	/**
+	 * @param category
+	 * @return
+	 */
 	public boolean removeCategory(Category category){
 		return removeCategory(category.getID());
 	}
 	
+	/**
+	 * @param id
+	 * @param newName
+	 * @throws CategoryUpdateException
+	 */
 	public void updateCategory(long id, String newName) throws CategoryUpdateException{
 		if(categories.get(id) == null){
 			throw new CategoryUpdateException("The category with the id does not exist!");
@@ -229,6 +328,7 @@ public class RecordManager<T extends Record>
 		markUpdate();
 	}
 	
+	@Override
 	public Category addNewCategory(Category toAdd){
 		Category category = toAdd.copy();
 		while(categories.containsKey(category.getID())){
@@ -240,10 +340,20 @@ public class RecordManager<T extends Record>
 		return category;
 	}
 	
+	
+	/**
+	 * @param id
+	 * @return category with id
+	 */
 	public Category getCategory(Long id){
 		return categories.get(id);
 	}
 	
+	
+	/**
+	 * @param id
+	 * @return a record with id, or null if not found
+	 */
 	public T getRecordBy(long id){
 		T r = findRecord(id);
 		if(r == null) return r;
@@ -251,6 +361,7 @@ public class RecordManager<T extends Record>
 	}
 	
 	@SuppressWarnings("unchecked")
+	@Override
 	public Vector<T> getRecordsBy(Category category, int max){
 		Vector<T> rs = new Vector<T>();
 		if(!recordsByCategory.containsKey(category.getID())){
@@ -268,6 +379,7 @@ public class RecordManager<T extends Record>
 		return rs;
 	}
 	
+	@Override
 	public Vector<T> getRecordsBy(String name, int max){
 		Vector<T> rs = new Vector<T>();
 		if(!recordsByName.containsKey(name)){
@@ -285,15 +397,16 @@ public class RecordManager<T extends Record>
 		return rs;
 	}
 	
+	@Override
 	public Vector<T> getRecordsBy(Date start, Date end, int max, boolean reverse){
 		Vector<T> rs = new Vector<T>();
 		Collection<Vector<T> > allrecs;
 		if(reverse){
 			start = new Date(Math.max(start.getTime() - 24 * 60 * 1000, 0));
-			allrecs = records.descendingMap().subMap(end, start).values();
+			allrecs = recordsByDate.descendingMap().subMap(end, start).values();
 		}else{
 			end = new Date(end.getTime() + 24 * 60 * 1000);
-			allrecs = records.subMap(start, end).values();
+			allrecs = recordsByDate.subMap(start, end).values();
 		}
 		for(Vector<T> rrs : allrecs){
 			for(T record : rrs){
@@ -304,6 +417,7 @@ public class RecordManager<T extends Record>
 		}
 		return rs;
 	}
+	@Override
 	public boolean removeCategory(long identifier) {
 		if(recordsByCategory.containsKey(identifier)){
 			TreeSet<T> rs = recordsByCategory.get(identifier);

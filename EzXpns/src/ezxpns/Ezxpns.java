@@ -19,25 +19,54 @@ import ezxpns.GUI.SearchRequest;
 import ezxpns.GUI.SearchRequest.RecordType;
 
 
+/**
+ * @author yyjhao
+ * Main class that links up various components
+ */
 public class Ezxpns implements
 		RecordHandlerInterface,
 		CategoryHandlerInterface,
 		SearchHandlerInterface{
+	/**
+	 * The only storage manager
+	 */
 	private StorageManager store;
+	
+	/**
+	 * @return the storage manager
+	 */
 	public StorageManager getStore() {
 		return store;
 	}
 
+	/**
+	 * @return the data manager
+	 */
 	public DataManager getDataMng() {
 		return data;
 	}
 
+	/**
+	 * @return the target manager
+	 */
 	public TargetManager getTargetManager() {
 		return targetManager;
 	}
+	/**
+	 *  The data manager
+	 */
 	private DataManager data;
+	/**
+	 * The report Generator
+	 */
 	private ReportGenerator reportGenerator;
+	/**
+	 * The target manager
+	 */
 	private TargetManager targetManager;
+	/**
+	 * The summary generator
+	 */
 	private SummaryGenerator summaryGenerator;
 	
 	public Ezxpns(){
@@ -64,7 +93,6 @@ public class Ezxpns implements
 			public void run() {
 				try {
 					main.showHomeScreen();
-					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -102,6 +130,7 @@ public class Ezxpns implements
 	public boolean createRecord(IncomeRecord newRecord) {
 		try {
 			data.incomes().addNewRecord(newRecord);
+			summaryGenerator.markDataUpdated();
 		} catch (RecordUpdateException e) {
 			return false;
 		}
@@ -113,9 +142,11 @@ public class Ezxpns implements
 		try {
 			data.expenses().addNewRecord(newRecord);
 			targetManager.markDataUpdated();
+			summaryGenerator.markDataUpdated();
 		} catch (RecordUpdateException e) {
 			return false;
 		}
+		store.save();
 		return true;
 	}
 	

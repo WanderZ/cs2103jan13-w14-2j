@@ -17,9 +17,16 @@ public abstract class Storable {
 	}
 	
 	/**
-	 * Mark the object as updated
+	 * Mark the object as updated so that the storage manager
+	 * will attempt to save the data
 	 */
 	protected void markUpdate(){
 		updated = true;
 	}
+	
+	/**
+	 * Optional method to populate transient attributes after deserializing data
+	 * from json.
+	 */
+	public void afterDeserialize(){ }
 }

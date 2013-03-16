@@ -1,15 +1,31 @@
 package ezxpns.util;
 
+/**
+ * @author yyjhao
+ * A pair of anything
+ * @param <L>
+ * @param <R>
+ */
 public class Pair<L, R> {
 	private final L left;
 	private final R right;
 	
+	/**
+	 * @param left
+	 * @param right
+	 */
 	public Pair(L left, R right) {
 		this.left = left;
 	    this.right = right;
 	}
 	
+	/**
+	 * @return the left object
+	 */
 	public L getLeft() { return left; }
+	/**
+	 * @return the right object
+	 */
 	public R getRight() { return right; }
 	
 	@Override

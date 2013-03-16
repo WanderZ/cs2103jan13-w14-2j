@@ -8,21 +8,45 @@ import com.google.gson.*;
 /**
  * @author yyjhao
  *
- * Manages the file IO of all the data
+ * Manages storage of all persistent data
  */
 public class StorageManager {
+	/**
+	 * @author yyjhao
+	 * An event listener that will be notified when
+	 * storage manager fails to do file IO
+	 */
 	public static interface StorageEventListener{
 		void readFail(IOException e);
 		void writeFail(IOException e);
 	}
 	
+	/**
+	 * The file to read/write
+	 */
 	private File file;
+	/**
+	 * The data to be store. All other data should be under this
+	 */
 	private DataManager manager;
+	/**
+	 * A timer to schedule checking and saving of data
+	 */
 	private Timer timer = new Timer();
 //	private Gson gson = new Gson();
+	/**
+	 * Gson is used to serialize and deserialize data into json
+	 */
 	private Gson gson = new GsonBuilder().setPrettyPrinting().create(); // for testing purpose
+	/**
+	 * All the listenrs
+	 */
 	private Vector<StorageEventListener> listeners = new Vector<StorageEventListener>();
 	
+	/**
+	 * The interval for checking then writing to file <br />
+	 * Possible to be moved into constructor
+	 */
 	private final int writeInterval = 5 * 1000;
 	
 	/**
@@ -45,13 +69,18 @@ public class StorageManager {
 		});
 	}
 	
-	/*
+	/**
 	 * Need this to handle some exceptions during timer IO
 	 */
 	public void addEventListener(StorageEventListener listener){
 		listeners.add(listener);
 	}
 	
+	/**
+	 * Serialize data and write it to the file <br />
+	 * Notifies if it fails <br />
+	 * Note that this method may be called by the timer
+	 */
 	private synchronized void writeToFile(){
 		try{
 			BufferedWriter out = new BufferedWriter(new FileWriter(file));
@@ -65,6 +94,9 @@ public class StorageManager {
 		}
 	}
 	
+	/**
+	 * Attempt to save the data. First check if there's update, if yes, writeToFile();
+	 */
 	public void save(){
 		if(manager.isUpdated()){
 			writeToFile();
@@ -77,6 +109,10 @@ public class StorageManager {
 		}, writeInterval);
 	}
 	
+	/**
+	 * Deserialize all data from the json file
+	 * and start the timer that will attempt to save for each interval
+	 */
 	public synchronized void read(){
 		StringBuilder str = new StringBuilder(2048);
 		try{
@@ -106,6 +142,9 @@ public class StorageManager {
 		}, writeInterval);
 	}
 	
+	/**
+	 * @return the data maanger
+	 */
 	public DataManager getDataManager(){
 		return manager;
 	}

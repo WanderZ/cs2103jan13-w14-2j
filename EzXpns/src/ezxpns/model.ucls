@@ -1,0 +1,2674 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.1" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
+  realizations="true" associations="true" dependencies="true" nesting-relationships="true">  
+  <interface id="1" language="java" name="ezxpns.data.ReportGenerator.DataProvider" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/data/ReportGenerator.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="80" width="513" x="2570" y="2551"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </interface>  
+  <class id="2" language="java" name="ezxpns.GUI.PanelExpense" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/RecordFrame.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="728" width="572" x="3270" y="2551"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="ezxpns.data.DataManager.CombinedRecordsQueryHandler" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/data/DataManager.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="134" width="591" x="4164" y="2089"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="ezxpns.data.Storable" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/data/Storable.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="170" width="146" x="4071" y="1039"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="ezxpns.GUI.TargetOverviewPanel" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/TargetOverviewPanel.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="98" width="236" x="728" y="2089"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="ezxpns.data.TargetManager" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/data/TargetManager.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="332" width="220" x="757" y="2551"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="ezxpns.GUI.HomeScreen" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/HomeScreen.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="278" width="489" x="755" y="1321"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <interface id="8" language="java" name="ezxpns.GUI.SearchHandlerInterface" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/SearchHandlerInterface.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="80" width="248" x="4942" y="2089"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </interface>  
+  <interface id="9" language="java" name="ezxpns.data.SummaryGenerator.DataProvider" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/data/SummaryGenerator.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="206" width="183" x="225" y="3337"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </interface>  
+  <class id="10" language="java" name="ezxpns.data.Report" project="EzXpns" file="/EzXpns/src/ezxpns/data/Report.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="350" width="301" x="1640" y="2551"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="ezxpns.GUI.SearchRequest" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/SearchRequest.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="278" width="210" x="5503" y="2551"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="ezxpns.GUI.SavingsOverviewPanel" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/SavingsOverviewPanel.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="80" width="180" x="-81" y="2089"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <interface id="13" language="java" name="ezxpns.GUI.CategoryHandlerInterface" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/CategoryHandlerInterface.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="152" width="252" x="1082" y="3337"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </interface>  
+  <class id="14" language="java" name="ezxpns.GUI.MenuRecord" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/EzXpnMainMenu.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="152" width="192" x="3030" y="595"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <package id="15" language="java" name="ezxpns.util" project="EzXpns" file="/EzXpns/src/ezxpns/util" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="50" width="115" x="1343" y="595"/>    
+    <display autosize="true" stereotype="true" accessors="true"/>  
+  </package>  
+  <class id="16" language="java" name="ezxpns.data.ReportCategory" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/data/ReportCategory.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="350" width="199" x="1847" y="3337"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="17" language="java" name="ezxpns.data.records.RecordManager.RecordUpdateException" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/data/records/RecordManager.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="98" width="200" x="5816" y="3337"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="18" language="java" name="ezxpns.GUI.MenuTarget" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/EzXpnMainMenu.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="152" width="167" x="23" y="121"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="19" language="java" name="ezxpns.GUI.RecordFrame" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/RecordFrame.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="206" width="727" x="3023" y="1321"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <package id="20" language="java" name="ezxpns.data" project="EzXpns" file="/EzXpns/src/ezxpns/data" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="161" width="278" x="3706" y="403"/>    
+    <display autosize="false" stereotype="true" accessors="true"/>  
+  </package>  
+  <class id="21" language="java" name="ezxpns.GUI.PanelRecur" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/RecordFrame.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="296" width="215" x="3945" y="2551"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="22" language="java" name="ezxpns.data.records.Record" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/data/records/Record.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="458" width="264" x="2985" y="3727"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="23" language="java" name="ezxpns.GUI.SearchBtnPanel" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/SearchFrame.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="152" width="152" x="1054" y="121"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="24" language="java" name="ezxpns.GUI.RecordDisplayPanel" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/RecordsDisplayPanel.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="242" width="216" x="1528" y="3337"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <interface id="25" language="java" name="ezxpns.GUI.PaymentMethodHandlerInterface" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/PaymentMethodHandlerInterface.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="134" width="306" x="4064" y="3727"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </interface>  
+  <class id="26" language="java" name="ezxpns.GUI.PanelOption" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/RecordFrame.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="152" width="180" x="2196" y="2089"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="27" language="java" name="ezxpns.GUI.MenuReport" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/EzXpnMainMenu.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="98" width="189" x="2557" y="595"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="28" language="java" name="ezxpns.data.DataManager" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/data/DataManager.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="386" width="513" x="4164" y="1321"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <enumeration id="29" language="java" name="ezxpns.data.records.ExpenseType" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/data/records/ExpenseType.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="134" width="142" x="5818" y="4417"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </enumeration>  
+  <class id="30" language="java" name="ezxpns.data.records.RecordManager.CategoryUpdateException" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/data/records/RecordManager.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="80" width="210" x="4966" y="3337"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="31" language="java" name="ezxpns.GUI.ReportFrame" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/ReportFrame.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="728" width="261" x="2156" y="1321"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="32" language="java" name="ezxpns.data.records.ExpenseRecordManager" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/data/records/ExpenseRecordManager.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="170" width="306" x="4578" y="3337"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <interface id="33" language="java" name="ezxpns.GUI.ConfigManagerInterface" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/ConfigManagerInterface.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="134" width="203" x="2071" y="121"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </interface>  
+  <class id="34" language="java" name="ezxpns.GUI.SearchFrame" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/SearchFrame.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="134" width="238" x="1601" y="1321"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="35" language="java" name="ezxpns.GUI.EzXpnMainMenu" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/EzXpnMainMenu.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="134" width="180" x="2786" y="403"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="36" language="java" name="ezxpns.GUI.PanelIncome" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/RecordFrame.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="494" width="381" x="2149" y="2551"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="37" language="java" name="ezxpns.data.SummaryGenerator" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/data/SummaryGenerator.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="188" width="313" x="-102" y="2551"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="38" language="java" name="ezxpns.data.SummaryDetails" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/data/SummaryDetails.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="206" width="285" x="-142" y="3337"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="39" language="java" name="ezxpns.data.records.RecordManager" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/data/records/RecordManager.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="746" width="302" x="4837" y="2551"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="40" language="java" name="ezxpns.GUI.PanelMain" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/RecordFrame.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="386" width="695" x="3084" y="2089"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="41" language="java" name="ezxpns.GUI.RecordsListerPanel" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/RecordsDisplayPanel.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="278" width="289" x="1164" y="2551"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <package id="42" language="java" name="ezxpns.GUI" project="EzXpns" file="/EzXpns/src/ezxpns/GUI" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="50" width="115" x="1303" y="313"/>    
+    <display autosize="true" stereotype="true" accessors="true"/>  
+  </package>  
+  <interface id="43" language="java" name="ezxpns.data.RecordQueryHandler" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/data/RecordQueryHandler.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="116" width="289" x="3976" y="3337"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </interface>  
+  <class id="44" language="java" name="ezxpns.GUI.ReportDialog" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/ReportDialog.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="80" width="114" x="3140" y="121"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="45" language="java" name="ezxpns.GUI.ReportFrame.InteractiveTableModel" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/ReportFrame.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="278" width="193" x="1921" y="2089"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="46" language="java" name="ezxpns.GUI.RecordsDisplayPanel" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/RecordsDisplayPanel.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="314" width="284" x="1067" y="2089"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="47" language="java" name="ezxpns.data.StorageManager" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/data/StorageManager.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="242" width="274" x="2714" y="1039"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="48" language="java" name="ezxpns.GUI.AlertManagerDialog" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/AlertManagerDialog.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="152" width="159" x="4121" y="121"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="49" language="java" name="ezxpns.data.records.Category" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/data/records/Category.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2186" y="4473"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <interface id="50" language="java" name="ezxpns.data.StorageManager.StorageEventListener" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/data/StorageManager.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="98" width="172" x="1284" y="1321"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </interface>  
+  <class id="51" language="java" name="ezxpns.GUI.CategoryModel" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/CategoryModel.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="134" width="312" x="-717" y="2551"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="52" language="java" name="ezxpns.GUI.OverviewPanel" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/OverviewPanel.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="188" width="224" x="380" y="2089"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="53" language="java" name="ezxpns.Main" project="EzXpns" file="/EzXpns/src/ezxpns/Main.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="98" width="125" x="4833" y="403"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <package id="54" language="java" name="ezxpns" project="EzXpns" file="/EzXpns/src/ezxpns" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="145" width="292" x="5162" y="66"/>    
+    <display autosize="false" stereotype="true" accessors="true"/>  
+  </package>  
+  <class id="55" language="java" name="ezxpns.data.records.PaymentMethod" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/data/records/PaymentMethod.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="242" width="201" x="4978" y="4417"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="56" language="java" name="ezxpns.GUI.UIControl" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/UIControl.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="206" width="1113" x="1540" y="1039"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <enumeration id="57" language="java" name="ezxpns.GUI.SearchRequest.RecordType" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/SearchRequest.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="134" width="156" x="5578" y="3337"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </enumeration>  
+  <class id="58" language="java" name="ezxpns.GUI.CategoryFrame" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/CategoryFrame.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="422" width="491" x="-696" y="2089"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="59" language="java" name="ezxpns.util.GenData" project="EzXpns" file="/EzXpns/src/ezxpns/util/GenData.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="5461" y="422"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="60" language="java" name="ezxpns.GUI.SearchFormPanel" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/SearchFrame.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="170" width="155" x="1412" y="2089"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <interface id="61" language="java" name="ezxpns.data.TargetManager.DataProvider" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/data/TargetManager.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="80" width="233" x="448" y="3337"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </interface>  
+  <package id="62" language="java" name="ezxpns.data.records" project="EzXpns" file="/EzXpns/src/ezxpns/data/records" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="80" width="252" x="3717" y="472"/>    
+    <display autosize="false" stereotype="true" accessors="true"/>  
+  </package>  
+  <class id="63" language="java" name="ezxpns.util.Pair" project="EzXpns" file="/EzXpns/src/ezxpns/util/Pair.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="188" width="154" x="5321" y="3337"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="64" language="java" name="ezxpns.data.ReportGenerator" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/data/ReportGenerator.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="314" width="460" x="2500" y="2089"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="65" language="java" name="ezxpns.GUI.PanelTip" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/HomeScreen.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="98" width="201" x="139" y="2089"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <interface id="66" language="java" name="ezxpns.GUI.RecordHandlerInterface" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/RecordHandlerInterface.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="224" width="273" x="2934" y="3337"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </interface>  
+  <class id="67" language="java" name="ezxpns.GUI.ResultPanel" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/SearchFrame.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="80" width="106" x="1607" y="2089"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="68" language="java" name="ezxpns.data.Bar" project="EzXpns" file="/EzXpns/src/ezxpns/data/Bar.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="224" width="154" x="721" y="3337"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="69" language="java" name="ezxpns.GUI.MenuEdit" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/GUI/EzXpnMainMenu.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="134" width="183" x="2786" y="595"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="70" language="java" name="ezxpns.data.records.ExpenseRecord" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/data/records/ExpenseRecord.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="152" width="482" x="4454" y="4225"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="71" language="java" name="ezxpns.data.Target" project="EzXpns" file="/EzXpns/src/ezxpns/data/Target.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="152" width="160" x="488" y="3727"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="72" language="java" name="ezxpns.data.records.IncomeRecord" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/data/records/IncomeRecord.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="98" width="304" x="2608" y="4225"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <enumeration id="73" language="java" name="ezxpns.data.SummaryGenerator.SummaryType" project="EzXpns" 
+    file="/EzXpns/src/ezxpns/data/SummaryGenerator.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="188" width="234" x="-203" y="3727"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </enumeration>  
+  <class id="74" language="java" name="ezxpns.Ezxpns" project="EzXpns" file="/EzXpns/src/ezxpns/Ezxpns.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="404" width="273" x="4833" y="595"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <dependency id="75">    
+    <bendpoint x="5283" y="313"/>    
+    <bendpoint x="5283" y="403"/>    
+    <bendpoint x="5283" y="595"/>    
+    <bendpoint x="5283" y="1039"/>    
+    <bendpoint x="5283" y="1321"/>    
+    <bendpoint x="5304" y="2089"/>    
+    <bendpoint x="5295" y="2551"/>    
+    <bendpoint x="5269" y="3337"/>    
+    <bendpoint x="5269" y="3727"/>    
+    <bendpoint x="5269" y="4225"/>    
+    <end type="SOURCE" refId="54"/>    
+    <end type="TARGET" refId="49"/>  
+  </dependency>  
+  <dependency id="76">    
+    <end type="SOURCE" refId="66"/>    
+    <end type="TARGET" refId="22"/>  
+  </dependency>  
+  <association id="77">    
+    <end type="SOURCE" refId="58" navigable="false">      
+      <attribute id="78" name="targetMgr"/>      
+      <multiplicity id="79" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="80">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="52"/>  
+  </dependency>  
+  <association id="81">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="82" name="targetMgr"/>      
+      <multiplicity id="83" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="84">    
+    <bendpoint x="5178" y="1039"/>    
+    <bendpoint x="5178" y="1321"/>    
+    <bendpoint x="5220" y="2089"/>    
+    <bendpoint x="5190" y="2551"/>    
+    <end type="SOURCE" refId="74"/>    
+    <end type="TARGET" refId="32"/>  
+  </dependency>  
+  <realization id="85">    
+    <bendpoint x="3011" y="2089"/>    
+    <bendpoint x="1546" y="2551"/>    
+    <end type="SOURCE" refId="28"/>    
+    <end type="TARGET" refId="9"/>  
+  </realization>  
+  <dependency id="86">    
+    <bendpoint x="4484" y="2551"/>    
+    <bendpoint x="4442" y="3337"/>    
+    <bendpoint x="4421" y="3727"/>    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="72"/>  
+  </dependency>  
+  <association id="87">    
+    <end type="SOURCE" refId="34" navigable="false">      
+      <attribute id="88" name="panForm"/>      
+      <multiplicity id="89" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="60" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="90">    
+    <end type="SOURCE" refId="37" navigable="false">      
+      <attribute id="91" name="yearly"/>      
+      <multiplicity id="92" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="38" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="93">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="65"/>  
+  </dependency>  
+  <dependency id="94">    
+    <bendpoint x="5451" y="1039"/>    
+    <bendpoint x="5572" y="1321"/>    
+    <bendpoint x="5704" y="2089"/>    
+    <bendpoint x="5827" y="2551"/>    
+    <end type="SOURCE" refId="74"/>    
+    <end type="TARGET" refId="17"/>  
+  </dependency>  
+  <dependency id="95">    
+    <bendpoint x="5262" y="1039"/>    
+    <bendpoint x="5304" y="1321"/>    
+    <bendpoint x="5346" y="2089"/>    
+    <bendpoint x="5337" y="2551"/>    
+    <bendpoint x="5290" y="3337"/>    
+    <bendpoint x="5290" y="3727"/>    
+    <bendpoint x="5290" y="4225"/>    
+    <end type="SOURCE" refId="74"/>    
+    <end type="TARGET" refId="49"/>  
+  </dependency>  
+  <dependency id="96">    
+    <end type="SOURCE" refId="20"/>    
+    <end type="TARGET" refId="15"/>  
+  </dependency>  
+  <dependency id="97">    
+    <end type="SOURCE" refId="35"/>    
+    <end type="TARGET" refId="14"/>  
+  </dependency>  
+  <association id="98">    
+    <end type="SOURCE" refId="47" navigable="false">      
+      <attribute id="99" name="manager"/>      
+      <multiplicity id="100" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="28" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="101">    
+    <end type="SOURCE" refId="46" navigable="false">      
+      <attribute id="102" name="panListExpense"/>      
+      <multiplicity id="103" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="41" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="104">    
+    <bendpoint x="3032" y="2089"/>    
+    <bendpoint x="3134" y="2551"/>    
+    <end type="SOURCE" refId="19" navigable="false">      
+      <attribute id="105" name="recHandler"/>      
+      <multiplicity id="106" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="66" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="107">    
+    <bendpoint x="4568" y="3727"/>    
+    <end type="SOURCE" refId="32"/>    
+    <end type="TARGET" refId="70"/>  
+  </dependency>  
+  <association id="108">    
+    <end type="SOURCE" refId="14" navigable="false">      
+      <attribute id="109" name="guiCtrl"/>      
+      <multiplicity id="110" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="56" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="111">    
+    <bendpoint x="1070" y="2551"/>    
+    <end type="SOURCE" refId="46" navigable="false">      
+      <attribute id="112" name="exCatHandler"/>      
+      <multiplicity id="113" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="114">    
+    <bendpoint x="5199" y="1039"/>    
+    <bendpoint x="5199" y="1321"/>    
+    <end type="SOURCE" refId="74"/>    
+    <end type="TARGET" refId="8"/>  
+  </realization>  
+  <dependency id="115">    
+    <bendpoint x="3155" y="2551"/>    
+    <end type="SOURCE" refId="40"/>    
+    <end type="TARGET" refId="66"/>  
+  </dependency>  
+  <dependency id="116">    
+    <bendpoint x="5367" y="1039"/>    
+    <bendpoint x="5476" y="1321"/>    
+    <bendpoint x="5597" y="2089"/>    
+    <bendpoint x="5743" y="2551"/>    
+    <end type="SOURCE" refId="74"/>    
+    <end type="TARGET" refId="57"/>  
+  </dependency>  
+  <dependency id="117">    
+    <bendpoint x="1509" y="403"/>    
+    <bendpoint x="1509" y="595"/>    
+    <bendpoint x="1509" y="1039"/>    
+    <bendpoint x="1869" y="1321"/>    
+    <bendpoint x="1869" y="2089"/>    
+    <end type="SOURCE" refId="42"/>    
+    <end type="TARGET" refId="10"/>  
+  </dependency>  
+  <dependency id="118">    
+    <bendpoint x="1051" y="3337"/>    
+    <bendpoint x="1051" y="3727"/>    
+    <bendpoint x="1051" y="4225"/>    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="49"/>  
+  </dependency>  
+  <generalization id="119">    
+    <end type="SOURCE" refId="28"/>    
+    <end type="TARGET" refId="4"/>  
+  </generalization>  
+  <generalization id="120">    
+    <end type="SOURCE" refId="32"/>    
+    <end type="TARGET" refId="39"/>  
+  </generalization>  
+  <dependency id="121">    
+    <end type="SOURCE" refId="45"/>    
+    <end type="TARGET" refId="10"/>  
+  </dependency>  
+  <dependency id="122">    
+    <bendpoint x="5890" y="313"/>    
+    <bendpoint x="5890" y="403"/>    
+    <bendpoint x="5890" y="595"/>    
+    <bendpoint x="5890" y="1039"/>    
+    <bendpoint x="5890" y="1321"/>    
+    <bendpoint x="5890" y="2089"/>    
+    <bendpoint x="5890" y="2551"/>    
+    <end type="SOURCE" refId="54"/>    
+    <end type="TARGET" refId="17"/>  
+  </dependency>  
+  <dependency id="123">    
+    <bendpoint x="3872" y="313"/>    
+    <bendpoint x="3872" y="403"/>    
+    <bendpoint x="3872" y="595"/>    
+    <bendpoint x="3851" y="1039"/>    
+    <bendpoint x="3851" y="1321"/>    
+    <bendpoint x="3809" y="2089"/>    
+    <bendpoint x="3218" y="2551"/>    
+    <end type="SOURCE" refId="54"/>    
+    <end type="TARGET" refId="66"/>  
+  </dependency>  
+  <dependency id="124">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="11"/>  
+  </dependency>  
+  <dependency id="125">    
+    <bendpoint x="3258" y="3337"/>    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="22"/>  
+  </dependency>  
+  <association id="126">    
+    <end type="SOURCE" refId="52" navigable="false">      
+      <attribute id="127" name="sumGen"/>      
+      <multiplicity id="128" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="37" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="129">    
+    <end type="SOURCE" refId="20"/>    
+    <end type="TARGET" refId="62"/>  
+  </dependency>  
+  <association id="130">    
+    <bendpoint x="2999" y="595"/>    
+    <end type="SOURCE" refId="35" navigable="false">      
+      <attribute id="131" name="guiCtrl"/>      
+      <multiplicity id="132" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="56" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="133">    
+    <bendpoint x="4247" y="1039"/>    
+    <bendpoint x="4091" y="1321"/>    
+    <bendpoint x="4007" y="2089"/>    
+    <bendpoint x="4190" y="2551"/>    
+    <bendpoint x="3819" y="3337"/>    
+    <end type="SOURCE" refId="74"/>    
+    <end type="TARGET" refId="22"/>  
+  </dependency>  
+  <dependency id="134">    
+    <bendpoint x="-790" y="403"/>    
+    <bendpoint x="-790" y="595"/>    
+    <bendpoint x="-790" y="1039"/>    
+    <bendpoint x="-790" y="1321"/>    
+    <bendpoint x="-790" y="2089"/>    
+    <bendpoint x="-769" y="2551"/>    
+    <bendpoint x="-687" y="3337"/>    
+    <end type="SOURCE" refId="42"/>    
+    <end type="TARGET" refId="73"/>  
+  </dependency>  
+  <association id="135">    
+    <bendpoint x="-154" y="2551"/>    
+    <bendpoint x="-194" y="3337"/>    
+    <end type="SOURCE" refId="52" navigable="false">      
+      <attribute id="136" name="summaryTab"/>      
+      <multiplicity id="137" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="73" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="138">    
+    <bendpoint x="1467" y="1039"/>    
+    <bendpoint x="1530" y="595"/>    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="35"/>  
+  </dependency>  
+  <dependency id="139">    
+    <bendpoint x="3861" y="3337"/>    
+    <bendpoint x="3924" y="3727"/>    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="70"/>  
+  </dependency>  
+  <association id="140">    
+    <bendpoint x="1848" y="2089"/>    
+    <bendpoint x="2034" y="2551"/>    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="141" name="recHandler"/>      
+      <multiplicity id="142" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="66" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="143">    
+    <bendpoint x="4268" y="1039"/>    
+    <bendpoint x="4112" y="1321"/>    
+    <bendpoint x="4049" y="2089"/>    
+    <bendpoint x="4274" y="2551"/>    
+    <end type="SOURCE" refId="74"/>    
+    <end type="TARGET" refId="43"/>  
+  </dependency>  
+  <association id="144">    
+    <end type="SOURCE" refId="36" navigable="false">      
+      <attribute id="145" name="recHandler"/>      
+      <multiplicity id="146" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="66" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="147">    
+    <bendpoint x="1015" y="2089"/>    
+    <bendpoint x="1007" y="2551"/>    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="148" name="inCatHandler"/>      
+      <multiplicity id="149" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="150">    
+    <bendpoint x="1795" y="3337"/>    
+    <end type="SOURCE" refId="41" navigable="false">      
+      <attribute id="151" name="records"/>      
+      <multiplicity id="152" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="22" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="153">    
+    <bendpoint x="3703" y="3727"/>    
+    <end type="SOURCE" refId="66"/>    
+    <end type="TARGET" refId="70"/>  
+  </dependency>  
+  <dependency id="154">    
+    <bendpoint x="5220" y="1039"/>    
+    <bendpoint x="5230" y="1321"/>    
+    <bendpoint x="5241" y="2089"/>    
+    <bendpoint x="5232" y="2551"/>    
+    <bendpoint x="5227" y="3337"/>    
+    <bendpoint x="5185" y="3727"/>    
+    <end type="SOURCE" refId="74"/>    
+    <end type="TARGET" refId="70"/>  
+  </dependency>  
+  <association id="155">    
+    <end type="SOURCE" refId="37" navigable="false">      
+      <attribute id="156" name="data"/>      
+      <multiplicity id="157" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="158">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="159" name="panTargets"/>      
+      <multiplicity id="160" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="161">    
+    <bendpoint x="457" y="3727"/>    
+    <bendpoint x="457" y="4225"/>    
+    <end type="SOURCE" refId="61"/>    
+    <end type="TARGET" refId="49"/>  
+  </dependency>  
+  <dependency id="162">    
+    <end type="SOURCE" refId="42"/>    
+    <end type="TARGET" refId="20"/>  
+  </dependency>  
+  <association id="163">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="164" name="guiCtrl"/>      
+      <multiplicity id="165" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="56" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="166">    
+    <bendpoint x="3935" y="595"/>    
+    <end type="SOURCE" refId="59"/>    
+    <end type="TARGET" refId="47"/>  
+  </dependency>  
+  <association id="167">    
+    <end type="SOURCE" refId="64" navigable="false">      
+      <attribute id="168" name="data"/>      
+      <multiplicity id="169" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="170">    
+    <end type="SOURCE" refId="55" navigable="false">      
+      <attribute id="171" name="undefined"/>      
+      <multiplicity id="172" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="55" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="173">    
+    <bendpoint x="5764" y="595"/>    
+    <bendpoint x="5764" y="1039"/>    
+    <bendpoint x="5764" y="1321"/>    
+    <bendpoint x="5764" y="2089"/>    
+    <bendpoint x="5764" y="2551"/>    
+    <bendpoint x="5764" y="3337"/>    
+    <bendpoint x="5743" y="3727"/>    
+    <bendpoint x="5743" y="4225"/>    
+    <end type="SOURCE" refId="59"/>    
+    <end type="TARGET" refId="49"/>  
+  </dependency>  
+  <association id="174">    
+    <end type="SOURCE" refId="27" navigable="false">      
+      <attribute id="175" name="guiCtrl"/>      
+      <multiplicity id="176" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="56" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="177">    
+    <bendpoint x="2406" y="2089"/>    
+    <end type="SOURCE" refId="28"/>    
+    <end type="TARGET" refId="37"/>  
+  </dependency>  
+  <association id="178">    
+    <bendpoint x="2662" y="1321"/>    
+    <bendpoint x="2990" y="2089"/>    
+    <bendpoint x="3113" y="2551"/>    
+    <end type="SOURCE" refId="56" navigable="false">      
+      <attribute id="179" name="recHandler"/>      
+      <multiplicity id="180" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="66" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="181">    
+    <bendpoint x="3798" y="3337"/>    
+    <bendpoint x="3798" y="3727"/>    
+    <bendpoint x="3798" y="4225"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="182" name="methods"/>      
+      <multiplicity id="183" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="55" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="184">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="185" name="bars"/>      
+      <multiplicity id="186" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="68" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="187">    
+    <bendpoint x="1476" y="3727"/>    
+    <bendpoint x="1476" y="4225"/>    
+    <end type="SOURCE" refId="24"/>    
+    <end type="TARGET" refId="49"/>  
+  </dependency>  
+  <dependency id="188">    
+    <bendpoint x="1497" y="3337"/>    
+    <bendpoint x="1497" y="3727"/>    
+    <end type="SOURCE" refId="41"/>    
+    <end type="TARGET" refId="72"/>  
+  </dependency>  
+  <dependency id="189">    
+    <bendpoint x="5535" y="595"/>    
+    <bendpoint x="5535" y="1039"/>    
+    <bendpoint x="5518" y="1321"/>    
+    <bendpoint x="5472" y="2089"/>    
+    <bendpoint x="5430" y="2551"/>    
+    <bendpoint x="5505" y="3337"/>    
+    <bendpoint x="5248" y="3727"/>    
+    <end type="SOURCE" refId="59"/>    
+    <end type="TARGET" refId="70"/>  
+  </dependency>  
+  <dependency id="190">    
+    <bendpoint x="4848" y="1039"/>    
+    <bendpoint x="4848" y="1321"/>    
+    <end type="SOURCE" refId="74"/>    
+    <end type="TARGET" refId="3"/>  
+  </dependency>  
+  <association id="191">    
+    <bendpoint x="2097" y="2551"/>    
+    <bendpoint x="2097" y="3337"/>    
+    <bendpoint x="2097" y="3727"/>    
+    <end type="SOURCE" refId="64" navigable="false">      
+      <attribute id="192" name="incomeRecord"/>      
+      <multiplicity id="193" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="72" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="194">    
+    <bendpoint x="905" y="3337"/>    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="195" name="mapTarget"/>      
+      <multiplicity id="196" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="71" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="197">    
+    <bendpoint x="3060" y="1039"/>    
+    <bendpoint x="2125" y="1321"/>    
+    <bendpoint x="1743" y="2089"/>    
+    <end type="SOURCE" refId="74" navigable="false">      
+      <attribute id="198" name="targetManager"/>      
+      <multiplicity id="199" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="200">    
+    <end type="SOURCE" refId="34" navigable="false">      
+      <attribute id="201" name="handler"/>      
+      <multiplicity id="202" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="203">    
+    <bendpoint x="5869" y="313"/>    
+    <bendpoint x="5869" y="403"/>    
+    <bendpoint x="5869" y="595"/>    
+    <bendpoint x="5848" y="1039"/>    
+    <bendpoint x="5848" y="1321"/>    
+    <bendpoint x="5821" y="2089"/>    
+    <bendpoint x="5806" y="2551"/>    
+    <end type="SOURCE" refId="54"/>    
+    <end type="TARGET" refId="57"/>  
+  </dependency>  
+  <association id="204">    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="205" name="record"/>      
+      <multiplicity id="206" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="22" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="207">    
+    <bendpoint x="4911" y="2089"/>    
+    <bendpoint x="5253" y="2551"/>    
+    <end type="SOURCE" refId="28"/>    
+    <end type="TARGET" refId="63"/>  
+  </dependency>  
+  <dependency id="208">    
+    <bendpoint x="2387" y="3337"/>    
+    <bendpoint x="2387" y="3727"/>    
+    <end type="SOURCE" refId="36"/>    
+    <end type="TARGET" refId="72"/>  
+  </dependency>  
+  <nesting id="209">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="61"/>  
+  </nesting>  
+  <dependency id="210">    
+    <bendpoint x="1488" y="595"/>    
+    <bendpoint x="677" y="1039"/>    
+    <bendpoint x="-133" y="1321"/>    
+    <bendpoint x="-175" y="2089"/>    
+    <bendpoint x="-175" y="2551"/>    
+    <bendpoint x="194" y="3337"/>    
+    <bendpoint x="678" y="3727"/>    
+    <end type="SOURCE" refId="20"/>    
+    <end type="TARGET" refId="72"/>  
+  </dependency>  
+  <association id="211">    
+    <bendpoint x="3018" y="1039"/>    
+    <bendpoint x="1486" y="1321"/>    
+    <bendpoint x="676" y="2089"/>    
+    <end type="SOURCE" refId="74" navigable="false">      
+      <attribute id="212" name="summaryGenerator"/>      
+      <multiplicity id="213" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="37" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="214">    
+    <end type="SOURCE" refId="39"/>    
+    <end type="TARGET" refId="13"/>  
+  </realization>  
+  <dependency id="215">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="63"/>  
+  </dependency>  
+  <dependency id="216">    
+    <bendpoint x="5157" y="313"/>    
+    <bendpoint x="5157" y="403"/>    
+    <bendpoint x="5157" y="595"/>    
+    <bendpoint x="5157" y="1039"/>    
+    <bendpoint x="5157" y="1321"/>    
+    <end type="SOURCE" refId="54"/>    
+    <end type="TARGET" refId="8"/>  
+  </dependency>  
+  <association id="217">    
+    <end type="SOURCE" refId="56" navigable="false">      
+      <attribute id="218" name="recWin"/>      
+      <multiplicity id="219" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="19" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="220">    
+    <bendpoint x="3197" y="2551"/>    
+    <bendpoint x="3237" y="3337"/>    
+    <end type="SOURCE" refId="40"/>    
+    <end type="TARGET" refId="22"/>  
+  </dependency>  
+  <association id="221">    
+    <end type="SOURCE" refId="28" navigable="false">      
+      <attribute id="222" name="_combined"/>      
+      <multiplicity id="223" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="224">    
+    <bendpoint x="262" y="2551"/>    
+    <end type="SOURCE" refId="58" navigable="false">      
+      <attribute id="225" name="incats"/>      
+      <multiplicity id="226" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="227">    
+    <end type="SOURCE" refId="58" navigable="false">      
+      <attribute id="228" name="inmo"/>      
+      <multiplicity id="229" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="51" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="230">    
+    <bendpoint x="1030" y="4225"/>    
+    <end type="SOURCE" refId="71" navigable="false">      
+      <attribute id="231" name="cat"/>      
+      <multiplicity id="232" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="49" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="233">    
+    <bendpoint x="5430" y="595"/>    
+    <bendpoint x="5430" y="1039"/>    
+    <bendpoint x="5346" y="1321"/>    
+    <bendpoint x="5262" y="2089"/>    
+    <end type="SOURCE" refId="59"/>    
+    <end type="TARGET" refId="39"/>  
+  </dependency>  
+  <association id="234">    
+    <bendpoint x="4379" y="3337"/>    
+    <end type="SOURCE" refId="39" navigable="false">      
+      <attribute id="235" name="recordsById"/>      
+      <multiplicity id="236" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="22" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="237">    
+    <bendpoint x="4598" y="313"/>    
+    <bendpoint x="4598" y="403"/>    
+    <end type="SOURCE" refId="54"/>    
+    <end type="TARGET" refId="62"/>  
+  </dependency>  
+  <dependency id="238">    
+    <bendpoint x="3914" y="2551"/>    
+    <bendpoint x="3945" y="3337"/>    
+    <end type="SOURCE" refId="40"/>    
+    <end type="TARGET" refId="25"/>  
+  </dependency>  
+  <dependency id="239">    
+    <bendpoint x="5432" y="313"/>    
+    <bendpoint x="5432" y="403"/>    
+    <bendpoint x="5451" y="595"/>    
+    <bendpoint x="5514" y="1039"/>    
+    <bendpoint x="5497" y="1321"/>    
+    <bendpoint x="5493" y="2089"/>    
+    <bendpoint x="5472" y="2551"/>    
+    <end type="SOURCE" refId="54"/>    
+    <end type="TARGET" refId="63"/>  
+  </dependency>  
+  <dependency id="240">    
+    <bendpoint x="5262" y="403"/>    
+    <bendpoint x="5383" y="595"/>    
+    <bendpoint x="5493" y="1039"/>    
+    <bendpoint x="5593" y="1321"/>    
+    <bendpoint x="5683" y="2089"/>    
+    <bendpoint x="5785" y="2551"/>    
+    <bendpoint x="5785" y="3337"/>    
+    <bendpoint x="5785" y="3727"/>    
+    <bendpoint x="5785" y="4225"/>    
+    <end type="SOURCE" refId="42"/>    
+    <end type="TARGET" refId="55"/>  
+  </dependency>  
+  <dependency id="241">    
+    <bendpoint x="4869" y="2089"/>    
+    <bendpoint x="5169" y="2551"/>    
+    <bendpoint x="5206" y="3337"/>    
+    <bendpoint x="5227" y="3727"/>    
+    <bendpoint x="5227" y="4225"/>    
+    <end type="SOURCE" refId="28"/>    
+    <end type="TARGET" refId="49"/>  
+  </dependency>  
+  <dependency id="242">    
+    <bendpoint x="-133" y="2551"/>    
+    <end type="SOURCE" refId="52"/>    
+    <end type="TARGET" refId="38"/>  
+  </dependency>  
+  <association id="243">    
+    <bendpoint x="5547" y="3337"/>    
+    <bendpoint x="5547" y="3727"/>    
+    <bendpoint x="5547" y="4225"/>    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="244" name="category"/>      
+      <multiplicity id="245" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="49" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="246">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="57"/>  
+  </nesting>  
+  <nesting id="247">    
+    <end type="SOURCE" refId="47"/>    
+    <end type="TARGET" refId="50"/>  
+  </nesting>  
+  <dependency id="248">    
+    <bendpoint x="5848" y="595"/>    
+    <bendpoint x="5869" y="1039"/>    
+    <bendpoint x="5869" y="1321"/>    
+    <bendpoint x="5869" y="2089"/>    
+    <bendpoint x="5869" y="2551"/>    
+    <bendpoint x="6067" y="3337"/>    
+    <bendpoint x="5936" y="3727"/>    
+    <bendpoint x="5806" y="4225"/>    
+    <end type="SOURCE" refId="59"/>    
+    <end type="TARGET" refId="55"/>  
+  </dependency>  
+  <association id="249">    
+    <bendpoint x="697" y="1321"/>    
+    <bendpoint x="697" y="2089"/>    
+    <end type="SOURCE" refId="56" navigable="false">      
+      <attribute id="250" name="targetMgr"/>      
+      <multiplicity id="251" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="252">    
+    <end type="SOURCE" refId="49" navigable="false">      
+      <attribute id="253" name="undefined"/>      
+      <multiplicity id="254" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="49" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="255">    
+    <end type="SOURCE" refId="38" navigable="false">      
+      <attribute id="256" name="summaryType"/>      
+      <multiplicity id="257" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="73" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="258">    
+    <bendpoint x="2469" y="2089"/>    
+    <end type="SOURCE" refId="28" navigable="false">      
+      <attribute id="259" name="_targetManager"/>      
+      <multiplicity id="260" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="261">    
+    <bendpoint x="676" y="1321"/>    
+    <bendpoint x="-133" y="2089"/>    
+    <end type="SOURCE" refId="56" navigable="false">      
+      <attribute id="262" name="sumGen"/>      
+      <multiplicity id="263" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="37" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="264">    
+    <bendpoint x="241" y="2551"/>    
+    <end type="SOURCE" refId="58" navigable="false">      
+      <attribute id="265" name="excats"/>      
+      <multiplicity id="266" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="267">    
+    <bendpoint x="2505" y="313"/>    
+    <bendpoint x="2505" y="403"/>    
+    <end type="SOURCE" refId="54"/>    
+    <end type="TARGET" refId="15"/>  
+  </dependency>  
+  <association id="268">    
+    <bendpoint x="3830" y="1321"/>    
+    <bendpoint x="3944" y="2089"/>    
+    <bendpoint x="4295" y="2551"/>    
+    <bendpoint x="4358" y="3337"/>    
+    <end type="SOURCE" refId="56" navigable="false">      
+      <attribute id="269" name="payHandler"/>      
+      <multiplicity id="270" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="25" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="271">    
+    <bendpoint x="-375" y="2551"/>    
+    <bendpoint x="-375" y="3337"/>    
+    <bendpoint x="-375" y="3727"/>    
+    <bendpoint x="-375" y="4225"/>    
+    <end type="SOURCE" refId="58" navigable="false">      
+      <attribute id="272" name="curCat"/>      
+      <multiplicity id="273" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="49" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="274">    
+    <end type="SOURCE" refId="37"/>    
+    <end type="TARGET" refId="9"/>  
+  </nesting>  
+  <dependency id="275">    
+    <end type="SOURCE" refId="62"/>    
+    <end type="TARGET" refId="4"/>  
+  </dependency>  
+  <association id="276">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="277" name="incomes"/>      
+      <multiplicity id="278" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="39" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="279">    
+    <end type="SOURCE" refId="28"/>    
+    <end type="TARGET" refId="64"/>  
+  </dependency>  
+  <association id="280">    
+    <bendpoint x="-729" y="3337"/>    
+    <bendpoint x="-729" y="3727"/>    
+    <bendpoint x="-729" y="4225"/>    
+    <end type="SOURCE" refId="51" navigable="false">      
+      <attribute id="281" name="toadd"/>      
+      <multiplicity id="282" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="49" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="283">    
+    <bendpoint x="994" y="2089"/>    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="284" name="targetMgr"/>      
+      <multiplicity id="285" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="286">    
+    <bendpoint x="4589" y="2551"/>    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="287" name="expenses"/>      
+      <multiplicity id="288" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="32" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="289">    
+    <bendpoint x="4019" y="1039"/>    
+    <bendpoint x="3924" y="1321"/>    
+    <bendpoint x="3830" y="2089"/>    
+    <bendpoint x="3239" y="2551"/>    
+    <end type="SOURCE" refId="74"/>    
+    <end type="TARGET" refId="66"/>  
+  </realization>  
+  <association id="290">    
+    <bendpoint x="-196" y="2551"/>    
+    <bendpoint x="-173" y="3337"/>    
+    <end type="SOURCE" refId="58" navigable="false">      
+      <attribute id="291" name="curTar"/>      
+      <multiplicity id="292" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="71" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="293">    
+    <end type="SOURCE" refId="53"/>    
+    <end type="TARGET" refId="74"/>  
+  </dependency>  
+  <association id="294">    
+    <bendpoint x="634" y="2089"/>    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="295" name="sumGen"/>      
+      <multiplicity id="296" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="37" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="297">    
+    <end type="SOURCE" refId="51" navigable="false">      
+      <attribute id="298" name="cat"/>      
+      <multiplicity id="299" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="300">    
+    <end type="SOURCE" refId="72"/>    
+    <end type="TARGET" refId="49"/>  
+  </dependency>  
+  <dependency id="301">    
+    <bendpoint x="2013" y="2551"/>    
+    <end type="SOURCE" refId="40"/>    
+    <end type="TARGET" refId="13"/>  
+  </dependency>  
+  <nesting id="302">    
+    <end type="SOURCE" refId="31"/>    
+    <end type="TARGET" refId="45"/>  
+  </nesting>  
+  <dependency id="303">    
+    <bendpoint x="3914" y="403"/>    
+    <end type="SOURCE" refId="42"/>    
+    <end type="TARGET" refId="62"/>  
+  </dependency>  
+  <dependency id="304">    
+    <bendpoint x="3851" y="403"/>    
+    <bendpoint x="3914" y="595"/>    
+    <bendpoint x="3977" y="1039"/>    
+    <bendpoint x="4034" y="1321"/>    
+    <bendpoint x="4091" y="2089"/>    
+    <bendpoint x="4463" y="2551"/>    
+    <bendpoint x="4484" y="3337"/>    
+    <bendpoint x="4505" y="3727"/>    
+    <end type="SOURCE" refId="42"/>    
+    <end type="TARGET" refId="70"/>  
+  </dependency>  
+  <association id="305">    
+    <bendpoint x="2144" y="2089"/>    
+    <bendpoint x="1504" y="2551"/>    
+    <end type="SOURCE" refId="19" navigable="false">      
+      <attribute id="306" name="exCatHandler"/>      
+      <multiplicity id="307" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="308">    
+    <bendpoint x="3998" y="1039"/>    
+    <bendpoint x="3986" y="1321"/>    
+    <bendpoint x="3986" y="2089"/>    
+    <bendpoint x="4253" y="2551"/>    
+    <end type="SOURCE" refId="62"/>    
+    <end type="TARGET" refId="43"/>  
+  </dependency>  
+  <association id="309">    
+    <bendpoint x="1890" y="2089"/>    
+    <bendpoint x="1133" y="2551"/>    
+    <end type="SOURCE" refId="19" navigable="false">      
+      <attribute id="310" name="inCatHandler"/>      
+      <multiplicity id="311" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="312">    
+    <end type="SOURCE" refId="34" navigable="false">      
+      <attribute id="313" name="panResult"/>      
+      <multiplicity id="314" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="67" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="315">    
+    <bendpoint x="3176" y="2551"/>    
+    <bendpoint x="3756" y="3337"/>    
+    <bendpoint x="3840" y="3727"/>    
+    <end type="SOURCE" refId="64" navigable="false">      
+      <attribute id="316" name="expenseRecord"/>      
+      <multiplicity id="317" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="70" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="318">    
+    <bendpoint x="4379" y="2551"/>    
+    <end type="SOURCE" refId="64" navigable="false">      
+      <attribute id="319" name="records"/>      
+      <multiplicity id="320" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="63" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="321">    
+    <bendpoint x="-354" y="2551"/>    
+    <bendpoint x="-354" y="3337"/>    
+    <bendpoint x="-354" y="3727"/>    
+    <bendpoint x="-354" y="4225"/>    
+    <end type="SOURCE" refId="58" navigable="false">      
+      <attribute id="322" name="addNew"/>      
+      <multiplicity id="323" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="49" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="324">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="325" name="dateRange"/>      
+      <multiplicity id="326" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="63" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="327">    
+    <bendpoint x="-154" y="403"/>    
+    <bendpoint x="-154" y="595"/>    
+    <bendpoint x="-154" y="1039"/>    
+    <bendpoint x="-154" y="1321"/>    
+    <bendpoint x="-154" y="2089"/>    
+    <end type="SOURCE" refId="42"/>    
+    <end type="TARGET" refId="37"/>  
+  </dependency>  
+  <association id="328">    
+    <bendpoint x="4007" y="1321"/>    
+    <end type="SOURCE" refId="56" navigable="false">      
+      <attribute id="329" name="findHandler"/>      
+      <multiplicity id="330" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="331">    
+    <bendpoint x="-748" y="403"/>    
+    <bendpoint x="-748" y="595"/>    
+    <bendpoint x="-748" y="1039"/>    
+    <bendpoint x="-748" y="1321"/>    
+    <bendpoint x="-748" y="2089"/>    
+    <bendpoint x="-748" y="2551"/>    
+    <bendpoint x="-333" y="3337"/>    
+    <bendpoint x="-333" y="3727"/>    
+    <end type="SOURCE" refId="42"/>    
+    <end type="TARGET" refId="72"/>  
+  </dependency>  
+  <nesting id="332">    
+    <end type="SOURCE" refId="28"/>    
+    <end type="TARGET" refId="3"/>  
+  </nesting>  
+  <dependency id="333">    
+    <bendpoint x="5304" y="1039"/>    
+    <bendpoint x="5367" y="1321"/>    
+    <bendpoint x="5409" y="2089"/>    
+    <bendpoint x="5409" y="2551"/>    
+    <end type="SOURCE" refId="74"/>    
+    <end type="TARGET" refId="63"/>  
+  </dependency>  
+  <association id="334">    
+    <end type="SOURCE" refId="19" navigable="false">      
+      <attribute id="335" name="panOpt"/>      
+      <multiplicity id="336" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="26" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="337">    
+    <bendpoint x="2780" y="3727"/>    
+    <end type="SOURCE" refId="66"/>    
+    <end type="TARGET" refId="72"/>  
+  </dependency>  
+  <dependency id="338">    
+    <bendpoint x="4133" y="2089"/>    
+    <bendpoint x="4442" y="2551"/>    
+    <bendpoint x="4421" y="3337"/>    
+    <bendpoint x="4400" y="3727"/>    
+    <end type="SOURCE" refId="28"/>    
+    <end type="TARGET" refId="72"/>  
+  </dependency>  
+  <nesting id="339">    
+    <end type="SOURCE" refId="39"/>    
+    <end type="TARGET" refId="17"/>  
+  </nesting>  
+  <dependency id="340">    
+    <bendpoint x="3893" y="313"/>    
+    <bendpoint x="3893" y="403"/>    
+    <bendpoint x="3893" y="595"/>    
+    <bendpoint x="3872" y="1039"/>    
+    <bendpoint x="3893" y="1321"/>    
+    <bendpoint x="3914" y="2089"/>    
+    <bendpoint x="3893" y="2551"/>    
+    <bendpoint x="3777" y="3337"/>    
+    <end type="SOURCE" refId="54"/>    
+    <end type="TARGET" refId="22"/>  
+  </dependency>  
+  <association id="341">    
+    <bendpoint x="3956" y="1039"/>    
+    <bendpoint x="3809" y="1321"/>    
+    <end type="SOURCE" refId="74" navigable="false">      
+      <attribute id="342" name="reportGenerator"/>      
+      <multiplicity id="343" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="64" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="344">    
+    <end type="SOURCE" refId="74"/>    
+    <end type="TARGET" refId="56"/>  
+  </dependency>  
+  <association id="345">    
+    <bendpoint x="431" y="1321"/>    
+    <end type="SOURCE" refId="56" navigable="false">      
+      <attribute id="346" name="catWin"/>      
+      <multiplicity id="347" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="58" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="348">    
+    <end type="SOURCE" refId="70"/>    
+    <end type="TARGET" refId="49"/>  
+  </dependency>  
+  <realization id="349">    
+    <end type="SOURCE" refId="32"/>    
+    <end type="TARGET" refId="25"/>  
+  </realization>  
+  <association id="350">    
+    <end type="SOURCE" refId="56" navigable="false">      
+      <attribute id="351" name="searchWin"/>      
+      <multiplicity id="352" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="34" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="353">    
+    <end type="SOURCE" refId="70" navigable="false">      
+      <attribute id="354" name="paymentMethod"/>      
+      <multiplicity id="355" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="55" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="356">    
+    <bendpoint x="2118" y="3337"/>    
+    <bendpoint x="2118" y="3727"/>    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="72"/>  
+  </dependency>  
+  <association id="357">    
+    <end type="SOURCE" refId="40" navigable="false">      
+      <attribute id="358" name="panRecurOpt"/>      
+      <multiplicity id="359" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="21" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="360">    
+    <end type="SOURCE" refId="41" navigable="false">      
+      <attribute id="361" name="recHandler"/>      
+      <multiplicity id="362" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="66" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="363">    
+    <bendpoint x="4316" y="2551"/>    
+    <bendpoint x="3882" y="3337"/>    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="22"/>  
+  </dependency>  
+  <dependency id="364">    
+    <end type="SOURCE" refId="35"/>    
+    <end type="TARGET" refId="27"/>  
+  </dependency>  
+  <association id="365">    
+    <end type="SOURCE" refId="47" navigable="false">      
+      <attribute id="366" name="listeners"/>      
+      <multiplicity id="367" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="50" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="368">    
+    <bendpoint x="-196" y="313"/>    
+    <bendpoint x="-196" y="403"/>    
+    <bendpoint x="-175" y="595"/>    
+    <bendpoint x="-133" y="1039"/>    
+    <bendpoint x="-112" y="1321"/>    
+    <bendpoint x="-112" y="2089"/>    
+    <bendpoint x="283" y="2551"/>    
+    <end type="SOURCE" refId="54"/>    
+    <end type="TARGET" refId="13"/>  
+  </dependency>  
+  <association id="369">    
+    <end type="SOURCE" refId="70" navigable="false">      
+      <attribute id="370" name="expenseType"/>      
+      <multiplicity id="371" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="29" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="372">    
+    <end type="SOURCE" refId="31" navigable="false">      
+      <attribute id="373" name="rptGen"/>      
+      <multiplicity id="374" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="64" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="375">    
+    <bendpoint x="2118" y="2551"/>    
+    <bendpoint x="2139" y="3337"/>    
+    <end type="SOURCE" refId="64"/>    
+    <end type="TARGET" refId="22"/>  
+  </dependency>  
+  <association id="376">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="377" name="catHandler"/>      
+      <multiplicity id="378" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="379">    
+    <bendpoint x="1036" y="2089"/>    
+    <bendpoint x="1028" y="2551"/>    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="380" name="exCatHandler"/>      
+      <multiplicity id="381" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="382">    
+    <bendpoint x="4547" y="2551"/>    
+    <bendpoint x="4337" y="3337"/>    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="22"/>  
+  </dependency>  
+  <dependency id="383">    
+    <bendpoint x="2903" y="3337"/>    
+    <bendpoint x="3300" y="3727"/>    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="70"/>  
+  </dependency>  
+  <realization id="384">    
+    <bendpoint x="3053" y="2089"/>    
+    <bendpoint x="1971" y="2551"/>    
+    <end type="SOURCE" refId="28"/>    
+    <end type="TARGET" refId="61"/>  
+  </realization>  
+  <association id="385">    
+    <bendpoint x="4508" y="1039"/>    
+    <end type="SOURCE" refId="74" navigable="false">      
+      <attribute id="386" name="data"/>      
+      <multiplicity id="387" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="28" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="388">    
+    <bendpoint x="2055" y="2551"/>    
+    <end type="SOURCE" refId="64" navigable="false">      
+      <attribute id="389" name="expenseCategory"/>      
+      <multiplicity id="390" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="16" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="391">    
+    <bendpoint x="6088" y="313"/>    
+    <bendpoint x="6088" y="403"/>    
+    <bendpoint x="6088" y="595"/>    
+    <bendpoint x="6088" y="1039"/>    
+    <bendpoint x="6088" y="1321"/>    
+    <bendpoint x="6088" y="2089"/>    
+    <bendpoint x="6088" y="2551"/>    
+    <bendpoint x="6088" y="3337"/>    
+    <bendpoint x="6067" y="3727"/>    
+    <bendpoint x="6025" y="4225"/>    
+    <end type="SOURCE" refId="54"/>    
+    <end type="TARGET" refId="55"/>  
+  </dependency>  
+  <association id="392">    
+    <end type="SOURCE" refId="64" navigable="false">      
+      <attribute id="393" name="myReport"/>      
+      <multiplicity id="394" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="395">    
+    <bendpoint x="3851" y="2089"/>    
+    <bendpoint x="4232" y="2551"/>    
+    <bendpoint x="4316" y="3337"/>    
+    <end type="SOURCE" refId="19" navigable="false">      
+      <attribute id="396" name="payHandler"/>      
+      <multiplicity id="397" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="25" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="398">    
+    <bendpoint x="3914" y="1039"/>    
+    <bendpoint x="3780" y="1321"/>    
+    <bendpoint x="2448" y="2089"/>    
+    <bendpoint x="1588" y="2551"/>    
+    <end type="SOURCE" refId="74"/>    
+    <end type="TARGET" refId="13"/>  
+  </realization>  
+  <generalization id="399">    
+    <bendpoint x="1806" y="2089"/>    
+    <bendpoint x="2704" y="1321"/>    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="4"/>  
+  </generalization>  
+  <association id="400">    
+    <end type="SOURCE" refId="19" navigable="false">      
+      <attribute id="401" name="panMain"/>      
+      <multiplicity id="402" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="40" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="403">    
+    <end type="SOURCE" refId="35"/>    
+    <end type="TARGET" refId="69"/>  
+  </dependency>  
+  <association id="404">    
+    <end type="SOURCE" refId="37" navigable="false">      
+      <attribute id="405" name="today"/>      
+      <multiplicity id="406" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="38" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="407">    
+    <bendpoint x="4289" y="1039"/>    
+    <bendpoint x="4133" y="1321"/>    
+    <bendpoint x="4070" y="2089"/>    
+    <bendpoint x="4337" y="2551"/>    
+    <bendpoint x="4295" y="3337"/>    
+    <bendpoint x="3882" y="3727"/>    
+    <end type="SOURCE" refId="74"/>    
+    <end type="TARGET" refId="72"/>  
+  </dependency>  
+  <association id="408">    
+    <end type="SOURCE" refId="40" navigable="false">      
+      <attribute id="409" name="panIncome"/>      
+      <multiplicity id="410" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="36" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="411">    
+    <bendpoint x="-708" y="3337"/>    
+    <bendpoint x="-708" y="3727"/>    
+    <bendpoint x="-708" y="4225"/>    
+    <end type="SOURCE" refId="51" navigable="false">      
+      <attribute id="412" name="cats"/>      
+      <multiplicity id="413" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="49" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="414">    
+    <bendpoint x="4848" y="2089"/>    
+    <bendpoint x="4827" y="1321"/>    
+    <end type="SOURCE" refId="39"/>    
+    <end type="TARGET" refId="4"/>  
+  </generalization>  
+  <dependency id="415">    
+    <bendpoint x="3903" y="3727"/>    
+    <bendpoint x="3893" y="4225"/>    
+    <end type="SOURCE" refId="43"/>    
+    <end type="TARGET" refId="49"/>  
+  </dependency>  
+  <dependency id="416">    
+    <bendpoint x="2076" y="2551"/>    
+    <bendpoint x="2076" y="3337"/>    
+    <bendpoint x="2076" y="3727"/>    
+    <bendpoint x="2076" y="4225"/>    
+    <end type="SOURCE" refId="64"/>    
+    <end type="TARGET" refId="49"/>  
+  </dependency>  
+  <realization id="417">    
+    <bendpoint x="4358" y="2551"/>    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="43"/>  
+  </realization>  
+  <association id="418">    
+    <bendpoint x="4806" y="2089"/>    
+    <bendpoint x="4806" y="2551"/>    
+    <end type="SOURCE" refId="28" navigable="false">      
+      <attribute id="419" name="_expenses"/>      
+      <multiplicity id="420" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="32" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="421">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="422" name="recHandler"/>      
+      <multiplicity id="423" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="66" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="424">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="425" name="panSavings"/>      
+      <multiplicity id="426" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="12" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="427">    
+    <bendpoint x="2526" y="403"/>    
+    <bendpoint x="2526" y="595"/>    
+    <bendpoint x="2683" y="1039"/>    
+    <bendpoint x="2683" y="1321"/>    
+    <end type="SOURCE" refId="42"/>    
+    <end type="TARGET" refId="64"/>  
+  </dependency>  
+  <dependency id="428">    
+    <end type="SOURCE" refId="43"/>    
+    <end type="TARGET" refId="22"/>  
+  </dependency>  
+  <nesting id="429">    
+    <bendpoint x="173" y="3337"/>    
+    <end type="SOURCE" refId="37"/>    
+    <end type="TARGET" refId="73"/>  
+  </nesting>  
+  <dependency id="430">    
+    <bendpoint x="4040" y="1039"/>    
+    <bendpoint x="4112" y="1321"/>    
+    <bendpoint x="4112" y="2089"/>    
+    <bendpoint x="4421" y="2551"/>    
+    <bendpoint x="4400" y="3337"/>    
+    <end type="SOURCE" refId="62"/>    
+    <end type="TARGET" refId="25"/>  
+  </dependency>  
+  <association id="431">    
+    <end type="SOURCE" refId="37" navigable="false">      
+      <attribute id="432" name="monthly"/>      
+      <multiplicity id="433" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="38" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="434">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="435" name="type"/>      
+      <multiplicity id="436" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="57" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="437">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="438" name="panRecords"/>      
+      <multiplicity id="439" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="46" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="440">    
+    <bendpoint x="655" y="403"/>    
+    <bendpoint x="655" y="595"/>    
+    <bendpoint x="655" y="1039"/>    
+    <bendpoint x="655" y="1321"/>    
+    <bendpoint x="655" y="2089"/>    
+    <end type="SOURCE" refId="42"/>    
+    <end type="TARGET" refId="6"/>  
+  </dependency>  
+  <dependency id="441">    
+    <end type="SOURCE" refId="41"/>    
+    <end type="TARGET" refId="24"/>  
+  </dependency>  
+  <association id="442">    
+    <end type="SOURCE" refId="74" navigable="false">      
+      <attribute id="443" name="store"/>      
+      <multiplicity id="444" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="47" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="445">    
+    <bendpoint x="4505" y="2551"/>    
+    <bendpoint x="4505" y="3337"/>    
+    <bendpoint x="4484" y="3727"/>    
+    <bendpoint x="4423" y="4225"/>    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="49"/>  
+  </dependency>  
+  <association id="446">    
+    <bendpoint x="2160" y="3337"/>    
+    <bendpoint x="2160" y="3727"/>    
+    <bendpoint x="2160" y="4225"/>    
+    <end type="SOURCE" refId="36" navigable="false">      
+      <attribute id="447" name="categories"/>      
+      <multiplicity id="448" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="49" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="449">    
+    <bendpoint x="1567" y="2551"/>    
+    <end type="SOURCE" refId="46" navigable="false">      
+      <attribute id="450" name="recHandler"/>      
+      <multiplicity id="451" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="66" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="452">    
+    <end type="SOURCE" refId="68" navigable="false">      
+      <attribute id="453" name="target"/>      
+      <multiplicity id="454" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="71" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="455">    
+    <bendpoint x="1609" y="2551"/>    
+    <end type="SOURCE" refId="45" navigable="false">      
+      <attribute id="456" name="dataVector"/>      
+      <multiplicity id="457" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="16" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="458">    
+    <bendpoint x="1049" y="2551"/>    
+    <end type="SOURCE" refId="46" navigable="false">      
+      <attribute id="459" name="inCatHandler"/>      
+      <multiplicity id="460" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="461">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="462" name="ExpenseCategory"/>      
+      <multiplicity id="463" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="16" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="464">    
+    <bendpoint x="2942" y="4225"/>    
+    <end type="SOURCE" refId="22" navigable="false">      
+      <attribute id="465" name="category"/>      
+      <multiplicity id="466" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="49" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="467">    
+    <end type="SOURCE" refId="56" navigable="false">      
+      <attribute id="468" name="homeScreen"/>      
+      <multiplicity id="469" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="470">    
+    <bendpoint x="4785" y="2089"/>    
+    <bendpoint x="4568" y="2551"/>    
+    <bendpoint x="4547" y="3337"/>    
+    <bendpoint x="4547" y="3727"/>    
+    <end type="SOURCE" refId="28"/>    
+    <end type="TARGET" refId="70"/>  
+  </dependency>  
+  <association id="471">    
+    <bendpoint x="2447" y="1321"/>    
+    <end type="SOURCE" refId="56" navigable="false">      
+      <attribute id="472" name="rptGen"/>      
+      <multiplicity id="473" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="64" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="474">    
+    <bendpoint x="5827" y="595"/>    
+    <bendpoint x="5827" y="1039"/>    
+    <bendpoint x="5827" y="1321"/>    
+    <bendpoint x="5842" y="2089"/>    
+    <bendpoint x="5848" y="2551"/>    
+    <bendpoint x="6046" y="3337"/>    
+    <bendpoint x="6046" y="3727"/>    
+    <bendpoint x="6046" y="4225"/>    
+    <end type="SOURCE" refId="59"/>    
+    <end type="TARGET" refId="29"/>  
+  </dependency>  
+  <association id="475">    
+    <bendpoint x="1549" y="1321"/>    
+    <bendpoint x="1785" y="2089"/>    
+    <bendpoint x="1112" y="2551"/>    
+    <end type="SOURCE" refId="56" navigable="false">      
+      <attribute id="476" name="inCatHandler"/>      
+      <multiplicity id="477" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="478">    
+    <bendpoint x="4890" y="1039"/>    
+    <bendpoint x="4890" y="1321"/>    
+    <bendpoint x="4890" y="2089"/>    
+    <end type="SOURCE" refId="74"/>    
+    <end type="TARGET" refId="39"/>  
+  </dependency>  
+  <association id="479">    
+    <end type="SOURCE" refId="40" navigable="false">      
+      <attribute id="480" name="panExpense"/>      
+      <multiplicity id="481" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="482">    
+    <end type="SOURCE" refId="59"/>    
+    <end type="TARGET" refId="74"/>  
+  </dependency>  
+  <nesting id="483">    
+    <end type="SOURCE" refId="64"/>    
+    <end type="TARGET" refId="1"/>  
+  </nesting>  
+  <dependency id="484">    
+    <bendpoint x="2576" y="3337"/>    
+    <end type="SOURCE" refId="36"/>    
+    <end type="TARGET" refId="22"/>  
+  </dependency>  
+  <association id="485">    
+    <bendpoint x="4945" y="3727"/>    
+    <bendpoint x="4987" y="4225"/>    
+    <end type="SOURCE" refId="32" navigable="false">      
+      <attribute id="486" name="payms"/>      
+      <multiplicity id="487" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="55" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="488">    
+    <bendpoint x="-811" y="403"/>    
+    <bendpoint x="-811" y="595"/>    
+    <bendpoint x="-811" y="1039"/>    
+    <bendpoint x="-811" y="1321"/>    
+    <bendpoint x="-811" y="2089"/>    
+    <bendpoint x="-811" y="2551"/>    
+    <bendpoint x="-811" y="3337"/>    
+    <bendpoint x="-811" y="3727"/>    
+    <bendpoint x="-811" y="4225"/>    
+    <end type="SOURCE" refId="42"/>    
+    <end type="TARGET" refId="49"/>  
+  </dependency>  
+  <dependency id="489">    
+    <bendpoint x="4402" y="4225"/>    
+    <end type="SOURCE" refId="25"/>    
+    <end type="TARGET" refId="55"/>  
+  </dependency>  
+  <association id="490">    
+    <bendpoint x="4935" y="3337"/>    
+    <bendpoint x="4966" y="3727"/>    
+    <bendpoint x="4966" y="4225"/>    
+    <end type="SOURCE" refId="39" navigable="false">      
+      <attribute id="491" name="categories"/>      
+      <multiplicity id="492" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="49" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="493">    
+    <bendpoint x="3956" y="313"/>    
+    <bendpoint x="3956" y="403"/>    
+    <bendpoint x="3956" y="595"/>    
+    <bendpoint x="3935" y="1039"/>    
+    <bendpoint x="3945" y="1321"/>    
+    <bendpoint x="3965" y="2089"/>    
+    <bendpoint x="4211" y="2551"/>    
+    <bendpoint x="3903" y="3337"/>    
+    <bendpoint x="3819" y="3727"/>    
+    <end type="SOURCE" refId="54"/>    
+    <end type="TARGET" refId="72"/>  
+  </dependency>  
+  <dependency id="494">    
+    <bendpoint x="1312" y="403"/>    
+    <bendpoint x="1312" y="595"/>    
+    <bendpoint x="1488" y="1039"/>    
+    <bendpoint x="1570" y="1321"/>    
+    <bendpoint x="1827" y="2089"/>    
+    <bendpoint x="1525" y="2551"/>    
+    <end type="SOURCE" refId="42"/>    
+    <end type="TARGET" refId="16"/>  
+  </dependency>  
+  <dependency id="495">    
+    <bendpoint x="5178" y="595"/>    
+    <bendpoint x="4869" y="1039"/>    
+    <end type="SOURCE" refId="59"/>    
+    <end type="TARGET" refId="28"/>  
+  </dependency>  
+  <dependency id="496">    
+    <bendpoint x="2427" y="2089"/>    
+    <bendpoint x="1992" y="2551"/>    
+    <end type="SOURCE" refId="31"/>    
+    <end type="TARGET" refId="16"/>  
+  </dependency>  
+  <dependency id="497">    
+    <bendpoint x="3039" y="1039"/>    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="19"/>  
+  </dependency>  
+  <dependency id="498">    
+    <bendpoint x="4526" y="2551"/>    
+    <bendpoint x="4526" y="3337"/>    
+    <bendpoint x="4526" y="3727"/>    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="70"/>  
+  </dependency>  
+  <dependency id="499">    
+    <bendpoint x="3840" y="3337"/>    
+    <bendpoint x="3861" y="3727"/>    
+    <bendpoint x="3914" y="4225"/>    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="29"/>  
+  </dependency>  
+  <dependency id="500">    
+    <bendpoint x="1270" y="403"/>    
+    <bendpoint x="1270" y="595"/>    
+    <bendpoint x="1388" y="1039"/>    
+    <bendpoint x="1507" y="1321"/>    
+    <bendpoint x="1764" y="2089"/>    
+    <bendpoint x="1483" y="2551"/>    
+    <bendpoint x="1816" y="3337"/>    
+    <end type="SOURCE" refId="42"/>    
+    <end type="TARGET" refId="22"/>  
+  </dependency>  
+  <association id="501">    
+    <end type="SOURCE" refId="58" navigable="false">      
+      <attribute id="502" name="exmo"/>      
+      <multiplicity id="503" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="51" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="504">    
+    <end type="SOURCE" refId="36" navigable="false">      
+      <attribute id="505" name="catHandler"/>      
+      <multiplicity id="506" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="507">    
+    <bendpoint x="5362" y="595"/>    
+    <bendpoint x="5346" y="1039"/>    
+    <bendpoint x="5325" y="1321"/>    
+    <bendpoint x="5283" y="2089"/>    
+    <bendpoint x="5211" y="2551"/>    
+    <bendpoint x="4914" y="3337"/>    
+    <bendpoint x="4442" y="3727"/>    
+    <end type="SOURCE" refId="59"/>    
+    <end type="TARGET" refId="72"/>  
+  </dependency>  
+  <dependency id="508">    
+    <bendpoint x="3851" y="595"/>    
+    <bendpoint x="3893" y="1039"/>    
+    <bendpoint x="3966" y="1321"/>    
+    <bendpoint x="4028" y="2089"/>    
+    <bendpoint x="4400" y="2551"/>    
+    <bendpoint x="4463" y="3337"/>    
+    <bendpoint x="4463" y="3727"/>    
+    <end type="SOURCE" refId="20"/>    
+    <end type="TARGET" refId="70"/>  
+  </dependency>  
+  <dependency id="509">    
+    <bendpoint x="5341" y="313"/>    
+    <bendpoint x="5341" y="403"/>    
+    <bendpoint x="5341" y="595"/>    
+    <bendpoint x="5388" y="1039"/>    
+    <bendpoint x="5388" y="1321"/>    
+    <bendpoint x="5367" y="2089"/>    
+    <bendpoint x="5316" y="2551"/>    
+    <bendpoint x="5248" y="3337"/>    
+    <bendpoint x="5206" y="3727"/>    
+    <end type="SOURCE" refId="54"/>    
+    <end type="TARGET" refId="70"/>  
+  </dependency>  
+  <dependency id="510">    
+    <bendpoint x="5136" y="403"/>    
+    <bendpoint x="5304" y="595"/>    
+    <bendpoint x="5409" y="1039"/>    
+    <bendpoint x="5430" y="1321"/>    
+    <bendpoint x="5430" y="2089"/>    
+    <bendpoint x="5451" y="2551"/>    
+    <bendpoint x="5526" y="3337"/>    
+    <bendpoint x="5764" y="3727"/>    
+    <bendpoint x="5827" y="4225"/>    
+    <end type="SOURCE" refId="42"/>    
+    <end type="TARGET" refId="29"/>  
+  </dependency>  
+  <association id="511">    
+    <bendpoint x="2165" y="2089"/>    
+    <end type="SOURCE" refId="31" navigable="false">      
+      <attribute id="512" name="myReportData"/>      
+      <multiplicity id="513" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="514">    
+    <end type="SOURCE" refId="46" navigable="false">      
+      <attribute id="515" name="panListIncome"/>      
+      <multiplicity id="516" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="41" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="517">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="518" name="data"/>      
+      <multiplicity id="519" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="61" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="520">    
+    <bendpoint x="3830" y="595"/>    
+    <bendpoint x="3830" y="1039"/>    
+    <bendpoint x="3872" y="1321"/>    
+    <bendpoint x="3872" y="2089"/>    
+    <bendpoint x="3872" y="2551"/>    
+    <bendpoint x="3735" y="3337"/>    
+    <end type="SOURCE" refId="20"/>    
+    <end type="TARGET" refId="22"/>  
+  </dependency>  
+  <dependency id="521">    
+    <bendpoint x="5472" y="595"/>    
+    <bendpoint x="5472" y="1039"/>    
+    <bendpoint x="5451" y="1321"/>    
+    <bendpoint x="5388" y="2089"/>    
+    <bendpoint x="5274" y="2551"/>    
+    <end type="SOURCE" refId="59"/>    
+    <end type="TARGET" refId="32"/>  
+  </dependency>  
+  <association id="522">    
+    <bendpoint x="3279" y="3337"/>    
+    <bendpoint x="3279" y="3727"/>    
+    <bendpoint x="3279" y="4225"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="523" name="categories"/>      
+      <multiplicity id="524" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="49" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="525">    
+    <end type="SOURCE" refId="54"/>    
+    <end type="TARGET" refId="42"/>  
+  </dependency>  
+  <dependency id="526">    
+    <bendpoint x="5136" y="595"/>    
+    <bendpoint x="5241" y="1039"/>    
+    <bendpoint x="5262" y="1321"/>    
+    <bendpoint x="5325" y="2089"/>    
+    <bendpoint x="5358" y="2551"/>    
+    <end type="SOURCE" refId="20"/>    
+    <end type="TARGET" refId="63"/>  
+  </dependency>  
+  <generalization id="527">    
+    <end type="SOURCE" refId="72"/>    
+    <end type="TARGET" refId="22"/>  
+  </generalization>  
+  <association id="528">    
+    <end type="SOURCE" refId="69" navigable="false">      
+      <attribute id="529" name="guiCtrl"/>      
+      <multiplicity id="530" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="56" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="531">    
+    <bendpoint x="1528" y="1321"/>    
+    <bendpoint x="1381" y="2089"/>    
+    <bendpoint x="1091" y="2551"/>    
+    <end type="SOURCE" refId="56" navigable="false">      
+      <attribute id="532" name="exCatHandler"/>      
+      <multiplicity id="533" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="534">    
+    <bendpoint x="5618" y="313"/>    
+    <bendpoint x="5618" y="403"/>    
+    <bendpoint x="5618" y="595"/>    
+    <bendpoint x="5618" y="1039"/>    
+    <bendpoint x="5618" y="1321"/>    
+    <bendpoint x="5618" y="2089"/>    
+    <end type="SOURCE" refId="54"/>    
+    <end type="TARGET" refId="11"/>  
+  </dependency>  
+  <dependency id="535">    
+    <bendpoint x="1774" y="3337"/>    
+    <bendpoint x="2181" y="3727"/>    
+    <end type="SOURCE" refId="41"/>    
+    <end type="TARGET" refId="70"/>  
+  </dependency>  
+  <dependency id="536">    
+    <bendpoint x="5325" y="1039"/>    
+    <bendpoint x="5409" y="1321"/>    
+    <bendpoint x="5451" y="2089"/>    
+    <end type="SOURCE" refId="74"/>    
+    <end type="TARGET" refId="11"/>  
+  </dependency>  
+  <association id="537">    
+    <bendpoint x="4827" y="2089"/>    
+    <end type="SOURCE" refId="28" navigable="false">      
+      <attribute id="538" name="_incomes"/>      
+      <multiplicity id="539" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="39" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="540">    
+    <end type="SOURCE" refId="70"/>    
+    <end type="TARGET" refId="22"/>  
+  </generalization>  
+  <association id="541">    
+    <end type="SOURCE" refId="56" navigable="false">      
+      <attribute id="542" name="reportWin"/>      
+      <multiplicity id="543" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="31" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="544">    
+    <bendpoint x="1291" y="595"/>    
+    <bendpoint x="558" y="1039"/>    
+    <bendpoint x="-175" y="1321"/>    
+    <bendpoint x="-769" y="2089"/>    
+    <bendpoint x="-790" y="2551"/>    
+    <bendpoint x="-790" y="3337"/>    
+    <bendpoint x="-790" y="3727"/>    
+    <bendpoint x="-790" y="4225"/>    
+    <end type="SOURCE" refId="20"/>    
+    <end type="TARGET" refId="49"/>  
+  </dependency>  
+  <realization id="545">    
+    <bendpoint x="3893" y="2089"/>    
+    <end type="SOURCE" refId="28"/>    
+    <end type="TARGET" refId="1"/>  
+  </realization>  
+  <nesting id="546">    
+    <end type="SOURCE" refId="39"/>    
+    <end type="TARGET" refId="30"/>  
+  </nesting>  
+  <association id="547">    
+    <end type="SOURCE" refId="37" navigable="false">      
+      <attribute id="548" name="allTime"/>      
+      <multiplicity id="549" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="38" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="550">    
+    <bendpoint x="-175" y="403"/>    
+    <bendpoint x="-312" y="595"/>    
+    <bendpoint x="-450" y="1039"/>    
+    <bendpoint x="-588" y="1321"/>    
+    <bendpoint x="-727" y="2089"/>    
+    <bendpoint x="-333" y="2551"/>    
+    <end type="SOURCE" refId="42"/>    
+    <end type="TARGET" refId="38"/>  
+  </dependency>  
+  <dependency id="551">    
+    <bendpoint x="1455" y="3727"/>    
+    <bendpoint x="1455" y="4225"/>    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="49"/>  
+  </dependency>  
+  <association id="552">    
+    <bendpoint x="3924" y="3337"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="553" name="payHandler"/>      
+      <multiplicity id="554" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="25" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="555">    
+    <end type="SOURCE" refId="31" navigable="false">      
+      <attribute id="556" name="tableModel"/>      
+      <multiplicity id="557" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="45" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="558">    
+    <end type="SOURCE" refId="39"/>    
+    <end type="TARGET" refId="43"/>  
+  </realization>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true"/>    
+    <operations public="true" package="true" protected="true" private="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

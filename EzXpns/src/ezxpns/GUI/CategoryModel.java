@@ -4,7 +4,15 @@ import javax.swing.AbstractListModel;
 import ezxpns.data.records.*;
 import java.util.*;
 
+/**
+ * @author yyjhao
+ * A model used to display list of category in category frame
+ */
 public class CategoryModel extends AbstractListModel {
+	/**
+	 * @param cat the data source of category
+	 * @param toadd a list item that upon selected, let the user add new category
+	 */
 	public CategoryModel(CategoryHandlerInterface cat, Category toadd){
 		this.cat = cat;
 		cats = cat.getAllCategories();
@@ -26,6 +34,11 @@ public class CategoryModel extends AbstractListModel {
 		return cats.size();
 	}
 
+	/**
+	 * Refresh the whole list <br />
+	 * If the size of categories gets large, this can be slow <br />
+	 * But given that we are not even using a data base, who cares about this small one
+	 */
 	public void update(){
 		int s = cats.size();
 		cats = new Vector<Category>();
