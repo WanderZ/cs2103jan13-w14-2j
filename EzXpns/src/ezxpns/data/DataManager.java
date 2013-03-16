@@ -80,6 +80,15 @@ public class DataManager extends Storable
 			}
 			return rs;
 		}
+
+		@Override
+		public Vector<Record> getRecordsByCategory(String name) {
+			Vector<Record> rs = new Vector<Record>();
+			rs.addAll(incomes.getRecordsByCategory(name));
+			rs.addAll(expenses.getRecordsByCategory(name));
+			Collections.sort(rs);
+			return rs;
+		}
 		
 	}
 	

@@ -76,7 +76,6 @@ public class SearchFrame extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		// TODO Auto-generated method stub
 		if(event.getSource() == panBtns.getSearchBtn()) {
 			// User invoked search
 			
