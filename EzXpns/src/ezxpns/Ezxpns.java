@@ -19,25 +19,54 @@ import ezxpns.GUI.SearchRequest;
 import ezxpns.GUI.SearchRequest.RecordType;
 
 
+/**
+ * @author yyjhao
+ * Main class that links up various components
+ */
 public class Ezxpns implements
 		RecordHandlerInterface,
 		CategoryHandlerInterface,
 		SearchHandlerInterface{
+	/**
+	 * The only storage manager
+	 */
 	private StorageManager store;
+	
+	/**
+	 * @return the storage manager
+	 */
 	public StorageManager getStore() {
 		return store;
 	}
 
+	/**
+	 * @return the data manager
+	 */
 	public DataManager getDataMng() {
 		return data;
 	}
 
+	/**
+	 * @return the target manager
+	 */
 	public TargetManager getTargetManager() {
 		return targetManager;
 	}
+	/**
+	 *  The data manager
+	 */
 	private DataManager data;
+	/**
+	 * The report Generator
+	 */
 	private ReportGenerator reportGenerator;
+	/**
+	 * The target manager
+	 */
 	private TargetManager targetManager;
+	/**
+	 * The summary generator
+	 */
 	private SummaryGenerator summaryGenerator;
 	
 	public Ezxpns(){
