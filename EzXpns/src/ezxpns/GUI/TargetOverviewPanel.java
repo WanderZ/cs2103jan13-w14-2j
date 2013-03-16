@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Color;
+import java.text.DecimalFormat;
 import java.util.Vector;
 
 import javax.swing.JScrollPane;
@@ -31,6 +32,7 @@ import net.miginfocom.swing.MigLayout;
 public class TargetOverviewPanel extends JPanel {
 	
 	private TargetManager targetMgr;
+	private final DecimalFormat MONEY_FORMAT = new DecimalFormat("$###,###,##0.00");
 	
 	public TargetOverviewPanel(TargetManager targetMgrRef) {
 		super(); // new Panel();
@@ -51,7 +53,14 @@ public class TargetOverviewPanel extends JPanel {
 		lblTargets.setHorizontalAlignment(SwingConstants.CENTER);
 		tagsPane.add(lblTargets, "cell 0 0,alignx left,aligny top");
 		
-		JLabel lblalertnumber = new JLabel("("+"0"+")");
+		JLabel lblalertnumber = new JLabel();
+		if(targetMgr.isEmpty(targetMgr.getAlerts())){
+			lblalertnumber.setText("(0)");
+		}
+		else{
+			lblalertnumber.setText("("+targetMgr.getAlerts().size()+")");
+		}
+		
 		tagsPane.add(lblalertnumber, "cell 2 0,alignx left,aligny top");
 		
 		JScrollPane targetScrollPane = new JScrollPane();
@@ -70,44 +79,48 @@ public class TargetOverviewPanel extends JPanel {
 		 
 		 targetScrollPane.setPreferredSize(new Dimension(50,50));
 		 
-		 for(int i=0;i<15;i++) //i < ordered.size()
+		 if(!targetMgr.isEmpty(targetMgr.getOrderedBar())){
+		 for(Bar bar: targetMgr.getOrderedBar()) 
 		 {
+			 			 
 		 JPanel rowPanel = new JPanel();
 		 rowPanel.setPreferredSize(new Dimension(200,20));
 		 columnpanel.add(rowPanel);
 		 rowPanel.setLayout(new FlowLayout());
 		 
-		 JLabel lblBar = new JLabel("Food" + i);
+		 JLabel lblBar = new JLabel(bar.getTarget().getCategory().getName());
 		 rowPanel.add(lblBar);
-		 //lblBar.setLocation()
 		 lblBar.setBackground(new Color(154, 205, 50));
 		 lblBar.setHorizontalAlignment(SwingConstants.CENTER);
-		 JLabel lblCurrentAmt = new JLabel("$"+ i*100);
+		 
+		 String cAmtName = "$"+ MONEY_FORMAT.format(bar.getCurrentAmt());
+		 JLabel lblCurrentAmt = new JLabel(cAmtName);
 		 rowPanel.add(lblCurrentAmt);
 		 lblCurrentAmt.setHorizontalAlignment(SwingConstants.CENTER);
-		 JLabel lblTargetAmt = new JLabel("/ $"+200*i);
+		 
+		 String tAmtName = "$"+ MONEY_FORMAT.format(bar.getTarget());
+		 JLabel lblTargetAmt = new JLabel("/"+tAmtName);
 		 rowPanel.add(lblTargetAmt);
 		 lblTargetAmt.setHorizontalAlignment(SwingConstants.CENTER);
 		 
 		 
-		 switch(i){
-		 	case 1:
+		 switch(bar.getColor()){
+		 	case HIGH:
 				lblCurrentAmt.setForeground(new Color(255, 20, 30)); //red
 				break;
-			 case 2:
+			 case MEDIUM:
 				 lblCurrentAmt.setForeground(new Color(255, 150, 20)); // orange
 				 break;
-			 case 3:
+			 case LOW:
 				 lblCurrentAmt.setForeground(new Color(255, 245, 40)); // yellow
 				 break;
-			 case 4:
+			 case SAFE:
 				 lblCurrentAmt.setForeground(new Color(71, 255, 102)); // orange
 				 break;
 			default:
 				lblCurrentAmt.setForeground(new Color(122, 122, 122)); //dark gray
 		 }
-		 
-
+		 }
 		 }
 		
 	}
