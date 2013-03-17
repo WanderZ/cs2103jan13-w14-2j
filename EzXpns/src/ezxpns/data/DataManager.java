@@ -6,12 +6,11 @@ import ezxpns.data.records.*;
 import ezxpns.util.Pair;
 
 /**
- * @author yyjhao
  * A wrapper containing all data <br />
  * with some helper functions to query both types <br />
  * Everything here is handled by StorageManager to save to file <br />
  * Remember to add transient if the data is not meant to be persistent
- * 
+ * @author yyjhao
  */
 public class DataManager extends Storable
 	implements
