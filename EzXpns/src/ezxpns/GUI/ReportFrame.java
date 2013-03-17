@@ -404,6 +404,7 @@ public class ReportFrame extends JFrame implements ComponentListener {
         
 		
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setLocationRelativeTo(null);
 	}
 
 	
