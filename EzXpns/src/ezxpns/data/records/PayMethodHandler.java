@@ -1,4 +1,4 @@
-package ezxpns.GUI;
+package ezxpns.data.records;
 
 import java.util.List;
 import ezxpns.data.records.*;
@@ -6,7 +6,7 @@ import ezxpns.data.records.*;
 /**
  *	Interface to handle the payment modes between the Graphical User Interface and the data storage (upon GUI Exit)
  */
-public interface PaymentMethodHandlerInterface {
+public interface PayMethodHandler {
 	
 	/**
 	 * Get all defined payment modes

@@ -24,6 +24,8 @@ import javax.swing.JTextField;
 
 import ezxpns.data.records.Category;
 import ezxpns.data.records.Record;
+import ezxpns.data.records.SearchHandler;
+import ezxpns.data.records.SearchRequest;
 import ezxpns.util.Pair;
 
 /**
@@ -35,7 +37,7 @@ public class SearchFrame extends JFrame implements ActionListener {
 	public final int DEFAULT_WIDTH = 600;
 	public final int DEFAULT_HEIGHT = 400;
 	
-	private SearchHandlerInterface handler;
+	private SearchHandler handler;
 	
 	// 2 main panels, the top (querying time frame) and the bottom (results, content)
 	private SearchFormPanel panForm;
@@ -46,7 +48,7 @@ public class SearchFrame extends JFrame implements ActionListener {
 	 * To create a new Search Window
 	 * @param handlerRef the reference to the SearchHandler object
 	 */
-	public SearchFrame(SearchHandlerInterface handlerRef) {
+	public SearchFrame(SearchHandler handlerRef) {
 		super();
 		this.init();
 		
@@ -161,27 +163,29 @@ class SearchFormPanel extends JPanel {
 		this.setLayout(new BorderLayout());
 		
 		JPanel panSimple = new JPanel();
-		panSimple.setLayout(new BoxLayout(panSimple, BoxLayout.Y_AXIS));
+		panSimple.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		JPanel panName = new JPanel(new FlowLayout());
+		JPanel panName = new JPanel(new GridLayout(1, 0, 15, 15));
 		panName.add(this.getNameLabel());
 		panName.add(this.getNameField());
 		panSimple.add(panName);
 		
-		JPanel panCat = new JPanel(new FlowLayout());
+		JPanel panCat = new JPanel(new GridLayout(1, 0, 15, 15));
 		panCat.add(this.getCatLabel());
 		panCat.add(this.getCatField());
 		panSimple.add(panCat);
 		
-		JPanel panDate = new JPanel(new FlowLayout());
+		JPanel panDate = new JPanel(new GridLayout(1, 0, 0, 0));
 		panDate.add(this.getFrmDateLabel());
 		panDate.add(this.getDateFromField());
 		panDate.add(this.getToDateLabel());
 		panDate.add(this.getDateToField());
 		panSimple.add(panDate);
 		
-		this.add(getTitleLabel(), BorderLayout.NORTH);
-		this.add(panSimple, BorderLayout.CENTER);
+		panSimple.setBounds(0, 5, 300, 200);
+		
+		// this.add(getTitleLabel(), BorderLayout.NORTH);
+		this.add(panSimple, BorderLayout.NORTH);
 	}
 	
 	private JLabel getTitleLabel() {

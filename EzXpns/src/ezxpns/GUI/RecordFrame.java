@@ -1,10 +1,14 @@
 package ezxpns.GUI;
 import ezxpns.data.records.Category;
+import ezxpns.data.records.CategoryHandler;
 import ezxpns.data.records.ExpenseRecord;
 import ezxpns.data.records.ExpenseType;
 import ezxpns.data.records.IncomeRecord;
+import ezxpns.data.records.PayMethodHandler;
 import ezxpns.data.records.PaymentMethod;
 import ezxpns.data.records.Record;
+import ezxpns.data.records.RecordHandler;
+
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -16,7 +20,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.font.TextAttribute;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +33,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 
@@ -46,9 +48,9 @@ public class RecordFrame extends JFrame implements ActionListener {
 	public static final int TAB_INCOME = 0011;
 	public static final int TAB_EXPENSE = 1100;
 	
-	private RecordHandlerInterface recHandler;
-	private CategoryHandlerInterface inCatHandler, exCatHandler;
-	private PaymentMethodHandlerInterface payHandler;
+	private RecordHandler recHandler;
+	private CategoryHandler incomeHandler, expenseHandler;
+	private PayMethodHandler payHandler;
 	
 	private PanelMain panMain;
 	private PanelOption panOpt;
@@ -58,17 +60,17 @@ public class RecordFrame extends JFrame implements ActionListener {
 	 * @param handlerRef Reference to the handler that will handle all the data management  
 	 */
 	public RecordFrame(
-			RecordHandlerInterface recHandlerRef, 
-			CategoryHandlerInterface inCatHandlerRef, 
-			CategoryHandlerInterface exCatHandlerRef,
-			PaymentMethodHandlerInterface payHandlerRef
+			RecordHandler recHandlerRef, 
+			CategoryHandler incomeHandlerRef, 
+			CategoryHandler expenseHandlerRef,
+			PayMethodHandler payHandlerRef
 			) {
 		
 		super();
 		
 		recHandler = recHandlerRef;
-		inCatHandler = inCatHandlerRef;
-		exCatHandler = exCatHandlerRef;
+		incomeHandler = incomeHandlerRef;
+		expenseHandler = expenseHandlerRef;
 		payHandler = payHandlerRef;
 		
 		this.init();
@@ -80,13 +82,13 @@ public class RecordFrame extends JFrame implements ActionListener {
 	 * @param handlerRef Reference to the handler that will handle all the data management
 	 */
 	public RecordFrame(
-			RecordHandlerInterface recHandlerRef, 
-			CategoryHandlerInterface inCatHandlerRef, 
-			CategoryHandlerInterface exCatHandlerRef,
-			PaymentMethodHandlerInterface payHandlerRef,
+			RecordHandler recHandlerRef, 
+			CategoryHandler incomeHandlerRef, 
+			CategoryHandler expenseHandlerRef,
+			PayMethodHandler payHandlerRef,
 			int initTab) {
 		
-		this(recHandlerRef, inCatHandlerRef, exCatHandlerRef, payHandlerRef);
+		this(recHandlerRef, incomeHandlerRef, expenseHandlerRef, payHandlerRef);
 		
 		/* This part may need refactoring to enums */
 		switch(initTab) {
@@ -110,7 +112,7 @@ public class RecordFrame extends JFrame implements ActionListener {
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
-		panMain = new PanelMain(recHandler, inCatHandler, exCatHandler, payHandler);
+		panMain = new PanelMain(recHandler, incomeHandler, expenseHandler, payHandler);
 		this.add(panMain, BorderLayout.CENTER);
 		
 		panOpt = new PanelOption(this);
@@ -154,15 +156,15 @@ class PanelMain extends JPanel {
 	/**
 	 * Constructor for the main content panel for new record
 	 * @param recHandlerRef reference to the record handler
-	 * @param inCatHandlerRef reference to the income category handler
-	 * @param exCatHandlerRef reference to the expense category handler
+	 * @param incomeHandlerRef reference to the income category handler
+	 * @param expenseHandlerRef reference to the expense category handler
 	 * @param payHandlerRef reference to the payment method handler
 	 */
 	public PanelMain(
-			RecordHandlerInterface recHandlerRef,
-			CategoryHandlerInterface inCatHandlerRef,
-			CategoryHandlerInterface exCatHandlerRef,
-			PaymentMethodHandlerInterface payHandlerRef
+			RecordHandler recHandlerRef,
+			CategoryHandler incomeHandlerRef,
+			CategoryHandler expenseHandlerRef,
+			PayMethodHandler payHandlerRef
 			) {
 		super();
 		this.setLayout(new BorderLayout());
@@ -181,8 +183,8 @@ class PanelMain extends JPanel {
 		
 		metroTabs.add(metroTabBtns, BorderLayout.NORTH);
 		
-		panExpense = new PanelExpense(recHandlerRef, exCatHandlerRef, payHandlerRef);
-		panIncome = new PanelIncome(recHandlerRef, inCatHandlerRef);
+		panExpense = new PanelExpense(recHandlerRef, expenseHandlerRef, payHandlerRef);
+		panIncome = new PanelIncome(recHandlerRef, incomeHandlerRef);
 
 		metroTabContent = new JPanel();
 		
@@ -322,7 +324,7 @@ class PanelMain extends JPanel {
 	
 	/**
 	 * Method to manage the look and feel of the tabs on focus and off focus
-	 * @param toFocus the Jbutton to create focus
+	 * @param toFocus the JButton to create focus
 	 * @param rmFocus the JButton to remove focus
 	 */
 	private void changeFocus(JButton toFocus, JButton rmFocus) {
@@ -342,6 +344,7 @@ class PanelMain extends JPanel {
 	// Auto-calculate - requires action listener
 }
 
+/** Panel to contain and maintain the form for a new expense record */
 @SuppressWarnings("serial")
 class PanelExpense extends JPanel {
 	
@@ -363,9 +366,9 @@ class PanelExpense extends JPanel {
 	private JComboBox cboxCategory, cboxPayment;
 	
 	// #Logic Components
-	private RecordHandlerInterface recHandler; 
-	private CategoryHandlerInterface catHandler;
-	private PaymentMethodHandlerInterface payHandler;
+	private RecordHandler recHandler; 
+	private CategoryHandler catHandler;
+	private PayMethodHandler payHandler;
 	
 	// #Data Components
 	private List<Category> categories;
@@ -378,9 +381,9 @@ class PanelExpense extends JPanel {
 	 * @param payHandlerRef PaymentMethodHandler
 	 */
 	public PanelExpense(
-			RecordHandlerInterface recHandlerRef, 
-			CategoryHandlerInterface catHandlerRef, 
-			PaymentMethodHandlerInterface payHandlerRef
+			RecordHandler recHandlerRef, 
+			CategoryHandler catHandlerRef, 
+			PayMethodHandler payHandlerRef
 		) {
 		
 		super();
@@ -573,10 +576,18 @@ class PanelExpense extends JPanel {
 		return taDesc.getText().trim();
 	}
 	
+	/**
+	 * Retrieve the type field for the form
+	 * @return ExpenseType.Need if it is a need, otherwise ExpenseType.Want 
+	 */
 	public ExpenseType getType() {
 		return isNeed() ? ExpenseType.NEED : ExpenseType.WANT ;
 	}
 	
+	/**
+	 * Retrieve if the type field is a need
+	 * @return true if user indicated record as need, otherwise false
+	 */
 	public boolean isNeed() {
 		return this.rbtnNeed.isSelected();
 	}
@@ -600,11 +611,11 @@ class PanelExpense extends JPanel {
 	
 	/**
 	 * Method to validate the amount field
-	 * @return true if legit, otherwise false
+	 * @return true if no problems parsing, otherwise false
 	 */
 	private boolean validateAmt() {
 		try {
-			double result = Double.parseDouble(getAmt());
+			double result = Double.parseDouble(getAmt()); // To be updated to the inbuilt calculator
 			this.setAmt(result);
 			return true;
 		}
@@ -613,6 +624,10 @@ class PanelExpense extends JPanel {
 		}
 	}
 	
+	/**
+	 * Method to update the amount field with the given text
+	 * @param amt the amount to update the field
+	 */
 	private void setAmt(double amt) {
 		this.txtAmt.setText(amt + "" ); // May want to decimal format this
 	}
@@ -653,8 +668,8 @@ class PanelIncome extends JPanel {
 	private TextArea taDesc;
 	
 	// #Logic Components
-	private RecordHandlerInterface recHandler; 
-	private CategoryHandlerInterface catHandler;
+	private RecordHandler recHandler; 
+	private CategoryHandler catHandler;
 	
 	// #Data Components
 	private List<Category> categories;
@@ -664,7 +679,7 @@ class PanelIncome extends JPanel {
 	 * @param recHandlerRef
 	 * @param catHandlerRef
 	 */
-	public PanelIncome(RecordHandlerInterface recHandlerRef, CategoryHandlerInterface catHandlerRef) {
+	public PanelIncome(RecordHandler recHandlerRef, CategoryHandler catHandlerRef) {
 		
 		super();
 		

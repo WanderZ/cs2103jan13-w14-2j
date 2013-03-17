@@ -1,23 +1,30 @@
 package ezxpns.GUI;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import ezxpns.data.records.IncomeRecord;
 import ezxpns.data.records.Record;
+import ezxpns.data.records.RecordHandler;
 
+/** MultiRecordDisplay - A GUI Component to be able to display lists of records effectively */
 @SuppressWarnings("serial")
 public class MultiRecDisplay extends JPanel {
 
-	private RecordHandlerInterface recHandler;
+	private RecordHandler recHandler;
 	private List<Record> records;
 	
 	public final int DEFAULT_PAGE_LIMIT = 12;
@@ -26,11 +33,13 @@ public class MultiRecDisplay extends JPanel {
 	 * Constructor for MultiRecordDisplay - for all records 
 	 * @param recHandlerRef the handler to retrieve all the records
 	 */
-	public MultiRecDisplay(RecordHandlerInterface recHandlerRef) {
+	public MultiRecDisplay(RecordHandler recHandlerRef) {
+		
 		this.recHandler = recHandlerRef;
 		this.records = new Vector<Record>();
 		this.retrieveRecords();
 		initComponents();
+		
 	}
 	
 	/**
@@ -47,11 +56,13 @@ public class MultiRecDisplay extends JPanel {
 	 */
 	private void initComponents() {
 		// this.setLayout();
+		
 		// this.add(/*Header Row here */);
 		
 		JPanel panList = new JPanel(new GridLayout(0, 1, 0, 0));
 		this.populatePanList(panList);
 		JScrollPane jspRecords = new JScrollPane(panList);
+	
 		jspRecords.setBorder(BorderFactory.createEmptyBorder());
 		
 		this.add(jspRecords);
@@ -76,9 +87,12 @@ public class MultiRecDisplay extends JPanel {
 			this.records.add(r);
 		}
 	}
-	
 }
 
+/**
+ * This is the UI component of one record.
+ *
+ */
 @SuppressWarnings("serial")
 class RecordPanel extends JPanel {
 	
@@ -101,6 +115,45 @@ class RecordPanel extends JPanel {
 		this.add(this.getAmtName());
 		this.add(this.getCategory());
 		this.add(this.getDate());
+		
+		this.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent mEvent) { // Hover start
+				hover();
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent mEvent) {
+				if(mEvent.isPopupTrigger()) {
+					// Show pop up menu
+				}
+			}
+			
+			public void mouseReleased(MouseEvent mEvent) {
+				if(mEvent.isPopupTrigger()) {
+					// Show pop up menu
+				}
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent mEvent) { // Hover end
+				offHover();
+			}
+		});
+	}
+	
+	/** 
+	 * To manage the mouse hover event effects for this UI component
+	 */
+	private void hover() {
+		// Highlight
+	}
+	
+	/**
+	 * To return the component to its original state when not hovered
+	 */
+	private void offHover() {
+		// 
 	}
 	
 	/**
@@ -145,9 +198,19 @@ class RecordPanel extends JPanel {
 	 */
 	public JLabel getDate() {
 		if(lblDate == null) {
-			lblDate = new JLabel("yesterday");
+			lblDate = new JLabel(this.getRelativeDate());
 			lblDate.setFont(DEFAULT_FONT);
 		}
 		return lblDate;
 	}	
+	
+	/** 
+	 * To compare the relativity of the record's date to today
+	 * @return a string object containing the relativity
+	 */
+	private String getRelativeDate() {
+		System.out.println(record.getDate().compareTo(new Date()));
+		return "yest.";
+	}
 }
+
