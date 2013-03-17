@@ -113,7 +113,7 @@ public class TargetManager extends Storable {
 
 	
 	/** 
-	 * This returns a copy of the internal targets
+	 * This returns 	a copy of the internal targets
 	 * @return a copy of the internal targets
 	 */
 	public Vector<Target> getTargets(){
