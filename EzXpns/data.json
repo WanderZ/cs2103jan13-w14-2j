@@ -33,27 +33,27 @@
       },
       "1364176606098": {
         "id": 1364176606098,
-        "name": "drink"
+        "name": "Drinks"
       },
       "1363504544188": {
         "id": 1363504544188,
-        "name": "drink"
+        "name": "Snacks"
       },
       "1363314106821": {
         "id": 1363314106821,
-        "name": "food"
-      },
-      "1365065985829": {
-        "id": 1365065985829,
-        "name": "jjj"
+        "name": "Entertainment"
       },
       "1362931386819": {
         "id": 1362931386819,
-        "name": "2fwfswfz7mgw"
+        "name": "Food"
+      },
+      "1365065985829": {
+        "id": 1365065985829,
+        "name": "Shopping"
       },
       "1364704133024": {
         "id": 1364704133024,
-        "name": "5jhy4mouwc1s"
+        "name": "Transport"
       }
     },
     "recordsByCategory": {
@@ -107,6 +107,20 @@
           "remark": "nil",
           "date": "Nov 16, 2011 2:52:42 AM",
           "id": 1361743350635
+        }
+      ],
+      "1365065985829": [
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1363314106821,
+            "name": "6uexg5bx1h1c"
+          },
+          "amount": 656.37,
+          "name": "3fhdbirxly4g",
+          "remark": "nil",
+          "date": "Jan 4, 2013 3:27:37 AM",
+          "id": 1363709431388
         }
       ],
       "1362931386819": [
@@ -170,20 +184,6 @@
           "date": "May 27, 2011 3:07:46 PM",
           "id": 1365324848957
         }
-      ],
-      "1365065985829": [
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1363314106821,
-            "name": "6uexg5bx1h1c"
-          },
-          "amount": 656.37,
-          "name": "3fhdbirxly4g",
-          "remark": "nil",
-          "date": "Jan 4, 2013 3:27:37 AM",
-          "id": 1363709431388
-        }
       ]
     }
   },
@@ -195,23 +195,23 @@
       },
       "1364097417024": {
         "id": 1364097417024,
-        "name": "49zp2im2srnk"
+        "name": "Gifts"
       },
       "1362480320970": {
         "id": 1362480320970,
-        "name": "88fk73io1w8w"
+        "name": "Allowance"
       },
       "1362122547530": {
         "id": 1362122547530,
-        "name": "2ih39ev4m77k"
-      },
-      "1363314106821": {
-        "id": 1363314106821,
-        "name": "815uyni8w3gg"
+        "name": "Salary"
       },
       "1364935492692": {
         "id": 1364935492692,
-        "name": "6g079oqvz1q8"
+        "name": "Bursary"
+      },
+      "1363314106821": {
+        "id": 1363314106821,
+        "name": "Scholarship"
       }
     },
     "recordsByCategory": {
@@ -247,22 +247,6 @@
           "id": 1363715773749
         }
       ],
-      "1364935492692": [
-        {
-          "amount": 183.08,
-          "name": "33iyf5s64rnk",
-          "remark": "nil",
-          "date": "Mar 2, 2013 5:16:57 AM",
-          "id": 1363314106822
-        },
-        {
-          "amount": 821.07,
-          "name": "5cccdpl4aha8",
-          "remark": "nil",
-          "date": "Dec 30, 2011 1:21:32 PM",
-          "id": 1363314106823
-        }
-      ],
       "1363314106821": [
         {
           "amount": 950.53,
@@ -291,6 +275,22 @@
           "remark": "nil",
           "date": "May 2, 2011 3:56:53 PM",
           "id": 1365133895255
+        }
+      ],
+      "1364935492692": [
+        {
+          "amount": 183.08,
+          "name": "33iyf5s64rnk",
+          "remark": "nil",
+          "date": "Mar 2, 2013 5:16:57 AM",
+          "id": 1363314106822
+        },
+        {
+          "amount": 821.07,
+          "name": "5cccdpl4aha8",
+          "remark": "nil",
+          "date": "Dec 30, 2011 1:21:32 PM",
+          "id": 1363314106823
         }
       ]
     }

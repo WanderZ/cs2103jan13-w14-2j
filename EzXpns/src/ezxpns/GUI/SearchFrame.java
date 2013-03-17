@@ -310,7 +310,7 @@ class SearchBtnPanel extends JPanel {
 	
 	public JButton getCancelBtn() {
 		if(btnCancel == null) {
-			btnCancel = new JButton("Discard and exit");
+			btnCancel = new JButton("Exit");
 			btnCancel.setContentAreaFilled(false);
 			btnCancel.setFocusPainted(false);
 			btnCancel.setBorderPainted(false);
