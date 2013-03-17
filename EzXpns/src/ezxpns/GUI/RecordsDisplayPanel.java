@@ -1,6 +1,5 @@
 package ezxpns.GUI;
 
-import ezxpns.data.records.CategoryHandler;
 import ezxpns.data.records.ExpenseRecord;
 import ezxpns.data.records.IncomeRecord;
 import ezxpns.data.records.Record;
@@ -15,10 +14,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.font.TextAttribute;
 import java.text.DecimalFormat;
 import java.util.List;
-import java.util.Map;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -46,6 +43,10 @@ public class RecordsDisplayPanel extends JPanel implements ActionListener {
 	
 	private RecordHandler recHandler;
 	
+	/**
+	 * Constructor to create a RecordDisplayPanel
+	 * @param recHandlerRef The RecordHandler Object reference <br />that will be used to deal with the logic of handling records
+	 */
 	public RecordsDisplayPanel(RecordHandler recHandlerRef) {
 		super();
 		
@@ -178,6 +179,7 @@ public class RecordsDisplayPanel extends JPanel implements ActionListener {
 	
 }
 
+/** The Tabbed Panel containing a scrolling panel for the list of records */
 @SuppressWarnings("serial")
 // Panel to display all expenses
 class RecordsListerPanel extends JPanel {
@@ -217,12 +219,20 @@ class RecordsListerPanel extends JPanel {
 		this.add(jspRecords, BorderLayout.CENTER);
 	}
 	
+	/**
+	 * Populate the the given JPanel with records
+	 * @param pane JPanel object reference to be populated
+	 */
 	private void populateRecords(JPanel pane) {
 		for(Record rec : this.records) {
 			pane.add(new RecordDisplayPanel(rec));
 		}
 	}
 	
+	/** 
+	 * Draw the records from the data store 
+	 * @param type the type of records to draw
+	 */
 	private void initRecords(int type) {
 		List<Record> records = recHandler.getRecords(MAX_RECORDS_IN_PAGE);
 		if(this.records == null) this.records = new Vector<Record>();
@@ -232,12 +242,20 @@ class RecordsListerPanel extends JPanel {
 		}
 	}
 	
+	/**
+	 * Helper method for the initRecords
+	 * @param rec Record reference
+	 */
 	private void initExp(Record rec) {
 		if(rec instanceof ExpenseRecord) {
 			this.records.add(rec);
 		}
 	}
 	
+	/**
+	 * Helper method for the initRecords
+	 * @param rec Record reference
+	 */
 	private void initInc(Record rec) {
 		if(rec instanceof IncomeRecord) {
 			this.records.add(rec);
@@ -281,6 +299,10 @@ class RecordDisplayPanel extends JPanel {
 	private JLabel lblAmtName, lblCat, lblDate;
 	private final DecimalFormat MONEY_FORMAT = new DecimalFormat("$###,###,##0.00");
 	
+	/**
+	 * Constructor to crate a new RecordDisplayPanel
+	 * @param record the record to display
+	 */
 	public RecordDisplayPanel(Record record) {
 		super(new GridLayout(1, 0, 5, 5));
 		this.record = record;
@@ -293,6 +315,11 @@ class RecordDisplayPanel extends JPanel {
 	public void setRecord(Record record) {this.record = record;}
 	public Record getRecord() {return this.record;}
 	
+	/**
+	 * The field for Amount and name
+	 * displays on for expenses, from for income records
+	 * @return
+	 */
 	public JLabel getAmtName() {
 		if(lblAmtName == null) {
 			String colAmtName = MONEY_FORMAT.format(record.getAmount()) + " on " + record.getName();
