@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import ezxpns.data.records.IncomeRecord;
 import ezxpns.data.records.Record;
 
 @SuppressWarnings("serial")
@@ -83,7 +84,7 @@ class RecordPanel extends JPanel {
 	
 	private final DecimalFormat MONEY_FORMAT = new DecimalFormat("$###,###,##0.00");
 	public final int DEFAULT_FIELD_PAD = 5;
-	public final Font DEFAULT_FONT = new Font("", 0, 11);
+	public final Font DEFAULT_FONT = new Font("", 0, 14);
 	private Record record;
 	
 	private JLabel lblAmtName, lblCategory, lblDate;
@@ -117,8 +118,10 @@ class RecordPanel extends JPanel {
 	 */
 	public JLabel getAmtName() {
 		if(lblAmtName == null) {
-			String colAmtName = MONEY_FORMAT.format(record.getAmount()) + " on " + record.getName();
-			lblAmtName = new JLabel(colAmtName);
+			StringBuilder amtName = new StringBuilder(MONEY_FORMAT.format(record.getAmount()));
+			amtName.append(record instanceof IncomeRecord ? " from " : " on ");
+			amtName.append(record.getName());
+			lblAmtName = new JLabel(amtName.toString());
 			lblAmtName.setFont(DEFAULT_FONT);
 		}
 		return lblAmtName;

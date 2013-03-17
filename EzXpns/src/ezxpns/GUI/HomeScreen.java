@@ -55,7 +55,7 @@ public class HomeScreen extends JFrame {
 		// Temporary set to grid layout for even distribution
 		this.setLayout(new BorderLayout());
 		JPanel contentDivider = new JPanel();
-		contentDivider.setLayout(new java.awt.GridLayout(2, 2, 0, 0));
+		contentDivider.setLayout(new java.awt.GridLayout(2, 2, 10, 10));
 		contentDivider.add(getOverviewPanel());
 		contentDivider.add(getSavingsPanel());
 		contentDivider.add(getTargetsPanel());
@@ -76,6 +76,7 @@ public class HomeScreen extends JFrame {
 	private JPanel getSavingsPanel() {
 		if(panSavings == null) {
 			panSavings = new SavingsOverviewPanel();
+			panSavings.setBackground(Color.WHITE);
 		}
 		return panSavings;
 	}
@@ -83,6 +84,7 @@ public class HomeScreen extends JFrame {
 	private JPanel getTargetsPanel() {
 		if(panTargets==null) {
 			panTargets = new TargetOverviewPanel(targetMgr);
+			panTargets.setBackground(Color.WHITE);
 		}
 		return panTargets;
 	}
@@ -90,6 +92,7 @@ public class HomeScreen extends JFrame {
 	private JPanel getOverviewPanel() {
 		if(panOverview == null) {
 			panOverview = new OverviewPanel(sumGen);
+			panOverview.setBackground(Color.WHITE);
 		}
 		return panOverview;
 	}
@@ -97,6 +100,7 @@ public class HomeScreen extends JFrame {
 	private JPanel getRecordsPanel() {
 		if(panRecords == null) {
 			panRecords = new RecordsDisplayPanel(recHandler);
+			panRecords.setBackground(Color.WHITE);
 		}
 		return panRecords;
 	}

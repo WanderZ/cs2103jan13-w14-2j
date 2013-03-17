@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -99,7 +100,7 @@ public class RecordFrame extends JFrame implements ActionListener {
 	}
 	
 	/**
-	 * This methods contains all the starting initialization codes for this window.
+	 * Initialize this frame with its components and properties
 	 */
 	private void init() {
 		this.setTitle("EzXpns - New Record");
@@ -123,6 +124,7 @@ public class RecordFrame extends JFrame implements ActionListener {
 		
 		if(this.panOpt.getSaveBtn() == e.getSource()) { // Save button has been invoked.
 			if(panMain.validateForm()) { // Invoke validation
+				panMain.save();
 				// all is good. save as new Record.
 				// Check if it is a recurring record
 				// do the necessary to ensure that EzXpns knows it. 
@@ -134,90 +136,6 @@ public class RecordFrame extends JFrame implements ActionListener {
 	}
 }
 
-/** Panel to store all the options pertaining to recurrance of a record */
-@SuppressWarnings("serial")
-class PanelRecur extends JPanel implements ActionListener{
-	
-	private JCheckBox chkRecur;
-	private JComboBox cboxFrequency;
-	private JTextField txtStart, txtEnd;
-	
-	public PanelRecur() {
-		super();
-		this.setBackground(Color.WHITE);
-		this.setLayout(new java.awt.FlowLayout());
-		init();
-	}
-	
-	private void init() {
-		chkRecur = new JCheckBox("Repeating Record");
-		chkRecur.setBackground(Color.WHITE);
-		chkRecur.addActionListener(this);
-		chkRecur.setFont(new Font("Segoe UI", 0, 18)); // #Font)
-		this.add(chkRecur);
-		cboxFrequency = new JComboBox();
-		cboxFrequency.setEditable(false);
-		
-		txtStart = new JTextField("Commence Date");
-		txtStart.setEnabled(false);
-		txtEnd = new JTextField("Terminate Date");
-		txtEnd.setEnabled(false);
-		this.add(txtStart);
-		this.add(txtEnd);
-	}
-	
-	/**
-	 * To toggle the enabled-ability of the recurring options
-	 */
-	public void toggle() {
-		if(this.chkRecur.isSelected()) {
-			this.cboxFrequency.setEnabled(true);
-			this.txtStart.setEnabled(true);
-			this.txtEnd.setEnabled(true);
-		}
-		else {
-			this.cboxFrequency.setEnabled(false);
-			this.txtStart.setEnabled(false);
-			this.txtEnd.setEnabled(false);
-		}
-	}
-	
-	/**
-	 * To toggle the visibility of the recurring options
-	 */
-	public void toggleVisiblity() {
-		if(this.chkRecur.isSelected()) {
-			this.cboxFrequency.setVisible(true);
-			this.txtStart.setVisible(true);
-			this.txtEnd.setVisible(true);
-		}
-		else {
-			this.cboxFrequency.setVisible(false);
-			this.txtStart.setVisible(false);
-			this.txtEnd.setVisible(false);
-		}
-	}
-	
-	/**
-	 * Method to retrieve the entered starting date of the recurrence
-	 */
-	public void getStart() {}
-	
-	/**
-	 * Method to retrieve the entered ending date of the recurrence
-	 */
-	public void getEnd() {}
-	
-	/**
-	 * Method to retrieve the frequency of the recurrence
-	 */
-	public void getFrequency() {} // This would need an enum 
-	
-	public boolean isToRecur() { return this.chkRecur.isSelected(); }
-
-	@Override
-	public void actionPerformed(ActionEvent e) { this.toggle(); }
-}
 
 /** Panel Containing the Form for user to fill up - to create new record */
 @SuppressWarnings("serial")
@@ -250,12 +168,12 @@ class PanelMain extends JPanel {
 		this.setLayout(new BorderLayout());
 		
 		metroTabs = new JPanel(); // the main panel for keeping everything together
-		metroTabs.setLayout(new BorderLayout());
+		metroTabs.setLayout(new BorderLayout(15, 15));
 		metroTabs.setBackground(Color.WHITE);
 		
 		// Buttons to trigger
 		metroTabBtns = new JPanel();
-		metroTabBtns.setLayout(new GridLayout(1, 0, 0, 0));
+		metroTabBtns.setLayout(new GridLayout(1, 0, 15, 15));
 		metroTabBtns.setOpaque(false);
 		
 		metroTabBtns.add(getExpenseTab());
@@ -268,7 +186,7 @@ class PanelMain extends JPanel {
 
 		metroTabContent = new JPanel();
 		
-		loCard = new CardLayout(0, 0);
+		loCard = new CardLayout(15, 15);
 		metroTabContent.setLayout(loCard);
 		
 		metroTabContent.add(panExpense, this.CARD_EXPENSE);
@@ -312,7 +230,7 @@ class PanelMain extends JPanel {
 				public void mouseExited(MouseEvent mEvent) { // Hover end
 					JButton btn = (JButton) mEvent.getSource();
 					btn.setForeground(
-							btn.isEnabled() ? Color.DARK_GRAY : Color.WHITE
+							btn.isEnabled() ? Color.BLACK : Color.WHITE
 						);
 				}
 			});
@@ -344,7 +262,7 @@ class PanelMain extends JPanel {
 				public void mouseExited(MouseEvent mEvent) { // Hover end
 					JButton btn = (JButton) mEvent.getSource();
 					btn.setForeground(
-							btn.isEnabled() ? Color.DARK_GRAY : Color.WHITE
+							btn.isEnabled() ? Color.BLACK : Color.WHITE
 						);
 				}
 			});
@@ -402,16 +320,21 @@ class PanelMain extends JPanel {
 		}		
 	}
 	
+	/**
+	 * Method to manage the look and feel of the tabs on focus and off focus
+	 * @param toFocus the Jbutton to create focus
+	 * @param rmFocus the JButton to remove focus
+	 */
 	private void changeFocus(JButton toFocus, JButton rmFocus) {
-		toFocus.setBackground(Color.DARK_GRAY);
+		toFocus.setBackground(Color.WHITE);
 		toFocus.setContentAreaFilled(true);
-		toFocus.setForeground(Color.WHITE);
 		toFocus.setEnabled(false);
+		toFocus.setBorder(BorderFactory.createLoweredBevelBorder());
 		
-		rmFocus.setBackground(Color.WHITE);
 		rmFocus.setContentAreaFilled(false);
-		rmFocus.setForeground(Color.DARK_GRAY);
+		rmFocus.setForeground(Color.BLACK);
 		rmFocus.setEnabled(true);
+		rmFocus.setBorder(BorderFactory.createRaisedBevelBorder());
 	}
 	
 	// Access and Mutate methods (for internal internal components)
@@ -449,10 +372,10 @@ class PanelExpense extends JPanel {
 	private List<PaymentMethod> methods;
 	
 	/**
-	 * 
-	 * @param recHandlerRef
-	 * @param catHandlerRef
-	 * @param payHandlerRef
+	 * Create a Form for expense records
+	 * @param recHandlerRef RecordHandler
+	 * @param catHandlerRef CategoryHandler
+	 * @param payHandlerRef PaymentMethodHandler
 	 */
 	public PanelExpense(
 			RecordHandlerInterface recHandlerRef, 
@@ -612,21 +535,13 @@ class PanelExpense extends JPanel {
 	 * @return
 	 */
 	public Category getCat() {
-		String userInput = this.cboxCategory.getSelectedItem().toString().trim();
 		if(this.cboxCategory.getSelectedIndex() < 0) {
 			// User defined new category
+			String userInput = this.cboxCategory.getSelectedItem().toString().trim();
 			return new Category(userInput);
 		}
 		// Else find the selected Category
-		// NOTE: MAY HAVE TO STORE A THE LIST TO RETRIEVE IN VIA INDEX.
-		
-		/*
-			if category is new
-			cat = new category(name)
-			createCategory(cat)
-			Record = new (details, cat);
-		*/
-		return categories.get(categories.indexOf(new Category(userInput)));
+		return categories.get(cboxCategory.getSelectedIndex());
 	}
 	
 	/**
@@ -643,14 +558,15 @@ class PanelExpense extends JPanel {
 	 * @return
 	 */
 	public PaymentMethod getMode() {
-		String userInput = this.cboxPayment.getSelectedItem().toString().trim();
+		
 		if(this.cboxPayment.getSelectedIndex() < 0) {
 			// User defined new payment
+			String userInput = this.cboxPayment.getSelectedItem().toString().trim();
 			return new PaymentMethod(userInput);
 		}
 		// Else find the selected Payment Method
 		// NOTE: MAY HAVE TO STORE A THE LIST TO RETRIEVE IN VIA INDEX.
-		return methods.get(methods.indexOf(new PaymentMethod(userInput)));
+		return methods.get(cboxPayment.getSelectedIndex());
 	}
 	
 	public String getDesc() {
@@ -670,6 +586,7 @@ class PanelExpense extends JPanel {
 	 * @return true is there is no problem with inputs, else false;
 	 */
 	public boolean validateFields() {
+		if(!validateAmt()) return false; 
 		System.out.println(getName());
 		System.out.println(getAmt());
 		System.out.println(getDate());
@@ -679,6 +596,25 @@ class PanelExpense extends JPanel {
 		System.out.println(getType());
 		return true;
 		// Validation method (mainly for calculation)
+	}
+	
+	/**
+	 * Method to validate the amount field
+	 * @return true if legit, otherwise false
+	 */
+	private boolean validateAmt() {
+		try {
+			double result = Double.parseDouble(getAmt());
+			this.setAmt(result);
+			return true;
+		}
+		catch(Exception err) {
+			return false;
+		}
+	}
+	
+	private void setAmt(double amt) {
+		this.txtAmt.setText(amt + "" ); // May want to decimal format this
 	}
 	
 	/** 
@@ -724,7 +660,7 @@ class PanelIncome extends JPanel {
 	private List<Category> categories;
 	
 	/**
-	 * 
+	 * Create a form for income record
 	 * @param recHandlerRef
 	 * @param catHandlerRef
 	 */
@@ -810,6 +746,12 @@ class PanelIncome extends JPanel {
 	 * @return true is there is no problem with inputs, else false;
 	 */
 	public boolean validateFields() {
+		try {
+			Double.parseDouble(getAmt());
+		}
+		catch(Exception err) {
+			return false;
+		}
 		return true;
 	}
 	
@@ -829,9 +771,10 @@ class PanelIncome extends JPanel {
 	 * @return the chosen Category
 	 */
 	public Category getCat() {
-		String userInput = this.cboxCat.getSelectedItem().toString().trim();
+		
 		if(this.cboxCat.getSelectedIndex() < 0) {
 			// User defined new category
+			String userInput = this.cboxCat.getSelectedItem().toString().trim();
 			return new Category(userInput);
 		}
 		// Else find the selected Category
@@ -843,7 +786,7 @@ class PanelIncome extends JPanel {
 			createCategory(cat)
 			Record = new (details, cat);
 		*/
-		return categories.get(categories.indexOf(new Category(userInput)));
+		return categories.get(cboxCat.getSelectedIndex());
 	}
 	
 	/** Get the user entered remarks */
@@ -920,6 +863,92 @@ class PanelOption extends JPanel {
 	
 	public JButton getSaveBtn() {return this.btnSave;}
 	public JButton getCancelBtn() {return this.btnCancel;}
+}
+
+
+/** Panel to store all the options pertaining to recurrence of a record */
+@SuppressWarnings("serial")
+class PanelRecur extends JPanel implements ActionListener{
+	
+	private JCheckBox chkRecur;
+	private JComboBox cboxFrequency;
+	private JTextField txtStart, txtEnd;
+	
+	public PanelRecur() {
+		super();
+		this.setBackground(Color.WHITE);
+		this.setLayout(new java.awt.FlowLayout());
+		init();
+	}
+	
+	private void init() {
+		chkRecur = new JCheckBox("Repeating Record");
+		chkRecur.setBackground(Color.WHITE);
+		chkRecur.addActionListener(this);
+		chkRecur.setFont(new Font("Segoe UI", 0, 18)); // #Font)
+		this.add(chkRecur);
+		cboxFrequency = new JComboBox();
+		cboxFrequency.setEditable(false);
+		
+		txtStart = new JTextField("Commence Date");
+		txtStart.setEnabled(false);
+		txtEnd = new JTextField("Terminate Date");
+		txtEnd.setEnabled(false);
+		this.add(txtStart);
+		this.add(txtEnd);
+	}
+	
+	/**
+	 * To toggle the enabled-ability of the recurring options
+	 */
+	public void toggle() {
+		if(this.chkRecur.isSelected()) {
+			this.cboxFrequency.setEnabled(true);
+			this.txtStart.setEnabled(true);
+			this.txtEnd.setEnabled(true);
+		}
+		else {
+			this.cboxFrequency.setEnabled(false);
+			this.txtStart.setEnabled(false);
+			this.txtEnd.setEnabled(false);
+		}
+	}
+	
+	/**
+	 * To toggle the visibility of the recurring options
+	 */
+	public void toggleVisiblity() {
+		if(this.chkRecur.isSelected()) {
+			this.cboxFrequency.setVisible(true);
+			this.txtStart.setVisible(true);
+			this.txtEnd.setVisible(true);
+		}
+		else {
+			this.cboxFrequency.setVisible(false);
+			this.txtStart.setVisible(false);
+			this.txtEnd.setVisible(false);
+		}
+	}
+	
+	/**
+	 * Method to retrieve the entered starting date of the recurrence
+	 */
+	public void getStart() {}
+	
+	/**
+	 * Method to retrieve the entered ending date of the recurrence
+	 */
+	public void getEnd() {}
+	
+	/**
+	 * Method to retrieve the frequency of the recurrence
+	 */
+	public void getFrequency() {} // This would need an enum 
+	
+	public boolean isToRecur() { return this.chkRecur.isSelected(); }
+
+	@Override
+	public void actionPerformed(ActionEvent e) { this.toggle(); }
 }
 
 //

@@ -98,14 +98,6 @@ public class UIControl {
 		}
 	}
 	
-	/** Displays the new record handler window */
-	public void showRecWin() {
-		if(recWin == null) {
-			recWin = new RecordFrame(recHandler, inCatHandler, exCatHandler, payHandler);
-		}
-		recWin.setVisible(true);
-	}
-	
 	/**
 	 * Displays a new record handler window with the chosen tab
 	 * <br />Use RecordFrame.TAB_INCOME or TAB_EXPENSE to choose

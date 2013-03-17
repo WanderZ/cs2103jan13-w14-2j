@@ -143,8 +143,6 @@ class MenuReport extends JMenu {
 	}
 }
 
-
-
 @SuppressWarnings("serial")
 class MenuTarget extends JMenu {
 
