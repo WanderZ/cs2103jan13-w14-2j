@@ -19,6 +19,8 @@ import java.awt.BorderLayout;
 import java.text.DecimalFormat;
 
 import javax.swing.SwingConstants;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
  * This is the overview a.k.a summary panel that display the user's balance, in
@@ -56,59 +58,43 @@ public class OverviewPanel extends JPanel {
 		JPanel panel = new JPanel();
 
 		GroupLayout groupLayout = new GroupLayout(this);
-		groupLayout
-				.setHorizontalGroup(groupLayout
-						.createParallelGroup(Alignment.LEADING)
-						.addGroup(
-								groupLayout
-										.createSequentialGroup()
-										.addGroup(
-												groupLayout
-														.createParallelGroup(
-																Alignment.LEADING)
-														.addGroup(
-																groupLayout
-																		.createSequentialGroup()
-																		.addGap(18)
-																		.addComponent(
-																				lblBalance))
-														.addGroup(
-																groupLayout
-																		.createSequentialGroup()
-																		.addGap(18)
-																		.addGroup(
-																				groupLayout
-																						.createParallelGroup(
-																								Alignment.LEADING)
-																						.addComponent(
-																								lblExpense)
-																						.addComponent(
-																								lblIncome)))
-														.addGroup(
-																groupLayout
-																		.createSequentialGroup()
-																		.addContainerGap()
-																		.addComponent(
-																				panel,
-																				GroupLayout.PREFERRED_SIZE,
-																				251,
-																				GroupLayout.PREFERRED_SIZE)))
-										.addContainerGap(315, Short.MAX_VALUE)));
-		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(
-				Alignment.LEADING).addGroup(
-				groupLayout
-						.createSequentialGroup()
-						.addGap(26)
-						.addComponent(lblBalance)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 55,
-								GroupLayout.PREFERRED_SIZE).addGap(18)
-						.addComponent(lblIncome).addGap(18)
-						.addComponent(lblExpense)
-						.addContainerGap(120, Short.MAX_VALUE)));
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(18)
+							.addComponent(lblBalance))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(panel, GroupLayout.PREFERRED_SIZE, 233, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(18)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblExpense)
+								.addComponent(lblIncome))))
+					.addContainerGap(211, Short.MAX_VALUE))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(26)
+					.addComponent(lblBalance)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(26)
+					.addComponent(lblIncome)
+					.addGap(18)
+					.addComponent(lblExpense)
+					.addContainerGap(138, Short.MAX_VALUE))
+		);
 		panel.setLayout(new BorderLayout(0, 0));
 
 		buttonBack = new JButton("<");
+		buttonBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		buttonBack.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

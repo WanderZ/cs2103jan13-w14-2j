@@ -14,6 +14,13 @@ import java.util.*;
 
 public class ReportGenerator {
 	public static interface DataProvider {
+		/**
+		 * Returns a Pair of ExpenseRecord and IncomeRecord vectors within
+		 * the start date and end date
+		 * @param start
+		 * @param end
+		 * @return
+		 */
 		Pair<Vector<ExpenseRecord>, Vector<IncomeRecord>> getDataInDateRange(
 				Date start, Date end);
 	}

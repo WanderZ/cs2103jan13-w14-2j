@@ -14,6 +14,8 @@ import java.awt.event.ComponentListener;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Vector;
 
 import javax.swing.Box;
@@ -103,6 +105,7 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		this.setBounds(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
 
+		dateFormat.setCalendar(new GregorianCalendar());
 		
 		// http://stackoverflow.com/questions/852631/java-swing-how-to-show-a-panel-on-top-of-another-panel
 		// resize issue http://geti.dcc.ufrj.br/cursos/fes_2008_1/javatutorial/uiswing/events/componentlistener.html
