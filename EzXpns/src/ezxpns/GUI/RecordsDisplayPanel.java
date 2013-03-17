@@ -1,8 +1,10 @@
 package ezxpns.GUI;
 
+import ezxpns.data.records.CategoryHandler;
 import ezxpns.data.records.ExpenseRecord;
 import ezxpns.data.records.IncomeRecord;
 import ezxpns.data.records.Record;
+import ezxpns.data.records.RecordHandler;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -42,16 +44,13 @@ public class RecordsDisplayPanel extends JPanel implements ActionListener {
 	private JPanel panContent;
 	private CardLayout loCard;
 	
-	RecordHandlerInterface recHandler;
-	CategoryHandlerInterface inCatHandler;
-	CategoryHandlerInterface exCatHandler;
+	private RecordHandler recHandler;
 	
-	public RecordsDisplayPanel(RecordHandlerInterface recHandlerRef) {
+	public RecordsDisplayPanel(RecordHandler recHandlerRef) {
 		super();
 		
 		recHandler = recHandlerRef; // Receive Handler
-		
-		
+				
 		this.setBackground(Color.WHITE);
 		this.setLayout(new BorderLayout());
 
@@ -192,9 +191,9 @@ class RecordsListerPanel extends JPanel {
 	private JButton btnNew;
 	
 	private List<Record> records;
-	private RecordHandlerInterface recHandler;
+	private RecordHandler recHandler;
 	
-	public RecordsListerPanel(int tabType, RecordHandlerInterface recHandlerRef) {
+	public RecordsListerPanel(int tabType, RecordHandler recHandlerRef) {
 		super();
 		
 		this.recHandler = recHandlerRef;

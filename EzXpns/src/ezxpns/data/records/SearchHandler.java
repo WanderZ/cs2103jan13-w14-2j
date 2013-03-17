@@ -1,6 +1,5 @@
-package ezxpns.GUI;
+package ezxpns.data.records;
 
-import ezxpns.data.records.Record;
 
 /**
  * This interface denotes the possible searches the user may do as well as assists the UI side 
@@ -9,6 +8,6 @@ import ezxpns.data.records.Record;
  * Note: Below is only an impression of what may be required, but it may or may not be required 
  * <br />(not final, subject to changes)
  */
-public interface SearchHandlerInterface {
+public interface SearchHandler {
 	public java.util.Vector<Record> search(SearchRequest req);
 }

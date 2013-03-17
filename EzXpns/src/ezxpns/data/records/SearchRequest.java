@@ -1,4 +1,4 @@
-package ezxpns.GUI; // This is a temporal storing location for compilation and testing. TO BE MOVED
+package ezxpns.data.records; // This is a temporal storing location for compilation and testing. TO BE MOVED
 
 import java.util.Date;
 import ezxpns.util.*;

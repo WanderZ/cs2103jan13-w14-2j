@@ -1,11 +1,10 @@
-package ezxpns.GUI;
-import ezxpns.data.records.Category;
+package ezxpns.data.records;
 import java.util.List;
 
 /**
  *	Interface to handle the categories between the Graphical User Interface and the data storage (upon GUI Exit)
  */
-public interface CategoryHandlerInterface {
+public interface CategoryHandler {
 	
 	
 	/**

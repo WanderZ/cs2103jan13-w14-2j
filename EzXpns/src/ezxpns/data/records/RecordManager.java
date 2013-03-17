@@ -16,7 +16,7 @@ public class RecordManager<T extends Record>
 	extends Storable
 	implements
 		RecordQueryHandler<T>,
-		CategoryHandlerInterface{
+		CategoryHandler{
 	public static class RecordUpdateException extends Exception{
 		public RecordUpdateException(){
 			super();

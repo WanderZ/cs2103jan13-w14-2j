@@ -8,6 +8,10 @@ import java.awt.event.WindowEvent;
 import ezxpns.data.ReportGenerator;
 import ezxpns.data.SummaryGenerator;
 import ezxpns.data.TargetManager;
+import ezxpns.data.records.CategoryHandler;
+import ezxpns.data.records.PayMethodHandler;
+import ezxpns.data.records.RecordHandler;
+import ezxpns.data.records.SearchHandler;
 
 /**
  * To assist EzXpns in managing all the GUI Windows
@@ -24,10 +28,10 @@ public class UIControl {
 	private ReportFrame reportWin;
 	private CategoryFrame catWin;
 	
-	private SearchHandlerInterface findHandler;
-	private RecordHandlerInterface recHandler;
-	private CategoryHandlerInterface inCatHandler, exCatHandler;
-	private PaymentMethodHandlerInterface payHandler;
+	private SearchHandler findHandler;
+	private RecordHandler recHandler;
+	private CategoryHandler inCatHandler, exCatHandler;
+	private PayMethodHandler payHandler;
 	private TargetManager targetMgr;
 	private ReportGenerator rptGen;
 	private SummaryGenerator sumGen;
@@ -44,11 +48,11 @@ public class UIControl {
 	 * @param sumGenRef the reference to the summary generator logic component
 	 */
 	public UIControl(
-			SearchHandlerInterface searchHandlerRef, 
-			RecordHandlerInterface recHandlerRef, 
-			CategoryHandlerInterface inCatHandlerRef, 
-			CategoryHandlerInterface exCatHandlerRef,
-			PaymentMethodHandlerInterface payHandlerRef,
+			SearchHandler searchHandlerRef, 
+			RecordHandler recHandlerRef, 
+			CategoryHandler inCatHandlerRef, 
+			CategoryHandler exCatHandlerRef,
+			PayMethodHandler payHandlerRef,
 			TargetManager targetMgrRef,
 			ReportGenerator rptGenRef,
 			SummaryGenerator sumGenRef

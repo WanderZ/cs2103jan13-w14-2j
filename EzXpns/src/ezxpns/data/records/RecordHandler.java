@@ -1,4 +1,4 @@
-package ezxpns.GUI;
+package ezxpns.data.records;
 
 import ezxpns.data.records.*;
 import java.util.List;
@@ -7,7 +7,7 @@ import java.util.List;
 /**
  *	To handle the records between the Graphical User Interface and the data storage (upon GUI Exit)
  */
-public interface RecordHandlerInterface {
+public interface RecordHandler {
 	
 	/**
 	 * Get some records stored

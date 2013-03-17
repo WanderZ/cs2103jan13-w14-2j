@@ -2,7 +2,6 @@ package ezxpns.data.records;
 
 import java.util.*;
 
-import ezxpns.GUI.PaymentMethodHandlerInterface;
 
 /**
  * A special record manager for expense records, since we need to store
@@ -11,7 +10,7 @@ import ezxpns.GUI.PaymentMethodHandlerInterface;
  * @author yyjhao
  */
 public class ExpenseRecordManager extends RecordManager<ExpenseRecord>
-	implements PaymentMethodHandlerInterface{
+	implements PayMethodHandler{
 	
 	private TreeMap<Long, PaymentMethod> payms = new TreeMap<Long, PaymentMethod>();
 	

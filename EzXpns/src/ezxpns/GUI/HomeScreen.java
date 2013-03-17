@@ -7,7 +7,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
 import ezxpns.data.TargetManager;
-import ezxpns.data.SummaryGenerator;;
+import ezxpns.data.SummaryGenerator;
+import ezxpns.data.records.RecordHandler;
 
 @SuppressWarnings("serial")
 public class HomeScreen extends JFrame {
@@ -21,9 +22,7 @@ public class HomeScreen extends JFrame {
 	private RecordsDisplayPanel panRecords;
 	private TargetOverviewPanel panTargets;
 	
-	private RecordHandlerInterface recHandler;
-	private CategoryHandlerInterface inCatHandler;
-	private CategoryHandlerInterface exCatHandler;
+	private RecordHandler recHandler;
 	private TargetManager targetMgr;
 	private SummaryGenerator sumGen;
 	
@@ -31,7 +30,7 @@ public class HomeScreen extends JFrame {
 	
 	public HomeScreen(
 			UIControl guiControlRef,
-			RecordHandlerInterface recHandlerRef,
+			RecordHandler recHandlerRef,
 			TargetManager targetMgrRef,
 			SummaryGenerator sumGenRef
 			){

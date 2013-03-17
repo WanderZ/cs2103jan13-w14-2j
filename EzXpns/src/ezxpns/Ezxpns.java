@@ -2,21 +2,21 @@ package ezxpns;
 
 import ezxpns.data.*;
 import ezxpns.data.records.Category;
+import ezxpns.data.records.CategoryHandler;
 import ezxpns.data.records.ExpenseRecord;
 import ezxpns.data.records.IncomeRecord;
 import ezxpns.data.records.PaymentMethod;
 import ezxpns.data.records.Record;
+import ezxpns.data.records.RecordHandler;
+import ezxpns.data.records.SearchHandler;
+import ezxpns.data.records.SearchRequest;
 import ezxpns.data.records.RecordManager.RecordUpdateException;
+import ezxpns.data.records.SearchRequest.RecordType;
 import ezxpns.util.Pair;
 import ezxpns.GUI.*;
 import java.awt.EventQueue;
 import java.util.*;
 
-import ezxpns.GUI.CategoryHandlerInterface;
-import ezxpns.GUI.RecordHandlerInterface;
-import ezxpns.GUI.SearchHandlerInterface;
-import ezxpns.GUI.SearchRequest;
-import ezxpns.GUI.SearchRequest.RecordType;
 
 
 /**
@@ -24,9 +24,9 @@ import ezxpns.GUI.SearchRequest.RecordType;
  * @author yyjhao
  */
 public class Ezxpns implements
-		RecordHandlerInterface,
-		CategoryHandlerInterface,
-		SearchHandlerInterface{
+		RecordHandler,
+		CategoryHandler,
+		SearchHandler{
 	/**
 	 * The only storage manager
 	 */
