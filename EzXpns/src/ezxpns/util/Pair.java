@@ -20,10 +20,12 @@ public class Pair<L, R> {
 	}
 	
 	/**
+	 * Get the left object
 	 * @return the left object
 	 */
 	public L getLeft() { return left; }
 	/**
+	 * Get the right object
 	 * @return the right object
 	 */
 	public R getRight() { return right; }

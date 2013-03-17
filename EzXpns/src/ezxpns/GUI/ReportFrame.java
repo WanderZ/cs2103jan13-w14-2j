@@ -403,7 +403,8 @@ public class ReportFrame extends JFrame implements ComponentListener {
         generalSummary.add(Box.createVerticalGlue());
         
 		
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setLocationRelativeTo(null);
 	}
 
 	
@@ -552,7 +553,6 @@ public class ReportFrame extends JFrame implements ComponentListener {
     	lblIncome.setText("Income:\t"+df.format(myReportData.getTotalIncome()));
     	lblExpense.setText("Expense:\t"+df.format(myReportData.getTotalExpense()));
     	lblBalance.setText("Balance:\t"+df.format(myReportData.getBalance()));
-		
 	}
     
     /** TableModel

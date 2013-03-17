@@ -4,16 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author yyjhao
  * A container for some basic record attributes
- */
-/**
  * @author yyjhao
- *
- */
-/**
- * @author yyjhao
- *
  */
 public abstract class Record implements Comparable<Record>{
 	protected double amount;
