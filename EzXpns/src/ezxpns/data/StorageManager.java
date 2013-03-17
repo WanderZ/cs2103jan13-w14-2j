@@ -6,9 +6,9 @@ import java.util.*;
 import com.google.gson.*;
 
 /**
+ * Manages storage of all persistent data
  * @author yyjhao
  *
- * Manages storage of all persistent data
  */
 public class StorageManager {
 	/**

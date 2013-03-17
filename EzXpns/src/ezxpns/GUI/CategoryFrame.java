@@ -304,7 +304,7 @@ public class CategoryFrame extends JFrame {
 			if(curTar == null){
 				targetAmountField.setText("No target set");
 			}else{
-				targetAmountField.setText("" + curTar.getTarget());
+				targetAmountField.setText("" + curTar.getTargetAmt());
 			}
 			changeExBtn.setText("Change");
 			removeExBtn.setEnabled(true);
