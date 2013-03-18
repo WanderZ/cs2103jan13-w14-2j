@@ -37,6 +37,7 @@ public class SearchFrame extends JFrame implements ActionListener {
 	public final int DEFAULT_WIDTH = 600;
 	public final int DEFAULT_HEIGHT = 400;
 	
+	/** The handler object that implemented SearchHandler interface */
 	private SearchHandler handler;
 	
 	// 2 main panels, the top (querying time frame) and the bottom (results, content)
@@ -71,7 +72,8 @@ public class SearchFrame extends JFrame implements ActionListener {
 		this.add(this.panResult, BorderLayout.SOUTH);
 	}
 	
-	public void init() {
+	/** to initialize the components of this frame */
+	private void init() {
 		this.setTitle("EzXpns - Search");
 		this.setBounds(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT); /*x coordinate, y coordinate, width, height*/
 		this.setLocationRelativeTo(null); // Set to start in the central area of the screen
@@ -119,7 +121,11 @@ public class SearchFrame extends JFrame implements ActionListener {
 			this.dispose();
 		}
 	}
-		
+	
+	/** 
+	 * Search the store data for the relevant records
+	 * @param request SearchRequest object containing the query
+	 */
 	private void search(SearchRequest request) {
 		List<Record> results = handler.search(request);
 		System.out.println("results found: " + results.size()); // for debugging
@@ -279,8 +285,7 @@ class SearchBtnPanel extends JPanel {
 		this.setLayout(loBtn);
 		
 		// Layout to make it fill the width completely, and glue to the base
-		
-		
+
 		this.add(this.getSearchBtn());
 		this.add(this.getCancelBtn());
 		this.add(Box.createVerticalGlue());
