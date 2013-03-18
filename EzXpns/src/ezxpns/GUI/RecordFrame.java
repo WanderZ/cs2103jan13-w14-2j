@@ -889,6 +889,7 @@ class PanelRecur extends JPanel implements ActionListener{
 	private JComboBox cboxFrequency;
 	private JTextField txtStart, txtEnd;
 	
+	/** To create a new recurring panel */
 	public PanelRecur() {
 		super();
 		this.setBackground(Color.WHITE);
@@ -896,6 +897,7 @@ class PanelRecur extends JPanel implements ActionListener{
 		init();
 	}
 	
+	/** Initiate the fields within */
 	private void init() {
 		chkRecur = new JCheckBox("Repeating Record");
 		chkRecur.setBackground(Color.WHITE);
@@ -960,6 +962,7 @@ class PanelRecur extends JPanel implements ActionListener{
 	 */
 	public void getFrequency() {} // This would need an enum 
 	
+	/** Check if user indicate this to be a recurring record */
 	public boolean isToRecur() { return this.chkRecur.isSelected(); }
 
 	@Override
