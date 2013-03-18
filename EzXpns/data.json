@@ -7,23 +7,23 @@
       },
       "1361389433075": {
         "id": 1361389433075,
-        "name": "4z4lv6vjnmyo"
+        "name": "iBank"
       },
       "1361694372893": {
         "id": 1361694372893,
-        "name": "2s1rqfh8rtog"
+        "name": "paypal"
       },
       "1363314106821": {
         "id": 1363314106821,
-        "name": "6uexg5bx1h1c"
+        "name": "NETS"
       },
       "1364521902224": {
         "id": 1364521902224,
-        "name": "27oy7mceim80"
+        "name": "Ez-Link"
       },
       "1364965439275": {
         "id": 1364965439275,
-        "name": "1p0xf2yzpm2o"
+        "name": "mBank"
       }
     },
     "categories": {
@@ -33,27 +33,27 @@
       },
       "1364176606098": {
         "id": 1364176606098,
-        "name": "Drinks"
+        "name": "drink"
       },
-      "1363504544188": {
-        "id": 1363504544188,
-        "name": "Snacks"
+      "1363462022778": {
+        "id": 1363462022778,
+        "name": "misc"
       },
       "1363314106821": {
         "id": 1363314106821,
-        "name": "Entertainment"
+        "name": "food"
       },
       "1362931386819": {
         "id": 1362931386819,
-        "name": "Food"
+        "name": "entertainment"
       },
       "1365065985829": {
         "id": 1365065985829,
-        "name": "Shopping"
+        "name": "transport"
       },
       "1364704133024": {
         "id": 1364704133024,
-        "name": "Transport"
+        "name": "studies"
       }
     },
     "recordsByCategory": {
@@ -62,7 +62,7 @@
           "expenseType": "NEED",
           "paymentMethod": {
             "id": 1364965439275,
-            "name": "1p0xf2yzpm2o"
+            "name": "mBank"
           },
           "amount": 498.42,
           "name": "3m3q9dlf4ccg",
@@ -71,12 +71,26 @@
           "id": 1363179814806
         }
       ],
+      "1363462022778": [
+        {
+          "expenseType": "WANT",
+          "paymentMethod": {
+            "id": 1361694372893,
+            "name": "paypal"
+          },
+          "amount": 123.0,
+          "name": "Fire",
+          "remark": "123",
+          "date": "Mar 17, 2013 5:03:16 AM",
+          "id": 1363467796750
+        }
+      ],
       "1363314106821": [
         {
           "expenseType": "NEED",
           "paymentMethod": {
             "id": 1363314106821,
-            "name": "6uexg5bx1h1c"
+            "name": "NETS"
           },
           "amount": 165.81,
           "name": "1jaa73uagt4w",
@@ -88,7 +102,7 @@
           "expenseType": "NEED",
           "paymentMethod": {
             "id": 1361389433075,
-            "name": "4z4lv6vjnmyo"
+            "name": "iBank"
           },
           "amount": 769.99,
           "name": "1qrp6cycdfy8",
@@ -114,7 +128,7 @@
           "expenseType": "NEED",
           "paymentMethod": {
             "id": 1363314106821,
-            "name": "6uexg5bx1h1c"
+            "name": "NETS"
           },
           "amount": 656.37,
           "name": "3fhdbirxly4g",
@@ -128,7 +142,7 @@
           "expenseType": "NEED",
           "paymentMethod": {
             "id": 1363314106821,
-            "name": "6uexg5bx1h1c"
+            "name": "NETS"
           },
           "amount": 1.0E7,
           "name": "School Fees",
@@ -140,7 +154,7 @@
           "expenseType": "NEED",
           "paymentMethod": {
             "id": 1363314106821,
-            "name": "6uexg5bx1h1c"
+            "name": "NETS"
           },
           "amount": 585.01,
           "name": "test",
@@ -152,7 +166,7 @@
           "expenseType": "NEED",
           "paymentMethod": {
             "id": 1364521902224,
-            "name": "27oy7mceim80"
+            "name": "Ez-Link"
           },
           "amount": 651.53,
           "name": "test",
@@ -164,7 +178,7 @@
           "expenseType": "NEED",
           "paymentMethod": {
             "id": 1364965439275,
-            "name": "1p0xf2yzpm2o"
+            "name": "mBank"
           },
           "amount": 890.24,
           "name": "7zfgr8gh27i8",
@@ -176,7 +190,7 @@
           "expenseType": "NEED",
           "paymentMethod": {
             "id": 1361389433075,
-            "name": "4z4lv6vjnmyo"
+            "name": "iBank"
           },
           "amount": 17.31,
           "name": "12wy38yhdq80",
@@ -195,23 +209,23 @@
       },
       "1364097417024": {
         "id": 1364097417024,
-        "name": "Gifts"
+        "name": "scholarship"
       },
       "1362480320970": {
         "id": 1362480320970,
-        "name": "Allowance"
+        "name": "salary"
       },
       "1362122547530": {
         "id": 1362122547530,
-        "name": "Salary"
+        "name": "allowance"
       },
       "1364935492692": {
         "id": 1364935492692,
-        "name": "Bursary"
+        "name": "bursary"
       },
       "1363314106821": {
         "id": 1363314106821,
-        "name": "Scholarship"
+        "name": "gifts"
       }
     },
     "recordsByCategory": {
