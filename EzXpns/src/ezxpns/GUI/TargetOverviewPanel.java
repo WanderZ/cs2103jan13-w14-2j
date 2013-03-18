@@ -149,7 +149,4 @@ public class TargetOverviewPanel extends JPanel {
 		tagsPane.add(lblalertnumber, "cell 2 0,alignx left,aligny top");
 
 	}
-	
-	
-	
 }

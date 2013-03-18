@@ -150,6 +150,7 @@ public class DataManager extends Storable
 		_expenses.afterDeserialize();
 		_combined = new CombinedRecordsQueryHandler(_incomes, _expenses);
 		_targetManager.setDataProvider(this);
+		_targetManager.afterDeserialize();
 	}
 	
 	@Override
@@ -202,5 +203,10 @@ public class DataManager extends Storable
 	@Override
 	public double getYearlyIncome() {
 		return _expenses.getYearlySum();
+	}
+
+	@Override
+	public Category getCategory(long id) {
+		return _expenses.getCategory(id);
 	}
 }
