@@ -1,5 +1,10 @@
 package ezxpns.data;
 
+/**
+ * Implements basic function to inspect whether data is updated
+ * @author yyjhao
+ *
+ */
 public abstract class Storable {
 	private transient boolean updated;
 	/**

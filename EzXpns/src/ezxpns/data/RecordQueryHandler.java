@@ -5,8 +5,8 @@ import java.util.*;
 import ezxpns.data.records.*;
 
 /**
- * @author yyjhao
  * An interface that handles search query for records
+ * @author yyjhao
  * @param <T> A Record type
  */
 public interface RecordQueryHandler<T extends Record> {
@@ -34,4 +34,10 @@ public interface RecordQueryHandler<T extends Record> {
 	 * @return records in the date range
 	 */
 	Vector<T> getRecordsBy(Date start, Date end, int max, boolean reverse);
+	
+	/**
+	 * @param name
+	 * @return list of records with same category name
+	 */
+	Vector<T> getRecordsByCategory(String name);
 }

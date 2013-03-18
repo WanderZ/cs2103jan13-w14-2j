@@ -20,7 +20,7 @@ public class SearchRequest {
 	private boolean multiple = false;
 	
 	// no empty request allowed!
-	protected SearchRequest(){}
+	private SearchRequest(){}
 	
 	public SearchRequest(String name){
 		this.name = name;
@@ -42,4 +42,8 @@ public class SearchRequest {
 	public Category getCategory() {return category;}
 
 	public boolean isMultiple() {return multiple;}
+	
+	public String toString() {
+		return this.name;
+	}
 }

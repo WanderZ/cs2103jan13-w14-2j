@@ -4,10 +4,10 @@ import java.util.Date;
 
 
 /**
- * @author yyjhao
- *
  * An immutable class to represent the current category <br />
  * meant to be used in Record as a reference <br />
+ * @author yyjhao
+ *
  */
 public class Category{
 	/**
