@@ -47,7 +47,7 @@ public class Bar implements Comparable<Bar> {
 	 * This returns the enum of the BarColor
 	 * @return the BarColor of this bar
 	 */
-	public BarColor getColor(){
+	public BarColor getBarColor(){
 		return color;
 	}
 	
