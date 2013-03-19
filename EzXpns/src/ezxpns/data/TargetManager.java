@@ -15,6 +15,7 @@ import ezxpns.data.records.ExpenseRecord;
 public class TargetManager extends Storable {
 	public static interface DataProvider{
 		double getMonthlyExpense(Category cat);
+		Category getCategory(long id);
 	}
 	private transient DataProvider data;
 	private transient Vector<Bar> bars = new Vector<Bar>();
@@ -27,6 +28,13 @@ public class TargetManager extends Storable {
 	public TargetManager(DataProvider data){
 		this.data = data;
 		dataUpdated = true;
+	}
+	
+	@Override
+	public void afterDeserialize(){
+		for(long id : mapTarget.keySet()){
+			mapTarget.put(id, new Target(data.getCategory(id), mapTarget.get(id).getTargetAmt()));
+		}
 	}
 	
 	/**
