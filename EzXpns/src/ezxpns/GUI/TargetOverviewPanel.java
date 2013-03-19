@@ -105,7 +105,7 @@ public class TargetOverviewPanel extends JPanel {
 			//lblBar.setHorizontalAlignment(SwingConstants.CENTER);
 			
 			// BAR GRAPHICS
-			BarGraphic myBarGraphics = new BarGraphic(bar.getCurrentAmt(), bar.getTargetAmt());
+			BarGraphic myBarGraphics = new BarGraphic(bar);
 			rowPanel.add(myBarGraphics, BorderLayout.CENTER);
 
 			/*// CURRENT AMOUNT
@@ -157,19 +157,23 @@ public class TargetOverviewPanel extends JPanel {
 	 */
 	public class BarGraphic extends JPanel{
 		
-		private double currAmt = 0;
-		private double tarAmt = 0;
+		private Bar bar;
+		private int WIDTH = 150;
+		private int HEIGHT = 10;
 		
 		// Constructor: Add values for target/ratio
-		public BarGraphic(double curr, double tar){
-			currAmt = curr;
-			tarAmt = tar;
+		public BarGraphic(Bar bar){
+			this.bar = bar;
 		}
 		
 		public void paintComponent(Graphics g){
 			super.paintComponent(g);
-			g.setColor(Color.BLUE);
-			g.fillRect(0, 5, 150, 10); // x, y, width, height
+			g.setColor(Color.GRAY); // base color
+			g.fillRect(0, 5, WIDTH, HEIGHT); // x, y, width, height
+			g.setColor(bar.getBarColor().getColor());
+			double remaining = bar.getTargetAmt() - bar.getCurrentAmt();
+			int barWidth = (int) ((remaining/bar.getTargetAmt()) * WIDTH);
+			g.fillRect(0, 5, barWidth, HEIGHT);
 		}
 	}
 }
