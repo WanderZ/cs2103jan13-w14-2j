@@ -3,7 +3,8 @@ package ezxpns.GUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.text.DecimalFormat;
@@ -29,6 +30,7 @@ public class TargetOverviewPanel extends JPanel {
 	private TargetManager targetMgr;
 	private final DecimalFormat MONEY_FORMAT = new DecimalFormat(
 			"$###,###,##0.00");
+	private final DecimalFormat TWO_DP = new DecimalFormat("#.##");
 	private JPanel largeBorderLayoutPanel;
 	private JPanel tagsPane;
 	private JScrollPane targetScrollPane;
@@ -152,11 +154,18 @@ public class TargetOverviewPanel extends JPanel {
 			g.setColor(Color.GRAY); // base color
 			g.fillRect(0, X, WIDTH, HEIGHT); // x, y, width, height
 			g.setColor(bar.getBarColor().getColor());
-			double remaining = bar.getTargetAmt() - bar.getCurrentAmt();
+			double remaining = bar.getRemainingAmt();
 			int barWidth = (int) ((bar.getCurrentAmt() / bar.getTargetAmt()) * WIDTH);
 			if (barWidth > WIDTH)
 				barWidth = 150;
 			g.fillRect(0, X, barWidth, HEIGHT);
+			
+			//font
+			Font percentage = new Font("Book Antiqua", Font.BOLD, 15);
+			FontMetrics percentageFontMetrics = g.getFontMetrics(percentage);
+			String stringPercentage = "" + TWO_DP.format(bar.getCurrentPercentage()) + "%";
+			g.setColor(Color.WHITE);
+			g.drawString(stringPercentage, WIDTH-percentageFontMetrics.stringWidth(stringPercentage),HEIGHT+10);
 		}
 	}
 }

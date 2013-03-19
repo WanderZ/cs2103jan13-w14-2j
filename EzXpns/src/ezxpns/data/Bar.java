@@ -74,7 +74,26 @@ public class Bar implements Comparable<Bar> {
 	public double getTargetAmt(){
 		return targetAmt;
 	}
+	
+	/**
+	 * This returns the remaining amount the user can spent for the target of this bar
+	 * @return
+	 */
+	public double getRemainingAmt(){
+		return targetAmt - currentAmt;
+	}
 
+	/**
+	 * This returns the percentage of current amount as compared to target amount. 
+	 * Returns 100% if actual percentage is more than 100%.
+	 * @return
+	 */
+	public double getCurrentPercentage(){
+		double result = (currentAmt/targetAmt) * 100;
+		if (result > 100)
+			return 100;
+		else return result;
+	}
 	
 	
 	
