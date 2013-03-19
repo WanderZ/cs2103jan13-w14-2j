@@ -94,19 +94,21 @@ public class TargetOverviewPanel extends JPanel {
 			JPanel rowPanel = new JPanel();
 			rowPanel.setPreferredSize(new Dimension(200, 20));
 			columnpanel.add(rowPanel);
-			rowPanel.setLayout(new FlowLayout());
+			//rowPanel.setLayout(new FlowLayout());
+			rowPanel.setLayout(new BorderLayout());
 
 			// CATEGORY LABEL
 			JLabel lblBar = new JLabel(bar.getTarget().getCategory().getName());
-			rowPanel.add(lblBar);
+			rowPanel.add(lblBar, BorderLayout.WEST);
+			lblBar.setPreferredSize(new Dimension(100, 20));
 			lblBar.setBackground(new Color(154, 205, 50));
-			lblBar.setHorizontalAlignment(SwingConstants.CENTER);
+			//lblBar.setHorizontalAlignment(SwingConstants.CENTER);
 			
 			// BAR GRAPHICS
 			BarGraphic myBarGraphics = new BarGraphic(bar.getCurrentAmt(), bar.getTargetAmt());
-			rowPanel.add(myBarGraphics);
+			rowPanel.add(myBarGraphics, BorderLayout.CENTER);
 
-			// CURRENT AMOUNT
+			/*// CURRENT AMOUNT
 			JLabel lblCurrentAmt = new JLabel(MONEY_FORMAT.format(bar.getCurrentAmt()));
 			rowPanel.add(lblCurrentAmt);
 			lblCurrentAmt.setHorizontalAlignment(SwingConstants.CENTER);
@@ -132,7 +134,7 @@ public class TargetOverviewPanel extends JPanel {
 			default:
 				lblCurrentAmt.setForeground(new Color(122, 122, 122)); // dark
 				// gray
-			}
+			}*/
 		}
 		
 		
@@ -167,7 +169,7 @@ public class TargetOverviewPanel extends JPanel {
 		public void paintComponent(Graphics g){
 			super.paintComponent(g);
 			g.setColor(Color.BLUE);
-			g.fillRect(0, 0, 20, 2);
+			g.fillRect(0, 5, 150, 10); // x, y, width, height
 		}
 	}
 }
