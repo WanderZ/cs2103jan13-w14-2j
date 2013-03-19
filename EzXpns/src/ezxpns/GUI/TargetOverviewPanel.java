@@ -1,27 +1,22 @@
 package ezxpns.GUI;
 
-import javax.swing.JPanel;
-
-import ezxpns.data.TargetManager;
-import ezxpns.data.Bar;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.SystemColor;
-
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import java.awt.Color;
 import java.text.DecimalFormat;
-import java.util.Vector;
 
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
+
 import net.miginfocom.swing.MigLayout;
+import ezxpns.data.Bar;
+import ezxpns.data.TargetManager;
 
 /**
  * This is the panel in which will be slotted into the MainGUI (the main
@@ -101,16 +96,23 @@ public class TargetOverviewPanel extends JPanel {
 			columnpanel.add(rowPanel);
 			rowPanel.setLayout(new FlowLayout());
 
+			// CATEGORY LABEL
 			JLabel lblBar = new JLabel(bar.getTarget().getCategory().getName());
 			rowPanel.add(lblBar);
 			lblBar.setBackground(new Color(154, 205, 50));
 			lblBar.setHorizontalAlignment(SwingConstants.CENTER);
+			
+			// BAR GRAPHICS
+			BarGraphic myBarGraphics = new BarGraphic(bar.getCurrentAmt(), bar.getTargetAmt());
+			rowPanel.add(myBarGraphics);
 
+			// CURRENT AMOUNT
 			String cAmtName = "$" + MONEY_FORMAT.format(bar.getCurrentAmt());
 			JLabel lblCurrentAmt = new JLabel(cAmtName);
 			rowPanel.add(lblCurrentAmt);
 			lblCurrentAmt.setHorizontalAlignment(SwingConstants.CENTER);
 
+			// TARGET AMOUNT
 			String tAmtName = "$"
 					+ MONEY_FORMAT.format(bar.getTargetAmt()); // to be
 			// changed
@@ -148,5 +150,28 @@ public class TargetOverviewPanel extends JPanel {
 		lblalertnumber.setText("(" + targetMgr.getAlerts().size() + ")");
 		tagsPane.add(lblalertnumber, "cell 2 0,alignx left,aligny top");
 
+	}
+	
+	/**
+	 * Bar Graphics (JPanel) displayed in TargetOverviewPanel
+	 * @author tingzhe
+	 *
+	 */
+	public class BarGraphic extends JPanel{
+		
+		private double currAmt = 0;
+		private double tarAmt = 0;
+		
+		// Constructor: Add values for target/ratio
+		public BarGraphic(double curr, double tar){
+			currAmt = curr;
+			tarAmt = tar;
+		}
+		
+		public void paintComponent(Graphics g){
+			super.paintComponent(g);
+			g.setColor(Color.BLUE);
+			g.fillRect(0, 0, 20, 2);
+		}
 	}
 }
