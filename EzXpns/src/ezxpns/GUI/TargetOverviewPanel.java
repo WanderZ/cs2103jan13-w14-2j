@@ -107,16 +107,12 @@ public class TargetOverviewPanel extends JPanel {
 			rowPanel.add(myBarGraphics);
 
 			// CURRENT AMOUNT
-			String cAmtName = "$" + MONEY_FORMAT.format(bar.getCurrentAmt());
-			JLabel lblCurrentAmt = new JLabel(cAmtName);
+			JLabel lblCurrentAmt = new JLabel(MONEY_FORMAT.format(bar.getCurrentAmt()));
 			rowPanel.add(lblCurrentAmt);
 			lblCurrentAmt.setHorizontalAlignment(SwingConstants.CENTER);
 
 			// TARGET AMOUNT
-			String tAmtName = "$"
-					+ MONEY_FORMAT.format(bar.getTargetAmt()); // to be
-			// changed
-			JLabel lblTargetAmt = new JLabel("/" + tAmtName);
+			JLabel lblTargetAmt = new JLabel("/" + MONEY_FORMAT.format(bar.getTargetAmt()));
 			rowPanel.add(lblTargetAmt);
 			lblTargetAmt.setHorizontalAlignment(SwingConstants.CENTER);
 
