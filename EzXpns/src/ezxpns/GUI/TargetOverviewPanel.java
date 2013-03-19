@@ -36,8 +36,6 @@ public class TargetOverviewPanel extends JPanel {
 	private JPanel columnpanel;
 	private JLabel lblTargets;
 	private JLabel lblalertnumber;
-	
-	
 
 	/**
 	 * 
@@ -64,7 +62,7 @@ public class TargetOverviewPanel extends JPanel {
 		targetScrollPane = new JScrollPane();
 
 		targetScrollPane
-		.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		largeBorderLayoutPanel.add(targetScrollPane, BorderLayout.CENTER);
 
 		smallBorderLayoutpanel = new JPanel();
@@ -77,24 +75,27 @@ public class TargetOverviewPanel extends JPanel {
 		columnpanel.setBackground(Color.white);
 
 		targetScrollPane.setPreferredSize(new Dimension(50, 50));
-		
-		
+
 		updateTargets();
 		updateAlerts();
 
 	}// end constructor
-	
+
 	/**
 	 * displays a list of targets in targetScrollPane
 	 */
-	public void updateTargets(){
+	public void updateTargets() {
 		for (int i = targetMgr.getOrderedBar().size() - 1; i >= 0; i--) {
 			Bar bar = targetMgr.getOrderedBar().get(i);
 
 			JPanel rowPanel = new JPanel();
-			rowPanel.setPreferredSize(new Dimension(200, 20));
+			rowPanel.setPreferredSize(new Dimension(200, 50)); // width (just
+																// make it big
+																// enough for
+																// scroll to
+																// appear),
+																// height
 			columnpanel.add(rowPanel);
-			//rowPanel.setLayout(new FlowLayout());
 			rowPanel.setLayout(new BorderLayout());
 
 			// CATEGORY LABEL
@@ -102,78 +103,60 @@ public class TargetOverviewPanel extends JPanel {
 			rowPanel.add(lblBar, BorderLayout.WEST);
 			lblBar.setPreferredSize(new Dimension(100, 20));
 			lblBar.setBackground(new Color(154, 205, 50));
-			//lblBar.setHorizontalAlignment(SwingConstants.CENTER);
-			
+
 			// BAR GRAPHICS
 			BarGraphic myBarGraphics = new BarGraphic(bar);
 			rowPanel.add(myBarGraphics, BorderLayout.CENTER);
 
-			/*// CURRENT AMOUNT
-			JLabel lblCurrentAmt = new JLabel(MONEY_FORMAT.format(bar.getCurrentAmt()));
-			rowPanel.add(lblCurrentAmt);
-			lblCurrentAmt.setHorizontalAlignment(SwingConstants.CENTER);
+			// CURRENT AMOUNT/TARGET AMOUNT
+			JLabel lblCurrentAmt = new JLabel(MONEY_FORMAT.format(bar
+					.getCurrentAmt())
+					+ "/"
+					+ MONEY_FORMAT.format(bar.getTargetAmt()));
+			rowPanel.add(lblCurrentAmt, BorderLayout.EAST);
 
-			// TARGET AMOUNT
-			JLabel lblTargetAmt = new JLabel("/" + MONEY_FORMAT.format(bar.getTargetAmt()));
-			rowPanel.add(lblTargetAmt);
-			lblTargetAmt.setHorizontalAlignment(SwingConstants.CENTER);
-
-			switch (bar.getColor()) {
-			case HIGH:
-				lblCurrentAmt.setForeground(new Color(255, 20, 30)); // red
-				break;
-			case MEDIUM:
-				lblCurrentAmt.setForeground(new Color(255, 150, 20)); // orange
-				break;
-			case LOW:
-				lblCurrentAmt.setForeground(new Color(255, 245, 40)); // yellow
-				break;
-			case SAFE:
-				lblCurrentAmt.setForeground(new Color(71, 255, 102)); // orange
-				break;
-			default:
-				lblCurrentAmt.setForeground(new Color(122, 122, 122)); // dark
-				// gray
-			}*/
 		}
-		
-		
+
 	}
-	
+
 	/**
 	 * Display number of Alerts in the tagsPane
 	 */
-	public void updateAlerts(){
+	public void updateAlerts() {
 		lblalertnumber = new JLabel();
 		lblalertnumber.setText("(" + targetMgr.getAlerts().size() + ")");
 		tagsPane.add(lblalertnumber, "cell 2 0,alignx left,aligny top");
 
 	}
-	
+
 	/**
 	 * Bar Graphics (JPanel) displayed in TargetOverviewPanel
+	 * 
 	 * @author tingzhe
-	 *
+	 * 
 	 */
-	public class BarGraphic extends JPanel{
-		
+	public class BarGraphic extends JPanel {
+
 		private Bar bar;
 		private int WIDTH = 150;
-		private int HEIGHT = 10;
-		
+		private int HEIGHT = 20;
+		private int X = 15;
+
 		// Constructor: Add values for target/ratio
-		public BarGraphic(Bar bar){
+		public BarGraphic(Bar bar) {
 			this.bar = bar;
 		}
-		
-		public void paintComponent(Graphics g){
+
+		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
 			g.setColor(Color.GRAY); // base color
-			g.fillRect(0, 5, WIDTH, HEIGHT); // x, y, width, height
+			g.fillRect(0, X, WIDTH, HEIGHT); // x, y, width, height
 			g.setColor(bar.getBarColor().getColor());
 			double remaining = bar.getTargetAmt() - bar.getCurrentAmt();
-			int barWidth = (int) ((remaining/bar.getTargetAmt()) * WIDTH);
-			g.fillRect(0, 5, barWidth, HEIGHT);
+			int barWidth = (int) ((bar.getCurrentAmt() / bar.getTargetAmt()) * WIDTH);
+			if (barWidth > WIDTH)
+				barWidth = 150;
+			g.fillRect(0, X, barWidth, HEIGHT);
 		}
 	}
 }

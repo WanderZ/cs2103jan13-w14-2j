@@ -20,7 +20,7 @@ public enum BarColor {
 	},
 	SAFE {
 		public Color getColor() {
-			return Color.GREEN;
+			return Color.GREEN.darker();
 		}
 	};
 	
