@@ -255,4 +255,17 @@ public class Ezxpns implements
 	public Category updateCategory(long identifier, Category selectedCat) {
 		return data.expenses().updateCategory(identifier, selectedCat);
 	}
+
+	@Override
+	public boolean createRecord(IncomeRecord newRecord, boolean newCat) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean createRecord(ExpenseRecord newRecord, boolean newCat,
+			boolean newPay) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
