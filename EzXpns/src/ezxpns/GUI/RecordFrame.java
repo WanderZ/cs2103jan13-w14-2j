@@ -676,7 +676,7 @@ class PanelExpense extends JPanel {
 				this.getType(), 									// The ExpenseType of the record (need/want)
 				this.getMode()										// Payment method/mode of this record
 			);
-		this.recHandler.createRecord(eRecord);
+		this.recHandler.createRecord(eRecord, false, false);
 		return eRecord;
 	}
 }
@@ -880,7 +880,7 @@ class PanelIncome extends JPanel {
 				this.getCat()
 			);
 		
-		System.out.println("Create iRecord: " + this.recHandler.createRecord(iRecord));
+		System.out.println("Create iRecord: " + this.recHandler.createRecord(iRecord, false));
 		return iRecord;
 	}
 	
