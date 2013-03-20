@@ -257,6 +257,13 @@ public class RecordManager<T extends Record>
 		while(recordsById.containsKey(record.id)){
 			record.id = (new Date()).getTime() + ran.nextInt();
 		}
+		recordsById.put(record.id, record);
+		recordAdded(record);
+		markUpdate();
+		return record;
+	}
+	
+	protected void recordAdded(T record){
 		if(recordsByDate.containsKey(record.date)){
 			recordsByDate.get(record.date).add(record);
 		}else{
@@ -278,14 +285,7 @@ public class RecordManager<T extends Record>
 			set.add(record);
 			recordsByName.put(record.name, set);
 		}
-		recordsById.put(record.id, record);
 		addSums(record);
-		markUpdate();
-		return record;
-	}
-	
-	protected void recordAdded(T Record){
-		
 	}
 	
 	/**
