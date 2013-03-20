@@ -35,7 +35,7 @@ public class TargetOverviewPanel extends JPanel {
 	private JPanel tagsPane;
 	private JScrollPane targetScrollPane;
 	private JPanel smallBorderLayoutpanel;
-	private JPanel columnpanel;
+	private JPanel columnPanel;
 	private JLabel lblTargets;
 	private JLabel lblalertnumber;
 
@@ -69,13 +69,9 @@ public class TargetOverviewPanel extends JPanel {
 		targetScrollPane.setViewportView(smallBorderLayoutpanel);
 		smallBorderLayoutpanel.setLayout(new BorderLayout(0, 0));
 
-		columnpanel = new JPanel();
-		smallBorderLayoutpanel.add(columnpanel, BorderLayout.NORTH);
-		columnpanel.setLayout(new GridLayout(0, 1, 0, 1));
-
-		targetScrollPane.setPreferredSize(new Dimension(50, 50));
-
+		columnPanel = new JPanel();
 		updateTargets();
+		lblalertnumber = new JLabel();
 		updateAlerts();
 
 	}// end constructor
@@ -84,6 +80,11 @@ public class TargetOverviewPanel extends JPanel {
 	 * displays a list of targets in targetScrollPane
 	 */
 	public void updateTargets() {
+		columnPanel.removeAll();
+		smallBorderLayoutpanel.add(columnPanel, BorderLayout.NORTH);
+		columnPanel.setLayout(new GridLayout(0, 1, 0, 1));
+		
+		targetScrollPane.setPreferredSize(new Dimension(50, 50));
 		for (int i = targetMgr.getOrderedBar().size() - 1; i >= 0; i--) {
 			Bar bar = targetMgr.getOrderedBar().get(i);
 
@@ -94,7 +95,7 @@ public class TargetOverviewPanel extends JPanel {
 																// scroll to
 																// appear),
 																// height
-			columnpanel.add(rowPanel);
+			columnPanel.add(rowPanel);
 			rowPanel.setLayout(new BorderLayout());
 
 			// CATEGORY LABEL
@@ -122,11 +123,10 @@ public class TargetOverviewPanel extends JPanel {
 	 * Display number of Alerts in the tagsPane
 	 */
 	public void updateAlerts() {
-		lblalertnumber = new JLabel();
 		lblalertnumber.setText("(" + targetMgr.getAlerts().size() + ")");
 		tagsPane.add(lblalertnumber, "cell 2 0,alignx left,aligny top");
-
 	}
+	
 	public void update() {
 		this.updateAlerts();
 		this.updateTargets();
