@@ -63,7 +63,10 @@ public class RecordListView extends JTable {
 				return null;
 			}
 		}
-		
+		@Override
+		public String getColumnName(int col){
+			return headers[col];
+		}
 	}
 	
 	private RecordListView(){}
@@ -77,6 +80,7 @@ public class RecordListView extends JTable {
 	private int rowSelected;
 	
 	public RecordListView(RecordEditor ed, RecordHandler rh){
+		super();
 		editor = ed;
 		rhandler = rh;
 		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -84,22 +88,23 @@ public class RecordListView extends JTable {
 		setShowHorizontalLines(false);
 		setShowVerticalLines(false);
 		setShowGrid(false);
-		
+		setModel(model);
+
 		menu = new JPopupMenu();
 		
 		JMenuItem mntmEdit = new JMenuItem("edit");
-		mntmEdit.setAction(new AbstractAction(){
+		mntmEdit.setAction(new AbstractAction("edit"){
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				editor.edit(itemSelected);
+				editItemAt(rowSelected);
 			}
 			
 		});
 		menu.add(mntmEdit);
 		
 		JMenuItem mntmRemove = new JMenuItem("remove");
-		mntmRemove.setAction(new AbstractAction(){
+		mntmRemove.setAction(new AbstractAction("remove"){
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
