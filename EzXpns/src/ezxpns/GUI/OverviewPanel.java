@@ -56,7 +56,8 @@ public class OverviewPanel extends JPanel {
 		lblExpense = new JLabel("Expense:");
 
 		JPanel panel = new JPanel();
-
+		panel.setBackground(Color.WHITE); // set color for buttons and timeline
+		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
