@@ -28,12 +28,29 @@ public interface RecordHandler {
 	 */
 	public boolean createRecord(IncomeRecord newRecord);
 	
+	/** 
+	 * Create a new income record along with a new category
+	 * @param newRecord Object cotaining all the necessary data to create a new record
+	 * @param newCat true for new category, otherwise false
+	 * @return true if creating a new record is successful, otherwise false
+	 */
+	public boolean createRecord(IncomeRecord newRecord, boolean newCat);
+	
 	/**
 	 * Create a new expense record
 	 * @param newRecord Object containing all the necessary data to create a new record
 	 * @return true if successful, else false
 	 */
 	public boolean createRecord(ExpenseRecord newRecord);
+	
+	/**
+	 * Create a new expense record along with flags for new expense category and new payment method
+	 * @param newRecord Object containing all the necessary data to create a new record
+	 * @param newCat true for new category, otherwise false
+	 * @param newPay true for new payment method, otherwise false
+	 * @return true if successful, else false
+	 */
+	public boolean createRecord(ExpenseRecord newRecord, boolean newCat, boolean newPay);
 	
 	/**
 	 * Remove record based on an identifier

@@ -7,23 +7,23 @@
       },
       "1361389433075": {
         "id": 1361389433075,
-        "name": "iBank"
+        "name": "4z4lv6vjnmyo"
       },
       "1361694372893": {
         "id": 1361694372893,
-        "name": "paypal"
+        "name": "2s1rqfh8rtog"
       },
       "1363314106821": {
         "id": 1363314106821,
-        "name": "NETS"
+        "name": "6uexg5bx1h1c"
       },
       "1364521902224": {
         "id": 1364521902224,
-        "name": "Ez-Link"
+        "name": "27oy7mceim80"
       },
       "1364965439275": {
         "id": 1364965439275,
-        "name": "mBank"
+        "name": "1p0xf2yzpm2o"
       }
     },
     "categories": {
@@ -31,90 +31,46 @@
         "id": 0,
         "name": "undefined"
       },
-      "1364176606098": {
-        "id": 1364176606098,
-        "name": "drink"
-      },
-      "1363462022778": {
-        "id": 1363462022778,
-        "name": "misc"
+      "1363504544188": {
+        "id": 1363504544188,
+        "name": "Snacks"
       },
       "1363314106821": {
         "id": 1363314106821,
-        "name": "food"
+        "name": "Entertainment"
       },
       "1362931386819": {
         "id": 1362931386819,
-        "name": "entertainment"
+        "name": "Food"
       },
       "1365065985829": {
         "id": 1365065985829,
-        "name": "transport"
+        "name": "Shopping"
       },
       "1364704133024": {
         "id": 1364704133024,
-        "name": "studies"
+        "name": "Transport"
       }
     },
     "recordsByCategory": {
-      "1364176606098": [
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1361389433075,
-            "name": "iBank"
-          },
-          "amount": 11.0,
-          "name": "asdf",
-          "remark": "asfdafd",
-          "date": "Mar 19, 2013 11:42:49 AM",
-          "id": 1363664569870
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1361389433075,
-            "name": "iBank"
-          },
-          "amount": 11.0,
-          "name": "d",
-          "remark": "aa",
-          "date": "Mar 17, 2013 11:35:31 PM",
-          "id": 1363534531537
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1364965439275,
-            "name": "mBank"
-          },
-          "amount": 498.42,
-          "name": "3m3q9dlf4ccg",
-          "remark": "nil",
-          "date": "Jul 1, 2012 3:19:59 AM",
-          "id": 1363179814806
-        }
-      ],
-      "1363462022778": [
-        {
-          "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 1361694372893,
-            "name": "paypal"
-          },
-          "amount": 123.0,
-          "name": "Fire",
-          "remark": "123",
-          "date": "Mar 17, 2013 5:03:16 AM",
-          "id": 1363467796750
-        }
-      ],
       "1363314106821": [
         {
           "expenseType": "NEED",
           "paymentMethod": {
             "id": 1363314106821,
-            "name": "NETS"
+            "name": "6uexg5bx1h1c"
+          },
+          "amount": 44.0,
+          "name": "test",
+          "remark": "alright",
+          "date": "Mar 19, 2013 9:39:14 PM",
+          "id": 1363700354193
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1363314106821,
+            "name": "6uexg5bx1h1c"
           },
           "amount": 165.81,
           "name": "1jaa73uagt4w",
@@ -126,7 +82,7 @@
           "expenseType": "NEED",
           "paymentMethod": {
             "id": 1361389433075,
-            "name": "iBank"
+            "name": "4z4lv6vjnmyo"
           },
           "amount": 769.99,
           "name": "1qrp6cycdfy8",
@@ -152,7 +108,7 @@
           "expenseType": "NEED",
           "paymentMethod": {
             "id": 1363314106821,
-            "name": "NETS"
+            "name": "6uexg5bx1h1c"
           },
           "amount": 656.37,
           "name": "3fhdbirxly4g",
@@ -166,7 +122,7 @@
           "expenseType": "NEED",
           "paymentMethod": {
             "id": 1363314106821,
-            "name": "NETS"
+            "name": "6uexg5bx1h1c"
           },
           "amount": 1.0E7,
           "name": "School Fees",
@@ -178,7 +134,7 @@
           "expenseType": "NEED",
           "paymentMethod": {
             "id": 1363314106821,
-            "name": "NETS"
+            "name": "6uexg5bx1h1c"
           },
           "amount": 585.01,
           "name": "test",
@@ -190,7 +146,7 @@
           "expenseType": "NEED",
           "paymentMethod": {
             "id": 1364521902224,
-            "name": "Ez-Link"
+            "name": "27oy7mceim80"
           },
           "amount": 651.53,
           "name": "test",
@@ -202,7 +158,7 @@
           "expenseType": "NEED",
           "paymentMethod": {
             "id": 1364965439275,
-            "name": "mBank"
+            "name": "1p0xf2yzpm2o"
           },
           "amount": 890.24,
           "name": "7zfgr8gh27i8",
@@ -214,7 +170,7 @@
           "expenseType": "NEED",
           "paymentMethod": {
             "id": 1361389433075,
-            "name": "iBank"
+            "name": "4z4lv6vjnmyo"
           },
           "amount": 17.31,
           "name": "12wy38yhdq80",
@@ -233,23 +189,23 @@
       },
       "1364097417024": {
         "id": 1364097417024,
-        "name": "scholarship"
+        "name": "Gifts"
       },
       "1362480320970": {
         "id": 1362480320970,
-        "name": "salary"
+        "name": "Allowance"
       },
       "1362122547530": {
         "id": 1362122547530,
-        "name": "allowance"
+        "name": "Salary"
       },
       "1364935492692": {
         "id": 1364935492692,
-        "name": "bursary"
+        "name": "Bursary"
       },
       "1363314106821": {
         "id": 1363314106821,
-        "name": "gifts"
+        "name": "Scholarship"
       }
     },
     "recordsByCategory": {
@@ -338,28 +294,21 @@
       "1362931386819": {
         "cat": {
           "id": 1362931386819,
-          "name": "entertainment"
+          "name": "Food"
         },
         "targetAmt": 600.0
       },
       "1363314106821": {
         "cat": {
           "id": 1363314106821,
-          "name": "food"
+          "name": "Entertainment"
         },
         "targetAmt": 10000.0
-      },
-      "1364176606098": {
-        "cat": {
-          "id": 1364176606098,
-          "name": "drink"
-        },
-        "targetAmt": 100.0
       },
       "1364704133024": {
         "cat": {
           "id": 1364704133024,
-          "name": "studies"
+          "name": "Transport"
         },
         "targetAmt": 800.0
       }
