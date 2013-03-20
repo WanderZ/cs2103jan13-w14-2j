@@ -1,7 +1,5 @@
 package ezxpns.GUI;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -110,6 +108,13 @@ public class UIControl {
 	public void showRecWin(int recordType) {
 		if(recWin == null) {
 			recWin = new RecordFrame(recHandler, inCatHandler, exCatHandler, payHandler, recordType);
+			recWin.addWindowListener(new WindowAdapter() {
+				@Override
+				public void windowClosing(WindowEvent wEvent) {
+					homeScreen.updateAll();
+					recWin.dispose();
+				}
+			});
 		}
 		recWin.setVisible(true);
 	}
@@ -117,7 +122,7 @@ public class UIControl {
 	/** Displays the search handler window */
 	public void showSearchWin() {
 		if(searchWin == null) {
-			searchWin = new SearchFrame(findHandler);
+			searchWin = new SearchFrame(findHandler, new RecordListView(recWin, recHandler));
 		}
 		searchWin.setVisible(true);
 	}
@@ -126,6 +131,13 @@ public class UIControl {
 	public void showReportWin() {
 		if(reportWin == null) {
 			reportWin = new ReportFrame(rptGen);
+			reportWin.addWindowListener(new WindowAdapter() {
+				@Override
+				public void windowClosing(WindowEvent wEvent) {
+					homeScreen.updateAll();
+					reportWin.dispose();
+				}
+			});
 		}
 		reportWin.setVisible(true);
 	}
@@ -134,6 +146,13 @@ public class UIControl {
 	public void showCatWin() { 
 		if(catWin == null) {
 			catWin = new CategoryFrame(exCatHandler, inCatHandler, targetMgr);
+			catWin.addWindowListener(new WindowAdapter() {
+				@Override
+				public void windowClosing(WindowEvent wEvent) {
+					homeScreen.updateAll();
+					catWin.dispose();
+				}
+			});
 		}
 		catWin.setVisible(true); 
 	}

@@ -12,6 +12,7 @@ import ezxpns.data.records.RecordHandler;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.TextArea;
@@ -20,6 +21,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.font.TextAttribute;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +31,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -40,10 +43,10 @@ import javax.swing.SpringLayout;
  * This is a JFrame object (Window) that allows users to enter a new record (Expense/Income) into the EzXpns
  */
 @SuppressWarnings("serial")
-public class RecordFrame extends JFrame implements ActionListener {
+public class RecordFrame extends JFrame implements ActionListener, RecordListView.RecordEditor {
 	
-	public static final int DEFAULT_WIDTH = 760;
-	public static final int DEFAULT_HEIGHT = 550; 
+	public static final int DEFAULT_WIDTH = 600;
+	public static final int DEFAULT_HEIGHT = 400; 
 	
 	public static final int TAB_INCOME = 0011;
 	public static final int TAB_EXPENSE = 1100;
@@ -125,16 +128,27 @@ public class RecordFrame extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		
 		if(this.panOpt.getSaveBtn() == e.getSource()) { // Save button has been invoked.
+			System.out.println("Saved invoked!");
 			if(panMain.validateForm()) { // Invoke validation
+				System.out.println("validated!");
 				panMain.save();
 				// all is good. save as new Record.
 				// Check if it is a recurring record
 				// do the necessary to ensure that EzXpns knows it. 
+				this.dispose();
+				return;
 			}
+			System.out.println("Not validated!");
 		}
 		if(this.panOpt.getCancelBtn() == e.getSource()) {
 			this.dispose();
 		}
+	}
+
+	@Override
+	public void edit(Record r) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 
@@ -170,8 +184,7 @@ class PanelMain extends JPanel {
 		this.setLayout(new BorderLayout());
 		
 		metroTabs = new JPanel(); // the main panel for keeping everything together
-		metroTabs.setLayout(new BorderLayout(15, 15));
-		metroTabs.setBackground(Color.WHITE);
+		metroTabs.setLayout(new BorderLayout());
 		
 		// Buttons to trigger
 		metroTabBtns = new JPanel();
@@ -352,7 +365,6 @@ class PanelExpense extends JPanel {
 	public final int TOP_PAD = 27;
 	public final int COL1_PAD = 15;
 	public final int COL2_PAD = 200;
-	public final int TEXTFIELD_SIZE = 20;
 	
 	public final String EXPENSE_TYPE_NEED = "Need";
 	public final String EXPENSE_TYPE_WANT = "Want";
@@ -361,8 +373,9 @@ class PanelExpense extends JPanel {
 	private ButtonGroup bgType;
 	private JRadioButton rbtnNeed, rbtnWant;
 	private JLabel lblAmt, lblName, lblType, lblCat, lblPayment, lblDate, lblDesc;
-	private JTextField 	txtAmt, txtName, txtDate;
-	private TextArea taDesc;
+	private JTextField 	txtAmt, txtName;
+	private JFormattedTextField txtDate;
+	private JTextField txtDesc;
 	private JComboBox cboxCategory, cboxPayment;
 	
 	// #Logic Components
@@ -394,7 +407,6 @@ class PanelExpense extends JPanel {
 		categories = catHandler.getAllCategories();
 		methods = payHandler.getAllPaymentMethod();
 		this.initFields();
-		this.setBackground(Color.WHITE);
 	}
 	
 	/** 
@@ -458,7 +470,8 @@ class PanelExpense extends JPanel {
 		cboxPayment .setEditable(true);
 		
 		lblName = this.createLabel("Name");
-		txtName = new JTextField("", TEXTFIELD_SIZE);
+		txtName = new JTextField("");
+		txtName.setPreferredSize(new Dimension(200, 25));
 		this.add(lblName);
 		this.add(txtName);
 		loForm.putConstraint(SpringLayout.WEST, lblName, COL1_PAD, SpringLayout.WEST, this);
@@ -487,12 +500,13 @@ class PanelExpense extends JPanel {
 		loForm.putConstraint(SpringLayout.WEST, lblType, COL1_PAD, SpringLayout.WEST, this);
 		loForm.putConstraint(SpringLayout.NORTH, lblType, TOP_PAD, SpringLayout.NORTH, lblCat);
 		loForm.putConstraint(SpringLayout.WEST, rbtnNeed, COL2_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.WEST, rbtnWant, COL2_PAD, SpringLayout.WEST, rbtnNeed);
+		loForm.putConstraint(SpringLayout.WEST, rbtnWant, COL2_PAD/2, SpringLayout.WEST, rbtnNeed);
 		loForm.putConstraint(SpringLayout.NORTH, rbtnNeed, TOP_PAD, SpringLayout.NORTH, cboxCategory);
 		loForm.putConstraint(SpringLayout.NORTH, rbtnWant, TOP_PAD, SpringLayout.NORTH, cboxCategory);
 		
 		lblAmt = this.createLabel("Amount");
-		txtAmt = new JTextField("", TEXTFIELD_SIZE);
+		txtAmt = new JTextField("");
+		txtAmt.setPreferredSize(new Dimension(200, 25));
 		this.add(lblAmt);
 		this.add(txtAmt);
 		loForm.putConstraint(SpringLayout.WEST, lblAmt, COL1_PAD, SpringLayout.WEST, this);
@@ -502,7 +516,10 @@ class PanelExpense extends JPanel {
 		// This will need a listener to calculate and display the information on the label
 
 		lblDate = this.createLabel("Date");
-		txtDate = new JTextField("", TEXTFIELD_SIZE);
+		txtDate = new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy"));
+		txtDate.setPreferredSize(new Dimension(200, 25));
+		txtDate.setValue(new Date());
+		txtDate.setBorder(BorderFactory.createLoweredBevelBorder());
 		this.add(lblDate);
 		this.add(txtDate);
 		loForm.putConstraint(SpringLayout.WEST, lblDate, COL1_PAD, SpringLayout.WEST, this);
@@ -512,13 +529,14 @@ class PanelExpense extends JPanel {
 		// Insert Calendar View? Drop down box here
 
 		lblDesc = this.createLabel("Remarks");
-		taDesc = new TextArea("", 5, 25, TextArea.SCROLLBARS_NONE); /* Initial text, height, width, scroll bar option */
+		txtDesc = new JTextField("");
+		txtDesc.setPreferredSize(new Dimension(200, 25));
 		this.add(lblDesc);
-		this.add(taDesc);
+		this.add(txtDesc);
 		loForm.putConstraint(SpringLayout.WEST, lblDesc, COL1_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.WEST, taDesc, COL2_PAD, SpringLayout.WEST, this);
+		loForm.putConstraint(SpringLayout.WEST, txtDesc, COL2_PAD, SpringLayout.WEST, this);
 		loForm.putConstraint(SpringLayout.NORTH, lblDesc, TOP_PAD, SpringLayout.NORTH, lblDate);
-		loForm.putConstraint(SpringLayout.NORTH, taDesc, TOP_PAD, SpringLayout.NORTH, txtDate);
+		loForm.putConstraint(SpringLayout.NORTH, txtDesc, TOP_PAD, SpringLayout.NORTH, txtDate);
 	}
 	
 	/**
@@ -573,7 +591,7 @@ class PanelExpense extends JPanel {
 	}
 	
 	public String getDesc() {
-		return taDesc.getText().trim();
+		return txtDesc.getText().trim();
 	}
 	
 	/**
@@ -658,14 +676,14 @@ class PanelIncome extends JPanel {
 	// #Constants
 	public final int TOP_PAD = 27;
 	public final int COL1_PAD = 15;
-	public final int COL2_PAD = 120;
-	public final int TEXTFIELD_SIZE = 20;
+	public final int COL2_PAD = 200;
 	
 	// #Swing Components
 	private JLabel lblAmt, lblName, lblCat, lblDesc, lblDate;
-	private JTextField 	txtAmt, txtName, txtDate;
+	private JTextField 	txtAmt, txtName;
+	private JFormattedTextField txtDate;
 	private JComboBox cboxCat;
-	private TextArea taDesc;
+	private JTextField taDesc;
 	
 	// #Logic Components
 	private RecordHandler recHandler; 
@@ -680,15 +698,10 @@ class PanelIncome extends JPanel {
 	 * @param catHandlerRef
 	 */
 	public PanelIncome(RecordHandler recHandlerRef, CategoryHandler catHandlerRef) {
-		
-		super();
-		
 		recHandler = recHandlerRef;
 		catHandler = catHandlerRef;
 		
 		categories = catHandler.getAllCategories();
-		
-		this.setBackground(Color.WHITE);
 		this.initFields();
 	}
 	
@@ -705,8 +718,9 @@ class PanelIncome extends JPanel {
 		SpringLayout loForm = new SpringLayout();
 		this.setLayout(loForm);
 		
-		lblName = new JLabel("Name");
-		txtName = new JTextField("", TEXTFIELD_SIZE);
+		lblName = this.createLabel("Name");
+		txtName = new JTextField("");
+		txtName.setPreferredSize(new Dimension(200, 25));
 		this.add(lblName);
 		this.add(txtName);
 		loForm.putConstraint(SpringLayout.WEST, lblName, COL1_PAD, SpringLayout.WEST, this);
@@ -715,8 +729,9 @@ class PanelIncome extends JPanel {
 		loForm.putConstraint(SpringLayout.NORTH, txtName, TOP_PAD, SpringLayout.NORTH, this);
 		// AutoComplete (for the rest of the fields - when completed?)
 		
-		lblCat = new JLabel("Category");
+		lblCat = this.createLabel("Category");
 		cboxCat = new JComboBox();
+		cboxCat.setPreferredSize(new Dimension(200, 25));
 		this.initCat();
 		cboxCat.setEditable(true);
 		this.add(lblCat);
@@ -726,8 +741,9 @@ class PanelIncome extends JPanel {
 		loForm.putConstraint(SpringLayout.NORTH, lblCat, TOP_PAD, SpringLayout.NORTH, lblName);
 		loForm.putConstraint(SpringLayout.NORTH, cboxCat, TOP_PAD, SpringLayout.NORTH, txtName);
 		
-		lblAmt = new JLabel("Amount");
-		txtAmt = new JTextField("", TEXTFIELD_SIZE);
+		lblAmt = this.createLabel("Amount");
+		txtAmt = new JTextField("");
+		txtAmt.setPreferredSize(new Dimension(200, 25));
 		this.add(lblAmt);
 		this.add(txtAmt);
 		loForm.putConstraint(SpringLayout.WEST, lblAmt, COL1_PAD, SpringLayout.WEST, this);
@@ -736,8 +752,10 @@ class PanelIncome extends JPanel {
 		loForm.putConstraint(SpringLayout.NORTH, txtAmt, TOP_PAD, SpringLayout.NORTH, cboxCat);
 		// This will need a listener to calculate and display the information on the label
 		
-		lblDate = new JLabel("Date");
-		txtDate = new JTextField("", TEXTFIELD_SIZE);
+		lblDate = this.createLabel("Date");
+		txtDate = new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy"));
+		txtDate.setValue(new Date());
+		txtDate.setPreferredSize(new Dimension(200, 25));
 		this.add(lblDate);
 		this.add(txtDate);
 		loForm.putConstraint(SpringLayout.WEST, lblDate, COL1_PAD, SpringLayout.WEST, this);
@@ -746,8 +764,9 @@ class PanelIncome extends JPanel {
 		loForm.putConstraint(SpringLayout.NORTH, txtDate, TOP_PAD, SpringLayout.NORTH, txtAmt);
 		// Insert Calendar View? Drop down box here
 		
-		lblDesc = new JLabel("Remarks");
-		taDesc = new TextArea("", 5, 25, TextArea.SCROLLBARS_NONE);
+		lblDesc = this.createLabel("Remarks");
+		taDesc = new JTextField("");
+		taDesc.setPreferredSize(new Dimension(200, 25));
 		this.add(lblDesc);
 		this.add(taDesc);
 		loForm.putConstraint(SpringLayout.WEST, lblDesc, COL1_PAD, SpringLayout.WEST, this);
@@ -761,12 +780,40 @@ class PanelIncome extends JPanel {
 	 * @return true is there is no problem with inputs, else false;
 	 */
 	public boolean validateFields() {
-		try {
-			Double.parseDouble(getAmt());
-		}
-		catch(Exception err) {
-			return false;
-		}
+		if(!validateAmt()) return false;
+		if(!validateName()) return false;
+		if(!validateDate()) return false;
+		return true;
+	}
+	
+	/**
+	 * to validate the amount field, checking type and value (>0)
+	 * @return true if input is valid, else false
+	 */
+	private boolean validateAmt() {
+		// Data type check
+		double result;
+		try {result = Double.parseDouble(getAmt());}
+		catch(Exception err) { return false; }
+		
+		// Value check		
+		return result > 0;
+	}
+	
+	/**
+	 * validates the name field - if there is any input
+	 * @return true if there is input, otherwise false
+	 */
+	private boolean validateName() {
+		return !getName().equals("");
+	}
+	
+	/**
+	 * validates the date field - if the date entered is a valid date (non future date)
+	 * @return true if it is a historical date, otherwise false
+	 */
+	private boolean validateDate() {
+		if(!getDate().before(new Date())) return false; // #Constraint disallow users to add future records
 		return true;
 	}
 	
@@ -812,6 +859,7 @@ class PanelIncome extends JPanel {
 	 * @return Record object containing the user input
 	 */
 	public Record save() {
+		System.out.println("Save button invoked! trying to save... ");
 		IncomeRecord iRecord = new IncomeRecord(
 				Double.parseDouble(this.getAmt()), 
 				this.getName(), 
@@ -819,8 +867,20 @@ class PanelIncome extends JPanel {
 				this.getDate(), 
 				this.getCat()
 			);
-		this.recHandler.createRecord(iRecord);
+		
+		System.out.println("Create iRecord: " + this.recHandler.createRecord(iRecord));
 		return iRecord;
+	}
+	
+	/** 
+	 * Creates a label with the system font.
+	 * @param lblTxt the text to apply to the JLabel
+	 * @return the JLabel object generated
+	 */
+	private JLabel createLabel(String lblTxt) {
+		JLabel lbl = new JLabel(lblTxt);
+		lbl.setFont(new Font("Segoe UI", 0, 18)); // #Font
+		return lbl;
 	}
 }
 
@@ -831,18 +891,28 @@ class PanelOption extends JPanel {
 	private JButton btnSave, btnCancel;
 	
 	public PanelOption(ActionListener listener) {
-		super();
-		
-		this.setBackground(Color.WHITE);
-		
-		btnSave = new JButton("Save");
+		// Automated layout - new FlowLayout()
+		btnSave = new JButton("   Save   ");
 		btnSave.setFont(new Font("Segoe UI", 0, 18)); // #Font
-		btnSave.setBorderPainted(false);
-		btnSave.setFocusPainted(false);
-		btnSave.setBackground(Color.LIGHT_GRAY);
-		btnSave.setForeground(Color.BLACK);
+		btnSave.setContentAreaFilled(false);
+		btnSave.setBorder(BorderFactory.createRaisedBevelBorder());
 		
-		btnCancel = new JButton("Or discard changes");
+		btnSave.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent mEvent) {
+				JButton btn = (JButton) mEvent.getSource();
+				btn.setBorder(BorderFactory.createLoweredBevelBorder());
+			}
+			
+			@Override
+			public void mouseReleased(MouseEvent mEvent) {
+				JButton btn = (JButton) mEvent.getSource();
+				btn.setBorder(BorderFactory.createEmptyBorder());
+				btn.setEnabled(false);
+			}			
+		});
+		
+		btnCancel = new JButton("Discard changes");
 		btnCancel.setFont(new Font("Segoe UI", 0, 18)); // #Font
 		btnCancel.setBorderPainted(false);
 		btnCancel.setContentAreaFilled(false);
@@ -867,10 +937,8 @@ class PanelOption extends JPanel {
 				JButton btn = (JButton) mEvent.getSource();
 				btn.setForeground(Color.DARK_GRAY);
 				btn.setFont(new Font("Segoe UI", 0, 18)); // #Font
-				// Current Issue: unable to remove the underlining from after hovering over it.
-				
 			}
-		});
+		});		
 		
 		this.add(btnSave);
 		this.add(btnCancel);
@@ -891,9 +959,6 @@ class PanelRecur extends JPanel implements ActionListener{
 	
 	/** To create a new recurring panel */
 	public PanelRecur() {
-		super();
-		this.setBackground(Color.WHITE);
-		this.setLayout(new java.awt.FlowLayout());
 		init();
 	}
 	
@@ -966,25 +1031,5 @@ class PanelRecur extends JPanel implements ActionListener{
 	public boolean isToRecur() { return this.chkRecur.isSelected(); }
 
 	@Override
-	public void actionPerformed(ActionEvent e) { this.toggle(); }
+	public void actionPerformed(ActionEvent e) {this.toggle();}
 }
-
-//
-///**
-// * Idea - to make it damn easy for the user to press the save button.
-// * Preview to let the user know that hey - its mostly handled. (may not be accepted)
-// * "help text to aid user in adding records?"
-// * 
-// */
-//@SuppressWarnings("serial")
-//class PanelPreview extends JPanel {
-//	private JLabel lblName;
-//	private JLabel lblAmt;
-//	private JLabel lblType;
-//	private JLabel lblCat;
-//	private JLabel lblDesciption;
-//	
-//	public PanelPreview() {
-//		super();
-//	}
-//}

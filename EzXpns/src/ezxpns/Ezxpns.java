@@ -14,6 +14,7 @@ import ezxpns.data.records.RecordManager.RecordUpdateException;
 import ezxpns.data.records.SearchRequest.RecordType;
 import ezxpns.util.Pair;
 import ezxpns.GUI.*;
+
 import java.awt.EventQueue;
 import java.util.*;
 
@@ -253,5 +254,18 @@ public class Ezxpns implements
 	@Override
 	public Category updateCategory(long identifier, Category selectedCat) {
 		return data.expenses().updateCategory(identifier, selectedCat);
+	}
+
+	@Override
+	public boolean createRecord(IncomeRecord newRecord, boolean newCat) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean createRecord(ExpenseRecord newRecord, boolean newCat,
+			boolean newPay) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
