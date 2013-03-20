@@ -44,9 +44,7 @@ public class TargetOverviewPanel extends JPanel {
 	 * @param targetMgrRef
 	 */
 	public TargetOverviewPanel(TargetManager targetMgrRef) {
-		super(); // new Panel();
 		this.targetMgr = targetMgrRef;
-		this.setOpaque(false);
 		setLayout(new BorderLayout(0, 0));
 
 		largeBorderLayoutPanel = new JPanel();
@@ -129,7 +127,10 @@ public class TargetOverviewPanel extends JPanel {
 		tagsPane.add(lblalertnumber, "cell 2 0,alignx left,aligny top");
 
 	}
-
+	public void update() {
+		//TODO: update the stuff and such in this panel
+		this.validate();
+	}
 	/**
 	 * Bar Graphics (JPanel) displayed in TargetOverviewPanel
 	 * 

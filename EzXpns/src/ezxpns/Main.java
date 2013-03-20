@@ -1,9 +1,5 @@
 package ezxpns;
 
-import ezxpns.GUI.*;
-import ezxpns.data.records.*;
-import java.util.*;
-
 public class Main {
 
 	/**
