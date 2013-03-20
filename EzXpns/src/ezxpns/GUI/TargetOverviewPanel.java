@@ -1,27 +1,23 @@
 package ezxpns.GUI;
 
-import javax.swing.JPanel;
-
-import ezxpns.data.TargetManager;
-import ezxpns.data.Bar;
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.SystemColor;
-
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.text.DecimalFormat;
-import java.util.Vector;
 
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
+
 import net.miginfocom.swing.MigLayout;
+import ezxpns.data.Bar;
+import ezxpns.data.TargetManager;
 
 /**
  * This is the panel in which will be slotted into the MainGUI (the main
@@ -34,6 +30,7 @@ public class TargetOverviewPanel extends JPanel {
 	private TargetManager targetMgr;
 	private final DecimalFormat MONEY_FORMAT = new DecimalFormat(
 			"$###,###,##0.00");
+	private final DecimalFormat TWO_DP = new DecimalFormat("#.##");
 	private JPanel largeBorderLayoutPanel;
 	private JPanel tagsPane;
 	private JScrollPane targetScrollPane;
@@ -41,8 +38,6 @@ public class TargetOverviewPanel extends JPanel {
 	private JPanel columnpanel;
 	private JLabel lblTargets;
 	private JLabel lblalertnumber;
-	
-	
 
 	/**
 	 * 
@@ -69,7 +64,7 @@ public class TargetOverviewPanel extends JPanel {
 		targetScrollPane = new JScrollPane();
 
 		targetScrollPane
-		.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		largeBorderLayoutPanel.add(targetScrollPane, BorderLayout.CENTER);
 
 		smallBorderLayoutpanel = new JPanel();
@@ -79,74 +74,97 @@ public class TargetOverviewPanel extends JPanel {
 		columnpanel = new JPanel();
 		smallBorderLayoutpanel.add(columnpanel, BorderLayout.NORTH);
 		columnpanel.setLayout(new GridLayout(0, 1, 0, 1));
-		columnpanel.setBackground(Color.white);
 
 		targetScrollPane.setPreferredSize(new Dimension(50, 50));
-		
-		
+
 		updateTargets();
 		updateAlerts();
 
 	}// end constructor
-	
+
 	/**
 	 * displays a list of targets in targetScrollPane
 	 */
-	public void updateTargets(){
+	public void updateTargets() {
 		for (int i = targetMgr.getOrderedBar().size() - 1; i >= 0; i--) {
 			Bar bar = targetMgr.getOrderedBar().get(i);
 
 			JPanel rowPanel = new JPanel();
-			rowPanel.setPreferredSize(new Dimension(200, 20));
+			rowPanel.setPreferredSize(new Dimension(200, 50)); // width (just
+																// make it big
+																// enough for
+																// scroll to
+																// appear),
+																// height
 			columnpanel.add(rowPanel);
-			rowPanel.setLayout(new FlowLayout());
+			rowPanel.setLayout(new BorderLayout());
 
+			// CATEGORY LABEL
 			JLabel lblBar = new JLabel(bar.getTarget().getCategory().getName());
-			rowPanel.add(lblBar);
+			rowPanel.add(lblBar, BorderLayout.WEST);
+			lblBar.setPreferredSize(new Dimension(100, 20));
 			lblBar.setBackground(new Color(154, 205, 50));
-			lblBar.setHorizontalAlignment(SwingConstants.CENTER);
 
-			String cAmtName = "$" + MONEY_FORMAT.format(bar.getCurrentAmt());
-			JLabel lblCurrentAmt = new JLabel(cAmtName);
-			rowPanel.add(lblCurrentAmt);
-			lblCurrentAmt.setHorizontalAlignment(SwingConstants.CENTER);
+			// BAR GRAPHICS
+			BarGraphic myBarGraphics = new BarGraphic(bar);
+			rowPanel.add(myBarGraphics, BorderLayout.CENTER);
 
-			String tAmtName = "$"
-					+ MONEY_FORMAT.format(bar.getTargetAmt()); // to be
-			// changed
-			JLabel lblTargetAmt = new JLabel("/" + tAmtName);
-			rowPanel.add(lblTargetAmt);
-			lblTargetAmt.setHorizontalAlignment(SwingConstants.CENTER);
+			// CURRENT AMOUNT/TARGET AMOUNT
+			JLabel lblCurrentAmt = new JLabel(MONEY_FORMAT.format(bar
+					.getCurrentAmt())
+					+ "/"
+					+ MONEY_FORMAT.format(bar.getTargetAmt()));
+			rowPanel.add(lblCurrentAmt, BorderLayout.EAST);
 
-			switch (bar.getColor()) {
-			case HIGH:
-				lblCurrentAmt.setForeground(new Color(255, 20, 30)); // red
-				break;
-			case MEDIUM:
-				lblCurrentAmt.setForeground(new Color(255, 150, 20)); // orange
-				break;
-			case LOW:
-				lblCurrentAmt.setForeground(new Color(255, 245, 40)); // yellow
-				break;
-			case SAFE:
-				lblCurrentAmt.setForeground(new Color(71, 255, 102)); // orange
-				break;
-			default:
-				lblCurrentAmt.setForeground(new Color(122, 122, 122)); // dark
-				// gray
-			}
 		}
-		
-		
+
 	}
-	
+
 	/**
 	 * Display number of Alerts in the tagsPane
 	 */
-	public void updateAlerts(){
+	public void updateAlerts() {
 		lblalertnumber = new JLabel();
 		lblalertnumber.setText("(" + targetMgr.getAlerts().size() + ")");
 		tagsPane.add(lblalertnumber, "cell 2 0,alignx left,aligny top");
 
+	}
+
+	/**
+	 * Bar Graphics (JPanel) displayed in TargetOverviewPanel
+	 * 
+	 * @author tingzhe
+	 * 
+	 */
+	public class BarGraphic extends JPanel {
+
+		private Bar bar;
+		private int WIDTH = 150;
+		private int HEIGHT = 20;
+		private int X = 15;
+
+		// Constructor: Add values for target/ratio
+		public BarGraphic(Bar bar) {
+			this.bar = bar;
+		}
+
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			g.setColor(Color.GRAY); // base color
+			g.fillRect(0, X, WIDTH, HEIGHT); // x, y, width, height
+			g.setColor(bar.getBarColor().getColor());
+			double remaining = bar.getRemainingAmt();
+			int barWidth = (int) ((bar.getCurrentAmt() / bar.getTargetAmt()) * WIDTH);
+			if (barWidth > WIDTH)
+				barWidth = 150;
+			g.fillRect(0, X, barWidth, HEIGHT);
+			
+			//font
+			Font percentage = new Font("Book Antiqua", Font.BOLD, 15);
+			FontMetrics percentageFontMetrics = g.getFontMetrics(percentage);
+			String stringPercentage = "" + TWO_DP.format(bar.getCurrentPercentage()) + "%";
+			g.setColor(Color.WHITE);
+			g.drawString(stringPercentage, WIDTH-percentageFontMetrics.stringWidth(stringPercentage),HEIGHT+10);
+		}
 	}
 }
