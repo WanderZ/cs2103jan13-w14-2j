@@ -122,14 +122,7 @@ public class UIControl {
 	/** Displays the search handler window */
 	public void showSearchWin() {
 		if(searchWin == null) {
-			searchWin = new SearchFrame(findHandler);
-			searchWin.addWindowListener(new WindowAdapter() {
-				@Override
-				public void windowClosing(WindowEvent wEvent) {
-					homeScreen.updateAll();
-					searchWin.dispose();
-				}
-			});
+			searchWin = new SearchFrame(findHandler, new RecordListView(recWin, recHandler));
 		}
 		searchWin.setVisible(true);
 	}
