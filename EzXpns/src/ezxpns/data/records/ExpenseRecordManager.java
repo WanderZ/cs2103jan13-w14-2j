@@ -13,24 +13,43 @@ public class ExpenseRecordManager extends RecordManager<ExpenseRecord>
 	implements PayMethodHandler{
 	
 	private TreeMap<Long, PaymentMethod> payms = new TreeMap<Long, PaymentMethod>();
+	private transient TreeMap<Long, TreeSet<ExpenseRecord>> recordsByPaym;
 	
 	public ExpenseRecordManager(){
 		super();
-	}
-	
-	@Override
-	public ExpenseRecord addNewRecord(ExpenseRecord nr){
-		return super.addNewRecord(nr);
+		recordsByPaym = new TreeMap<Long, TreeSet<ExpenseRecord>>();
 	}
 
 	@Override
 	public void afterDeserialize(){
 		super.afterDeserialize();
+		recordsByPaym = new TreeMap<Long, TreeSet<ExpenseRecord>>();
 		for(ExpenseRecord r : recordsById.values()){
 			r.paymentMethod = payms.get(r.paymentMethod.id);
+			TreeSet<ExpenseRecord> rs = recordsByPaym.get(r.paymentMethod.id);
+			if(rs == null){
+				rs = new TreeSet<ExpenseRecord>();
+				recordsByPaym.put(r.paymentMethod.id, rs);
+			}
+			rs.add(r);
 		}
 		payms.remove(PaymentMethod.undefined.id);
 		payms.put(PaymentMethod.undefined.id, PaymentMethod.undefined);
+	}
+	
+	@Override
+	protected void recordAdded(ExpenseRecord r){
+		TreeSet<ExpenseRecord> rs = recordsByPaym.get(r.paymentMethod.id);
+		if(rs == null){
+			rs = new TreeSet<ExpenseRecord>();
+			recordsByPaym.put(r.paymentMethod.id, rs);
+		}
+		rs.add(r);
+	}
+	
+	@Override
+	protected void recordRemoved(ExpenseRecord r){
+		recordsByPaym.get(r.paymentMethod.id).remove(r);
 	}
 	
 	@Override
