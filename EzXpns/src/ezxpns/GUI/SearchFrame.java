@@ -1,6 +1,7 @@
 package ezxpns.GUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -12,15 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 import ezxpns.data.records.Category;
 import ezxpns.data.records.Record;
@@ -43,13 +36,14 @@ public class SearchFrame extends JFrame implements ActionListener {
 	// 2 main panels, the top (querying time frame) and the bottom (results, content)
 	private SearchFormPanel panForm;
 	private SearchBtnPanel panBtns;
-	private ResultPanel panResult;
+	private JScrollPane panResult;
+	private RecordListView list;
 	
 	/**
 	 * To create a new Search Window
 	 * @param handlerRef the reference to the SearchHandler object
 	 */
-	public SearchFrame(SearchHandler handlerRef) {
+	public SearchFrame(SearchHandler handlerRef, RecordListView li) {
 		super();
 		this.init();
 		
@@ -68,7 +62,9 @@ public class SearchFrame extends JFrame implements ActionListener {
 		
 		this.add(panCtrls, BorderLayout.CENTER);
 		
-		this.panResult = new ResultPanel();
+		list = li;
+		list.setPreferredScrollableViewportSize(new Dimension(100, 200));
+		this.panResult = new JScrollPane(list);
 		this.add(this.panResult, BorderLayout.SOUTH);
 	}
 	
@@ -129,10 +125,8 @@ public class SearchFrame extends JFrame implements ActionListener {
 	private void search(SearchRequest request) {
 		List<Record> results = handler.search(request);
 		System.out.println("results found: " + results.size()); // for debugging
-		this.remove(panResult);
-		this.panResult = new ResultPanel(results);
-		this.add(this.panResult, BorderLayout.SOUTH);
-		this.validate(); // Force repaint doesn't seem to work here
+//		this.validate(); // Force repaint doesn't seem to work here
+		list.show(results);
 	}
 }
 

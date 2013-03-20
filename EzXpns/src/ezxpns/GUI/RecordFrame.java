@@ -40,7 +40,7 @@ import javax.swing.SpringLayout;
  * This is a JFrame object (Window) that allows users to enter a new record (Expense/Income) into the EzXpns
  */
 @SuppressWarnings("serial")
-public class RecordFrame extends JFrame implements ActionListener {
+public class RecordFrame extends JFrame implements ActionListener, RecordListView.RecordEditor {
 	
 	public static final int DEFAULT_WIDTH = 760;
 	public static final int DEFAULT_HEIGHT = 550; 
@@ -135,6 +135,12 @@ public class RecordFrame extends JFrame implements ActionListener {
 		if(this.panOpt.getCancelBtn() == e.getSource()) {
 			this.dispose();
 		}
+	}
+
+	@Override
+	public void edit(Record r) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 
