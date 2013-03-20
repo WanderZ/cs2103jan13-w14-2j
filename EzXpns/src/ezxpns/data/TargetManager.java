@@ -193,7 +193,7 @@ public class TargetManager extends Storable {
 	 * @return true is the Bar qualifies as an Alert
 	 */
 	private boolean isAnAlert(Bar bar){
-		if(bar.getColor()== BarColor.HIGH || bar.getColor()== BarColor.MEDIUM) 
+		if(bar.getBarColor()== BarColor.HIGH || bar.getBarColor()== BarColor.MEDIUM) 
 			return true;
 		else 
 			return false;
