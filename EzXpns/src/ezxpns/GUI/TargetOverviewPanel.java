@@ -74,7 +74,6 @@ public class TargetOverviewPanel extends JPanel {
 		columnpanel = new JPanel();
 		smallBorderLayoutpanel.add(columnpanel, BorderLayout.NORTH);
 		columnpanel.setLayout(new GridLayout(0, 1, 0, 1));
-		columnpanel.setBackground(Color.white);
 
 		targetScrollPane.setPreferredSize(new Dimension(50, 50));
 
