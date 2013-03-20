@@ -64,12 +64,13 @@ public class ExpenseRecordManager extends RecordManager<ExpenseRecord>
 	}
 
 	@Override
-	public boolean addNewPaymentMethod(PaymentMethod paymentRef) {
+	public PaymentMethod addNewPaymentMethod(PaymentMethod paymentRef) {
+		paymentRef = paymentRef.copy();
 		while(payms.containsKey(paymentRef.id)){
 			paymentRef.id = (new Date()).getTime() + ran.nextInt();
 		}
 		payms.put(paymentRef.id, paymentRef);
-		return true;
+		return paymentRef;
 	}
 
 	@Override
