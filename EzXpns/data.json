@@ -56,6 +56,18 @@
             "id": 1361389433075,
             "name": "4z4lv6vjnmyo"
           },
+          "amount": 111.0,
+          "name": "e",
+          "remark": "111",
+          "date": "Mar 20, 2013 11:44:53 PM",
+          "id": 1363794293142
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1361389433075,
+            "name": "4z4lv6vjnmyo"
+          },
           "amount": 201.0,
           "name": "test",
           "remark": "test",
@@ -170,6 +182,18 @@
             "id": 1361389433075,
             "name": "4z4lv6vjnmyo"
           },
+          "amount": 11111.0,
+          "name": "ee",
+          "remark": "111",
+          "date": "Mar 20, 2013 11:45:07 PM",
+          "id": 1363794307261
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1361389433075,
+            "name": "4z4lv6vjnmyo"
+          },
           "amount": 20.0,
           "name": "Car",
           "remark": "eh",
@@ -197,13 +221,13 @@
         "id": 1362122547530,
         "name": "Salary"
       },
-      "1364935492692": {
-        "id": 1364935492692,
-        "name": "Bursary"
-      },
       "1363314106821": {
         "id": 1363314106821,
         "name": "Scholarship"
+      },
+      "1364935492692": {
+        "id": 1364935492692,
+        "name": "Bursary"
       }
     },
     "recordsByCategory": {
@@ -239,6 +263,22 @@
           "id": 1363715773749
         }
       ],
+      "1364935492692": [
+        {
+          "amount": 183.08,
+          "name": "33iyf5s64rnk",
+          "remark": "nil",
+          "date": "Mar 2, 2013 5:16:57 AM",
+          "id": 1363314106822
+        },
+        {
+          "amount": 821.07,
+          "name": "5cccdpl4aha8",
+          "remark": "nil",
+          "date": "Dec 30, 2011 1:21:32 PM",
+          "id": 1363314106823
+        }
+      ],
       "1363314106821": [
         {
           "amount": 950.53,
@@ -267,22 +307,6 @@
           "remark": "nil",
           "date": "May 2, 2011 3:56:53 PM",
           "id": 1365133895255
-        }
-      ],
-      "1364935492692": [
-        {
-          "amount": 183.08,
-          "name": "33iyf5s64rnk",
-          "remark": "nil",
-          "date": "Mar 2, 2013 5:16:57 AM",
-          "id": 1363314106822
-        },
-        {
-          "amount": 821.07,
-          "name": "5cccdpl4aha8",
-          "remark": "nil",
-          "date": "Dec 30, 2011 1:21:32 PM",
-          "id": 1363314106823
         }
       ]
     }
