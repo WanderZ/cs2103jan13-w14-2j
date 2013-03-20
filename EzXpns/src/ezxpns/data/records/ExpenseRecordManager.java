@@ -17,6 +17,11 @@ public class ExpenseRecordManager extends RecordManager<ExpenseRecord>
 	public ExpenseRecordManager(){
 		super();
 	}
+	
+	@Override
+	public ExpenseRecord addNewRecord(ExpenseRecord nr){
+		return super.addNewRecord(nr);
+	}
 
 	@Override
 	public void afterDeserialize(){

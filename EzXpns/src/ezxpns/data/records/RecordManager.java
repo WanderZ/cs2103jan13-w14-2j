@@ -224,16 +224,19 @@ public class RecordManager<T extends Record>
 	 */
 	public void removeRecord(long id) throws RecordUpdateException{
 		T record = findRecord(id);
-		System.out.println(id);
 		if(record == null){
 			throw new RecordUpdateException("Record does not exist.");
 		}
+		recordsById.remove(id);
+		recordRemoved(record);
+		markUpdate();
+	}
+	
+	protected void recordRemoved(T record){
 		removeSums(record);
 		recordsByDate.get(record.date).remove(record);
 		recordsByCategory.get(record.category.getID()).remove(record);
 		recordsByName.get(record.name).remove(record);
-		recordsById.remove(id);
-		markUpdate();
 	}
 	
 	/**
@@ -279,6 +282,10 @@ public class RecordManager<T extends Record>
 		addSums(record);
 		markUpdate();
 		return record;
+	}
+	
+	protected void recordAdded(T Record){
+		
 	}
 	
 	/**
