@@ -17,7 +17,8 @@ public class HomeScreen extends JFrame {
 	public final int DEFAULT_WEIGHT = 680;
 	
 	private JMenuBar menu;
-	private JPanel panOverview, panTips;
+	private JPanel panTips;
+	private OverviewPanel panOverview;
 	private SavingsOverviewPanel panSavings;
 	private RecordsDisplayPanel panRecords;
 	private TargetOverviewPanel panTargets;
@@ -110,6 +111,22 @@ public class HomeScreen extends JFrame {
 		}
 		return panTips;
 	}
+	
+	/**
+	 * Updates all the Panels in this Window
+	 */
+	public void updateAll() {
+		panRecords.update();
+		
+		panTargets.update();
+		
+		panSavings.update();
+		
+		panOverview.updateOverview();
+		panOverview.validate();
+		
+		this.validate();
+	}
 }
 
 /** 
@@ -122,7 +139,6 @@ class PanelTip extends JPanel {
 	public PanelTip() {
 		super();
 		this.setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.Y_AXIS));
-		addLabel("Tips Panel - Under Construction", this);
 		addLabel("Quote of the day: 'Be the change you wish to see in this world'",this);
 		this.setOpaque(false); // Transparent background
 	}

@@ -12,4 +12,12 @@ public class SavingsOverviewPanel extends JPanel {
 		super();
 		this.add(new javax.swing.JLabel("Savings Panel - Under Construction"));
 	}
+	
+	/**
+	 * This is the method to call to update this panel
+	 */
+	public void update() {
+		//TODO: Update This Panel
+		this.validate();
+	}
 }
