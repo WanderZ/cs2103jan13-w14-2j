@@ -62,6 +62,7 @@ public class RecordsDisplayPanel extends JPanel implements ActionListener {
 	public void update(){
 		this.remove(panContent);
 		this.loadRecords();
+		this.panContent.validate();
 		this.validate();
 	}
 }

@@ -121,6 +121,7 @@ public class RecordFrame extends JFrame implements ActionListener {
 		panOpt = new PanelOption(this);
 		this.add(panOpt, BorderLayout.SOUTH);
 		
+		panMain.toggleIncomeTab(); // Fix
 		panMain.toggleExpenseTab(); // Default
 	}
 
@@ -130,7 +131,7 @@ public class RecordFrame extends JFrame implements ActionListener {
 		if(this.panOpt.getSaveBtn() == e.getSource()) { // Save button has been invoked.
 			System.out.println("Saved invoked!");
 			if(panMain.validateForm()) { // Invoke validation
-				System.out.println("validated!");
+				System.out.println("Validate Success!");
 				panMain.save();
 				// all is good. save as new Record.
 				// Check if it is a recurring record
@@ -138,7 +139,7 @@ public class RecordFrame extends JFrame implements ActionListener {
 				this.dispose();
 				return;
 			}
-			System.out.println("Not validated!");
+			System.out.println("Validate Fail!");
 		}
 		if(this.panOpt.getCancelBtn() == e.getSource()) {
 			this.dispose();
@@ -292,6 +293,8 @@ class PanelMain extends JPanel {
 	 * @return the new Record object containing the user inputs.
 	 */
 	public Record save() {
+		System.out.println(isExpense());
+		System.out.println(isIncome());
 		return isExpense() ? panExpense.save() : panIncome.save();
 	}
 	
@@ -299,13 +302,19 @@ class PanelMain extends JPanel {
 	 * To check if the current tab is the Expense Tab
 	 * @return true if it is, otherwise false
 	 */
-	public boolean isExpense() {return panExpense.isVisible();}
+	public boolean isExpense() {
+		System.out.println("isExpense:" + panExpense.isVisible());
+		return panExpense.isVisible();
+	}
 	
 	/**
 	 * To check if the current tab is the Expense Tab
 	 * @return true if it is, otherwise false
 	 */
-	public boolean isIncome() {return panIncome.isVisible();}
+	public boolean isIncome() {
+		System.out.println("isIncome:" + panIncome.isVisible());
+		return panIncome.isVisible();
+	}
 
 	/**
 	 * Method to toggle to the tab for a new income record
@@ -315,6 +324,7 @@ class PanelMain extends JPanel {
 			loCard.show(metroTabContent, CARD_INCOME);
 			// Indicate some difference to let user know that this tab is selected
 			changeFocus(this.mtabIncome, this.mtabExpense);
+			return;
 		}
 	}
 	
@@ -326,7 +336,8 @@ class PanelMain extends JPanel {
 			loCard.show(metroTabContent, CARD_EXPENSE);
 			// Indicate some difference to let user know that this tab is selected
 			changeFocus(this.mtabExpense, this.mtabIncome);
-		}		
+			return;
+		}
 	}
 	
 	/**
@@ -465,6 +476,7 @@ class PanelExpense extends JPanel {
 		
 		lblName = this.createLabel("Name");
 		txtName = new JTextField("");
+		txtName.setBorder(BorderFactory.createEmptyBorder());
 		txtName.setPreferredSize(new Dimension(200, 25));
 		this.add(lblName);
 		this.add(txtName);
@@ -902,7 +914,7 @@ class PanelOption extends JPanel {
 			public void mouseReleased(MouseEvent mEvent) {
 				JButton btn = (JButton) mEvent.getSource();
 				btn.setBorder(BorderFactory.createEmptyBorder());
-				btn.setEnabled(false);
+				// btn.setEnabled(false);
 			}			
 		});
 		
