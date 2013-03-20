@@ -31,10 +31,6 @@
         "id": 0,
         "name": "undefined"
       },
-      "1364176606098": {
-        "id": 1364176606098,
-        "name": "Drinks"
-      },
       "1363504544188": {
         "id": 1363504544188,
         "name": "Snacks"
@@ -57,21 +53,19 @@
       }
     },
     "recordsByCategory": {
-      "1364176606098": [
+      "1363314106821": [
         {
           "expenseType": "NEED",
           "paymentMethod": {
-            "id": 1364965439275,
-            "name": "1p0xf2yzpm2o"
+            "id": 1363314106821,
+            "name": "6uexg5bx1h1c"
           },
-          "amount": 498.42,
-          "name": "3m3q9dlf4ccg",
-          "remark": "nil",
-          "date": "Jul 1, 2012 3:19:59 AM",
-          "id": 1363179814806
-        }
-      ],
-      "1363314106821": [
+          "amount": 44.0,
+          "name": "test",
+          "remark": "alright",
+          "date": "Mar 19, 2013 9:39:14 PM",
+          "id": 1363700354193
+        },
         {
           "expenseType": "NEED",
           "paymentMethod": {
@@ -300,28 +294,21 @@
       "1362931386819": {
         "cat": {
           "id": 1362931386819,
-          "name": "2fwfswfz7mgw"
+          "name": "Food"
         },
         "targetAmt": 600.0
       },
       "1363314106821": {
         "cat": {
           "id": 1363314106821,
-          "name": "71ynipumvc3k"
+          "name": "Entertainment"
         },
         "targetAmt": 10000.0
-      },
-      "1364176606098": {
-        "cat": {
-          "id": 1364176606098,
-          "name": "5n9lbxas8znk"
-        },
-        "targetAmt": 100.0
       },
       "1364704133024": {
         "cat": {
           "id": 1364704133024,
-          "name": "5jhy4mouwc1s"
+          "name": "Transport"
         },
         "targetAmt": 800.0
       }

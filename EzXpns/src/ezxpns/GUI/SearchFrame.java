@@ -1,6 +1,7 @@
 package ezxpns.GUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -21,6 +22,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import net.miginfocom.swing.MigLayout;
 
 import ezxpns.data.records.Category;
 import ezxpns.data.records.Record;
@@ -50,12 +53,9 @@ public class SearchFrame extends JFrame implements ActionListener {
 	 * @param handlerRef the reference to the SearchHandler object
 	 */
 	public SearchFrame(SearchHandler handlerRef) {
-		super();
 		this.init();
-		
+		this.setLayout(new BorderLayout(25, 25));
 		this.handler = handlerRef;
-		
-		this.setLayout(new BorderLayout());
 		
 		JPanel panCtrls = new JPanel();
 		panCtrls.setLayout(new BorderLayout());
@@ -66,10 +66,10 @@ public class SearchFrame extends JFrame implements ActionListener {
 		panBtns = new SearchBtnPanel(this);
 		panCtrls.add(panBtns, BorderLayout.EAST);
 		
-		this.add(panCtrls, BorderLayout.CENTER);
+		this.add(panCtrls, BorderLayout.NORTH);
 		
 		this.panResult = new ResultPanel();
-		this.add(this.panResult, BorderLayout.SOUTH);
+		this.add(this.panResult, BorderLayout.CENTER);
 	}
 	
 	/** to initialize the components of this frame */
@@ -91,34 +91,26 @@ public class SearchFrame extends JFrame implements ActionListener {
 			StringBuilder request = new StringBuilder();
 			request.append(panForm.getNameField().getText().trim());
 			if(!request.equals("")) {
-				this.search(new SearchRequest(request.toString()));
+				this.search(new SearchRequest(request.toString())); // Search by Name
 				return;
 			}
 			
 			// Name field is empty!
 			request.append(panForm.getCatField().getText().trim());
 			if(!request.equals("")) {
-				this.search(new SearchRequest(new Category(request.toString())));
+				this.search(new SearchRequest(new Category(request.toString()))); // Search by Category
 				return;
 			}	
 			// No Category entered!
 			
 			try {
-				Pair<Date, Date> dateRange = new Pair<Date, Date>(
-						SearchFormPanel.DATE_FORMAT.parse(panForm.getDateFromField().getText()), 
-						SearchFormPanel.DATE_FORMAT.parse(panForm.getDateToField().getText())
-						);
-				this.search(new SearchRequest(dateRange));
+				Pair<Date, Date> dateRange = new Pair<Date, Date>(panForm.getStartDate(), panForm.getEndDate());
+				this.search(new SearchRequest(dateRange)); // Search by Date range
 			}
 			catch(Exception err) {
 				// Display err with date :(
 				return;
 			}
-		}
-		
-		if(event.getSource() == panBtns.getCancelBtn()) {
-			// User invoke cancel
-			this.dispose();
 		}
 	}
 	
@@ -131,7 +123,7 @@ public class SearchFrame extends JFrame implements ActionListener {
 		System.out.println("results found: " + results.size()); // for debugging
 		this.remove(panResult);
 		this.panResult = new ResultPanel(results);
-		this.add(this.panResult, BorderLayout.SOUTH);
+		this.add(this.panResult, BorderLayout.CENTER);
 		this.validate(); // Force repaint doesn't seem to work here
 	}
 }
@@ -147,7 +139,7 @@ class ResultPanel extends JPanel {
 	public ResultPanel() {super();}
 	
 	public ResultPanel(List<Record> results) {
-		super(new BorderLayout(5, 5));
+		super(new BorderLayout(25, 25));
 		
 		resultDisplay = new MultiRecDisplay(results);
 		
@@ -158,45 +150,32 @@ class ResultPanel extends JPanel {
 @SuppressWarnings("serial")
 class SearchFormPanel extends JPanel {
 	
-	private JLabel lblName, lblTitle, lblCat, lblFrmDate, lblToDate;
+	private JLabel lblName, lblTitle, lblCat, lblDate, lblToDate;
 	private JTextField txtName, txtCat;
-	private JFormattedTextField txtFrmDate, txtToDate;
+	private JFormattedTextField txtStart, txtEnd;
 	private final Font FORM_FONT = new Font("Segoe UI", 0, 14); // #Font
 	
 	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yy");
+	
 	public SearchFormPanel() {
-		super();
-		this.setLayout(new BorderLayout());
+		this.setLayout(new MigLayout("insets 15", "[left]10%[]", ""));
+		this.add(this.getTitleLabel(), "span, wrap");
 		
-		JPanel panSimple = new JPanel();
-		panSimple.setLayout(new GridLayout(0, 1, 0, 0));
+		this.add(this.getNameLabel(), "span 2");
+		this.add(this.getNameField(), "span, wrap");
 		
-		JPanel panName = new JPanel(new GridLayout(1, 0, 15, 15));
-		panName.add(this.getNameLabel());
-		panName.add(this.getNameField());
-		panSimple.add(panName);
+		this.add(this.getCatLabel(), "span 2");
+		this.add(this.getCatField(), "span, wrap");
 		
-		JPanel panCat = new JPanel(new GridLayout(1, 0, 15, 15));
-		panCat.add(this.getCatLabel());
-		panCat.add(this.getCatField());
-		panSimple.add(panCat);
-		
-		JPanel panDate = new JPanel(new GridLayout(1, 0, 0, 0));
-		panDate.add(this.getFrmDateLabel());
-		panDate.add(this.getDateFromField());
-		panDate.add(this.getToDateLabel());
-		panDate.add(this.getDateToField());
-		panSimple.add(panDate);
-		
-		panSimple.setBounds(0, 5, 300, 200);
-		
-		// this.add(getTitleLabel(), BorderLayout.NORTH);
-		this.add(panSimple, BorderLayout.NORTH);
+		this.add(this.getDateLabel(), "span 2");
+		this.add(this.getDateField(), "split 3");
+		this.add(this.getToDateLabel());
+		this.add(this.getToDateField());
 	}
 	
 	private JLabel getTitleLabel() {
 		if(lblTitle == null) {
-			lblTitle = new JLabel("  Simple Search");
+			lblTitle = new JLabel("Simple Search");
 			lblTitle.setFont(new Font("Segoe UI", 0, 24)); // #Font
 		}
 		return lblTitle;
@@ -212,8 +191,9 @@ class SearchFormPanel extends JPanel {
 	
 	public JTextField getNameField() {
 		if(txtName == null) {
-			txtName = new JTextField("", 15);
+			txtName = new JTextField("");
 			txtName.setFont(FORM_FONT); // #Font
+			txtName.setPreferredSize(new Dimension(230, 32));
 		}
 		return txtName;
 	}
@@ -228,45 +208,58 @@ class SearchFormPanel extends JPanel {
 	
 	public JTextField getCatField() {
 		if(txtCat == null) {
-			txtCat = new JTextField("", 15);
+			txtCat = new JTextField("");
 			txtCat.setFont(FORM_FONT); // #Font
+			txtCat.setPreferredSize(new Dimension(230, 32));
 		}
 		return txtCat;
 	}
 
-	private JLabel getFrmDateLabel() {
-		if(lblFrmDate == null) {
-			lblFrmDate = new JLabel("From");
-			lblFrmDate.setFont(FORM_FONT); // #Font
+	private JLabel getDateLabel() {
+		if(lblDate == null) {
+			lblDate = new JLabel("Date");
+			lblDate.setFont(FORM_FONT); // #Font
 		}
-		return lblFrmDate;
+		return lblDate;
 	}
 	
 	private JLabel getToDateLabel() {
 		if(lblToDate == null) {
-			lblToDate = new JLabel("Till");
+			lblToDate = new JLabel(" To ");
 			lblToDate.setFont(FORM_FONT); // #Font
 			
 		}
 		return lblToDate;
 	}
 	
-	public JFormattedTextField getDateFromField() {
-		if(txtFrmDate == null) {
-			txtFrmDate = new JFormattedTextField(DATE_FORMAT);
-			txtFrmDate.setFont(FORM_FONT); // #Font
-			txtFrmDate.setValue(new Date());
+	private JFormattedTextField getDateField() {
+		if(txtStart == null) {
+			txtStart = new JFormattedTextField(DATE_FORMAT);
+			txtStart.setFont(FORM_FONT); // #Font
+			txtStart.setValue(new Date());
+			txtStart.setPreferredSize(new Dimension(100, 32));
+			txtStart.setHorizontalAlignment(JTextField.CENTER);
 		}
-		return txtFrmDate;
+		return txtStart;
 	}
 	
-	public JFormattedTextField getDateToField() {
-		if(txtToDate == null) {
-			txtToDate = new JFormattedTextField(DATE_FORMAT);
-			txtToDate.setFont(FORM_FONT); // #Font
-			txtToDate.setValue(new Date());
+	public Date getStartDate() {
+		return (Date)txtStart.getValue();
+	}
+	
+	private JFormattedTextField getToDateField() {
+		if(txtEnd == null) {
+			txtEnd = new JFormattedTextField(DATE_FORMAT);
+			txtEnd.setFont(FORM_FONT); // #Font
+			txtEnd.setValue(new Date());
+			txtEnd.setPreferredSize(new Dimension(100, 32));
+			txtEnd.setHorizontalAlignment(JTextField.CENTER);
 		}
-		return txtToDate;
+		return txtEnd;
+	}
+	
+	public Date getEndDate() {
+		return (Date) txtEnd.getValue();
 	}
 }
 
@@ -276,9 +269,13 @@ class SearchFormPanel extends JPanel {
 @SuppressWarnings("serial")
 class SearchBtnPanel extends JPanel {
 	
-	private JButton btnSearch, btnCancel;
+	private JButton btnSearch;
 	private final Font BTN_FONT = new Font("Segoe UI", 0, 24);
 	
+	/**
+	 * Constructor to get a panel for the buttons
+	 * @param listener
+	 */
 	public SearchBtnPanel(ActionListener listener) {
 		super();
 		BoxLayout loBtn = new BoxLayout(this, BoxLayout.Y_AXIS);
@@ -287,58 +284,30 @@ class SearchBtnPanel extends JPanel {
 		// Layout to make it fill the width completely, and glue to the base
 
 		this.add(this.getSearchBtn());
-		this.add(this.getCancelBtn());
 		this.add(Box.createVerticalGlue());
 		
 		this.btnSearch.addActionListener(listener);
-		this.btnCancel.addActionListener(listener);
 	}
 	
 	public JButton getSearchBtn() {
 		if(btnSearch == null) {
-			btnSearch = new JButton("Find");
-			btnSearch.setBackground(Color.GRAY);
-			btnSearch.setForeground(Color.WHITE);
+			btnSearch = new JButton("  Find  ");
+			btnSearch.setBorder(BorderFactory.createRaisedBevelBorder());
 			btnSearch.setFont(BTN_FONT);
 			btnSearch.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent mEvent) { // Hover start
 					JButton btn = (JButton) mEvent.getSource();
-					btn.setForeground(Color.BLUE);
+					btn.setBorder(BorderFactory.createLoweredBevelBorder());
 				}
 				
 				@Override
 				public void mouseExited(MouseEvent mEvent) { // Hover end
 					JButton btn = (JButton) mEvent.getSource();
-					btn.setForeground(Color.WHITE);
+					btn.setBorder(BorderFactory.createRaisedBevelBorder());
 				}
 			});
 		}
 		return btnSearch;
-	}
-	
-	public JButton getCancelBtn() {
-		if(btnCancel == null) {
-			btnCancel = new JButton("Exit");
-			btnCancel.setContentAreaFilled(false);
-			btnCancel.setFocusPainted(false);
-			btnCancel.setBorderPainted(false);
-			btnCancel.setFont(BTN_FONT);
-			
-			btnCancel.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseEntered(MouseEvent mEvent) { // Hover start
-					JButton btn = (JButton) mEvent.getSource();
-					btn.setForeground(Color.BLUE);
-				}
-				
-				@Override
-				public void mouseExited(MouseEvent mEvent) { // Hover end
-					JButton btn = (JButton) mEvent.getSource();
-					btn.setForeground(Color.BLACK);
-				}
-			});
-		}
-		return btnCancel;
 	}
 }

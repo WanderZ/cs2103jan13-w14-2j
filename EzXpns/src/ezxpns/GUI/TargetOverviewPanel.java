@@ -49,9 +49,7 @@ public class TargetOverviewPanel extends JPanel {
 	 * @param targetMgrRef
 	 */
 	public TargetOverviewPanel(TargetManager targetMgrRef) {
-		super(); // new Panel();
 		this.targetMgr = targetMgrRef;
-		this.setOpaque(false);
 		setLayout(new BorderLayout(0, 0));
 
 		largeBorderLayoutPanel = new JPanel();
@@ -148,5 +146,13 @@ public class TargetOverviewPanel extends JPanel {
 		lblalertnumber.setText("(" + targetMgr.getAlerts().size() + ")");
 		tagsPane.add(lblalertnumber, "cell 2 0,alignx left,aligny top");
 
+	}
+	
+	/** 
+	 * The method to call to update this panel 
+	 */
+	public void update() {
+		//TODO: update the stuff and such in this panel
+		this.validate();
 	}
 }
