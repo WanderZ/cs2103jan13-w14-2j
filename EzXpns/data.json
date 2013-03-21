@@ -5,10 +5,6 @@
         "id": 0,
         "name": "undefined"
       },
-      "1361389433075": {
-        "id": 1361389433075,
-        "name": "4z4lv6vjnmyo"
-      },
       "1361694372893": {
         "id": 1361694372893,
         "name": "2s1rqfh8rtog"
@@ -17,13 +13,21 @@
         "id": 1363314106821,
         "name": "6uexg5bx1h1c"
       },
+      "1363857352962": {
+        "id": 1363857352962,
+        "name": "adsfads"
+      },
+      "1363857357505": {
+        "id": 1363857357505,
+        "name": "ddd"
+      },
+      "1363857409977": {
+        "id": 1363857409977,
+        "name": "asdfaadsf"
+      },
       "1364521902224": {
         "id": 1364521902224,
-        "name": "27oy7mceim80"
-      },
-      "1364965439275": {
-        "id": 1364965439275,
-        "name": "1p0xf2yzpm2o"
+        "name": "bank"
       }
     },
     "categories": {
@@ -49,8 +53,8 @@
         {
           "expenseType": "NEED",
           "paymentMethod": {
-            "id": 1361389433075,
-            "name": "4z4lv6vjnmyo"
+            "id": 0,
+            "name": "undefined"
           },
           "amount": 111.0,
           "name": "e",
@@ -61,8 +65,8 @@
         {
           "expenseType": "NEED",
           "paymentMethod": {
-            "id": 1361389433075,
-            "name": "4z4lv6vjnmyo"
+            "id": 0,
+            "name": "undefined"
           },
           "amount": 201.0,
           "name": "test",
@@ -75,8 +79,8 @@
         {
           "expenseType": "NEED",
           "paymentMethod": {
-            "id": 1361389433075,
-            "name": "4z4lv6vjnmyo"
+            "id": 0,
+            "name": "undefined"
           },
           "amount": 5000.0,
           "name": "TVWatching",
@@ -111,8 +115,8 @@
         {
           "expenseType": "NEED",
           "paymentMethod": {
-            "id": 1361389433075,
-            "name": "4z4lv6vjnmyo"
+            "id": 0,
+            "name": "undefined"
           },
           "amount": 769.99,
           "name": "1qrp6cycdfy8",
@@ -137,8 +141,8 @@
         {
           "expenseType": "NEED",
           "paymentMethod": {
-            "id": 1361389433075,
-            "name": "4z4lv6vjnmyo"
+            "id": 0,
+            "name": "undefined"
           },
           "amount": 11111.0,
           "name": "ee",
@@ -149,8 +153,8 @@
         {
           "expenseType": "NEED",
           "paymentMethod": {
-            "id": 1361389433075,
-            "name": "4z4lv6vjnmyo"
+            "id": 0,
+            "name": "undefined"
           },
           "amount": 20.0,
           "name": "Car",
