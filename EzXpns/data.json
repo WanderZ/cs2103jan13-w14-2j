@@ -39,10 +39,6 @@
         "id": 1363314106821,
         "name": "Entertainment"
       },
-      "1365065985829": {
-        "id": 1365065985829,
-        "name": "Shopping"
-      },
       "1364704133024": {
         "id": 1364704133024,
         "name": "Transport"
@@ -50,6 +46,18 @@
     },
     "recordsByCategory": {
       "1363504544188": [
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1361389433075,
+            "name": "4z4lv6vjnmyo"
+          },
+          "amount": 111.0,
+          "name": "e",
+          "remark": "111",
+          "date": "Mar 20, 2013 11:44:53 PM",
+          "id": 1363794293142
+        },
         {
           "expenseType": "NEED",
           "paymentMethod": {
@@ -125,45 +133,19 @@
           "id": 1361743350635
         }
       ],
-      "1365065985829": [
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1363314106821,
-            "name": "6uexg5bx1h1c"
-          },
-          "amount": 30.0,
-          "name": "test",
-          "remark": "snack",
-          "date": "Mar 20, 2013 2:13:08 PM",
-          "id": 1363759988568
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1364521902224,
-            "name": "27oy7mceim80"
-          },
-          "amount": 300.0,
-          "name": "test",
-          "remark": "new phone",
-          "date": "Mar 20, 2013 2:04:38 PM",
-          "id": 1363759478229
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1363314106821,
-            "name": "6uexg5bx1h1c"
-          },
-          "amount": 656.37,
-          "name": "3fhdbirxly4g",
-          "remark": "nil",
-          "date": "Jan 4, 2013 3:27:37 AM",
-          "id": 1363709431388
-        }
-      ],
       "1364704133024": [
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1361389433075,
+            "name": "4z4lv6vjnmyo"
+          },
+          "amount": 11111.0,
+          "name": "ee",
+          "remark": "111",
+          "date": "Mar 20, 2013 11:45:07 PM",
+          "id": 1363794307261
+        },
         {
           "expenseType": "NEED",
           "paymentMethod": {
@@ -296,19 +278,19 @@
         },
         "targetAmt": 10000.0
       },
+      "1363504544188": {
+        "cat": {
+          "id": 1363504544188,
+          "name": "Snacks"
+        },
+        "targetAmt": 10000.0
+      },
       "1364704133024": {
         "cat": {
           "id": 1364704133024,
           "name": "Transport"
         },
         "targetAmt": 800.0
-      },
-      "1365065985829": {
-        "cat": {
-          "id": 1365065985829,
-          "name": "Shopping"
-        },
-        "targetAmt": 20.0
       }
     }
   }

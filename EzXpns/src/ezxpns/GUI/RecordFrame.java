@@ -43,7 +43,7 @@ import javax.swing.SpringLayout;
  * This is a JFrame object (Window) that allows users to enter a new record (Expense/Income) into the EzXpns
  */
 @SuppressWarnings("serial")
-public class RecordFrame extends JFrame implements ActionListener {
+public class RecordFrame extends JFrame implements ActionListener, RecordListView.RecordEditor {
 	
 	public static final int DEFAULT_WIDTH = 600;
 	public static final int DEFAULT_HEIGHT = 400; 
@@ -61,6 +61,7 @@ public class RecordFrame extends JFrame implements ActionListener {
 	/** 
 	 * Normal constructor for RecordFrame - Starts the window with the expenses view
 	 * @param handlerRef Reference to the handler that will handle all the data management  
+	 * @wbp.parser.constructor
 	 */
 	public RecordFrame(
 			RecordHandler recHandlerRef, 
@@ -109,17 +110,17 @@ public class RecordFrame extends JFrame implements ActionListener {
 	 */
 	private void init() {
 		this.setTitle("EzXpns - New Record");
-		this.setLayout(new BorderLayout());
+		getContentPane().setLayout(new BorderLayout());
 		this.setBounds(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		panMain = new PanelMain(recHandler, incomeHandler, expenseHandler, payHandler);
-		this.add(panMain, BorderLayout.CENTER);
+		getContentPane().add(panMain, BorderLayout.CENTER);
 		
 		panOpt = new PanelOption(this);
-		this.add(panOpt, BorderLayout.SOUTH);
+		getContentPane().add(panOpt, BorderLayout.SOUTH);
 		
 		panMain.toggleIncomeTab(); // Fix
 		panMain.toggleExpenseTab(); // Default
@@ -144,6 +145,12 @@ public class RecordFrame extends JFrame implements ActionListener {
 		if(this.panOpt.getCancelBtn() == e.getSource()) {
 			this.dispose();
 		}
+	}
+
+	@Override
+	public void edit(Record r) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 
@@ -670,7 +677,7 @@ class PanelExpense extends JPanel {
 				this.getType(), 									// The ExpenseType of the record (need/want)
 				this.getMode()										// Payment method/mode of this record
 			);
-		this.recHandler.createRecord(eRecord);
+		this.recHandler.createRecord(eRecord, false, false);
 		return eRecord;
 	}
 }
@@ -874,7 +881,7 @@ class PanelIncome extends JPanel {
 				this.getCat()
 			);
 		
-		System.out.println("Create iRecord: " + this.recHandler.createRecord(iRecord));
+		System.out.println("Create iRecord: " + this.recHandler.createRecord(iRecord, false));
 		return iRecord;
 	}
 	
