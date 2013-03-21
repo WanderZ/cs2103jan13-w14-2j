@@ -39,10 +39,6 @@
         "id": 1363314106821,
         "name": "Entertainment"
       },
-      "1365065985829": {
-        "id": 1365065985829,
-        "name": "Shopping"
-      },
       "1364704133024": {
         "id": 1364704133024,
         "name": "Transport"
@@ -137,44 +133,6 @@
           "id": 1361743350635
         }
       ],
-      "1365065985829": [
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1363314106821,
-            "name": "6uexg5bx1h1c"
-          },
-          "amount": 30.0,
-          "name": "test",
-          "remark": "snack",
-          "date": "Mar 20, 2013 2:13:08 PM",
-          "id": 1363759988568
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1364521902224,
-            "name": "27oy7mceim80"
-          },
-          "amount": 300.0,
-          "name": "test",
-          "remark": "new phone",
-          "date": "Mar 20, 2013 2:04:38 PM",
-          "id": 1363759478229
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1363314106821,
-            "name": "6uexg5bx1h1c"
-          },
-          "amount": 656.37,
-          "name": "3fhdbirxly4g",
-          "remark": "nil",
-          "date": "Jan 4, 2013 3:27:37 AM",
-          "id": 1363709431388
-        }
-      ],
       "1364704133024": [
         {
           "expenseType": "NEED",
@@ -221,13 +179,13 @@
         "id": 1362122547530,
         "name": "Salary"
       },
-      "1363314106821": {
-        "id": 1363314106821,
-        "name": "Scholarship"
-      },
       "1364935492692": {
         "id": 1364935492692,
         "name": "Bursary"
+      },
+      "1363314106821": {
+        "id": 1363314106821,
+        "name": "Scholarship"
       }
     },
     "recordsByCategory": {
@@ -263,22 +221,6 @@
           "id": 1363715773749
         }
       ],
-      "1364935492692": [
-        {
-          "amount": 183.08,
-          "name": "33iyf5s64rnk",
-          "remark": "nil",
-          "date": "Mar 2, 2013 5:16:57 AM",
-          "id": 1363314106822
-        },
-        {
-          "amount": 821.07,
-          "name": "5cccdpl4aha8",
-          "remark": "nil",
-          "date": "Dec 30, 2011 1:21:32 PM",
-          "id": 1363314106823
-        }
-      ],
       "1363314106821": [
         {
           "amount": 950.53,
@@ -308,6 +250,22 @@
           "date": "May 2, 2011 3:56:53 PM",
           "id": 1365133895255
         }
+      ],
+      "1364935492692": [
+        {
+          "amount": 183.08,
+          "name": "33iyf5s64rnk",
+          "remark": "nil",
+          "date": "Mar 2, 2013 5:16:57 AM",
+          "id": 1363314106822
+        },
+        {
+          "amount": 821.07,
+          "name": "5cccdpl4aha8",
+          "remark": "nil",
+          "date": "Dec 30, 2011 1:21:32 PM",
+          "id": 1363314106823
+        }
       ]
     }
   },
@@ -320,19 +278,19 @@
         },
         "targetAmt": 10000.0
       },
+      "1363504544188": {
+        "cat": {
+          "id": 1363504544188,
+          "name": "Snacks"
+        },
+        "targetAmt": 10000.0
+      },
       "1364704133024": {
         "cat": {
           "id": 1364704133024,
           "name": "Transport"
         },
         "targetAmt": 800.0
-      },
-      "1365065985829": {
-        "cat": {
-          "id": 1365065985829,
-          "name": "Shopping"
-        },
-        "targetAmt": 20.0
       }
     }
   }

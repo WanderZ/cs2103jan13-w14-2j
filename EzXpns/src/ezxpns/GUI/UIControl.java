@@ -112,7 +112,6 @@ public class UIControl {
 				@Override
 				public void windowClosing(WindowEvent wEvent) {
 					homeScreen.updateAll();
-					recWin.dispose();
 				}
 			});
 		}
@@ -145,7 +144,7 @@ public class UIControl {
 	/** Displays the category handler window */
 	public void showCatWin() { 
 		if(catWin == null) {
-			catWin = new CategoryFrame(exCatHandler, inCatHandler, targetMgr);
+			catWin = new CategoryFrame(exCatHandler, inCatHandler, targetMgr, homeScreen);
 			catWin.addWindowListener(new WindowAdapter() {
 				@Override
 				public void windowClosing(WindowEvent wEvent) {
