@@ -11,7 +11,7 @@ import ezxpns.data.SummaryGenerator;
 import ezxpns.data.records.RecordHandler;
 
 @SuppressWarnings("serial")
-public class HomeScreen extends JFrame {
+public class HomeScreen extends JFrame implements UpdateNotifyee {
 	
 	public final int DEFAULT_HEIGHT = 860;
 	public final int DEFAULT_WEIGHT = 680;

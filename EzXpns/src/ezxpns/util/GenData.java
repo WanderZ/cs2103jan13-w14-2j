@@ -54,12 +54,12 @@ public class GenData {
 					Long.toString((long)(r.nextDouble()*(1l<<60)), 36),
 					"nil", new Date((long)(r.nextDouble()*(now - earliest) + earliest)),
 					exCat.get(r.nextInt(exCatl)), ExpenseType.NEED,
-					pays.get(r.nextInt(paysl))));
+					pays.get(r.nextInt(paysl))), false, false);
 			
 			eh.createRecord(new IncomeRecord((double)r.nextInt(maxAmount) / 100,
 					Long.toString((long)(r.nextDouble()*(1l<<60)), 36),
 					"nil", new Date((long)(r.nextDouble()*(now - earliest) + earliest)),
-					inCat.get(r.nextInt(inCatl))));
+					inCat.get(r.nextInt(inCatl))), false);
 		}
 		
 		eh.getStore().save();
