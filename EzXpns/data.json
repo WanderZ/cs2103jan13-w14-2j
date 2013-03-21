@@ -209,6 +209,13 @@
     "recordsByCategory": {
       "1364097417024": [
         {
+          "amount": 55.0,
+          "name": "test",
+          "remark": "nil",
+          "date": "Mar 21, 2013 1:51:35 PM",
+          "id": 1363845106915
+        },
+        {
           "amount": 225.97,
           "name": "1srithadcsqo",
           "remark": "nil",
