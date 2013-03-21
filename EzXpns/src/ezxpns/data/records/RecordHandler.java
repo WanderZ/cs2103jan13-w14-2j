@@ -21,19 +21,22 @@ public interface RecordHandler {
 	 */
 	public Record getRecord(long identifier);
 	
-	/**
-	 * Create a new income record
-	 * @param newRecord Object containing all the necessary data to create a new record
-	 * @return true if successful, else false
+	/** 
+	 * Create a new income record along with a new category
+	 * @param newRecord Object cotaining all the necessary data to create a new record
+	 * @param newCat true for new category, otherwise false
+	 * @return true if creating a new record is successful, otherwise false
 	 */
-	public boolean createRecord(IncomeRecord newRecord);
+	public boolean createRecord(IncomeRecord newRecord, boolean newCat);
 	
 	/**
-	 * Create a new expense record
+	 * Create a new expense record along with flags for new expense category and new payment method
 	 * @param newRecord Object containing all the necessary data to create a new record
+	 * @param newCat true for new category, otherwise false
+	 * @param newPay true for new payment method, otherwise false
 	 * @return true if successful, else false
 	 */
-	public boolean createRecord(ExpenseRecord newRecord);
+	public boolean createRecord(ExpenseRecord newRecord, boolean newCat, boolean newPay);
 	
 	/**
 	 * Remove record based on an identifier
@@ -49,7 +52,7 @@ public interface RecordHandler {
 	 * @param selectedRecord a record to be modified into
 	 * @return true if successful, else false.
 	 */
-	public boolean modifyRecord(long id, ExpenseRecord selectedRecord);
+	public boolean modifyRecord(long id, ExpenseRecord selectedRecord, boolean newCat, boolean newPay);
 	
 	/**
 	 * Modify an income record
@@ -57,7 +60,7 @@ public interface RecordHandler {
 	 * @param selectedRecord a record to be modified into
 	 * @return true if successful, else false.
 	 */
-	public boolean modifyRecord(long id, IncomeRecord selectedRecord);
+	public boolean modifyRecord(long id, IncomeRecord selectedRecord, boolean newCat);
 	
 	/**
 	 * Return the latest expense record matching the name, or null

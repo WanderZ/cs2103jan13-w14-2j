@@ -1,5 +1,6 @@
 package ezxpns.GUI;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -11,7 +12,6 @@ import java.util.List;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -27,19 +27,27 @@ public class MultiRecDisplay extends JPanel {
 	private RecordHandler recHandler;
 	private List<Record> records;
 	
-	public final int DEFAULT_PAGE_LIMIT = 12;
+	public static final int DEFAULT_PAGE_LIMIT = 5;
+	private int pageLimit = 0;
 	
+	private MultiRecDisplay() {
+		this.setBackground(Color.WHITE);
+	}
 	/**
 	 * Constructor for MultiRecordDisplay - for all records 
 	 * @param recHandlerRef the handler to retrieve all the records
 	 */
 	public MultiRecDisplay(RecordHandler recHandlerRef) {
-		
+		this(recHandlerRef, DEFAULT_PAGE_LIMIT);
+	}
+	
+	public MultiRecDisplay(RecordHandler recHandlerRef, int limit) {
+		this();
+		pageLimit = limit;
 		this.recHandler = recHandlerRef;
 		this.records = new Vector<Record>();
 		this.retrieveRecords();
 		initComponents();
-		
 	}
 	
 	/**
@@ -47,6 +55,7 @@ public class MultiRecDisplay extends JPanel {
 	 * @param records the records to display
 	 */
 	public MultiRecDisplay(List<Record> records) {
+		this();
 		this.records = records;
 		initComponents();
 	}
@@ -55,8 +64,7 @@ public class MultiRecDisplay extends JPanel {
 	 * Initializes the components of this Panel
 	 */
 	private void initComponents() {
-		// this.setLayout();
-		
+		this.setLayout(new BorderLayout());
 		// this.add(/*Header Row here */);
 		
 		JPanel panList = new JPanel(new GridLayout(0, 1, 0, 0));
@@ -64,8 +72,8 @@ public class MultiRecDisplay extends JPanel {
 		JScrollPane jspRecords = new JScrollPane(panList);
 	
 		jspRecords.setBorder(BorderFactory.createEmptyBorder());
-		
-		this.add(jspRecords);
+		jspRecords.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		this.add(jspRecords, BorderLayout.CENTER);
 	}
 	
 	/**
@@ -82,11 +90,8 @@ public class MultiRecDisplay extends JPanel {
 	 * Retrieves the records from the handler
 	 */
 	private void retrieveRecords() {
-		List<Record> records = recHandler.getRecords(DEFAULT_PAGE_LIMIT);
-		for(Record r : records) {
-			this.records.add(r);
-		}
-	}
+		this.records = recHandler.getRecords(this.pageLimit);
+	}	
 }
 
 /**
@@ -98,7 +103,7 @@ class RecordPanel extends JPanel {
 	
 	private final DecimalFormat MONEY_FORMAT = new DecimalFormat("$###,###,##0.00");
 	public final int DEFAULT_FIELD_PAD = 5;
-	public final Font DEFAULT_FONT = new Font("", 0, 14);
+	public final Font DEFAULT_FONT = new Font("Segoe UI", 0, 14);
 	private Record record;
 	
 	private JLabel lblAmtName, lblCategory, lblDate;
@@ -113,14 +118,15 @@ class RecordPanel extends JPanel {
 		this.record = record;
 		
 		this.add(this.getAmtName());
-		this.add(this.getCategory());
-		this.add(this.getDate());
+		JPanel panCatDate = new JPanel(new GridLayout(1, 0, DEFAULT_FIELD_PAD, DEFAULT_FIELD_PAD));
+		
+		panCatDate.add(this.getCategory());
+		panCatDate.add(this.getDate());
+		this.add(panCatDate);
 		
 		this.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseEntered(MouseEvent mEvent) { // Hover start
-				hover();
-			}
+			public void mouseEntered(MouseEvent mEvent) {hover();}
 			
 			@Override
 			public void mousePressed(MouseEvent mEvent) {
@@ -136,9 +142,7 @@ class RecordPanel extends JPanel {
 			}
 			
 			@Override
-			public void mouseExited(MouseEvent mEvent) { // Hover end
-				offHover();
-			}
+			public void mouseExited(MouseEvent mEvent) {offHover();}
 		});
 	}
 	
@@ -147,13 +151,14 @@ class RecordPanel extends JPanel {
 	 */
 	private void hover() {
 		// Highlight
+		this.setBorder(BorderFactory.createLineBorder(Color.BLUE));
 	}
 	
 	/**
 	 * To return the component to its original state when not hovered
 	 */
 	private void offHover() {
-		// 
+		this.setBorder(BorderFactory.createEmptyBorder());
 	}
 	
 	/**
@@ -209,8 +214,8 @@ class RecordPanel extends JPanel {
 	 * @return a string object containing the relativity
 	 */
 	private String getRelativeDate() {
-		System.out.println(record.getDate().compareTo(new Date()));
-		return "yest.";
+		// System.out.println(record.getDate().compareTo(new Date()));
+		return "yesterday";
 	}
 }
 

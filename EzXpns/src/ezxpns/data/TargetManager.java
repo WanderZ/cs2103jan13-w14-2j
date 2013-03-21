@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.*;
 
 import ezxpns.data.records.Category;
-import ezxpns.data.records.ExpenseRecord;
+
 
 /**
  * @author Suzzie
@@ -193,7 +193,7 @@ public class TargetManager extends Storable {
 	 * @return true is the Bar qualifies as an Alert
 	 */
 	private boolean isAnAlert(Bar bar){
-		if(bar.getColor()== BarColor.HIGH || bar.getColor()== BarColor.MEDIUM) 
+		if(bar.getBarColor()== BarColor.HIGH || bar.getBarColor()== BarColor.MEDIUM) 
 			return true;
 		else 
 			return false;
