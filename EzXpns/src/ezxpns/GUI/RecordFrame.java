@@ -61,6 +61,7 @@ public class RecordFrame extends JFrame implements ActionListener, RecordListVie
 	/** 
 	 * Normal constructor for RecordFrame - Starts the window with the expenses view
 	 * @param handlerRef Reference to the handler that will handle all the data management  
+	 * @wbp.parser.constructor
 	 */
 	public RecordFrame(
 			RecordHandler recHandlerRef, 
@@ -109,17 +110,17 @@ public class RecordFrame extends JFrame implements ActionListener, RecordListVie
 	 */
 	private void init() {
 		this.setTitle("EzXpns - New Record");
-		this.setLayout(new BorderLayout());
+		getContentPane().setLayout(new BorderLayout());
 		this.setBounds(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		panMain = new PanelMain(recHandler, incomeHandler, expenseHandler, payHandler);
-		this.add(panMain, BorderLayout.CENTER);
+		getContentPane().add(panMain, BorderLayout.CENTER);
 		
 		panOpt = new PanelOption(this);
-		this.add(panOpt, BorderLayout.SOUTH);
+		getContentPane().add(panOpt, BorderLayout.SOUTH);
 		
 		panMain.toggleIncomeTab(); // Fix
 		panMain.toggleExpenseTab(); // Default
