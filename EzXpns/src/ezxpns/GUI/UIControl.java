@@ -7,6 +7,8 @@ import ezxpns.data.ReportGenerator;
 import ezxpns.data.SummaryGenerator;
 import ezxpns.data.TargetManager;
 import ezxpns.data.records.CategoryHandler;
+import ezxpns.data.records.ExpenseRecord;
+import ezxpns.data.records.IncomeRecord;
 import ezxpns.data.records.PayMethodHandler;
 import ezxpns.data.records.RecordHandler;
 import ezxpns.data.records.SearchHandler;
@@ -106,15 +108,43 @@ public class UIControl {
 	 * @param recordType the type of new record Expense/Income 
 	 */
 	public void showRecWin(int recordType) {
-		if(recWin == null) {
-			recWin = new RecordFrame(recHandler, inCatHandler, exCatHandler, payHandler, recordType);
-			recWin.addWindowListener(new WindowAdapter() {
-				@Override
-				public void windowClosing(WindowEvent wEvent) {
-					homeScreen.updateAll();
-				}
-			});
-		}
+		recWin = new RecordFrame(recHandler, inCatHandler, exCatHandler, payHandler, recordType);
+		recWin.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent wEvent) {
+				homeScreen.updateAll();
+			}
+		});
+		recWin.setVisible(true);
+	}
+	
+	/**
+	 * Display the record window - edit an ExpenseRecord record
+	 * @param record ExpenseRecord to be editted
+	 */
+	public void showRecWin(ExpenseRecord record) {
+		recWin = new RecordFrame(recHandler, exCatHandler, payHandler, record);
+		recWin.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent wEvent) {
+				homeScreen.updateAll();
+			}
+		});
+		recWin.setVisible(true);
+	}
+	
+	/**
+	 * Display the recordwindow - edit an IncomeRecord record
+	 * @param record IncomeRecord to be be editted
+	 */
+	public void showRecWin(IncomeRecord record) {
+		recWin = new RecordFrame(recHandler, inCatHandler, exCatHandler, payHandler, record);
+		recWin.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent wEvent) {
+				homeScreen.updateAll();
+			}
+		});
 		recWin.setVisible(true);
 	}
 	
