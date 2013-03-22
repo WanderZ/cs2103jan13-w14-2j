@@ -135,10 +135,10 @@ public class UIControl {
 	
 	/**
 	 * Display the recordwindow - edit an IncomeRecord record
-	 * @param record IncomeRecord to be be editted
+	 * @param record IncomeRecord to be be edited
 	 */
 	public void showRecWin(IncomeRecord record) {
-		recWin = new RecordFrame(recHandler, inCatHandler, exCatHandler, payHandler, record);
+		recWin = new RecordFrame(recHandler, inCatHandler, record);
 		recWin.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent wEvent) {

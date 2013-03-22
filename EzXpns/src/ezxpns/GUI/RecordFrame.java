@@ -105,10 +105,8 @@ public class RecordFrame extends JFrame implements ActionListener, RecordListVie
 	public RecordFrame(
 			RecordHandler recHandlerRef, 
 			CategoryHandler incomeHandlerRef,
-			CategoryHandler expenseHandlerRef,
-			PayMethodHandler payHandlerRef,
 			IncomeRecord record) {
-		this(recHandlerRef, incomeHandlerRef, expenseHandlerRef, payHandlerRef);
+		this(recHandlerRef, incomeHandlerRef, incomeHandlerRef, null);
 		this.initComponent(record);
 	}
 	
