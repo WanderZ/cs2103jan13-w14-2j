@@ -6,10 +6,19 @@ package ezxpns.GUI;
 import javax.swing.*;
 
 /**
+ * 
  * @author yyjhao
- *
  */
 public interface UpdateNotifyee {
-	void updateAll();
-	void addUndoAction(AbstractAction action);
+	
+	/**
+	 * 
+	 */
+	public void updateAll();
+	
+	/**
+	 * 
+	 * @param action
+	 */
+	public void addUndoAction(AbstractAction action);
 }

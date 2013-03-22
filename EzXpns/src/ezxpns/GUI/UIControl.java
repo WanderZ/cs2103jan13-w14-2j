@@ -15,19 +15,17 @@ import ezxpns.data.records.SearchHandler;
 
 /**
  * To assist EzXpns in managing all the GUI Windows
-<<<<<<< local
-=======
- * Implements ActionListener for the main menu.
->>>>>>> other
  */
 public class UIControl {
 	
+	// JComponents
 	private HomeScreen homeScreen;
 	private RecordFrame recWin;
 	private SearchFrame searchWin;	
 	private ReportFrame reportWin;
 	private CategoryFrame catWin;
 	
+	// Logical Components
 	private SearchHandler findHandler;
 	private RecordHandler recHandler;
 	private CategoryHandler inCatHandler, exCatHandler;
@@ -134,7 +132,7 @@ public class UIControl {
 	}
 	
 	/**
-	 * Display the recordwindow - edit an IncomeRecord record
+	 * Display the record window - edit an IncomeRecord record
 	 * @param record IncomeRecord to be be edited
 	 */
 	public void showRecWin(IncomeRecord record) {
@@ -148,7 +146,9 @@ public class UIControl {
 		recWin.setVisible(true);
 	}
 	
-	/** Displays the search handler window */
+	/**
+	 * Displays the search handler window
+	 */
 	public void showSearchWin() {
 		if(searchWin == null) {
 			searchWin = new SearchFrame(findHandler, new RecordListView(recWin, recHandler));
