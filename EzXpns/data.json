@@ -53,6 +53,18 @@
         {
           "expenseType": "NEED",
           "paymentMethod": {
+            "id": 1361694372893,
+            "name": "2s1rqfh8rtog"
+          },
+          "amount": 111.0,
+          "name": "3e",
+          "remark": "111",
+          "date": "Mar 22, 2013 4:43:46 PM",
+          "id": 1363941833220
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
             "id": 1363314106821,
             "name": "6uexg5bx1h1c"
           },
@@ -183,13 +195,13 @@
         "id": 1362122547530,
         "name": "Salary"
       },
-      "1364935492692": {
-        "id": 1364935492692,
-        "name": "Bursary"
-      },
       "1363314106821": {
         "id": 1363314106821,
         "name": "Scholarship"
+      },
+      "1364935492692": {
+        "id": 1364935492692,
+        "name": "Bursary"
       }
     },
     "recordsByCategory": {
@@ -232,6 +244,22 @@
           "id": 1363715773749
         }
       ],
+      "1364935492692": [
+        {
+          "amount": 183.08,
+          "name": "33iyf5s64rnk",
+          "remark": "nil",
+          "date": "Mar 2, 2013 5:16:57 AM",
+          "id": 1363314106822
+        },
+        {
+          "amount": 821.07,
+          "name": "5cccdpl4aha8",
+          "remark": "nil",
+          "date": "Dec 30, 2011 1:21:32 PM",
+          "id": 1363314106823
+        }
+      ],
       "1363314106821": [
         {
           "amount": 950.53,
@@ -260,22 +288,6 @@
           "remark": "nil",
           "date": "May 2, 2011 3:56:53 PM",
           "id": 1365133895255
-        }
-      ],
-      "1364935492692": [
-        {
-          "amount": 183.08,
-          "name": "33iyf5s64rnk",
-          "remark": "nil",
-          "date": "Mar 2, 2013 5:16:57 AM",
-          "id": 1363314106822
-        },
-        {
-          "amount": 821.07,
-          "name": "5cccdpl4aha8",
-          "remark": "nil",
-          "date": "Dec 30, 2011 1:21:32 PM",
-          "id": 1363314106823
         }
       ]
     }
