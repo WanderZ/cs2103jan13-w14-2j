@@ -163,8 +163,12 @@ public class RecordListView extends JTable {
 	}
 	
 	protected void deleteItemAt(int row){
-		rhandler.removeRecord(records.get(row).getId());
-		records.remove(row);
-		model.fireTableRowsDeleted(row, row);
+		String message = "Are you sure you want to remove this record?";
+		if(JOptionPane.showConfirmDialog(this, message, "what?!",
+				JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+			rhandler.removeRecord(records.get(row).getId());
+			records.remove(row);
+			model.fireTableRowsDeleted(row, row);
+		}
 	}
 }
