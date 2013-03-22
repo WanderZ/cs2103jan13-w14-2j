@@ -14,6 +14,7 @@ import ezxpns.data.records.RecordManager.RecordUpdateException;
 import ezxpns.data.records.SearchRequest.RecordType;
 import ezxpns.util.Pair;
 import ezxpns.GUI.*;
+import ezxpns.GUI.Calculator.EvaluationException;
 
 import java.awt.EventQueue;
 import java.util.*;

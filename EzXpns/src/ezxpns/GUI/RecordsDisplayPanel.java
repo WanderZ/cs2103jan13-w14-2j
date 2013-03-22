@@ -7,6 +7,7 @@ import ezxpns.data.records.RecordHandler;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +17,7 @@ import java.util.Vector;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 /**
  * Panel Class containing the inner workings of the Records' bit on the main screen
@@ -87,8 +89,12 @@ class RecordsListerPanel extends JPanel {
 		
 		this.initRecords();
 		
-		MultiRecDisplay recDisplay = new MultiRecDisplay(records);
-		this.add(recDisplay, BorderLayout.CENTER);
+//		MultiRecDisplay recDisplay = new MultiRecDisplay(records);
+//		this.add(recDisplay, BorderLayout.CENTER);
+		RecordListView list = new RecordListView(null, recHandlerRef);
+		this.add(new JScrollPane(list), BorderLayout.CENTER);
+		list.show(records);
+		list.setPreferredScrollableViewportSize(new Dimension(150, 150));
 	}
 	
 	public RecordsListerPanel(int tabType, RecordHandler recHandlerRef) {		
