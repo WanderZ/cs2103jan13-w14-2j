@@ -24,11 +24,11 @@ public interface PayMethodHandler {
 	 * To remove a user defined payment mode
 	 * @return true if successful, else false
 	 */
-	public boolean removePaymentMethod(PaymentMethod paymentRef);
+	public boolean removePaymentMethod(long id);
 	
 	/**
 	 * To modify a user defined payment mode 
 	 * @return true if successful, else false
 	 */
-	public boolean updatePaymentMethod(PaymentMethod paymentRef);
+	public PaymentMethod updatePaymentMethod(long id, PaymentMethod paymentRef);
 }

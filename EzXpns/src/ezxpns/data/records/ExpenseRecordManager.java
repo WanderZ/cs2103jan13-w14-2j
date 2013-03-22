@@ -39,6 +39,7 @@ public class ExpenseRecordManager extends RecordManager<ExpenseRecord>
 	
 	@Override
 	protected void recordAdded(ExpenseRecord r){
+		super.recordAdded(r);
 		TreeSet<ExpenseRecord> rs = recordsByPaym.get(r.paymentMethod.id);
 		if(rs == null){
 			rs = new TreeSet<ExpenseRecord>();
@@ -49,6 +50,7 @@ public class ExpenseRecordManager extends RecordManager<ExpenseRecord>
 	
 	@Override
 	protected void recordRemoved(ExpenseRecord r){
+		super.recordRemoved(r);
 		recordsByPaym.get(r.paymentMethod.id).remove(r);
 	}
 	
@@ -70,32 +72,38 @@ public class ExpenseRecordManager extends RecordManager<ExpenseRecord>
 			paymentRef.id = (new Date()).getTime() + ran.nextInt();
 		}
 		payms.put(paymentRef.id, paymentRef);
+		markUpdate();
 		return paymentRef;
 	}
 
 	@Override
-	public boolean removePaymentMethod(PaymentMethod paymentRef) {
-		if(!payms.containsKey(paymentRef.id)){
+	public boolean removePaymentMethod(long id) {
+		if(!payms.containsKey(id)){
 			return false;
 		}else{
-			payms.remove(paymentRef.id);
-			for(ExpenseRecord r : recordsById.values()){
-				if(r.paymentMethod == paymentRef){
+			payms.remove(id);
+			if(recordsByPaym.get(id) != null){
+				TreeSet<ExpenseRecord> rs = recordsByPaym.get(PaymentMethod.undefined.id);
+				for(ExpenseRecord r : recordsByPaym.get(id)){
 					r.paymentMethod = PaymentMethod.undefined;
+					rs.add(r);
 				}
+				recordsByPaym.remove(id);
 			}
+			markUpdate();
 			return true;
 		}
 	}
 
 	@Override
-	public boolean updatePaymentMethod(PaymentMethod paymentRef) {
-		if(!payms.containsKey(paymentRef.id)){
-			return false;
+	public PaymentMethod updatePaymentMethod(long id, PaymentMethod paymentRef) {
+		if(!payms.containsKey(id)){
+			return null;
 		}else{
-			payms.remove(paymentRef.id);
-			payms.put(paymentRef.id, paymentRef);
-			return true;
+			PaymentMethod p = payms.get(id);
+			p.name = paymentRef.name;
+			markUpdate();
+			return p;
 		}
 	}
 	
