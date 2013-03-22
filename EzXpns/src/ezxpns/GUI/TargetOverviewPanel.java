@@ -40,7 +40,7 @@ public class TargetOverviewPanel extends JPanel {
 	private JPanel tagsPane;
 	private JScrollPane targetScrollPane;
 	private JPanel smallBorderLayoutpanel;
-	private JPanel columnpanel;
+	private JPanel columnPanel;
 	private JPanel separatorPanel;
 	private JLabel lblDaysTill;
 	private JLabel lblMonth;
@@ -82,13 +82,13 @@ public class TargetOverviewPanel extends JPanel {
 		targetScrollPane.setViewportView(smallBorderLayoutpanel);
 		smallBorderLayoutpanel.setLayout(new BorderLayout(0, 0));
 
-		columnpanel = new JPanel();
-		columnpanel.setBackground(new Color(255, 255, 255));
-		smallBorderLayoutpanel.add(columnpanel, BorderLayout.NORTH);
-		columnpanel.setLayout(new GridLayout(0, 1));
+		columnPanel = new JPanel();
+		columnPanel.setBackground(new Color(255, 255, 255));
+		smallBorderLayoutpanel.add(columnPanel, BorderLayout.NORTH);
+		columnPanel.setLayout(new GridLayout(0, 1));
 		// jSeparator
 		//separator = new JSeparator();
-		//columnpanel.add(separator);
+		//columnPanel.add(separator);
 
 		targetScrollPane.setPreferredSize(new Dimension(50, 50));
 
@@ -101,6 +101,10 @@ public class TargetOverviewPanel extends JPanel {
 	 * displays a list of targets in targetScrollPane
 	 */
 	public void updateTargets() {
+		columnPanel.removeAll();
+		smallBorderLayoutpanel.add(columnPanel, BorderLayout.NORTH);
+		columnPanel.setLayout(new GridLayout(0, 1, 0, 1));
+		
 		for (int i = targetMgr.getOrderedBar().size() - 1; i >= 0; i--) {
 			Bar bar = targetMgr.getOrderedBar().get(i);
 
@@ -112,7 +116,7 @@ public class TargetOverviewPanel extends JPanel {
 																// appear),
 																// height
 			rowPanel.setBackground(new Color(255, 255, 255));
-			columnpanel.add(rowPanel);
+			columnPanel.add(rowPanel);
 			//rowPanel.setLayout(new BorderLayout());
 			rowPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
@@ -155,6 +159,8 @@ public class TargetOverviewPanel extends JPanel {
 	 * Display number of Alerts in the tagsPane
 	 */
 	public void updateAlerts() {
+		
+		tagsPane.removeAll();
 		
 		// lblTargets
 		JLabel lblTargets = new JLabel("targets");
