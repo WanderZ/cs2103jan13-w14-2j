@@ -69,7 +69,9 @@ public class RecordListView extends JTable {
 		}
 	}
 	
-	private RecordListView(){}
+	private RecordListView() {
+		super();
+	}
 	
 	private RecordEditor editor;
 	private RecordHandler rhandler;
@@ -80,7 +82,7 @@ public class RecordListView extends JTable {
 	private int rowSelected;
 	
 	public RecordListView(RecordEditor ed, RecordHandler rh){
-		super();
+		this();
 		editor = ed;
 		rhandler = rh;
 		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
