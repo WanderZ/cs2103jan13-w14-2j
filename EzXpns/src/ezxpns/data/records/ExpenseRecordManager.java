@@ -106,5 +106,13 @@ public class ExpenseRecordManager extends RecordManager<ExpenseRecord>
 			return p;
 		}
 	}
+
+	@Override
+	public boolean containsPaymentMethodName(String name) {
+		for(PaymentMethod pay : payms.values()){
+			if(pay.name.equals(name))return true;
+		}
+		return false;
+	}
 	
 }

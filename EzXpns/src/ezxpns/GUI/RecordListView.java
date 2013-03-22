@@ -8,6 +8,9 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.*;
 
 import javax.swing.*;
@@ -25,7 +28,8 @@ public class RecordListView extends JTable {
 	public static interface RecordEditor{
 		void edit(Record r);
 	}
-	
+	private static NumberFormat formatter = NumberFormat.getCurrencyInstance();
+	private static DateFormat dateFormatter = DateFormat.getDateInstance();
 	private static String[] headers = {
 		"Name",
 		"Amount",
@@ -53,14 +57,14 @@ public class RecordListView extends JTable {
 				return re.getName();
 			case 1:
 				if(re instanceof ExpenseRecord){
-					return -re.getAmount();
+					return "-" + formatter.format(re.getAmount());
 				}else{
-					return re.getAmount();
+					return " " + formatter.format(re.getAmount());
 				}
 			case 2:
 				return re.getCategory();
 			case 3:
-				return re.getDate();
+				return dateFormatter.format(re.getDate());
 			default:
 				return null;
 			}

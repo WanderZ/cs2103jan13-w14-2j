@@ -5,8 +5,6 @@ import java.util.List;
  *	Interface to handle the categories between the Graphical User Interface and the data storage (upon GUI Exit)
  */
 public interface CategoryHandler {
-	
-	
 	/**
 	 * Get all user defined categories
 	 * @return List of all the Categories stored
@@ -40,4 +38,15 @@ public interface CategoryHandler {
 	 * @return the modified category, or null if failed
 	 */
 	public Category updateCategory(long identifier, Category selectedCat);
+	
+	/**
+	 * Check if the name is in used
+	 */
+	public boolean containsCategoryName(String name);
+	
+	/**
+	 * Validate if the name is acceptable
+	 * Returns an error string if not or null if yes
+	 */
+	public String validateCategoryName(String name);
 }
