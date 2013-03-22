@@ -166,17 +166,18 @@ public class IncomeForm extends JPanel {
 	 * @return true is there is no problem with inputs, else false;
 	 */
 	public boolean validateFields() {
+		boolean validateSuccess = true;
 		if(!validateAmt()) {
 			System.out.println("failed amt");
-			return false;
+			validateSuccess = false;
 		}
 		if(!validateName()) {
 			System.out.println("failed name");
-			return false;
+			validateSuccess = false;
 		}
 		if(!validateDate()) {
 			System.out.println("failed date");
-			return false;
+			validateSuccess = false;
 		}
 		return true;
 	}
@@ -192,7 +193,7 @@ public class IncomeForm extends JPanel {
 		catch(Exception err) { return false; }
 		
 		// Value check		
-		return result > 0;
+		return result >= 0.01;
 	}
 	
 	/**

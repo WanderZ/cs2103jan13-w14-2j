@@ -1,5 +1,6 @@
 package ezxpns.GUI;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.FocusEvent;
@@ -89,6 +90,7 @@ public class ExpenseForm extends JPanel {
 	 * To populate all the fields with the given record's data
 	 */
 	private void populateFields() {
+		
 		// Name
 		txtName.setText(record.getName());
 		
@@ -184,7 +186,7 @@ public class ExpenseForm extends JPanel {
 			@Override
 			public void focusLost(FocusEvent arg0) {
 				// TODO To update all the other fields.
-				ExpenseRecord oldRecord = recHandler.lastExpenseRecord(txtName.getText());
+				ExpenseRecord oldRecord = recHandler.lastExpenseRecord(txtName.getText()); // TODO: Validation
 				if(record==null) {
 					record = oldRecord;
 					populateFields();
@@ -350,16 +352,42 @@ public class ExpenseForm extends JPanel {
 	 * @return true is there is no problem with inputs, else false;
 	 */
 	public boolean validateFields() {
-		if(!validateAmt()) return false; 
-		System.out.println(getName());
-		System.out.println(getAmt());
-		System.out.println(getDate());
-		System.out.println(getDesc());
-		System.out.println(getCat());
-		System.out.println(getMode());
-		System.out.println(getType());
-		return true;
+		boolean validateSuccess = true;
+		if(!validateAmt()) {
+			this.markErr(txtAmt);
+			validateSuccess = false;
+		}
+		
+		if(!validateName()) {
+			this.markErr(txtName);
+			validateSuccess = false;
+		}
+		
+		if(!validateDate()) {
+			this.markErr(txtDate);
+			validateSuccess = false;
+		}
+		
+		System.out.println("Name: " + getName());
+		System.out.println("Amt: " + getAmt());
+		System.out.println("Date: " + getDate());
+		System.out.println("Desc: " + getDesc());
+		System.out.println("Cat: " + getCat());
+		System.out.println("Mode: " + getMode());
+		System.out.println("Type: " + getType());
+		
+		return validateSuccess;
+		
 		// Validation method (mainly for calculation)
+	}
+	
+	/**
+	 * Method to validate the date field
+	 * @return true if the date is before today's date, otherwise false
+	 */
+	private boolean validateDate() {
+		//TODO: validate the date
+		return true;
 	}
 	
 	/**
@@ -367,14 +395,32 @@ public class ExpenseForm extends JPanel {
 	 * @return true if no problems parsing, otherwise false
 	 */
 	private boolean validateAmt() {
+		double result;
 		try {
-			double result = Double.parseDouble(getAmt()); // To be updated to the inbuilt calculator
+			result = Double.parseDouble(getAmt()); // To be updated to the inbuilt calculator
+			
 			this.setAmt(result);
-			return true;
+			return result >= 0.01;
 		}
 		catch(Exception err) {
 			return false;
 		}
+	}
+	
+	/**
+	 * Method to validate the name field - ensure its not empty
+	 * @return true if name is not empty, otherwise false
+	 */
+	private boolean validateName() {
+		return !getName().equals("");
+	}
+	
+	/**
+	 * Method to mark fields with a red border to indicate to user that it has error
+	 * @param txtField JTextField to be marked for error
+	 */
+	private void markErr(JTextField txtField) {
+		txtField.setBorder(BorderFactory.createLineBorder(Color.RED));
 	}
 	
 	/**

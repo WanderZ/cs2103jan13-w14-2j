@@ -11,7 +11,6 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -23,6 +22,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -31,7 +31,7 @@ import javax.swing.JTextField;
  * This is a JFrame object (Window) that allows users to enter a new record (Expense/Income) into the EzXpns
  */
 @SuppressWarnings("serial")
-public class RecordFrame extends JFrame implements ActionListener, RecordListView.RecordEditor {
+public class RecordFrame extends JDialog implements ActionListener, RecordListView.RecordEditor {
 	
 	public static final int DEFAULT_WIDTH = 600;
 	public static final int DEFAULT_HEIGHT = 400; 
@@ -133,6 +133,10 @@ public class RecordFrame extends JFrame implements ActionListener, RecordListVie
 		getContentPane().add(panOpt, BorderLayout.SOUTH);
 	}
 	
+	/**
+	 * Initialize this frame with its components with the given ExpenseRecord
+	 * @param record ExpenseRecord to be modified
+	 */
 	private void initComponent(ExpenseRecord record) {
 		panMain = new PanelMain(recHandler, incomeHandler, expenseHandler, payHandler, record);
 		getContentPane().add(panMain, BorderLayout.CENTER);
@@ -141,6 +145,10 @@ public class RecordFrame extends JFrame implements ActionListener, RecordListVie
 		getContentPane().add(panOpt, BorderLayout.SOUTH);
 	}
 	
+	/**
+	 * Initialize this frame with its components with the given IncomeRecord
+	 * @param record IncomeRecord to be modified
+	 */
 	private void initComponent(IncomeRecord record) {
 		panMain = new PanelMain(recHandler, incomeHandler, expenseHandler, payHandler, record);
 		getContentPane().add(panMain, BorderLayout.CENTER);
