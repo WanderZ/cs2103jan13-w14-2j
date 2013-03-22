@@ -1,18 +1,12 @@
 package ezxpns.GUI;
-import ezxpns.data.records.Category;
 import ezxpns.data.records.CategoryHandler;
-import ezxpns.data.records.ExpenseRecord;
-import ezxpns.data.records.ExpenseType;
-import ezxpns.data.records.IncomeRecord;
 import ezxpns.data.records.PayMethodHandler;
-import ezxpns.data.records.PaymentMethod;
 import ezxpns.data.records.Record;
 import ezxpns.data.records.RecordHandler;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.TextArea;
@@ -21,23 +15,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.font.TextAttribute;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JTextField;
-import javax.swing.SpringLayout;
 
 /**
  * This is a JFrame object (Window) that allows users to enter a new record (Expense/Income) into the EzXpns
@@ -61,6 +47,7 @@ public class RecordFrame extends JFrame implements ActionListener, RecordListVie
 	/** 
 	 * Normal constructor for RecordFrame - Starts the window with the expenses view
 	 * @param handlerRef Reference to the handler that will handle all the data management  
+	 * @wbp.parser.constructor
 	 */
 	public RecordFrame(
 			RecordHandler recHandlerRef, 
@@ -109,18 +96,19 @@ public class RecordFrame extends JFrame implements ActionListener, RecordListVie
 	 */
 	private void init() {
 		this.setTitle("EzXpns - New Record");
-		this.setLayout(new BorderLayout());
+		getContentPane().setLayout(new BorderLayout());
 		this.setBounds(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		panMain = new PanelMain(recHandler, incomeHandler, expenseHandler, payHandler);
-		this.add(panMain, BorderLayout.CENTER);
+		getContentPane().add(panMain, BorderLayout.CENTER);
 		
 		panOpt = new PanelOption(this);
-		this.add(panOpt, BorderLayout.SOUTH);
+		getContentPane().add(panOpt, BorderLayout.SOUTH);
 		
+		panMain.toggleIncomeTab(); // Fix
 		panMain.toggleExpenseTab(); // Default
 	}
 
@@ -130,7 +118,7 @@ public class RecordFrame extends JFrame implements ActionListener, RecordListVie
 		if(this.panOpt.getSaveBtn() == e.getSource()) { // Save button has been invoked.
 			System.out.println("Saved invoked!");
 			if(panMain.validateForm()) { // Invoke validation
-				System.out.println("validated!");
+				System.out.println("Validate Success!");
 				panMain.save();
 				// all is good. save as new Record.
 				// Check if it is a recurring record
@@ -138,7 +126,7 @@ public class RecordFrame extends JFrame implements ActionListener, RecordListVie
 				this.dispose();
 				return;
 			}
-			System.out.println("Not validated!");
+			System.out.println("Validate Fail!");
 		}
 		if(this.panOpt.getCancelBtn() == e.getSource()) {
 			this.dispose();
@@ -160,8 +148,8 @@ class PanelMain extends JPanel {
 	public final String CARD_EXPENSE = "Expenses";
 	public final String CARD_INCOME = "Income";
 	
-	private PanelExpense panExpense;
-	private PanelIncome panIncome;
+	private ExpenseForm panExpense;
+	private IncomeForm panIncome;
 	private PanelRecur panRecurOpt;
 	private CardLayout loCard;
 	private JPanel metroTabs, metroTabBtns, metroTabContent;
@@ -196,8 +184,8 @@ class PanelMain extends JPanel {
 		
 		metroTabs.add(metroTabBtns, BorderLayout.NORTH);
 		
-		panExpense = new PanelExpense(recHandlerRef, expenseHandlerRef, payHandlerRef);
-		panIncome = new PanelIncome(recHandlerRef, incomeHandlerRef);
+		panExpense = new ExpenseForm(recHandlerRef, expenseHandlerRef, payHandlerRef);
+		panIncome = new IncomeForm(recHandlerRef, incomeHandlerRef);
 
 		metroTabContent = new JPanel();
 		
@@ -214,8 +202,8 @@ class PanelMain extends JPanel {
 		this.add(metroTabs, BorderLayout.CENTER);
 		
 		// Create Recurring options panel
-		panRecurOpt = new PanelRecur();
-		this.add(panRecurOpt, BorderLayout.SOUTH);
+		// panRecurOpt = new PanelRecur();
+		// this.add(panRecurOpt, BorderLayout.SOUTH);
 	}
 	
 	/**
@@ -298,6 +286,8 @@ class PanelMain extends JPanel {
 	 * @return the new Record object containing the user inputs.
 	 */
 	public Record save() {
+		System.out.println(isExpense());
+		System.out.println(isIncome());
 		return isExpense() ? panExpense.save() : panIncome.save();
 	}
 	
@@ -305,13 +295,19 @@ class PanelMain extends JPanel {
 	 * To check if the current tab is the Expense Tab
 	 * @return true if it is, otherwise false
 	 */
-	public boolean isExpense() {return panExpense.isVisible();}
+	public boolean isExpense() {
+		System.out.println("isExpense:" + panExpense.isVisible());
+		return panExpense.isVisible();
+	}
 	
 	/**
 	 * To check if the current tab is the Expense Tab
 	 * @return true if it is, otherwise false
 	 */
-	public boolean isIncome() {return panIncome.isVisible();}
+	public boolean isIncome() {
+		System.out.println("isIncome:" + panIncome.isVisible());
+		return panIncome.isVisible();
+	}
 
 	/**
 	 * Method to toggle to the tab for a new income record
@@ -321,6 +317,7 @@ class PanelMain extends JPanel {
 			loCard.show(metroTabContent, CARD_INCOME);
 			// Indicate some difference to let user know that this tab is selected
 			changeFocus(this.mtabIncome, this.mtabExpense);
+			return;
 		}
 	}
 	
@@ -332,7 +329,8 @@ class PanelMain extends JPanel {
 			loCard.show(metroTabContent, CARD_EXPENSE);
 			// Indicate some difference to let user know that this tab is selected
 			changeFocus(this.mtabExpense, this.mtabIncome);
-		}		
+			return;
+		}
 	}
 	
 	/**
@@ -355,533 +353,6 @@ class PanelMain extends JPanel {
 	// Access and Mutate methods (for internal internal components)
 	// Auto-complete - requires action listener
 	// Auto-calculate - requires action listener
-}
-
-/** Panel to contain and maintain the form for a new expense record */
-@SuppressWarnings("serial")
-class PanelExpense extends JPanel {
-	
-	// #Constants
-	public final int TOP_PAD = 27;
-	public final int COL1_PAD = 15;
-	public final int COL2_PAD = 200;
-	
-	public final String EXPENSE_TYPE_NEED = "Need";
-	public final String EXPENSE_TYPE_WANT = "Want";
-	
-	// #Swing Components
-	private ButtonGroup bgType;
-	private JRadioButton rbtnNeed, rbtnWant;
-	private JLabel lblAmt, lblName, lblType, lblCat, lblPayment, lblDate, lblDesc;
-	private JTextField 	txtAmt, txtName;
-	private JFormattedTextField txtDate;
-	private JTextField txtDesc;
-	private JComboBox cboxCategory, cboxPayment;
-	
-	// #Logic Components
-	private RecordHandler recHandler; 
-	private CategoryHandler catHandler;
-	private PayMethodHandler payHandler;
-	
-	// #Data Components
-	private List<Category> categories;
-	private List<PaymentMethod> methods;
-	
-	/**
-	 * Create a Form for expense records
-	 * @param recHandlerRef RecordHandler
-	 * @param catHandlerRef CategoryHandler
-	 * @param payHandlerRef PaymentMethodHandler
-	 */
-	public PanelExpense(
-			RecordHandler recHandlerRef, 
-			CategoryHandler catHandlerRef, 
-			PayMethodHandler payHandlerRef
-		) {
-		
-		super();
-		
-		recHandler = recHandlerRef; 
-		catHandler = catHandlerRef;
-		payHandler = payHandlerRef;
-		categories = catHandler.getAllCategories();
-		methods = payHandler.getAllPaymentMethod();
-		this.initFields();
-	}
-	
-	/** 
-	 * Creates a label with the system font.
-	 * @param lblTxt the text to apply to the JLabel
-	 * @return the JLabel object generated
-	 */
-	private JLabel createLabel(String lblTxt) {
-		JLabel lbl = new JLabel(lblTxt);
-		lbl.setFont(new Font("Segoe UI", 0, 18)); // #Font
-		return lbl;
-	}
-	
-	/** Initializes the Categories Drop down field */
-	private void initCatComboBox() {
-		for(Category cat: categories) {
-			this.cboxCategory.addItem(cat.getName());
-		}
-	}
-	
-	/** Initializes the Payment Methods Drop down field */
-	private void initPayComboBox() {
-		for(PaymentMethod method: methods) {
-			this.cboxPayment.addItem(method.getName());
-		}
-	}
-	
-	/** Initiates all the fields of this panel. */
-	private void initFields() {
-		
-		/* The Layout governing the positions */
-		SpringLayout loForm = new SpringLayout();
-		this.setLayout(loForm);
-		
-		// Initialize Radio Buttons
-		lblType = this.createLabel("Type");
-		
-		bgType = new ButtonGroup();
-		
-		rbtnNeed = new JRadioButton(EXPENSE_TYPE_NEED);
-		rbtnNeed.setContentAreaFilled(false);
-		rbtnNeed.setSelected(true);
-		
-		rbtnWant = new JRadioButton(EXPENSE_TYPE_WANT);
-		rbtnWant.setContentAreaFilled(false);
-		
-		bgType.add(rbtnNeed);
-		bgType.add(rbtnWant);
-		// Action Listener to update the label text in preview?
-		
-		// Initialize Combo Box - To be a dynamic updating list.
-		lblCat = this.createLabel("Category");
-		cboxCategory = new JComboBox();
-		this.initCatComboBox();
-		cboxCategory.setEditable(true);		
-		
-		// Initialize Combo Box - To be a dynamic updating list.
-		lblPayment = this.createLabel("Payment Method");
-		cboxPayment = new JComboBox();
-		this.initPayComboBox();
-		cboxPayment .setEditable(true);
-		
-		lblName = this.createLabel("Name");
-		txtName = new JTextField("");
-		txtName.setPreferredSize(new Dimension(200, 25));
-		this.add(lblName);
-		this.add(txtName);
-		loForm.putConstraint(SpringLayout.WEST, lblName, COL1_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.WEST, txtName, COL2_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.NORTH, lblName, TOP_PAD, SpringLayout.NORTH, this);
-		loForm.putConstraint(SpringLayout.NORTH, txtName, TOP_PAD, SpringLayout.NORTH, this);
-		// AutoComplete (for the rest of the fields - when completed?)
-		
-		this.add(lblPayment);
-		this.add(cboxPayment);
-		loForm.putConstraint(SpringLayout.WEST, lblPayment, COL1_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.WEST, cboxPayment, COL2_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.NORTH, lblPayment, TOP_PAD, SpringLayout.NORTH, lblName);
-		loForm.putConstraint(SpringLayout.NORTH, cboxPayment, TOP_PAD, SpringLayout.NORTH, txtName);
-		
-		this.add(lblCat);
-		this.add(cboxCategory);
-		loForm.putConstraint(SpringLayout.WEST, lblCat, COL1_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.WEST, cboxCategory, COL2_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.NORTH, lblCat, TOP_PAD, SpringLayout.NORTH, lblPayment);
-		loForm.putConstraint(SpringLayout.NORTH, cboxCategory, TOP_PAD, SpringLayout.NORTH, cboxPayment);
-				
-		this.add(lblType);
-		this.add(rbtnNeed);
-		this.add(rbtnWant);
-		loForm.putConstraint(SpringLayout.WEST, lblType, COL1_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.NORTH, lblType, TOP_PAD, SpringLayout.NORTH, lblCat);
-		loForm.putConstraint(SpringLayout.WEST, rbtnNeed, COL2_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.WEST, rbtnWant, COL2_PAD/2, SpringLayout.WEST, rbtnNeed);
-		loForm.putConstraint(SpringLayout.NORTH, rbtnNeed, TOP_PAD, SpringLayout.NORTH, cboxCategory);
-		loForm.putConstraint(SpringLayout.NORTH, rbtnWant, TOP_PAD, SpringLayout.NORTH, cboxCategory);
-		
-		lblAmt = this.createLabel("Amount");
-		txtAmt = new JTextField("");
-		txtAmt.setPreferredSize(new Dimension(200, 25));
-		this.add(lblAmt);
-		this.add(txtAmt);
-		loForm.putConstraint(SpringLayout.WEST, lblAmt, COL1_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.WEST, txtAmt, COL2_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.NORTH, lblAmt, TOP_PAD, SpringLayout.NORTH, rbtnNeed);
-		loForm.putConstraint(SpringLayout.NORTH, txtAmt, TOP_PAD, SpringLayout.NORTH, rbtnWant);
-		// This will need a listener to calculate and display the information on the label
-
-		lblDate = this.createLabel("Date");
-		txtDate = new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy"));
-		txtDate.setPreferredSize(new Dimension(200, 25));
-		txtDate.setValue(new Date());
-		txtDate.setBorder(BorderFactory.createLoweredBevelBorder());
-		this.add(lblDate);
-		this.add(txtDate);
-		loForm.putConstraint(SpringLayout.WEST, lblDate, COL1_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.WEST, txtDate, COL2_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.NORTH, lblDate, TOP_PAD, SpringLayout.NORTH, lblAmt);
-		loForm.putConstraint(SpringLayout.NORTH, txtDate, TOP_PAD, SpringLayout.NORTH, txtAmt);
-		// Insert Calendar View? Drop down box here
-
-		lblDesc = this.createLabel("Remarks");
-		txtDesc = new JTextField("");
-		txtDesc.setPreferredSize(new Dimension(200, 25));
-		this.add(lblDesc);
-		this.add(txtDesc);
-		loForm.putConstraint(SpringLayout.WEST, lblDesc, COL1_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.WEST, txtDesc, COL2_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.NORTH, lblDesc, TOP_PAD, SpringLayout.NORTH, lblDate);
-		loForm.putConstraint(SpringLayout.NORTH, txtDesc, TOP_PAD, SpringLayout.NORTH, txtDate);
-	}
-	
-	/**
-	 * Access method to retrieve the user entered name for this record
-	 * @return the string input user entered the name
-	 */
-	public String getName() {return this.txtName.getText().trim();}
-	
-	/**
-	 * Access method to retrieve the user entered amount for this record
-	 * @return the string input user entered for the amount
-	 */
-	public String getAmt() {return this.txtAmt.getText().trim();}
-	
-	/**
-	 * Access method to retrieve the user specified category (name)
-	 * @return
-	 */
-	public Category getCat() {
-		if(this.cboxCategory.getSelectedIndex() < 0) {
-			// User defined new category
-			String userInput = this.cboxCategory.getSelectedItem().toString().trim();
-			return new Category(userInput);
-		}
-		// Else find the selected Category
-		return categories.get(cboxCategory.getSelectedIndex());
-	}
-	
-	/**
-	 * Access method to retrieve the user entered date for this record
-	 * @return the Date object reference for the specified date
-	 */
-	public Date getDate() {
-		return new Date(); // This is today
-		//return this.txtDate.getText();
-	}
-	
-	/**
-	 * Access method to retrieve the user specified payment methods
-	 * @return
-	 */
-	public PaymentMethod getMode() {
-		
-		if(this.cboxPayment.getSelectedIndex() < 0) {
-			// User defined new payment
-			String userInput = this.cboxPayment.getSelectedItem().toString().trim();
-			return new PaymentMethod(userInput);
-		}
-		// Else find the selected Payment Method
-		// NOTE: MAY HAVE TO STORE A THE LIST TO RETRIEVE IN VIA INDEX.
-		return methods.get(cboxPayment.getSelectedIndex());
-	}
-	
-	public String getDesc() {
-		return txtDesc.getText().trim();
-	}
-	
-	/**
-	 * Retrieve the type field for the form
-	 * @return ExpenseType.Need if it is a need, otherwise ExpenseType.Want 
-	 */
-	public ExpenseType getType() {
-		return isNeed() ? ExpenseType.NEED : ExpenseType.WANT ;
-	}
-	
-	/**
-	 * Retrieve if the type field is a need
-	 * @return true if user indicated record as need, otherwise false
-	 */
-	public boolean isNeed() {
-		return this.rbtnNeed.isSelected();
-	}
-	
-	/**
-	 * to validate the fields entered into the system.
-	 * @return true is there is no problem with inputs, else false;
-	 */
-	public boolean validateFields() {
-		if(!validateAmt()) return false; 
-		System.out.println(getName());
-		System.out.println(getAmt());
-		System.out.println(getDate());
-		System.out.println(getDesc());
-		System.out.println(getCat());
-		System.out.println(getMode());
-		System.out.println(getType());
-		return true;
-		// Validation method (mainly for calculation)
-	}
-	
-	/**
-	 * Method to validate the amount field
-	 * @return true if no problems parsing, otherwise false
-	 */
-	private boolean validateAmt() {
-		try {
-			double result = Double.parseDouble(getAmt()); // To be updated to the inbuilt calculator
-			this.setAmt(result);
-			return true;
-		}
-		catch(Exception err) {
-			return false;
-		}
-	}
-	
-	/**
-	 * Method to update the amount field with the given text
-	 * @param amt the amount to update the field
-	 */
-	private void setAmt(double amt) {
-		this.txtAmt.setText(amt + "" ); // May want to decimal format this
-	}
-	
-	/** 
-	 * Save the entered field as a new expense record
-	 * @return Record object containing the user input
-	 */
-	public Record save() {
-		ExpenseRecord eRecord = new ExpenseRecord(
-				Double.parseDouble(this.getAmt()), 					// the amount - double might not suffice
-				this.getName(),										// the name reference of the record
-				this.getDesc(),										// the description/remarks for this record, if any
-				this.getDate(),										// Date of this record (in user's context, not system time)
-				this.getCat(),										// Category of this record
-				this.getType(), 									// The ExpenseType of the record (need/want)
-				this.getMode()										// Payment method/mode of this record
-			);
-		this.recHandler.createRecord(eRecord);
-		return eRecord;
-	}
-}
-
-/** GUI Form for Income records */
-@SuppressWarnings("serial")
-class PanelIncome extends JPanel {
-	
-	// #Constants
-	public final int TOP_PAD = 27;
-	public final int COL1_PAD = 15;
-	public final int COL2_PAD = 200;
-	
-	// #Swing Components
-	private JLabel lblAmt, lblName, lblCat, lblDesc, lblDate;
-	private JTextField 	txtAmt, txtName;
-	private JFormattedTextField txtDate;
-	private JComboBox cboxCat;
-	private JTextField taDesc;
-	
-	// #Logic Components
-	private RecordHandler recHandler; 
-	private CategoryHandler catHandler;
-	
-	// #Data Components
-	private List<Category> categories;
-	
-	/**
-	 * Create a form for income record
-	 * @param recHandlerRef
-	 * @param catHandlerRef
-	 */
-	public PanelIncome(RecordHandler recHandlerRef, CategoryHandler catHandlerRef) {
-		recHandler = recHandlerRef;
-		catHandler = catHandlerRef;
-		
-		categories = catHandler.getAllCategories();
-		this.initFields();
-	}
-	
-	/** Initialize the categories drop down field */
-	private void initCat() {
-		for(Category cat: categories) {
-			this.cboxCat.addItem(cat.getName());
-		}
-	}
-	
-	/** Initiate all Form fields */
-	private void initFields() {
-		/* The Layout governing the positions */
-		SpringLayout loForm = new SpringLayout();
-		this.setLayout(loForm);
-		
-		lblName = this.createLabel("Name");
-		txtName = new JTextField("");
-		txtName.setPreferredSize(new Dimension(200, 25));
-		this.add(lblName);
-		this.add(txtName);
-		loForm.putConstraint(SpringLayout.WEST, lblName, COL1_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.WEST, txtName, COL2_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.NORTH, lblName, TOP_PAD, SpringLayout.NORTH, this);
-		loForm.putConstraint(SpringLayout.NORTH, txtName, TOP_PAD, SpringLayout.NORTH, this);
-		// AutoComplete (for the rest of the fields - when completed?)
-		
-		lblCat = this.createLabel("Category");
-		cboxCat = new JComboBox();
-		cboxCat.setPreferredSize(new Dimension(200, 25));
-		this.initCat();
-		cboxCat.setEditable(true);
-		this.add(lblCat);
-		this.add(cboxCat);
-		loForm.putConstraint(SpringLayout.WEST, lblCat, COL1_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.WEST, cboxCat, COL2_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.NORTH, lblCat, TOP_PAD, SpringLayout.NORTH, lblName);
-		loForm.putConstraint(SpringLayout.NORTH, cboxCat, TOP_PAD, SpringLayout.NORTH, txtName);
-		
-		lblAmt = this.createLabel("Amount");
-		txtAmt = new JTextField("");
-		txtAmt.setPreferredSize(new Dimension(200, 25));
-		this.add(lblAmt);
-		this.add(txtAmt);
-		loForm.putConstraint(SpringLayout.WEST, lblAmt, COL1_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.WEST, txtAmt, COL2_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.NORTH, lblAmt, TOP_PAD, SpringLayout.NORTH, lblCat);
-		loForm.putConstraint(SpringLayout.NORTH, txtAmt, TOP_PAD, SpringLayout.NORTH, cboxCat);
-		// This will need a listener to calculate and display the information on the label
-		
-		lblDate = this.createLabel("Date");
-		txtDate = new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy"));
-		txtDate.setValue(new Date());
-		txtDate.setPreferredSize(new Dimension(200, 25));
-		this.add(lblDate);
-		this.add(txtDate);
-		loForm.putConstraint(SpringLayout.WEST, lblDate, COL1_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.WEST, txtDate, COL2_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.NORTH, lblDate, TOP_PAD, SpringLayout.NORTH, lblAmt);
-		loForm.putConstraint(SpringLayout.NORTH, txtDate, TOP_PAD, SpringLayout.NORTH, txtAmt);
-		// Insert Calendar View? Drop down box here
-		
-		lblDesc = this.createLabel("Remarks");
-		taDesc = new JTextField("");
-		taDesc.setPreferredSize(new Dimension(200, 25));
-		this.add(lblDesc);
-		this.add(taDesc);
-		loForm.putConstraint(SpringLayout.WEST, lblDesc, COL1_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.WEST, taDesc, COL2_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.NORTH, lblDesc, TOP_PAD, SpringLayout.NORTH, lblDate);
-		loForm.putConstraint(SpringLayout.NORTH, taDesc, TOP_PAD, SpringLayout.NORTH, txtDate);
-	}
-	
-	/**
-	 * to validate the fields entered into the system.
-	 * @return true is there is no problem with inputs, else false;
-	 */
-	public boolean validateFields() {
-		if(!validateAmt()) return false;
-		if(!validateName()) return false;
-		if(!validateDate()) return false;
-		return true;
-	}
-	
-	/**
-	 * to validate the amount field, checking type and value (>0)
-	 * @return true if input is valid, else false
-	 */
-	private boolean validateAmt() {
-		// Data type check
-		double result;
-		try {result = Double.parseDouble(getAmt());}
-		catch(Exception err) { return false; }
-		
-		// Value check		
-		return result > 0;
-	}
-	
-	/**
-	 * validates the name field - if there is any input
-	 * @return true if there is input, otherwise false
-	 */
-	private boolean validateName() {
-		return !getName().equals("");
-	}
-	
-	/**
-	 * validates the date field - if the date entered is a valid date (non future date)
-	 * @return true if it is a historical date, otherwise false
-	 */
-	private boolean validateDate() {
-		if(!getDate().before(new Date())) return false; // #Constraint disallow users to add future records
-		return true;
-	}
-	
-	/** Get the user entered Name */
-	public String getName() {return txtName.getText().trim();}
-	
-	/** Get the user entered Amount */
-	public String getAmt() {return txtAmt.getText().trim();}
-	
-	/** Get the user entered Date */
-	public Date getDate() {
-		return new Date();
-	}
-	
-	/**
-	 * Access method to retrieve the user specified category (name)
-	 * @return the chosen Category
-	 */
-	public Category getCat() {
-		
-		if(this.cboxCat.getSelectedIndex() < 0) {
-			// User defined new category
-			String userInput = this.cboxCat.getSelectedItem().toString().trim();
-			return new Category(userInput);
-		}
-		// Else find the selected Category
-		// NOTE: MAY HAVE TO STORE A THE LIST TO RETRIEVE IN VIA INDEX.
-		
-		/*
-			if category is new
-			cat = new category(name)
-			createCategory(cat)
-			Record = new (details, cat);
-		*/
-		return categories.get(cboxCat.getSelectedIndex());
-	}
-	
-	/** Get the user entered remarks */
-	public String getDesc() {return taDesc.getText().trim();}
-	
-	/** 
-	 * Save the entered field as a new record
-	 * @return Record object containing the user input
-	 */
-	public Record save() {
-		System.out.println("Save button invoked! trying to save... ");
-		IncomeRecord iRecord = new IncomeRecord(
-				Double.parseDouble(this.getAmt()), 
-				this.getName(), 
-				this.getDesc(), 
-				this.getDate(), 
-				this.getCat()
-			);
-		
-		System.out.println("Create iRecord: " + this.recHandler.createRecord(iRecord));
-		return iRecord;
-	}
-	
-	/** 
-	 * Creates a label with the system font.
-	 * @param lblTxt the text to apply to the JLabel
-	 * @return the JLabel object generated
-	 */
-	private JLabel createLabel(String lblTxt) {
-		JLabel lbl = new JLabel(lblTxt);
-		lbl.setFont(new Font("Segoe UI", 0, 18)); // #Font
-		return lbl;
-	}
 }
 
 /** Panel containing the options available to this frame */
@@ -908,7 +379,7 @@ class PanelOption extends JPanel {
 			public void mouseReleased(MouseEvent mEvent) {
 				JButton btn = (JButton) mEvent.getSource();
 				btn.setBorder(BorderFactory.createEmptyBorder());
-				btn.setEnabled(false);
+				// btn.setEnabled(false);
 			}			
 		});
 		

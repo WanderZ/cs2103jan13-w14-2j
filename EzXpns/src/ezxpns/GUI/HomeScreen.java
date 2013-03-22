@@ -2,6 +2,8 @@ package ezxpns.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+
+import javax.swing.AbstractAction;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
@@ -11,7 +13,7 @@ import ezxpns.data.SummaryGenerator;
 import ezxpns.data.records.RecordHandler;
 
 @SuppressWarnings("serial")
-public class HomeScreen extends JFrame {
+public class HomeScreen extends JFrame implements UpdateNotifyee {
 	
 	public final int DEFAULT_HEIGHT = 860;
 	public final int DEFAULT_WEIGHT = 680;
@@ -126,6 +128,12 @@ public class HomeScreen extends JFrame {
 		panOverview.validate();
 		
 		this.validate();
+	}
+
+	@Override
+	public void addUndoAction(AbstractAction action) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 

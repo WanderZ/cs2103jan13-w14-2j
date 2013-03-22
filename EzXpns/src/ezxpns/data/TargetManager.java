@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.*;
 
 import ezxpns.data.records.Category;
-import ezxpns.data.records.ExpenseRecord;
+
 
 /**
  * @author Suzzie
@@ -68,9 +68,6 @@ public class TargetManager extends Storable {
 	 * @return a Target that is newly created
 	 */
 	public Target setTarget(Category cat, double targetAmt){
-		if(mapTarget.containsKey(cat.getID())){
-			return null;
-		}
 		Target target = new Target(cat, targetAmt);
 		addTarget(target);
 		dataUpdated = true;
@@ -103,18 +100,6 @@ public class TargetManager extends Storable {
 	 */
 	public void removeTarget(Target target){
 		mapTarget.remove(target.getCategory().getID());
-		dataUpdated = true;
-		markUpdate();
-	}
-	
-	/**
-	 * Removes oldTarget and create a new one using setTarget(Category param1, double param2)
-	 * @param oldTarget
-	 * @param targetAmt
-	 */
-	public void modifyTarget(Target oldTarget, double targetAmt){
-		removeTarget(oldTarget);
-		setTarget(oldTarget.getCategory(), targetAmt);	
 		dataUpdated = true;
 		markUpdate();
 	}
