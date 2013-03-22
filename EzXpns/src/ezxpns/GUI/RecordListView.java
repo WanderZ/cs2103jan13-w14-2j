@@ -22,7 +22,9 @@ import ezxpns.data.records.*;
  * @author yyjhao
  *
  */
+@SuppressWarnings("serial")
 public class RecordListView extends JTable {
+	
 	public static interface RecordEditor{
 		void edit(Record r);
 	}
@@ -73,7 +75,9 @@ public class RecordListView extends JTable {
 		}
 	}
 	
-	private RecordListView(){}
+	private RecordListView() {
+		super();
+	}
 	
 	private RecordEditor editor;
 	private RecordHandler rhandler;
@@ -84,7 +88,7 @@ public class RecordListView extends JTable {
 	private int rowSelected;
 	
 	public RecordListView(RecordEditor ed, RecordHandler rh){
-		super();
+		this();	
 		editor = ed;
 		rhandler = rh;
 		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -152,7 +156,12 @@ public class RecordListView extends JTable {
 		this.records = records;
 		model.fireTableDataChanged();
 	}
-	
+
+	/**
+	 * Callback method for edit
+	 * <br />Null return means that the user has cancelled the edit
+	 * @param row
+	 */
 	public void itemEdited(Record newItem){
 		records.set(rowSelected, newItem);
 		model.fireTableRowsUpdated(rowSelected, rowSelected);

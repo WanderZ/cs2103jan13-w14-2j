@@ -1,5 +1,7 @@
 package ezxpns.GUI;
 import ezxpns.data.records.CategoryHandler;
+import ezxpns.data.records.ExpenseRecord;
+import ezxpns.data.records.IncomeRecord;
 import ezxpns.data.records.PayMethodHandler;
 import ezxpns.data.records.Record;
 import ezxpns.data.records.RecordHandler;
@@ -9,7 +11,6 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -21,6 +22,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -29,7 +31,7 @@ import javax.swing.JTextField;
  * This is a JFrame object (Window) that allows users to enter a new record (Expense/Income) into the EzXpns
  */
 @SuppressWarnings("serial")
-public class RecordFrame extends JFrame implements ActionListener, RecordListView.RecordEditor {
+public class RecordFrame extends JDialog implements ActionListener, RecordListView.RecordEditor {
 	
 	public static final int DEFAULT_WIDTH = 600;
 	public static final int DEFAULT_HEIGHT = 400; 
@@ -47,23 +49,19 @@ public class RecordFrame extends JFrame implements ActionListener, RecordListVie
 	/** 
 	 * Normal constructor for RecordFrame - Starts the window with the expenses view
 	 * @param handlerRef Reference to the handler that will handle all the data management  
-	 * @wbp.parser.constructor
 	 */
 	public RecordFrame(
 			RecordHandler recHandlerRef, 
 			CategoryHandler incomeHandlerRef, 
 			CategoryHandler expenseHandlerRef,
-			PayMethodHandler payHandlerRef
-			) {
-		
-		super();
+			PayMethodHandler payHandlerRef) {
 		
 		recHandler = recHandlerRef;
 		incomeHandler = incomeHandlerRef;
 		expenseHandler = expenseHandlerRef;
 		payHandler = payHandlerRef;
 		
-		this.init();
+		this.initFrame();
 	}
 	
 	/**
@@ -79,6 +77,10 @@ public class RecordFrame extends JFrame implements ActionListener, RecordListVie
 			int initTab) {
 		
 		this(recHandlerRef, incomeHandlerRef, expenseHandlerRef, payHandlerRef);
+		this.initComponent();
+		
+		panMain.toggleIncomeTab(); // Fix
+		panMain.toggleExpenseTab(); // Default
 		
 		/* This part may need refactoring to enums */
 		switch(initTab) {
@@ -91,30 +93,72 @@ public class RecordFrame extends JFrame implements ActionListener, RecordListVie
 		}
 	}
 	
+	public RecordFrame(
+			RecordHandler recHandlerRef,
+			CategoryHandler expenseHandlerRef,
+			PayMethodHandler payHandlerRef,
+			ExpenseRecord record) {
+		this(recHandlerRef, null, expenseHandlerRef, payHandlerRef);
+		this.initComponent(record);
+	}
+	
+	public RecordFrame(
+			RecordHandler recHandlerRef, 
+			CategoryHandler incomeHandlerRef,
+			IncomeRecord record) {
+		this(recHandlerRef, incomeHandlerRef, incomeHandlerRef, null);
+		this.initComponent(record);
+	}
+	
 	/**
-	 * Initialize this frame with its components and properties
+	 * Initialize this frame with its properties
 	 */
-	private void init() {
+	private void initFrame() {
 		this.setTitle("EzXpns - New Record");
-		getContentPane().setLayout(new BorderLayout());
+		getContentPane().setLayout(new BorderLayout(5, 5));
 		this.setBounds(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		
+	}
+	
+	/**
+	 * Initialize this frame with its components
+	 */
+	private void initComponent() {
 		panMain = new PanelMain(recHandler, incomeHandler, expenseHandler, payHandler);
 		getContentPane().add(panMain, BorderLayout.CENTER);
 		
 		panOpt = new PanelOption(this);
 		getContentPane().add(panOpt, BorderLayout.SOUTH);
+	}
+	
+	/**
+	 * Initialize this frame with its components with the given ExpenseRecord
+	 * @param record ExpenseRecord to be modified
+	 */
+	private void initComponent(ExpenseRecord record) {
+		panMain = new PanelMain(recHandler, incomeHandler, expenseHandler, payHandler, record);
+		getContentPane().add(panMain, BorderLayout.CENTER);
 		
-		panMain.toggleIncomeTab(); // Fix
-		panMain.toggleExpenseTab(); // Default
+		panOpt = new PanelOption(this);
+		getContentPane().add(panOpt, BorderLayout.SOUTH);
+	}
+	
+	/**
+	 * Initialize this frame with its components with the given IncomeRecord
+	 * @param record IncomeRecord to be modified
+	 */
+	private void initComponent(IncomeRecord record) {
+		panMain = new PanelMain(recHandler, incomeHandler, expenseHandler, payHandler, record);
+		getContentPane().add(panMain, BorderLayout.CENTER);
+		
+		panOpt = new PanelOption(this);
+		getContentPane().add(panOpt, BorderLayout.SOUTH);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
 		if(this.panOpt.getSaveBtn() == e.getSource()) { // Save button has been invoked.
 			System.out.println("Saved invoked!");
 			if(panMain.validateForm()) { // Invoke validation
@@ -150,10 +194,15 @@ class PanelMain extends JPanel {
 	
 	private ExpenseForm panExpense;
 	private IncomeForm panIncome;
-	private PanelRecur panRecurOpt;
+	// private PanelRecur panRecurOpt;
 	private CardLayout loCard;
 	private JPanel metroTabs, metroTabBtns, metroTabContent;
 	private JButton mtabExpense, mtabIncome;
+	
+	/** 
+	 * true for ExpenseRecord, otherwise false for IncomeRecord
+	 */
+	private boolean isExpense;
 		
 	/**
 	 * Constructor for the main content panel for new record
@@ -166,11 +215,61 @@ class PanelMain extends JPanel {
 			RecordHandler recHandlerRef,
 			CategoryHandler incomeHandlerRef,
 			CategoryHandler expenseHandlerRef,
-			PayMethodHandler payHandlerRef
-			) {
-		super();
+			PayMethodHandler payHandlerRef) {
 		this.setLayout(new BorderLayout());
+		this.isExpense = true;
 		
+		panExpense = new ExpenseForm(recHandlerRef, expenseHandlerRef, payHandlerRef);
+		panIncome = new IncomeForm(recHandlerRef, incomeHandlerRef);
+		this.initTabs();
+		
+		
+		// Create Recurring options panel
+		// panRecurOpt = new PanelRecur();
+		// this.add(panRecurOpt, BorderLayout.SOUTH);
+	}
+	
+	/**
+	 * Constructor for the main content panel for editing of an existing ExpenseRecord
+	 * @param recHandlerRef
+	 * @param incomeHandlerRef
+	 * @param expenseHandlerRef
+	 * @param payHandlerRef
+	 * @param record ExpenseRecord to be edited
+	 */
+	public PanelMain(
+			RecordHandler recHandlerRef, 
+			CategoryHandler incomeHandlerRef, 
+			CategoryHandler expenseHandlerRef, 
+			PayMethodHandler payHandlerRef,
+			ExpenseRecord record) {
+		this.setLayout(new BorderLayout());
+		this.isExpense = true;
+		panExpense = new ExpenseForm(recHandlerRef, expenseHandlerRef, payHandlerRef, record);
+		this.add(panExpense, BorderLayout.CENTER);
+	}
+	
+	/**
+	 * Constructor for the main content panel for editing of an existing IncomeRecord
+	 * @param recHandlerRef
+	 * @param incomeHandlerRef
+	 * @param expenseHandlerRef
+	 * @param payHandlerRef
+	 * @param record IncomeRecord to be edited
+	 */
+	public PanelMain(
+			RecordHandler recHandlerRef, 
+			CategoryHandler incomeHandlerRef, 
+			CategoryHandler expenseHandlerRef, 
+			PayMethodHandler payHandlerRef,
+			IncomeRecord record) {
+		this.setLayout(new BorderLayout());
+		this.isExpense = false;
+		panIncome = new IncomeForm(recHandlerRef, incomeHandlerRef, record);
+		this.add(panIncome, BorderLayout.CENTER);
+	}
+	
+	private void initTabs() {
 		metroTabs = new JPanel(); // the main panel for keeping everything together
 		metroTabs.setLayout(new BorderLayout());
 		
@@ -184,9 +283,6 @@ class PanelMain extends JPanel {
 		
 		metroTabs.add(metroTabBtns, BorderLayout.NORTH);
 		
-		panExpense = new ExpenseForm(recHandlerRef, expenseHandlerRef, payHandlerRef);
-		panIncome = new IncomeForm(recHandlerRef, incomeHandlerRef);
-
 		metroTabContent = new JPanel();
 		
 		loCard = new CardLayout(15, 15);
@@ -200,10 +296,6 @@ class PanelMain extends JPanel {
 		
 		// this.tabs.setMnemonicAt(); // setting keyboard shortcut
 		this.add(metroTabs, BorderLayout.CENTER);
-		
-		// Create Recurring options panel
-		// panRecurOpt = new PanelRecur();
-		// this.add(panRecurOpt, BorderLayout.SOUTH);
 	}
 	
 	/**
@@ -286,37 +378,25 @@ class PanelMain extends JPanel {
 	 * @return the new Record object containing the user inputs.
 	 */
 	public Record save() {
-		System.out.println(isExpense());
-		System.out.println(isIncome());
-		return isExpense() ? panExpense.save() : panIncome.save();
+		return isExpense ? panExpense.save() : panIncome.save();
 	}
 	
 	/**
 	 * To check if the current tab is the Expense Tab
 	 * @return true if it is, otherwise false
 	 */
-	public boolean isExpense() {
-		System.out.println("isExpense:" + panExpense.isVisible());
-		return panExpense.isVisible();
-	}
+	public boolean isExpense() {return isExpense;}
 	
-	/**
-	 * To check if the current tab is the Expense Tab
-	 * @return true if it is, otherwise false
-	 */
-	public boolean isIncome() {
-		System.out.println("isIncome:" + panIncome.isVisible());
-		return panIncome.isVisible();
-	}
 
 	/**
 	 * Method to toggle to the tab for a new income record
 	 */
 	public void toggleIncomeTab() {
-		if(isExpense()) {
+		if(isExpense) {
 			loCard.show(metroTabContent, CARD_INCOME);
 			// Indicate some difference to let user know that this tab is selected
 			changeFocus(this.mtabIncome, this.mtabExpense);
+			isExpense = false;
 			return;
 		}
 	}
@@ -325,10 +405,11 @@ class PanelMain extends JPanel {
 	 * Method to toggle to the tab for a new expense record
 	 */
 	public void toggleExpenseTab() {
-		if(isIncome()) {
+		if(!isExpense) {
 			loCard.show(metroTabContent, CARD_EXPENSE);
 			// Indicate some difference to let user know that this tab is selected
 			changeFocus(this.mtabExpense, this.mtabIncome);
+			isExpense = true;
 			return;
 		}
 	}
@@ -349,10 +430,6 @@ class PanelMain extends JPanel {
 		rmFocus.setEnabled(true);
 		rmFocus.setBorder(BorderFactory.createRaisedBevelBorder());
 	}
-	
-	// Access and Mutate methods (for internal internal components)
-	// Auto-complete - requires action listener
-	// Auto-calculate - requires action listener
 }
 
 /** Panel containing the options available to this frame */

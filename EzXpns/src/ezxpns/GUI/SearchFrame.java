@@ -65,7 +65,7 @@ public class SearchFrame extends JFrame implements ActionListener {
 		list = li;
 		list.setPreferredScrollableViewportSize(new Dimension(100, 200));
 		this.panResult = new JScrollPane(list);
-		this.add(this.panResult, BorderLayout.SOUTH);
+		this.add(this.panResult, BorderLayout.CENTER);
 	}
 	
 	/** to initialize the components of this frame */
