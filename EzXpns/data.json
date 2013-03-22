@@ -37,7 +37,7 @@
       },
       "1363504544188": {
         "id": 1363504544188,
-        "name": "Snacks"
+        "name": "Snackssss"
       },
       "1363314106821": {
         "id": 1363314106821,
@@ -61,30 +61,6 @@
           "remark": "111",
           "date": "Mar 22, 2013 2:19:34 PM",
           "id": 1363933184636
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1363314106821,
-            "name": "6uexg5bx1h1c"
-          },
-          "amount": 2.45234523E8,
-          "name": "asfasdfaf",
-          "remark": "111",
-          "date": "Mar 22, 2013 2:19:34 PM",
-          "id": 1363933204097
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
-          "amount": 111.0,
-          "name": "e",
-          "remark": "111",
-          "date": "Mar 20, 2013 11:44:53 PM",
-          "id": 1363794293142
         },
         {
           "expenseType": "NEED",
@@ -207,13 +183,13 @@
         "id": 1362122547530,
         "name": "Salary"
       },
-      "1363314106821": {
-        "id": 1363314106821,
-        "name": "Scholarship"
-      },
       "1364935492692": {
         "id": 1364935492692,
         "name": "Bursary"
+      },
+      "1363314106821": {
+        "id": 1363314106821,
+        "name": "Scholarship"
       }
     },
     "recordsByCategory": {
@@ -256,22 +232,6 @@
           "id": 1363715773749
         }
       ],
-      "1364935492692": [
-        {
-          "amount": 183.08,
-          "name": "33iyf5s64rnk",
-          "remark": "nil",
-          "date": "Mar 2, 2013 5:16:57 AM",
-          "id": 1363314106822
-        },
-        {
-          "amount": 821.07,
-          "name": "5cccdpl4aha8",
-          "remark": "nil",
-          "date": "Dec 30, 2011 1:21:32 PM",
-          "id": 1363314106823
-        }
-      ],
       "1363314106821": [
         {
           "amount": 950.53,
@@ -301,6 +261,22 @@
           "date": "May 2, 2011 3:56:53 PM",
           "id": 1365133895255
         }
+      ],
+      "1364935492692": [
+        {
+          "amount": 183.08,
+          "name": "33iyf5s64rnk",
+          "remark": "nil",
+          "date": "Mar 2, 2013 5:16:57 AM",
+          "id": 1363314106822
+        },
+        {
+          "amount": 821.07,
+          "name": "5cccdpl4aha8",
+          "remark": "nil",
+          "date": "Dec 30, 2011 1:21:32 PM",
+          "id": 1363314106823
+        }
       ]
     }
   },
@@ -316,7 +292,7 @@
       "1363504544188": {
         "cat": {
           "id": 1363504544188,
-          "name": "Snacks"
+          "name": "Snackssss"
         },
         "targetAmt": 100000.0
       },
