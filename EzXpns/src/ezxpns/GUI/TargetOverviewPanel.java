@@ -236,6 +236,8 @@ public class TargetOverviewPanel extends JPanel {
 	}
 	public void update() {
 		//TODO: update the stuff and such in this panel
+		this.updateAlerts();
+		this.updateTargets();
 		this.validate();
 	}
 	
