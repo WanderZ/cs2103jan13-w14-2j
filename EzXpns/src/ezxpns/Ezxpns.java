@@ -302,4 +302,14 @@ public class Ezxpns implements
 	public Category updateCategory(long identifier, Category selectedCat) {
 		return data.expenses().updateCategory(identifier, selectedCat);
 	}
+
+	@Override
+	public boolean containsCategoryName(String name) {
+		return data.expenses().containsCategoryName(name);
+	}
+
+	@Override
+	public String validateCategoryName(String name) {
+		return data.expenses().validateCategoryName(name);
+	}
 }
