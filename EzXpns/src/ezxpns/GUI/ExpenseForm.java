@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -187,7 +188,7 @@ public class ExpenseForm extends JPanel {
 			public void focusLost(FocusEvent arg0) {
 				// TODO To update all the other fields.
 				ExpenseRecord oldRecord = recHandler.lastExpenseRecord(txtName.getText()); // TODO: Validation
-				if(record==null) {
+				if(record==null & oldRecord!=null) {
 					record = oldRecord;
 					populateFields();
 				}
@@ -398,9 +399,8 @@ public class ExpenseForm extends JPanel {
 		double result;
 		try {
 			result = Double.parseDouble(getAmt()); // To be updated to the inbuilt calculator
-			
 			this.setAmt(result);
-			return result >= 0.01;
+			return result >= 0.01; // Minimum value
 		}
 		catch(Exception err) {
 			return false;
@@ -428,7 +428,7 @@ public class ExpenseForm extends JPanel {
 	 * @param amt the amount to update the field
 	 */
 	private void setAmt(double amt) {
-		this.txtAmt.setText(amt + "" ); // May want to decimal format this
+		this.txtAmt.setText(new DecimalFormat("###.00").format(amt)); // May want to decimal format this
 	}
 	
 	/** 

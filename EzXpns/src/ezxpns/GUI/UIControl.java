@@ -24,6 +24,7 @@ public class UIControl {
 	private SearchFrame searchWin;	
 	private ReportFrame reportWin;
 	private CategoryFrame catWin;
+	private PaymentMethodFrame payWin;
 	
 	// Logical Components
 	private SearchHandler findHandler;
@@ -156,7 +157,9 @@ public class UIControl {
 		searchWin.setVisible(true);
 	}
 	
-	/** Displays the report handler window */
+	/** 
+	 * Displays the Report handler Window 
+	 */
 	public void showReportWin() {
 		if(reportWin == null) {
 			reportWin = new ReportFrame(rptGen);
@@ -171,18 +174,33 @@ public class UIControl {
 		reportWin.setVisible(true);
 	}
 	
-	/** Displays the category handler window */
-	public void showCatWin() { 
-		if(catWin == null) {
-			catWin = new CategoryFrame(exCatHandler, inCatHandler, targetMgr, homeScreen);
-			catWin.addWindowListener(new WindowAdapter() {
-				@Override
-				public void windowClosing(WindowEvent wEvent) {
-					homeScreen.updateAll();
-					catWin.dispose();
-				}
-			});
-		}
+	/**
+	 * Displays the Category Manager window
+	 */
+	public void showCatWin() {
+		catWin = new CategoryFrame(exCatHandler, inCatHandler, targetMgr, homeScreen);
+		catWin.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent wEvent) {
+				homeScreen.updateAll();
+				catWin.dispose();
+			}
+		});
 		catWin.setVisible(true); 
+	}
+	
+	/**
+	 * Displays the Payment Method Manager Window
+	 */
+	public void showPayWin() {
+		payWin = new PaymentMethodFrame(payHandler);
+		payWin.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent wEvent) {
+				homeScreen.updateAll();
+				payWin.dispose();
+			}
+		});
+		payWin.setVisible(true);
 	}
 }

@@ -1,11 +1,16 @@
 package ezxpns.GUI;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
@@ -76,7 +81,7 @@ public class IncomeForm extends JPanel {
 		txtName.setText(record.getName());
 		
 		// Amount
-		txtAmt.setText(record.getAmount() + "");
+		this.setAmt(record.getAmount());
 		
 		// Category
 		cboxCat.setSelectedIndex(categories.indexOf(record.getCategory()));
@@ -107,6 +112,24 @@ public class IncomeForm extends JPanel {
 		lblName = this.createLabel("Name");
 		txtName = new JTextField("");
 		txtName.setPreferredSize(new Dimension(200, 25));
+		txtName.addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				txtName.selectAll(); 
+			}
+
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				// TODO Auto-generated method stub
+				IncomeRecord oldRecord = recHandler.lastIncomeRecord(txtName.getText()); // TODO: Validation
+				if(record==null & oldRecord!=null) {
+					record = oldRecord;
+					populateFields();
+				}
+			}
+			
+		});
 		this.add(lblName);
 		this.add(txtName);
 		loForm.putConstraint(SpringLayout.WEST, lblName, COL1_PAD, SpringLayout.WEST, this);
@@ -169,17 +192,20 @@ public class IncomeForm extends JPanel {
 		boolean validateSuccess = true;
 		if(!validateAmt()) {
 			System.out.println("failed amt");
+			this.markErr(txtAmt);
 			validateSuccess = false;
 		}
 		if(!validateName()) {
 			System.out.println("failed name");
+			this.markErr(txtName);
 			validateSuccess = false;
 		}
 		if(!validateDate()) {
+			this.markErr(txtDate);
 			System.out.println("failed date");
 			validateSuccess = false;
 		}
-		return true;
+		return validateSuccess;
 	}
 	
 	/**
@@ -193,7 +219,7 @@ public class IncomeForm extends JPanel {
 		catch(Exception err) { return false; }
 		
 		// Value check		
-		return result >= 0.01;
+		return result >= 0.01; // Minimum value
 	}
 	
 	/**
@@ -251,6 +277,22 @@ public class IncomeForm extends JPanel {
 	 * @return String description or remarks entered by the user
 	 */
 	public String getDesc() {return txtDesc.getText().trim();}
+	
+	/**
+	 * Method to update the amount field with the given text
+	 * @param amt the amount to update the field
+	 */
+	private void setAmt(double amt) {
+		this.txtAmt.setText(new DecimalFormat("###.00").format(amt)); // May want to decimal format this
+	}
+	
+	/**
+	 * Method to mark fields with a red border to indicate to user that it has error
+	 * @param txtField JTextField to be marked for error
+	 */
+	private void markErr(JTextField txtField) {
+		txtField.setBorder(BorderFactory.createLineBorder(Color.RED));
+	}
 	
 	/** 
 	 * Save the entered field as a new record

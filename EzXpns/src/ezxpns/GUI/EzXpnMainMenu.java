@@ -32,7 +32,7 @@ public class EzXpnMainMenu extends JMenuBar {
 @SuppressWarnings("serial")
 class MenuRecord extends JMenu {
 	
-	private JMenuItem itmExpense, itmIncome, itmCatMgr, itmSearch;
+	private JMenuItem itmExpense, itmIncome, itmCatMgr, itmPayMgr, itmSearch;
 	private UIControl guiCtrl;
 	
 	public MenuRecord(String name, UIControl guiCtrlRef) {
@@ -48,10 +48,12 @@ class MenuRecord extends JMenu {
 		
 		this.add(new JSeparator());
 		
-		itmCatMgr = new JMenuItem("Category Manager");
+		itmCatMgr = new JMenuItem("Manage Category");
+		itmPayMgr = new JMenuItem("Manage Payment");
 		itmSearch = new JMenuItem("Search");
 		
 		this.add(itmCatMgr);
+		this.add(itmPayMgr);
 		this.add(itmSearch);
 		
 		itmExpense.addActionListener(new ActionListener() {
@@ -73,6 +75,13 @@ class MenuRecord extends JMenu {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				guiCtrl.showCatWin();
+			}
+		});
+		
+		itmPayMgr.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				guiCtrl.showPayWin();
 			}
 		});
 		
