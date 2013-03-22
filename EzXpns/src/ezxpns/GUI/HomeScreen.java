@@ -63,9 +63,7 @@ public class HomeScreen extends JFrame implements UpdateNotifyee {
 		contentDivider.add(getTargetsPanel());
 		contentDivider.add(getRecordsPanel());
 		
-		this.add(contentDivider, BorderLayout.NORTH);
-		this.add(getTipsPanel(), BorderLayout.SOUTH);
-		
+		this.add(contentDivider, BorderLayout.CENTER);		
 	}
 	
 	private JMenuBar getMenu() {
@@ -107,13 +105,6 @@ public class HomeScreen extends JFrame implements UpdateNotifyee {
 		return panRecords;
 	}
 	
-	private JPanel getTipsPanel() {
-		if(panTips == null) {
-			panTips = new PanelTip();
-		}
-		return panTips;
-	}
-	
 	/**
 	 * Updates all the Panels in this Window
 	 */
@@ -134,26 +125,5 @@ public class HomeScreen extends JFrame implements UpdateNotifyee {
 	public void addUndoAction(AbstractAction action) {
 		// TODO Auto-generated method stub
 		
-	}
-}
-
-/** 
- * This panel contains the educational tips displays at the bottom of the screen 
- * <br />[To Be Moved to a file on its on in the next iteration]
- */
-@SuppressWarnings("serial")
-class PanelTip extends JPanel {
-	
-	public PanelTip() {
-		super();
-		this.setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.Y_AXIS));
-		addLabel("Quote of the day: 'Be the change you wish to see in this world'",this);
-		this.setOpaque(false); // Transparent background
-	}
-	
-	private void addLabel(String txt, java.awt.Container container) {
-		javax.swing.JLabel lbl = new javax.swing.JLabel(txt);
-		lbl.setAlignmentY(CENTER_ALIGNMENT);
-		container.add(lbl);
 	}
 }

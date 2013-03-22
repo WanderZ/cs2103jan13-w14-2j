@@ -1,10 +1,7 @@
 package ezxpns.GUI;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -116,7 +113,7 @@ public class SearchFrame extends JFrame implements ActionListener {
 	 */
 	private void search(SearchRequest request) {
 		List<Record> results = handler.search(request);
-		System.out.println("results found: " + results.size()); // for debugging
+// 		System.out.println("results found: " + results.size()); // for debugging
 //		this.validate(); // Force repaint doesn't seem to work here
 		list.show(results);
 	}

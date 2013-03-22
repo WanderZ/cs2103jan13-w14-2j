@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
 import java.awt.font.TextAttribute;
 import java.util.Map;
 
@@ -166,7 +167,8 @@ public class RecordFrame extends JDialog implements ActionListener, RecordListVi
 				panMain.save();
 				// all is good. save as new Record.
 				// Check if it is a recurring record
-				// do the necessary to ensure that EzXpns knows it. 
+				// do the necessary to ensure that EzXpns knows it.
+				this.closeWin();
 				this.dispose();
 				return;
 			}
@@ -174,6 +176,7 @@ public class RecordFrame extends JDialog implements ActionListener, RecordListVi
 		}
 		if(this.panOpt.getCancelBtn() == e.getSource()) {
 			this.dispose();
+			this.closeWin();
 		}
 	}
 
@@ -181,6 +184,12 @@ public class RecordFrame extends JDialog implements ActionListener, RecordListVi
 	public void edit(Record r) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void closeWin() {
+        WindowEvent wev = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
+        this.dispatchEvent(wev);
+        // java.awt.Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(wev);
 	}
 }
 

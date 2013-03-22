@@ -24,6 +24,7 @@ import javax.swing.event.ListSelectionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+@SuppressWarnings("serial")
 public class PaymentMethodFrame extends JFrame {
 	private JTextField textField;
 	private JButton btnChange, btnRemove;
