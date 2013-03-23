@@ -2,6 +2,8 @@ package ezxpns.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+
+import javax.swing.AbstractAction;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
@@ -126,6 +128,12 @@ public class HomeScreen extends JFrame implements UpdateNotifyee {
 		panOverview.validate();
 		
 		this.validate();
+	}
+
+	@Override
+	public void addUndoAction(AbstractAction action) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 

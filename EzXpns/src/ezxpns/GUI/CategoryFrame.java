@@ -340,13 +340,6 @@ public class CategoryFrame extends JFrame {
 			removeInBtn.setEnabled(false);
 		}
 	}
-	/**
-	 * @param name
-	 * @return whether the name can be used as a category name
-	 */
-	private boolean validateName(String name){
-		return !name.contains(" ") && name.length() > 2 && name.length() < 20;
-	}
 	
 	/**
 	 * @param targetString
@@ -366,7 +359,8 @@ public class CategoryFrame extends JFrame {
 	 * modify the expense category and target editing
 	 */
 	private void modifyEx(){
-		if(validateName(exnameField.getText())){
+		String err = excats.validateCategoryName(exnameField.getText());
+		if(err == null){
 			if(curCat == addNew){
 				Category cat = excats.addNewCategory(new Category(exnameField.getText()));
 				if(validateTarget(targetAmountField.getText())){
@@ -384,7 +378,7 @@ public class CategoryFrame extends JFrame {
 			}
 			notifyee.updateAll();
 		}else{
-			JOptionPane.showMessageDialog(this, "Invalid name!!!!!!", "Error!!!!!", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, err, "Error!!!!!", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
@@ -392,7 +386,8 @@ public class CategoryFrame extends JFrame {
 	 * modify the income category editing
 	 */
 	private void modifyIn(){
-		if(validateName(inNameField.getText())){
+		String err = incats.validateCategoryName(inNameField.getText());
+		if(err == null){
 			if(curCat == addNew){
 				Category cat = incats.addNewCategory(new Category(inNameField.getText()));
 				inmo.update();
@@ -404,7 +399,7 @@ public class CategoryFrame extends JFrame {
 			}
 			notifyee.updateAll();
 		}else{
-			JOptionPane.showMessageDialog(this, "Invalid name!!!!!!", "Error!!!!!", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, err, "Error!!!!!", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
