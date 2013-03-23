@@ -14,6 +14,7 @@ import ezxpns.data.records.RecordManager.RecordUpdateException;
 import ezxpns.data.records.SearchRequest.RecordType;
 import ezxpns.util.Pair;
 import ezxpns.GUI.*;
+import ezxpns.GUI.Calculator.EvaluationException;
 
 import java.awt.EventQueue;
 import java.util.*;
@@ -300,5 +301,15 @@ public class Ezxpns implements
 	@Override
 	public Category updateCategory(long identifier, Category selectedCat) {
 		return data.expenses().updateCategory(identifier, selectedCat);
+	}
+
+	@Override
+	public boolean containsCategoryName(String name) {
+		return data.expenses().containsCategoryName(name);
+	}
+
+	@Override
+	public String validateCategoryName(String name) {
+		return data.expenses().validateCategoryName(name);
 	}
 }

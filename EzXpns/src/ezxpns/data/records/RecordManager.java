@@ -305,12 +305,16 @@ public class RecordManager<T extends Record>
 		if(categories.get(id) == null){
 			throw new CategoryUpdateException("The category with the id does not exist!");
 		}
+		String err = validateCategoryName(newName);
+		if(err != null)throw new CategoryUpdateException(newName);
 		categories.get(id).setName(newName);
 		markUpdate();
 	}
 	
 	@Override
 	public Category addNewCategory(Category toAdd){
+		String err = validateCategoryName(toAdd.name);
+		if(err != null)return null;
 		Category category = toAdd.copy();
 		while(categories.containsKey(category.getID())){
 			category.id = (new Date()).getTime() + ran.nextInt();
@@ -453,5 +457,20 @@ public class RecordManager<T extends Record>
 			rs.addAll(getRecordsBy(c, -1));
 		}
 		return rs;
+	}
+	@Override
+	public boolean containsCategoryName(String name) {
+		for(Category cat : categories.values()){
+			if(cat.name.equals(name))return true;
+		}
+		return false;
+	}
+	@Override
+	public String validateCategoryName(String name) {
+		if(name.length() < 2)return "Category name is too short";
+		if(name.length() > 20)return "Category name is too long";
+		if(name.contains(" "))return "Category name should not contain spaces";
+		if(containsCategoryName(name))return "Category name is used.";
+		return null;
 	}
 }
