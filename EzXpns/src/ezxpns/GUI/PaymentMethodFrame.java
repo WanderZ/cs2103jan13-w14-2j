@@ -147,7 +147,8 @@ public class PaymentMethodFrame extends JFrame {
 	}
 	
 	private boolean validateName(String name){
-		return !name.contains(" ") && name.length() > 2;
+		return !name.contains(" ") && name.length() > 2 && name.length() < 20;
+//				!pay
 	}
 
 }

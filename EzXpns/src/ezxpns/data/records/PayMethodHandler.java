@@ -31,4 +31,9 @@ public interface PayMethodHandler {
 	 * @return true if successful, else false
 	 */
 	public PaymentMethod updatePaymentMethod(long id, PaymentMethod paymentRef);
+	
+	/**
+	 * Whether the payment method name is in used
+	 */
+	public boolean containsPaymentMethodName(String name);
 }

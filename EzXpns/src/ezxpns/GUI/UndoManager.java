@@ -25,6 +25,7 @@ public class UndoManager {
 				performUndo();
 			}
 		};
+		action.putValue(Action.NAME, "Undo");
 		action.setEnabled(false);
 	}
 	
@@ -49,6 +50,7 @@ public class UndoManager {
 		(stack.pop()).actionPerformed(null);
 		if(stack.empty()){
 			action.setEnabled(false);
+			action.putValue(Action.NAME, "Undo");
 		}
 	}
 }
