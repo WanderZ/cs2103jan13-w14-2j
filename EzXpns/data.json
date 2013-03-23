@@ -37,7 +37,11 @@
       },
       "1363504544188": {
         "id": 1363504544188,
-        "name": "Snacks"
+        "name": "Shit"
+      },
+      "1363942776603": {
+        "id": 1363942776603,
+        "name": "FreeFood"
       },
       "1363314106821": {
         "id": 1363314106821,
@@ -53,6 +57,18 @@
         {
           "expenseType": "NEED",
           "paymentMethod": {
+            "id": 1361694372893,
+            "name": "2s1rqfh8rtog"
+          },
+          "amount": 111.0,
+          "name": "3e",
+          "remark": "111",
+          "date": "Mar 22, 2013 4:43:46 PM",
+          "id": 1363941833220
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
             "id": 1363314106821,
             "name": "6uexg5bx1h1c"
           },
@@ -61,30 +77,6 @@
           "remark": "111",
           "date": "Mar 22, 2013 2:19:34 PM",
           "id": 1363933184636
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1363314106821,
-            "name": "6uexg5bx1h1c"
-          },
-          "amount": 2.45234523E8,
-          "name": "asfasdfaf",
-          "remark": "111",
-          "date": "Mar 22, 2013 2:19:34 PM",
-          "id": 1363933204097
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
-          "amount": 111.0,
-          "name": "e",
-          "remark": "111",
-          "date": "Mar 20, 2013 11:44:53 PM",
-          "id": 1363794293142
         },
         {
           "expenseType": "NEED",
@@ -316,9 +308,16 @@
       "1363504544188": {
         "cat": {
           "id": 1363504544188,
-          "name": "Snacks"
+          "name": "Shit"
         },
         "targetAmt": 100000.0
+      },
+      "1363942776603": {
+        "cat": {
+          "id": 1363942776603,
+          "name": "FreeFood"
+        },
+        "targetAmt": 1000.0
       },
       "1364704133024": {
         "cat": {

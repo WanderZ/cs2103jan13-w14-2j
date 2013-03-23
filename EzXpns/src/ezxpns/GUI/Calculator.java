@@ -31,7 +31,7 @@ public class Calculator {
 	static public final Pattern p = Pattern.compile("[^0-9-+ \t*/()]");
 	
 	private Calculator(){
-		
+		// this is a singleton man
 	}
 	
 	public double evaluate(String equation) throws EvaluationException{
