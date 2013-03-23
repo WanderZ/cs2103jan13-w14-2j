@@ -29,13 +29,13 @@ public enum ExpenseType {
 		@Override
 		public Color getNormalColor() {
 			// TODO Auto-generated method stub
-			return new Color(255,122,122);
+			return new Color(50,205,50);
 		}
 
 		@Override
 		public Color getExceedColor() {
 			// TODO Auto-generated method stub
-			return new Color(255,122,122);
+			return new Color(0,100,0);
 		}
 	},
 	SAVE("Save"){
@@ -49,13 +49,13 @@ public enum ExpenseType {
 		@Override
 		public Color getNormalColor() {
 			// TODO Auto-generated method stub
-			return new Color(255,122,122);
+			return new Color(0,191,255);
 		}
 
 		@Override
 		public Color getExceedColor() {
 			// TODO Auto-generated method stub
-			return new Color(255,122,122);
+			return new Color(0,0,205);
 		}
 		
 	};

@@ -78,6 +78,7 @@ public class SavingsOverviewPanel extends JPanel {
 		private double target;
 		private ExpenseType type;
 		private int status = 0; // 0 - normal, 1 - exceed
+		private int VERTICAL_OFFSET = 60; // If this is 0, donut will be at the top
 		
 		/**
 		 * DonutGraphics constructor with relevant information on ExpenseTarget
@@ -104,7 +105,7 @@ public class SavingsOverviewPanel extends JPanel {
 				g2d.setColor(type.getBaseColor()); // color will be based on enum ExpenseType (edit later)
 			else
 				g2d.setColor(type.getNormalColor());
-			g2d.fill(generateDonut(0,0,INNER_RADIUS,OUTER_RADIUS));
+			g2d.fill(generateDonut(0,0+VERTICAL_OFFSET,INNER_RADIUS,OUTER_RADIUS));
 			
 			// Second Color
 			if (status == 0)
@@ -117,11 +118,11 @@ public class SavingsOverviewPanel extends JPanel {
 			g.setColor(Color.BLACK);
 			Font myFont = new Font("fontname", Font.PLAIN, 20);
 			FontMetrics fm = g.getFontMetrics();
-			g.drawString(type.name, OUTER_RADIUS/2-fm.stringWidth(type.name)/2, OUTER_RADIUS/2+fm.getHeight()/4);
+			g.drawString(type.name, OUTER_RADIUS/2-fm.stringWidth(type.name)/2, OUTER_RADIUS/2+fm.getHeight()/4+VERTICAL_OFFSET);
 			
 			// Ratio
 			String ratio = ""+current+"/"+target;
-			g.drawString(ratio, OUTER_RADIUS/2-fm.stringWidth(ratio)/2, OUTER_RADIUS+OUTER_RADIUS/8);
+			g.drawString(ratio, OUTER_RADIUS/2-fm.stringWidth(ratio)/2, OUTER_RADIUS+OUTER_RADIUS/8+VERTICAL_OFFSET);
 
 		}
 		
@@ -147,9 +148,9 @@ public class SavingsOverviewPanel extends JPanel {
 	     * @return a Shape object that will be filled by Graphics2D later
 	     */
 	    private Shape generateArc(){
-	    	Area a1 = new Area(new Arc2D.Double(0, 0, OUTER_RADIUS, OUTER_RADIUS, 90, getCurrentAngle(), Arc2D.PIE)); // change 180 to something else
+	    	Area a1 = new Area(new Arc2D.Double(0, 0+VERTICAL_OFFSET, OUTER_RADIUS, OUTER_RADIUS, 90, getCurrentAngle(), Arc2D.PIE)); // change 180 to something else
 	        double innerOffset = (OUTER_RADIUS - INNER_RADIUS)/2;
-	        Area a2 = new Area(new Ellipse2D.Double(0 + innerOffset, 0 + innerOffset, 
+	        Area a2 = new Area(new Ellipse2D.Double(0 + innerOffset, 0+VERTICAL_OFFSET + innerOffset, 
 	        		INNER_RADIUS, INNER_RADIUS));
 	        a1.subtract(a2);
 	        return a1;
