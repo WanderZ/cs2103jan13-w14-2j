@@ -122,7 +122,12 @@ public class PaymentMethodFrame extends JFrame {
 	}
 	
 	private void changePaymentMethod(){
-		if(validateName(textField.getText())){
+		String newName = textField.getText();
+		if(newName.equals(curPay.getName())){
+			return;
+		}
+		String err = payhan.validatePaymentMethodName(newName);
+		if(err == null){
 			PaymentMethod m;
 			if(curPay == toadd){
 				m = payhan.addNewPaymentMethod(new PaymentMethod(textField.getText()));
@@ -132,7 +137,7 @@ public class PaymentMethodFrame extends JFrame {
 			mo.update();
 			list.setSelectedValue(m, true);
 		}else{
-			JOptionPane.showMessageDialog(this, "Invalid name!!!!!!", "Error!!!!!", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, err, "Error!!!!!", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
@@ -145,11 +150,6 @@ public class PaymentMethodFrame extends JFrame {
 			mo.update();
 			list.setSelectedIndex(0);
 		}
-	}
-	
-	private boolean validateName(String name){
-		return !name.contains(" ") && name.length() > 2 && name.length() < 20;
-//				!pay
 	}
 
 }
