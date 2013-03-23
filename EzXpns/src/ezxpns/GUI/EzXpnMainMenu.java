@@ -99,14 +99,16 @@ class MenuEdit extends JMenu {
 	
 	private JMenuItem itmUndo, itmConfig;
 	private UIControl guiCtrl;
+	private UndoManager undoMgr;
 	
 	public MenuEdit(String name, UIControl guiCtrlRef) { 
 		super(name);
 		
 		this.guiCtrl = guiCtrlRef;
+		this.undoMgr = guiCtrl.getUndoMgr();
 		
 		itmUndo = new JMenuItem();
-		itmUndo.setAction((new UndoManager()).getAction());
+		itmUndo.setAction(undoMgr.getAction());
 		itmConfig = new JMenuItem("Settings");
 		
 		this.add(this.itmUndo);

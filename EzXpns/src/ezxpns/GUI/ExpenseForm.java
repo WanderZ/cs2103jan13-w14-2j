@@ -166,13 +166,15 @@ public class ExpenseForm extends JPanel {
 		lblCat = this.createLabel("Category");
 		cboxCat = new JComboBox();
 		this.initCatComboBox();
-		cboxCat.setEditable(true);		
+		cboxCat.setEditable(true);
+		cboxCat.setPreferredSize(new Dimension(200, 25));
 		
 		// Initialize Combo Box - To be a dynamic updating list.
 		lblPayment = this.createLabel("Payment Method");
 		cboxPay = new JComboBox();
 		this.initPayComboBox();
 		cboxPay .setEditable(true);
+		cboxPay.setPreferredSize(new Dimension(200, 25));
 		
 		lblName = this.createLabel("Name");
 		txtName = new JTextField("");
@@ -369,6 +371,9 @@ public class ExpenseForm extends JPanel {
 			validateSuccess = false;
 		}
 		
+		//TODO: Insert Validation for Category
+		//TODO: INsert Validation for Payment Method
+		
 		System.out.println("Name: " + getName());
 		System.out.println("Amt: " + getAmt());
 		System.out.println("Date: " + getDate());
@@ -378,8 +383,6 @@ public class ExpenseForm extends JPanel {
 		System.out.println("Type: " + getType());
 		
 		return validateSuccess;
-		
-		// Validation method (mainly for calculation)
 	}
 	
 	/**
@@ -428,7 +431,7 @@ public class ExpenseForm extends JPanel {
 	 * @param amt the amount to update the field
 	 */
 	private void setAmt(double amt) {
-		this.txtAmt.setText(new DecimalFormat("###.00").format(amt)); // May want to decimal format this
+		this.txtAmt.setText(new DecimalFormat("##0.00").format(amt)); // May want to decimal format this
 	}
 	
 	/** 

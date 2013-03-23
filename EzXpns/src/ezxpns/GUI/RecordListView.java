@@ -3,18 +3,19 @@
  */
 package ezxpns.GUI;
 
-import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.DateFormat;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.*;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableCellRenderer;
 
 import ezxpns.data.records.*;
 
@@ -25,9 +26,17 @@ import ezxpns.data.records.*;
 @SuppressWarnings("serial")
 public class RecordListView extends JTable {
 	
+	/**
+	 * The GUI Editor that manages the user side inputs for editing of a Record
+	 */
 	public static interface RecordEditor{
-		void edit(Record r);
+		/**
+		 * Edit the user indicated Record
+		 * @param record to be Edited
+		 */
+		public void edit(Record record);
 	}
+	
 	private static NumberFormat formatter = NumberFormat.getCurrencyInstance();
 	private static DateFormat dateFormatter = DateFormat.getDateInstance();
 	private static String[] headers = {
@@ -37,7 +46,7 @@ public class RecordListView extends JTable {
 		"Date"
 	};
 	
-	private class ListModel extends AbstractTableModel{
+	private class ListModel extends AbstractTableModel {
 
 		@Override
 		public int getColumnCount() {
@@ -69,12 +78,16 @@ public class RecordListView extends JTable {
 				return null;
 			}
 		}
+		
 		@Override
 		public String getColumnName(int col){
 			return headers[col];
 		}
 	}
 	
+	/**
+	 * Private Empty Constructor to disallow users from creating it without parameters 
+	 */
 	private RecordListView() {
 		super();
 	}
@@ -88,15 +101,17 @@ public class RecordListView extends JTable {
 	private int rowSelected;
 	
 	public RecordListView(RecordEditor ed, RecordHandler rh){
-		this();	
+		this();	// To call the superclass constructor
 		editor = ed;
 		rhandler = rh;
-		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Single selection
 		setIntercellSpacing(new Dimension(0, 0));
 		setShowHorizontalLines(false);
 		setShowVerticalLines(false);
 		setShowGrid(false);
 		setModel(model);
+		
+		setFont(new java.awt.Font("Segoe UI", 0, 14)); // #Font
 
 		menu = new JPopupMenu();
 		
@@ -151,7 +166,27 @@ public class RecordListView extends JTable {
 		    }
 		});
 	}
+
+	@Override
+	public Component prepareRenderer(TableCellRenderer renderer, int rowIndex, int vColIndex) {
+		Component c = super.prepareRenderer(renderer, rowIndex, vColIndex);
+		if(isCellSelected(rowIndex, vColIndex)) { 	// Default highlighting for user selection
+			return c;
+		}
+		
+		if (rowIndex % 2 == 1 && !isCellSelected(rowIndex, vColIndex)) {
+			c.setBackground(Color.LIGHT_GRAY); 		// Odd Rows background color
+		} else {
+			c.setBackground(Color.WHITE); 			// Even rows background color
+		}
+		
+		return c;
+	}
 	
+	/**
+	 * Displays the records
+	 * @param records
+	 */
 	public void show(List<Record> records){
 		this.records = records;
 		model.fireTableDataChanged();
@@ -168,6 +203,10 @@ public class RecordListView extends JTable {
 		setEnabled(true);
 	}
 	
+	/**
+	 * Edit the selected record 
+	 * @param row the row Id of the Record that user has indicated for editing
+	 */
 	protected void editItemAt(int row){
 		setEnabled(false);
 		rowSelected = row;
@@ -175,6 +214,10 @@ public class RecordListView extends JTable {
 		editor.edit(itemSelected);
 	}
 	
+	/**
+	 * Removed the selected record
+	 * @param row the row Id of the Record that user has indicated for removal
+	 */
 	protected void deleteItemAt(int row){
 		String message = "Are you sure you want to remove this record?";
 		if(JOptionPane.showConfirmDialog(this, message, "what?!",

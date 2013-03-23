@@ -3,6 +3,7 @@ package ezxpns.GUI;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Insets;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.text.DecimalFormat;
@@ -121,8 +122,8 @@ public class IncomeForm extends JPanel {
 
 			@Override
 			public void focusLost(FocusEvent arg0) {
-				// TODO Auto-generated method stub
-				IncomeRecord oldRecord = recHandler.lastIncomeRecord(txtName.getText()); // TODO: Validation
+				// Auto Complete - one use only.
+				IncomeRecord oldRecord = recHandler.lastIncomeRecord(txtName.getText()); 
 				if(record==null & oldRecord!=null) {
 					record = oldRecord;
 					populateFields();
@@ -141,6 +142,7 @@ public class IncomeForm extends JPanel {
 		lblCat = this.createLabel("Category");
 		cboxCat = new JComboBox();
 		cboxCat.setPreferredSize(new Dimension(200, 25));
+		cboxCat.setBorder(BorderFactory.createEmptyBorder());
 		this.initCat();
 		cboxCat.setEditable(true);
 		this.add(lblCat);
@@ -163,6 +165,7 @@ public class IncomeForm extends JPanel {
 		
 		lblDate = this.createLabel("Date");
 		txtDate = new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy"));
+		txtDate.setMargin(new Insets(0, 10, 0, 10));
 		txtDate.setValue(new Date());
 		txtDate.setPreferredSize(new Dimension(200, 25));
 		this.add(lblDate);
@@ -190,21 +193,29 @@ public class IncomeForm extends JPanel {
 	 */
 	public boolean validateFields() {
 		boolean validateSuccess = true;
+		
 		if(!validateAmt()) {
 			System.out.println("failed amt");
 			this.markErr(txtAmt);
 			validateSuccess = false;
 		}
+		
 		if(!validateName()) {
 			System.out.println("failed name");
 			this.markErr(txtName);
 			validateSuccess = false;
 		}
+		
 		if(!validateDate()) {
 			this.markErr(txtDate);
 			System.out.println("failed date");
 			validateSuccess = false;
 		}
+		
+		//TODO: Validate Income Category
+		
+		//TODO: Validate Description?
+		
 		return validateSuccess;
 	}
 	
@@ -283,7 +294,7 @@ public class IncomeForm extends JPanel {
 	 * @param amt the amount to update the field
 	 */
 	private void setAmt(double amt) {
-		this.txtAmt.setText(new DecimalFormat("###.00").format(amt)); // May want to decimal format this
+		this.txtAmt.setText(new DecimalFormat("##0.00").format(amt)); // May want to decimal format this
 	}
 	
 	/**

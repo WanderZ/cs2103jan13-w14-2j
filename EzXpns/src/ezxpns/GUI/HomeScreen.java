@@ -19,7 +19,7 @@ public class HomeScreen extends JFrame implements UpdateNotifyee {
 	public final int DEFAULT_WEIGHT = 680;
 	
 	private JMenuBar menu;
-	private JPanel panTips;
+	// private JPanel panTips;
 	private OverviewPanel panOverview;
 	private SavingsOverviewPanel panSavings;
 	private RecordsDisplayPanel panRecords;
@@ -66,6 +66,10 @@ public class HomeScreen extends JFrame implements UpdateNotifyee {
 		this.add(contentDivider, BorderLayout.CENTER);		
 	}
 	
+	/**
+	 * Retrieve the main menu
+	 * @return an Initialized EzXpnsMainMenu Object
+	 */
 	private JMenuBar getMenu() {
 		if(this.menu==null) {
 			this.menu = new EzXpnMainMenu(guiCtrl);
@@ -73,6 +77,10 @@ public class HomeScreen extends JFrame implements UpdateNotifyee {
 		return this.menu;
 	}
 	
+	/**
+	 * Retrieve the Savings Panel
+	 * @return an Initialized SavingsOverviewPanel Object
+	 */
 	private JPanel getSavingsPanel() {
 		if(panSavings == null) {
 			panSavings = new SavingsOverviewPanel();
@@ -81,6 +89,10 @@ public class HomeScreen extends JFrame implements UpdateNotifyee {
 		return panSavings;
 	}
 	
+	/**
+	 * Retrieve the Targets Panel
+	 * @return an Initialized TargetOverviewPanel Object
+	 */
 	private JPanel getTargetsPanel() {
 		if(panTargets==null) {
 			panTargets = new TargetOverviewPanel(targetMgr);
@@ -89,6 +101,10 @@ public class HomeScreen extends JFrame implements UpdateNotifyee {
 		return panTargets;
 	}
 	
+	/**
+	 * Retrieve the Overview Panel
+	 * @return an Initialized OverviewPanel Object
+	 */
 	private JPanel getOverviewPanel() {
 		if(panOverview == null) {
 			panOverview = new OverviewPanel(sumGen);
@@ -97,6 +113,10 @@ public class HomeScreen extends JFrame implements UpdateNotifyee {
 		return panOverview;
 	}
 	
+	/**
+	 * Retrieves the Records Panel
+	 * @return an Initialized RecordsDisplayPanel Object
+	 */
 	private JPanel getRecordsPanel() {
 		if(panRecords == null) {
 			panRecords = new RecordsDisplayPanel(recHandler);

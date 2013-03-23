@@ -6,7 +6,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
-import java.awt.GridLayout;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
@@ -24,12 +23,16 @@ import javax.swing.event.ListSelectionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * 
+ */
 @SuppressWarnings("serial")
 public class PaymentMethodFrame extends JFrame {
+	
 	private JTextField textField;
 	private JButton btnChange, btnRemove;
 	
-	private PaymentMethod curMethod, toadd;
+	private PaymentMethod toadd;
 	private PaymentMethodModel mo;
 	
 	private PaymentMethod curPay;

@@ -1,4 +1,5 @@
 package ezxpns.GUI;
+
 import ezxpns.data.records.CategoryHandler;
 import ezxpns.data.records.ExpenseRecord;
 import ezxpns.data.records.IncomeRecord;
@@ -16,8 +17,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
-import java.awt.font.TextAttribute;
-import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -181,11 +180,14 @@ public class RecordFrame extends JDialog implements ActionListener, RecordListVi
 	}
 
 	@Override
-	public void edit(Record r) {
+	public void edit(Record record) {
 		// TODO Auto-generated method stub
 		
 	}
 	
+	/**
+	 * To close this window safely
+	 */
 	public void closeWin() {
         WindowEvent wev = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
         this.dispatchEvent(wev);
@@ -469,31 +471,46 @@ class PanelOption extends JPanel {
 			}			
 		});
 		
-		btnCancel = new JButton("Discard changes");
+		btnCancel = new JButton("  Discard  ");
 		btnCancel.setFont(new Font("Segoe UI", 0, 18)); // #Font
-		btnCancel.setBorderPainted(false);
+		btnCancel.setBorder(BorderFactory.createRaisedBevelBorder());
 		btnCancel.setContentAreaFilled(false);
-		btnCancel.setForeground(Color.DARK_GRAY);
+// 		btnCancel.setForeground(Color.DARK_GRAY);
 		
 		btnSave.addActionListener(listener);
 		btnCancel.addActionListener(listener);
 		
 		btnCancel.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mouseEntered(MouseEvent mEvent) { // Hover start
 				JButton btn = (JButton) mEvent.getSource();
-				btn.setForeground(Color.BLUE);
+				btn.setBorder(BorderFactory.createLineBorder(Color.CYAN));
+//				btn.setForeground(Color.BLUE);
 				
 				/* Underlining the word for "hover*/
-				Font btnFont = btn.getFont();
-				Map attribute = btnFont.getAttributes();
-				attribute.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
-				btn.setFont(btnFont.deriveFont(attribute));
+//				Font btnFont = btn.getFont();
+//				Map attribute = btnFont.getAttributes();
+//				attribute.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+//				btn.setFont(btnFont.deriveFont(attribute));
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent mEvent) {
+				JButton btn = (JButton) mEvent.getSource();
+				btn.setBorder(BorderFactory.createLoweredBevelBorder());
+			}
+			
+			@Override
+			public void mouseReleased(MouseEvent mEvent) {
+				JButton btn = (JButton) mEvent.getSource();
+				btn.setBorder(BorderFactory.createRaisedBevelBorder());
 			}
 			
 			public void mouseExited(MouseEvent mEvent) { // Hover end
 				JButton btn = (JButton) mEvent.getSource();
-				btn.setForeground(Color.DARK_GRAY);
-				btn.setFont(new Font("Segoe UI", 0, 18)); // #Font
+				btn.setBorder(BorderFactory.createRaisedBevelBorder());
+//				btn.setForeground(Color.DARK_GRAY);
+//				btn.setFont(new Font("Segoe UI", 0, 18)); // #Font
 			}
 		});		
 		

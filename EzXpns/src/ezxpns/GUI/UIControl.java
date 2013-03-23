@@ -34,6 +34,7 @@ public class UIControl {
 	private TargetManager targetMgr;
 	private ReportGenerator rptGen;
 	private SummaryGenerator sumGen;
+	private UndoManager undoMgr;
 	
 	/**
 	 * To create a UI Manager. 
@@ -54,8 +55,8 @@ public class UIControl {
 			PayMethodHandler payHandlerRef,
 			TargetManager targetMgrRef,
 			ReportGenerator rptGenRef,
-			SummaryGenerator sumGenRef
-		) {
+			SummaryGenerator sumGenRef,
+			UndoManager undoMgrRef) {
 		
 		// Handlers for the various places
 		findHandler = searchHandlerRef;
@@ -66,6 +67,7 @@ public class UIControl {
 		payHandler = payHandlerRef;
 		rptGen = rptGenRef;
 		sumGen = sumGenRef;
+		undoMgr = undoMgrRef;
 		
 		homeScreen = new HomeScreen(this, recHandlerRef, targetMgr, sumGen);
 		
@@ -74,13 +76,6 @@ public class UIControl {
 				System.exit(0);
 			}
 		});
-		// Faking a pop up :)
-		/*JWindow jWin = new JWindow();
-		jWin.getContentPane().add(new JLabel("helloworld!"));
-		jWin.setSize(800,600);
-		jWin.setLocationRelativeTo(null);
-		jWin.setVisible(true);
-		*/
 	}
 	
 	/**
@@ -112,6 +107,7 @@ public class UIControl {
 			@Override
 			public void windowClosing(WindowEvent wEvent) {
 				homeScreen.updateAll();
+				System.out.println("RecordFrame exiting!");
 			}
 		});
 		recWin.setVisible(true);
@@ -202,5 +198,9 @@ public class UIControl {
 			}
 		});
 		payWin.setVisible(true);
+	}
+	
+	public UndoManager getUndoMgr() {
+		return undoMgr;
 	}
 }
