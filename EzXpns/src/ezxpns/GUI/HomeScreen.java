@@ -2,6 +2,7 @@ package ezxpns.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.JFrame;
@@ -41,6 +42,15 @@ public class HomeScreen extends JFrame implements UpdateNotifyee {
 			SummaryGenerator sumGenRef){
 		super("EzXpns - Main Menu"); // Setting the title
 		undoManager = undomng;
+		undoManager.setPostUndo(new AbstractAction(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				updateAll();
+				
+			}
+			
+		});
 		this.setBounds(0, 0, DEFAULT_HEIGHT, DEFAULT_WEIGHT); /*x coordinate, y coordinate, width, height*/
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);

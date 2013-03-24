@@ -27,7 +27,7 @@ import java.util.*;
  */
 public class Ezxpns implements
 		RecordHandler,
-		CategoryHandler,
+		CategoryHandler<ExpenseRecord>,
 		SearchHandler{
 	/**
 	 * The only storage manager
@@ -311,5 +311,20 @@ public class Ezxpns implements
 	@Override
 	public String validateCategoryName(String name) {
 		return data.expenses().validateCategoryName(name);
+	}
+
+	@Override
+	public Category getCategory(long id) {
+		return data.expenses().getCategory(id);
+	}
+
+	@Override
+	public Vector<ExpenseRecord> getRecordsBy(Category category, int max) {
+		return data.expenses().getRecordsBy(category, -1);
+	}
+
+	@Override
+	public boolean addToCategory(List<ExpenseRecord> records, Category cat) {
+		return data.expenses().addToCategory(records, cat);
 	}
 }

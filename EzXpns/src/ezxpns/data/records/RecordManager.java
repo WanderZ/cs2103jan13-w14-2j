@@ -16,7 +16,7 @@ public class RecordManager<T extends Record>
 	extends Storable
 	implements
 		RecordQueryHandler<T>,
-		CategoryHandler{
+		CategoryHandler<T>{
 	public static class RecordUpdateException extends Exception{
 		public RecordUpdateException(){
 			super();
@@ -347,7 +347,6 @@ public class RecordManager<T extends Record>
 		else return (T)r.copy();
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public Vector<T> getRecordsBy(Category category, int max){
 		Vector<T> rs = new Vector<T>();
@@ -474,5 +473,29 @@ public class RecordManager<T extends Record>
 		if(name.contains(" "))return "Category name should not contain spaces";
 		if(containsCategoryName(name))return "Category name is used.";
 		return null;
+	}
+	@Override
+	public Category getCategory(long id) {
+		return categories.get(id);
+	}
+	@Override
+	public boolean addToCategory(List<T> records, Category cat) {
+		// DANGER: though it will return false when fail, the state could have been changed
+		// test diligently when using this function
+		cat = getCategory(cat.id);
+		for(T r : records){
+			try {
+				this.removeRecord(r.id);
+			} catch (RecordUpdateException e) {
+				return false;
+			}
+			r.category = cat;
+			try {
+				this.addNewRecord(r);
+			} catch (RecordUpdateException e) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
