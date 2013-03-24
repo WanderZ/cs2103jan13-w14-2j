@@ -31,7 +31,7 @@ import javax.swing.JTextField;
  * This is a JFrame object (Window) that allows users to enter a new record (Expense/Income) into the EzXpns
  */
 @SuppressWarnings("serial")
-public class RecordFrame extends JDialog implements ActionListener, RecordListView.RecordEditor {
+public class RecordFrame extends JDialog implements ActionListener {
 	
 	public static final int DEFAULT_WIDTH = 600;
 	public static final int DEFAULT_HEIGHT = 400; 
@@ -42,46 +42,59 @@ public class RecordFrame extends JDialog implements ActionListener, RecordListVi
 	private RecordHandler recHandler;
 	private CategoryHandler incomeHandler, expenseHandler;
 	private PayMethodHandler payHandler;
+	private UndoManager undoMgr;
 	
 	private PanelMain panMain;
 	private PanelOption panOpt;
 	
-	/** 
-	 * Normal constructor for RecordFrame - Starts the window with the expenses view
-	 * @param handlerRef Reference to the handler that will handle all the data management  
-	 */
-	public RecordFrame(
-			RecordHandler recHandlerRef, 
-			CategoryHandler incomeHandlerRef, 
-			CategoryHandler expenseHandlerRef,
-			PayMethodHandler payHandlerRef) {
-		
-		recHandler = recHandlerRef;
-		incomeHandler = incomeHandlerRef;
-		expenseHandler = expenseHandlerRef;
-		payHandler = payHandlerRef;
-		
-		this.initFrame();
-	}
-	
 	/**
-	 * Constructor to specify the initial tab to be displayed
-	 * @param initTab use either TAB_INCOME or TAB_EXPENSE to indicate which tab to choose
-	 * @param handlerRef Reference to the handler that will handle all the data management
+	 * Generalized constructor for RecordFrame
+	 * @param recHandlerRef RecordHandler reference to manage Records
+	 * @param incomeHandlerRef CategoryHandler reference to manage Income Categories
+	 * @param expenseHandlerRef CategoryHandler reference to manage Expense Categories
+	 * @param payHandlerRef PayHandler reference to manage Payment Methods
+	 * @param undoMgrRef UndoManager reference for managing undo actions
 	 */
 	public RecordFrame(
 			RecordHandler recHandlerRef, 
 			CategoryHandler incomeHandlerRef, 
 			CategoryHandler expenseHandlerRef,
 			PayMethodHandler payHandlerRef,
+			UndoManager undoMgrRef) {
+		
+		recHandler = recHandlerRef;
+		incomeHandler = incomeHandlerRef;
+		expenseHandler = expenseHandlerRef;
+		payHandler = payHandlerRef;
+		undoMgr = undoMgrRef;
+		
+		this.initFrame();
+	}
+	
+	/**
+	 * Constructor to specify the initial tab to be displayed
+	 * @param recHandlerRef RecordHandler reference to manage Records
+	 * @param incomeHandlerRef CategoryHandler reference to manage Income Categories
+	 * @param expenseHandlerRef CategoryHandler reference to manage Expense Categories
+	 * @param payHandlerRef PayHandler reference to manage Payment Methods
+	 * @param undoMgrRef UndoManager reference for managing undo actions
+	 * @param initTab use either TAB_INCOME or TAB_EXPENSE to indicate which tab to choose
+	 */
+	public RecordFrame(
+			RecordHandler recHandlerRef, 
+			CategoryHandler incomeHandlerRef, 
+			CategoryHandler expenseHandlerRef,
+			PayMethodHandler payHandlerRef,
+			UndoManager undoMgrRef,
 			int initTab) {
 		
-		this(recHandlerRef, incomeHandlerRef, expenseHandlerRef, payHandlerRef);
+		this(recHandlerRef, incomeHandlerRef, expenseHandlerRef, payHandlerRef, undoMgrRef);
 		this.initComponent();
 		
 		panMain.toggleIncomeTab(); // Fix
 		panMain.toggleExpenseTab(); // Default
 		
+		//TODO: Refactor this bit
 		/* This part may need refactoring to enums */
 		switch(initTab) {
 			case TAB_INCOME: 
@@ -93,20 +106,37 @@ public class RecordFrame extends JDialog implements ActionListener, RecordListVi
 		}
 	}
 	
+	/**
+	 * Constructor for editing an existing ExpenseRecord
+	 * @param recHandlerRef RecordHandler reference for managing records
+	 * @param expenseHandlerRef CategoryHandler reference for managing categories
+	 * @param payHandlerRef PayHandler reference for managing payment methods
+	 * @param undoMgrRef UndoManager reference for managing undo actions
+	 * @param record existing ExpenseRecord to be edited
+	 */
 	public RecordFrame(
 			RecordHandler recHandlerRef,
 			CategoryHandler expenseHandlerRef,
 			PayMethodHandler payHandlerRef,
+			UndoManager undoMgrRef,
 			ExpenseRecord record) {
-		this(recHandlerRef, null, expenseHandlerRef, payHandlerRef);
+		this(recHandlerRef, null, expenseHandlerRef, payHandlerRef, undoMgrRef);
 		this.initComponent(record);
 	}
 	
+	/**
+	 * Constructor for editing an existing IncomeRecord
+	 * @param recHandlerRef RecordHandler reference for managing records
+	 * @param incomeHandlerRef CategoryHandler reference for managing categories
+	 * @param undoMgrRef UndoManager reference for managing undo actions
+	 * @param record existing IncomeRecord to be edited
+	 */
 	public RecordFrame(
 			RecordHandler recHandlerRef, 
 			CategoryHandler incomeHandlerRef,
+			UndoManager undoMgrRef,
 			IncomeRecord record) {
-		this(recHandlerRef, incomeHandlerRef, incomeHandlerRef, null);
+		this(recHandlerRef, incomeHandlerRef, null, null, undoMgrRef);
 		this.initComponent(record);
 	}
 	
@@ -126,7 +156,7 @@ public class RecordFrame extends JDialog implements ActionListener, RecordListVi
 	 * Initialize this frame with its components
 	 */
 	private void initComponent() {
-		panMain = new PanelMain(recHandler, incomeHandler, expenseHandler, payHandler);
+		panMain = new PanelMain(recHandler, incomeHandler, expenseHandler, payHandler, undoMgr);
 		getContentPane().add(panMain, BorderLayout.CENTER);
 		
 		panOpt = new PanelOption(this);
@@ -138,7 +168,7 @@ public class RecordFrame extends JDialog implements ActionListener, RecordListVi
 	 * @param record ExpenseRecord to be modified
 	 */
 	private void initComponent(ExpenseRecord record) {
-		panMain = new PanelMain(recHandler, incomeHandler, expenseHandler, payHandler, record);
+		panMain = new PanelMain(recHandler, incomeHandler, expenseHandler, payHandler, undoMgr, record);
 		getContentPane().add(panMain, BorderLayout.CENTER);
 		
 		panOpt = new PanelOption(this);
@@ -150,7 +180,7 @@ public class RecordFrame extends JDialog implements ActionListener, RecordListVi
 	 * @param record IncomeRecord to be modified
 	 */
 	private void initComponent(IncomeRecord record) {
-		panMain = new PanelMain(recHandler, incomeHandler, expenseHandler, payHandler, record);
+		panMain = new PanelMain(recHandler, incomeHandler, expenseHandler, payHandler, undoMgr, record);
 		getContentPane().add(panMain, BorderLayout.CENTER);
 		
 		panOpt = new PanelOption(this);
@@ -163,26 +193,20 @@ public class RecordFrame extends JDialog implements ActionListener, RecordListVi
 			System.out.println("Saved invoked!");
 			if(panMain.validateForm()) { // Invoke validation
 				System.out.println("Validate Success!");
-				panMain.save();
+				panMain.save(); //TODO: to return all that is added, Category, Payment method, new Record (Pair in Pair)
 				// all is good. save as new Record.
 				// Check if it is a recurring record
 				// do the necessary to ensure that EzXpns knows it.
 				this.closeWin();
-				this.dispose();
 				return;
 			}
 			System.out.println("Validate Fail!");
+			//TODO: Display why the validation failed back to user
 		}
+		
 		if(this.panOpt.getCancelBtn() == e.getSource()) {
-			this.dispose();
 			this.closeWin();
 		}
-	}
-
-	@Override
-	public void edit(Record record) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	/**
@@ -190,8 +214,9 @@ public class RecordFrame extends JDialog implements ActionListener, RecordListVi
 	 */
 	public void closeWin() {
         WindowEvent wev = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
-        this.dispatchEvent(wev);
-        // java.awt.Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(wev);
+        this.dispatchEvent(wev); // "Throw" Event
+        this.dispose();
+        // java.awt.Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(wev); // Don't seem to work
 	}
 }
 
@@ -221,17 +246,19 @@ class PanelMain extends JPanel {
 	 * @param incomeHandlerRef reference to the income category handler
 	 * @param expenseHandlerRef reference to the expense category handler
 	 * @param payHandlerRef reference to the payment method handler
+	 * @param undoMgrRef
 	 */
 	public PanelMain(
 			RecordHandler recHandlerRef,
 			CategoryHandler incomeHandlerRef,
 			CategoryHandler expenseHandlerRef,
-			PayMethodHandler payHandlerRef) {
+			PayMethodHandler payHandlerRef,
+			UndoManager undoMgrRef) {
 		this.setLayout(new BorderLayout());
 		this.isExpense = true;
 		
-		panExpense = new ExpenseForm(recHandlerRef, expenseHandlerRef, payHandlerRef);
-		panIncome = new IncomeForm(recHandlerRef, incomeHandlerRef);
+		panExpense = new ExpenseForm(recHandlerRef, expenseHandlerRef, payHandlerRef, undoMgrRef);
+		panIncome = new IncomeForm(recHandlerRef, incomeHandlerRef, undoMgrRef);
 		this.initTabs();
 		
 		
@@ -246,6 +273,7 @@ class PanelMain extends JPanel {
 	 * @param incomeHandlerRef
 	 * @param expenseHandlerRef
 	 * @param payHandlerRef
+	 * @param undoMgrRef
 	 * @param record ExpenseRecord to be edited
 	 */
 	public PanelMain(
@@ -253,10 +281,11 @@ class PanelMain extends JPanel {
 			CategoryHandler incomeHandlerRef, 
 			CategoryHandler expenseHandlerRef, 
 			PayMethodHandler payHandlerRef,
+			UndoManager undoMgrRef,
 			ExpenseRecord record) {
 		this.setLayout(new BorderLayout());
 		this.isExpense = true;
-		panExpense = new ExpenseForm(recHandlerRef, expenseHandlerRef, payHandlerRef, record);
+		panExpense = new ExpenseForm(recHandlerRef, expenseHandlerRef, payHandlerRef, undoMgrRef, record);
 		this.add(panExpense, BorderLayout.CENTER);
 	}
 	
@@ -266,6 +295,7 @@ class PanelMain extends JPanel {
 	 * @param incomeHandlerRef
 	 * @param expenseHandlerRef
 	 * @param payHandlerRef
+	 * @param undoMgrRef
 	 * @param record IncomeRecord to be edited
 	 */
 	public PanelMain(
@@ -273,10 +303,11 @@ class PanelMain extends JPanel {
 			CategoryHandler incomeHandlerRef, 
 			CategoryHandler expenseHandlerRef, 
 			PayMethodHandler payHandlerRef,
+			UndoManager undoMgrRef,
 			IncomeRecord record) {
 		this.setLayout(new BorderLayout());
 		this.isExpense = false;
-		panIncome = new IncomeForm(recHandlerRef, incomeHandlerRef, record);
+		panIncome = new IncomeForm(recHandlerRef, incomeHandlerRef, undoMgrRef, record);
 		this.add(panIncome, BorderLayout.CENTER);
 	}
 	
