@@ -33,8 +33,9 @@ public class RecordListView extends JTable {
 		/**
 		 * Edit the user indicated Record
 		 * @param record to be Edited
+		 * @param display RecordListView Object GUI display to be updated
 		 */
-		public void edit(Record record);
+		public void edit(Record record, RecordListView display);
 	}
 	
 	private static NumberFormat formatter = NumberFormat.getCurrencyInstance();
@@ -211,7 +212,7 @@ public class RecordListView extends JTable {
 		setEnabled(false);
 		rowSelected = row;
 		itemSelected = records.get(row);
-		editor.edit(itemSelected);
+		editor.edit(itemSelected, this);
 	}
 	
 	/**

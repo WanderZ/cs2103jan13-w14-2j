@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
@@ -36,7 +37,7 @@ import ezxpns.data.records.RecordHandler;
 
 /** Panel to contain and maintain the form for a new expense record */
 @SuppressWarnings("serial")
-public class ExpenseForm extends JPanel {
+public class ExpenseForm extends JPanel implements UpdateNotifyee{
 	
 	// #Constants
 	public final int TOP_PAD = 27;
@@ -51,7 +52,7 @@ public class ExpenseForm extends JPanel {
 	private JRadioButton rbtnNeed, rbtnWant;
 	private JLabel lblAmt, lblName, lblType, lblCat, lblPayment, lblDate, lblDesc;
 	private JTextField 	txtAmt, txtName;
-	//private JFormattedTextField txtDate;
+//	private JFormattedTextField txtDate;
 	private JDateChooser txtDateChooser;
 	private JTextField txtDesc;
 	private JComboBox cboxCat, cboxPay;
@@ -60,6 +61,7 @@ public class ExpenseForm extends JPanel {
 	private RecordHandler recHandler; 
 	private CategoryHandler catHandler;
 	private PayMethodHandler payHandler;
+	private UndoManager undoMgr;
 	
 	// #Data Components
 	private List<Category> categories;
@@ -68,27 +70,44 @@ public class ExpenseForm extends JPanel {
 	
 	/**
 	 * Create a Form for new expense records
-	 * @param recHandlerRef RecordHandler
-	 * @param catHandlerRef CategoryHandler
-	 * @param payHandlerRef PaymentMethodHandler
+	 * @param recHandlerRef RecordHandler reference to manage ExpenseRecords
+	 * @param catHandlerRef CategoryHandler reference to manage Expense Categories
+	 * @param payHandlerRef PaymentMethodHandler reference to manage payment methods
+	 * @param undoMgrRef UndoManager reference to manage possible undo actions
 	 */
-	public ExpenseForm(RecordHandler recHandlerRef, CategoryHandler catHandlerRef, PayMethodHandler payHandlerRef) {
+	public ExpenseForm(
+			RecordHandler recHandlerRef, 
+			CategoryHandler catHandlerRef, 
+			PayMethodHandler payHandlerRef,
+			UndoManager undoMgrRef) {
+		
 		recHandler = recHandlerRef; 
 		catHandler = catHandlerRef;
 		payHandler = payHandlerRef;
+		undoMgr = undoMgrRef;
+		
 		categories = catHandler.getAllCategories();
 		methods = payHandler.getAllPaymentMethod();
 		this.initFields();
 	}
 	
 	/**
-	 * Create a Form for existing expense records - for display
-	 * @param record ExpenseRecord to be modified
-	 * @param catHandlerRef
-	 * @param payHandlerRef
+	 * Create a Form for existing expense records
+	 * @param recHandlerRef RecordHandler reference to manage ExpenseRecords
+	 * @param catHandlerRef CategoryHandler reference to manage Expense Categories
+	 * @param payHandlerRef PaymentMethodHandler reference to manage payment methods
+	 * @param undoMgrRef UndoManager reference to manage possible undo actions
+	 * @param record ExpenseRecord reference - existing record indicated by user to be modified
 	 */
-	public ExpenseForm(RecordHandler recHandlerRef, CategoryHandler catHandlerRef, PayMethodHandler payHandlerRef, ExpenseRecord record) {
-		this(recHandlerRef, catHandlerRef, payHandlerRef);
+	public ExpenseForm(
+			RecordHandler recHandlerRef, 
+			CategoryHandler catHandlerRef, 
+			PayMethodHandler payHandlerRef, 
+			UndoManager undoMgrRef,
+			ExpenseRecord record) {
+		
+		this(recHandlerRef, catHandlerRef, payHandlerRef, undoMgrRef);
+		
 		this.record = record;
 		this.populateFields();
 	}
@@ -194,8 +213,7 @@ public class ExpenseForm extends JPanel {
 
 			@Override
 			public void focusLost(FocusEvent arg0) {
-				// TODO To update all the other fields.
-				ExpenseRecord oldRecord = recHandler.lastExpenseRecord(txtName.getText()); // TODO: Validation
+				ExpenseRecord oldRecord = recHandler.lastExpenseRecord(txtName.getText());
 				if(record==null & oldRecord!=null) {
 					record = oldRecord;
 					populateFields();
@@ -477,5 +495,17 @@ public class ExpenseForm extends JPanel {
 			);
 		this.recHandler.createRecord(eRecord, isNewCategory(), isNewMethod());
 		return eRecord;
+	}
+
+	@Override
+	public void updateAll() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addUndoAction(AbstractAction action) {
+		// TODO Auto-generated method stub
+		
 	}
 }

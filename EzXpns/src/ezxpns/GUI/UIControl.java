@@ -10,13 +10,14 @@ import ezxpns.data.records.CategoryHandler;
 import ezxpns.data.records.ExpenseRecord;
 import ezxpns.data.records.IncomeRecord;
 import ezxpns.data.records.PayMethodHandler;
+import ezxpns.data.records.Record;
 import ezxpns.data.records.RecordHandler;
 import ezxpns.data.records.SearchHandler;
 
 /**
  * To assist EzXpns in managing all the GUI Windows
  */
-public class UIControl {
+public class UIControl implements RecordListView.RecordEditor {
 	
 	// JComponents
 	private HomeScreen homeScreen;
@@ -55,8 +56,7 @@ public class UIControl {
 			PayMethodHandler payHandlerRef,
 			TargetManager targetMgrRef,
 			ReportGenerator rptGenRef,
-			SummaryGenerator sumGenRef,
-			UndoManager undoMgrRef) {
+			SummaryGenerator sumGenRef) {
 		
 		// Handlers for the various places
 		findHandler = searchHandlerRef;
@@ -67,7 +67,7 @@ public class UIControl {
 		payHandler = payHandlerRef;
 		rptGen = rptGenRef;
 		sumGen = sumGenRef;
-		undoMgr = undoMgrRef;
+		undoMgr = new UndoManager();
 		
 		homeScreen = new HomeScreen(this, recHandlerRef, targetMgr, sumGen);
 		
@@ -102,7 +102,7 @@ public class UIControl {
 	 * @param recordType the type of new record Expense/Income 
 	 */
 	public void showRecWin(int recordType) {
-		recWin = new RecordFrame(recHandler, inCatHandler, exCatHandler, payHandler, recordType);
+		recWin = new RecordFrame(recHandler, inCatHandler, exCatHandler, payHandler, undoMgr, recordType);
 		recWin.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent wEvent) {
@@ -115,10 +115,10 @@ public class UIControl {
 	
 	/**
 	 * Display the record window - edit an ExpenseRecord record
-	 * @param record ExpenseRecord to be editted
+	 * @param record ExpenseRecord to be edited
 	 */
 	public void showRecWin(ExpenseRecord record) {
-		recWin = new RecordFrame(recHandler, exCatHandler, payHandler, record);
+		recWin = new RecordFrame(recHandler, exCatHandler, payHandler, undoMgr, record);
 		recWin.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent wEvent) {
@@ -133,7 +133,7 @@ public class UIControl {
 	 * @param record IncomeRecord to be be edited
 	 */
 	public void showRecWin(IncomeRecord record) {
-		recWin = new RecordFrame(recHandler, inCatHandler, record);
+		recWin = new RecordFrame(recHandler, inCatHandler, undoMgr, record);
 		recWin.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent wEvent) {
@@ -148,9 +148,30 @@ public class UIControl {
 	 */
 	public void showSearchWin() {
 		if(searchWin == null) {
-			searchWin = new SearchFrame(findHandler, new RecordListView(recWin, recHandler));
+			searchWin = new SearchFrame(findHandler, new RecordListView(this, recHandler));
 		}
 		searchWin.setVisible(true);
+	}
+
+	@Override
+	public void edit(Record record, RecordListView display) {
+		// TODO Auto-generated method stub
+		
+		RecordListView displayer = display; 
+		
+		//TODO: Check if this can be integrated better - need further testing
+		if(record instanceof ExpenseRecord) {
+			ExpenseRecord expense = (ExpenseRecord) record;
+			this.showRecWin(expense);
+		}
+		else {
+			IncomeRecord income = (IncomeRecord) record;
+			this.showRecWin(income);
+		}
+		
+		//TODO: call the callback method in display
+		displayer.itemEdited(null); // null for no changes
+		
 	}
 	
 	/** 

@@ -35,8 +35,7 @@ public class HomeScreen extends JFrame implements UpdateNotifyee {
 			UIControl guiControlRef,
 			RecordHandler recHandlerRef,
 			TargetManager targetMgrRef,
-			SummaryGenerator sumGenRef
-			){
+			SummaryGenerator sumGenRef){
 		super("EzXpns - Main Menu"); // Setting the title
 		this.setBounds(0, 0, DEFAULT_HEIGHT, DEFAULT_WEIGHT); /*x coordinate, y coordinate, width, height*/
 		this.setLocationRelativeTo(null);
@@ -119,7 +118,7 @@ public class HomeScreen extends JFrame implements UpdateNotifyee {
 	 */
 	private JPanel getRecordsPanel() {
 		if(panRecords == null) {
-			panRecords = new RecordsDisplayPanel(recHandler);
+			panRecords = new RecordsDisplayPanel(recHandler, guiCtrl);
 			panRecords.setBackground(Color.WHITE);
 		}
 		return panRecords;

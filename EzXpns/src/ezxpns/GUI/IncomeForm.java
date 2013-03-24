@@ -3,19 +3,17 @@ package ezxpns.GUI;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Insets;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -32,7 +30,7 @@ import ezxpns.data.records.RecordHandler;
 
 /** GUI Form for Income records */
 @SuppressWarnings("serial")
-public class IncomeForm extends JPanel {
+public class IncomeForm extends JPanel implements UpdateNotifyee {
 	
 	// #Constants
 	public final int TOP_PAD = 27;
@@ -42,7 +40,7 @@ public class IncomeForm extends JPanel {
 	// #Swing Components
 	private JLabel lblAmt, lblName, lblCat, lblDesc, lblDate;
 	private JTextField 	txtAmt, txtName;
-	//private JFormattedTextField txtDate;
+//	private JFormattedTextField txtDate;
 	private JDateChooser txtDateChooser;
 	private JComboBox cboxCat;
 	private JTextField txtDesc;
@@ -51,6 +49,7 @@ public class IncomeForm extends JPanel {
 	private RecordHandler recHandler; 
 	private CategoryHandler catHandler;
 	private IncomeRecord record;
+	private UndoManager undoMgr;
 	
 	// #Data Components
 	private List<Category> categories;
@@ -59,10 +58,15 @@ public class IncomeForm extends JPanel {
 	 * Create a form for a new income record
 	 * @param recHandlerRef 
 	 * @param catHandlerRef
+	 * @param undoMgrRef
 	 */
-	public IncomeForm(RecordHandler recHandlerRef, CategoryHandler catHandlerRef) {
+	public IncomeForm(
+			RecordHandler recHandlerRef, 
+			CategoryHandler catHandlerRef,
+			UndoManager undoMgrRef) {
 		recHandler = recHandlerRef;
 		catHandler = catHandlerRef;
+		undoMgr = undoMgrRef;
 		
 		categories = catHandler.getAllCategories();
 		this.initFields();
@@ -72,10 +76,16 @@ public class IncomeForm extends JPanel {
 	 * Create a form of the existing record
 	 * @param recHandlerRef 
 	 * @param catHandlerRef
+	 * @param undoMgrRef
 	 * @param record IncomeRecord object to be edit
 	 */
-	public IncomeForm(RecordHandler recHandlerRef, CategoryHandler catHandlerRef, IncomeRecord record) {
-		this(recHandlerRef, catHandlerRef);
+	public IncomeForm(
+			RecordHandler recHandlerRef, 
+			CategoryHandler catHandlerRef, 
+			UndoManager undoMgrRef,
+			IncomeRecord record) {
+		
+		this(recHandlerRef, catHandlerRef, undoMgrRef);
 		this.record = record;
 		this.populateFields();
 	}
@@ -179,6 +189,7 @@ public class IncomeForm extends JPanel {
 	        @Override
 	        public void propertyChange(PropertyChangeEvent evt) {
 	            Date selectedDate = ((JCalendar)evt.getSource()).getDate();
+	            //TODO: selectedDate seems to be redundant?
 	        }
 	    };
 	    txtDateChooser.getJCalendar().addPropertyChangeListener("calendar",calendarChangeListener);
@@ -187,7 +198,6 @@ public class IncomeForm extends JPanel {
 		//txtDate = new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy"));
 		//txtDate.setMargin(new Insets(0, 10, 0, 10));
 		//txtDate.setValue(new Date());
-		//txtDate.setPreferredSize(new Dimension(200, 25));
 		this.add(lblDate);
 		this.add(txtDateChooser);
 		loForm.putConstraint(SpringLayout.WEST, lblDate, COL1_PAD, SpringLayout.WEST, this);
@@ -239,8 +249,6 @@ public class IncomeForm extends JPanel {
 		return validateSuccess;
 	}
 	
-	
-
 	/**
 	 * to validate the amount field, checking type and value (>0)
 	 * @return true if input is valid, else false
@@ -361,5 +369,17 @@ public class IncomeForm extends JPanel {
 		JLabel label = new JLabel(lblTxt);
 		label.setFont(new Font("Segoe UI", 0, 18)); // #Font
 		return label;
+	}
+
+	@Override
+	public void updateAll() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addUndoAction(AbstractAction action) {
+		// TODO Auto-generated method stub
+		undoMgr.add(null, null);
 	}
 }

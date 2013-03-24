@@ -29,20 +29,22 @@ public class RecordsDisplayPanel extends JPanel implements ActionListener {
 	public static final Font btnFont = new Font("Segoe UI", 0, 30); // Font name, Font Style, Font Size
 		
 	private RecordsListerPanel panContent;
-	
 	private RecordHandler recHandler;
+	private RecordListView.RecordEditor editor;
 	
 	/**
 	 * Constructor to create a RecordDisplayPanel
 	 * @param recHandlerRef The RecordHandler Object reference <br />that will be used to deal with the logic of handling records
 	 */
-	public RecordsDisplayPanel(RecordHandler recHandlerRef) {
-		super();
+	public RecordsDisplayPanel(
+			RecordHandler recHandlerRef, 
+			RecordListView.RecordEditor editorRef) {
+		super(new BorderLayout());
 		
 		recHandler = recHandlerRef; // Receive Handler
-				
+		editor = editorRef;
+		
 		this.setBackground(Color.WHITE);
-		this.setLayout(new BorderLayout());
 		
 		this.loadRecords();
 	}	
@@ -57,7 +59,7 @@ public class RecordsDisplayPanel extends JPanel implements ActionListener {
 	 * Load Records from data storage
 	 */
 	private void loadRecords() {
-		panContent = new RecordsListerPanel(recHandler);
+		panContent = new RecordsListerPanel(recHandler, editor);
 		this.add(panContent, BorderLayout.CENTER);
 	}
 	
@@ -82,7 +84,7 @@ class RecordsListerPanel extends JPanel {
 	private List<Record> records;
 	private RecordHandler recHandler;
 	
-	public RecordsListerPanel(RecordHandler recHandlerRef) {
+	public RecordsListerPanel(RecordHandler recHandlerRef, RecordListView.RecordEditor editorRef) {
 		this.recHandler = recHandlerRef;
 		this.setLayout(new BorderLayout());
 		this.add(getTitleLabel("Recently added..."), BorderLayout.NORTH);
@@ -91,7 +93,7 @@ class RecordsListerPanel extends JPanel {
 		
 //		MultiRecDisplay recDisplay = new MultiRecDisplay(records);
 //		this.add(recDisplay, BorderLayout.CENTER);
-		RecordListView list = new RecordListView(null, recHandlerRef);
+		RecordListView list = new RecordListView(editorRef, recHandlerRef);
 		this.add(new JScrollPane(list), BorderLayout.CENTER);
 		list.show(records);
 		list.setPreferredScrollableViewportSize(new Dimension(150, 150));
