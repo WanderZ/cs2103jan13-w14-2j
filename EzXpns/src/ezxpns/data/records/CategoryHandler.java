@@ -1,15 +1,21 @@
 package ezxpns.data.records;
 import java.util.List;
+import java.util.Vector;
 
 /**
  *	Interface to handle the categories between the Graphical User Interface and the data storage (upon GUI Exit)
  */
-public interface CategoryHandler {
+public interface CategoryHandler<T> {
 	/**
 	 * Get all user defined categories
 	 * @return List of all the Categories stored
 	 */
 	public List<Category> getAllCategories();
+	
+	/**
+	 * Get category with id
+	 */
+	public Category getCategory(long id);
 	
 	/**
 	 * Create a new category, note that the new category will be a copied with perhaps different id
@@ -50,4 +56,18 @@ public interface CategoryHandler {
 	 */
 	public String validateCategoryName(String name);
 	
+	
+	/**
+	 * Search for records matching the category
+	 * @param category category of the record
+	 * @param max maximum number of records return, records are ordered by date in decending order
+	 * @return records matching the name
+	 */
+	public Vector<T> getRecordsBy(Category category, int max);
+	
+	/**
+	 * Add a list of records to a category
+	 * 
+	 */
+	public boolean addToCategory(List<T> records, Category cat);
 }
