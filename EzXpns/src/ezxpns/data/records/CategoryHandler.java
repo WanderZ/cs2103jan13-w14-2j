@@ -49,4 +49,5 @@ public interface CategoryHandler {
 	 * Returns an error string if not or null if yes
 	 */
 	public String validateCategoryName(String name);
+	
 }

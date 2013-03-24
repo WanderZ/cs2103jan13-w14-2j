@@ -7,25 +7,26 @@ import ezxpns.data.ReportGenerator;
 import ezxpns.data.SummaryGenerator;
 import ezxpns.data.TargetManager;
 import ezxpns.data.records.CategoryHandler;
+import ezxpns.data.records.ExpenseRecord;
+import ezxpns.data.records.IncomeRecord;
 import ezxpns.data.records.PayMethodHandler;
 import ezxpns.data.records.RecordHandler;
 import ezxpns.data.records.SearchHandler;
 
 /**
  * To assist EzXpns in managing all the GUI Windows
-<<<<<<< local
-=======
- * Implements ActionListener for the main menu.
->>>>>>> other
  */
 public class UIControl {
 	
+	// JComponents
 	private HomeScreen homeScreen;
 	private RecordFrame recWin;
 	private SearchFrame searchWin;	
 	private ReportFrame reportWin;
 	private CategoryFrame catWin;
+	private PaymentMethodFrame payWin;
 	
+	// Logical Components
 	private SearchHandler findHandler;
 	private RecordHandler recHandler;
 	private CategoryHandler inCatHandler, exCatHandler;
@@ -33,6 +34,7 @@ public class UIControl {
 	private TargetManager targetMgr;
 	private ReportGenerator rptGen;
 	private SummaryGenerator sumGen;
+	private UndoManager undoMgr;
 	
 	/**
 	 * To create a UI Manager. 
@@ -53,8 +55,8 @@ public class UIControl {
 			PayMethodHandler payHandlerRef,
 			TargetManager targetMgrRef,
 			ReportGenerator rptGenRef,
-			SummaryGenerator sumGenRef
-		) {
+			SummaryGenerator sumGenRef,
+			UndoManager undoMgrRef) {
 		
 		// Handlers for the various places
 		findHandler = searchHandlerRef;
@@ -65,6 +67,7 @@ public class UIControl {
 		payHandler = payHandlerRef;
 		rptGen = rptGenRef;
 		sumGen = sumGenRef;
+		undoMgr = undoMgrRef;
 		
 		homeScreen = new HomeScreen(this, recHandlerRef, targetMgr, sumGen);
 		
@@ -73,13 +76,6 @@ public class UIControl {
 				System.exit(0);
 			}
 		});
-		// Faking a pop up :)
-		/*JWindow jWin = new JWindow();
-		jWin.getContentPane().add(new JLabel("helloworld!"));
-		jWin.setSize(800,600);
-		jWin.setLocationRelativeTo(null);
-		jWin.setVisible(true);
-		*/
 	}
 	
 	/**
@@ -106,19 +102,50 @@ public class UIControl {
 	 * @param recordType the type of new record Expense/Income 
 	 */
 	public void showRecWin(int recordType) {
-		if(recWin == null) {
-			recWin = new RecordFrame(recHandler, inCatHandler, exCatHandler, payHandler, recordType);
-			recWin.addWindowListener(new WindowAdapter() {
-				@Override
-				public void windowClosing(WindowEvent wEvent) {
-					homeScreen.updateAll();
-				}
-			});
-		}
+		recWin = new RecordFrame(recHandler, inCatHandler, exCatHandler, payHandler, recordType);
+		recWin.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent wEvent) {
+				homeScreen.updateAll();
+				System.out.println("RecordFrame exiting!");
+			}
+		});
 		recWin.setVisible(true);
 	}
 	
-	/** Displays the search handler window */
+	/**
+	 * Display the record window - edit an ExpenseRecord record
+	 * @param record ExpenseRecord to be editted
+	 */
+	public void showRecWin(ExpenseRecord record) {
+		recWin = new RecordFrame(recHandler, exCatHandler, payHandler, record);
+		recWin.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent wEvent) {
+				homeScreen.updateAll();
+			}
+		});
+		recWin.setVisible(true);
+	}
+	
+	/**
+	 * Display the record window - edit an IncomeRecord record
+	 * @param record IncomeRecord to be be edited
+	 */
+	public void showRecWin(IncomeRecord record) {
+		recWin = new RecordFrame(recHandler, inCatHandler, record);
+		recWin.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent wEvent) {
+				homeScreen.updateAll();
+			}
+		});
+		recWin.setVisible(true);
+	}
+	
+	/**
+	 * Displays the search handler window
+	 */
 	public void showSearchWin() {
 		if(searchWin == null) {
 			searchWin = new SearchFrame(findHandler, new RecordListView(recWin, recHandler));
@@ -126,7 +153,9 @@ public class UIControl {
 		searchWin.setVisible(true);
 	}
 	
-	/** Displays the report handler window */
+	/** 
+	 * Displays the Report handler Window 
+	 */
 	public void showReportWin() {
 		if(reportWin == null) {
 			reportWin = new ReportFrame(rptGen);
@@ -141,18 +170,37 @@ public class UIControl {
 		reportWin.setVisible(true);
 	}
 	
-	/** Displays the category handler window */
-	public void showCatWin() { 
-		if(catWin == null) {
-			catWin = new CategoryFrame(exCatHandler, inCatHandler, targetMgr, homeScreen);
-			catWin.addWindowListener(new WindowAdapter() {
-				@Override
-				public void windowClosing(WindowEvent wEvent) {
-					homeScreen.updateAll();
-					catWin.dispose();
-				}
-			});
-		}
+	/**
+	 * Displays the Category Manager window
+	 */
+	public void showCatWin() {
+		catWin = new CategoryFrame(exCatHandler, inCatHandler, targetMgr, homeScreen);
+		catWin.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent wEvent) {
+				homeScreen.updateAll();
+				catWin.dispose();
+			}
+		});
 		catWin.setVisible(true); 
+	}
+	
+	/**
+	 * Displays the Payment Method Manager Window
+	 */
+	public void showPayWin() {
+		payWin = new PaymentMethodFrame(payHandler);
+		payWin.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent wEvent) {
+				homeScreen.updateAll();
+				payWin.dispose();
+			}
+		});
+		payWin.setVisible(true);
+	}
+	
+	public UndoManager getUndoMgr() {
+		return undoMgr;
 	}
 }

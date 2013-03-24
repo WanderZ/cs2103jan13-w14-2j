@@ -32,7 +32,7 @@ public class EzXpnMainMenu extends JMenuBar {
 @SuppressWarnings("serial")
 class MenuRecord extends JMenu {
 	
-	private JMenuItem itmExpense, itmIncome, itmCatMgr, itmSearch;
+	private JMenuItem itmExpense, itmIncome, itmCatMgr, itmPayMgr, itmSearch;
 	private UIControl guiCtrl;
 	
 	public MenuRecord(String name, UIControl guiCtrlRef) {
@@ -48,10 +48,12 @@ class MenuRecord extends JMenu {
 		
 		this.add(new JSeparator());
 		
-		itmCatMgr = new JMenuItem("Category Manager");
+		itmCatMgr = new JMenuItem("Manage Category");
+		itmPayMgr = new JMenuItem("Manage Payment");
 		itmSearch = new JMenuItem("Search");
 		
 		this.add(itmCatMgr);
+		this.add(itmPayMgr);
 		this.add(itmSearch);
 		
 		itmExpense.addActionListener(new ActionListener() {
@@ -76,6 +78,13 @@ class MenuRecord extends JMenu {
 			}
 		});
 		
+		itmPayMgr.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				guiCtrl.showPayWin();
+			}
+		});
+		
 		itmSearch.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -90,14 +99,16 @@ class MenuEdit extends JMenu {
 	
 	private JMenuItem itmUndo, itmConfig;
 	private UIControl guiCtrl;
+	private UndoManager undoMgr;
 	
 	public MenuEdit(String name, UIControl guiCtrlRef) { 
 		super(name);
 		
 		this.guiCtrl = guiCtrlRef;
+		this.undoMgr = guiCtrl.getUndoMgr();
 		
 		itmUndo = new JMenuItem();
-		itmUndo.setAction((new UndoManager()).getAction());
+		itmUndo.setAction(undoMgr.getAction());
 		itmConfig = new JMenuItem("Settings");
 		
 		this.add(this.itmUndo);

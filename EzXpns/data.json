@@ -7,27 +7,43 @@
       },
       "1361694372893": {
         "id": 1361694372893,
-        "name": "2s1rqfh8rtog"
+        "name": "NETS"
       },
       "1363314106821": {
         "id": 1363314106821,
-        "name": "6uexg5bx1h1c"
+        "name": "Gifts"
       },
       "1363857352962": {
         "id": 1363857352962,
-        "name": "adsfads"
+        "name": "Chequeee"
       },
       "1363857357505": {
         "id": 1363857357505,
-        "name": "ddd"
+        "name": "iNets"
       },
       "1363857409977": {
         "id": 1363857409977,
-        "name": "asdfaadsf"
+        "name": "Cash"
+      },
+      "1363949455170": {
+        "id": 1363949455170,
+        "name": "iBank"
+      },
+      "1363950844232": {
+        "id": 1363950844232,
+        "name": "teste"
+      },
+      "1364054074479": {
+        "id": 1364054074479,
+        "name": "Cash"
+      },
+      "1364054407267": {
+        "id": 1364054407267,
+        "name": "hoho"
       },
       "1364521902224": {
         "id": 1364521902224,
-        "name": "bank"
+        "name": "mBank"
       }
     },
     "categories": {
@@ -37,7 +53,7 @@
       },
       "1363504544188": {
         "id": 1363504544188,
-        "name": "Shit"
+        "name": "Jo"
       },
       "1363942776603": {
         "id": 1363942776603,
@@ -50,6 +66,10 @@
       "1364704133024": {
         "id": 1364704133024,
         "name": "Transport"
+      },
+      "1364053692757": {
+        "id": 1364053692757,
+        "name": "noname"
       }
     },
     "recordsByCategory": {
@@ -58,7 +78,7 @@
           "expenseType": "NEED",
           "paymentMethod": {
             "id": 1361694372893,
-            "name": "2s1rqfh8rtog"
+            "name": "NETS"
           },
           "amount": 111.0,
           "name": "3e",
@@ -70,7 +90,7 @@
           "expenseType": "NEED",
           "paymentMethod": {
             "id": 1363314106821,
-            "name": "6uexg5bx1h1c"
+            "name": "Gifts"
           },
           "amount": 11.0,
           "name": "eee",
@@ -89,9 +109,119 @@
           "remark": "test",
           "date": "Mar 20, 2013 3:40:53 PM",
           "id": 1363765253901
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1363949455170,
+            "name": "iBank"
+          },
+          "amount": 201.0,
+          "name": "test",
+          "remark": "test",
+          "date": "Mar 20, 2013 3:40:53 PM",
+          "id": 1363949455170
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1361694372893,
+            "name": "NETS"
+          },
+          "amount": 2.0,
+          "name": "test",
+          "remark": "test",
+          "date": "Mar 20, 2013 3:40:53 PM",
+          "id": 1363949910503
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1361694372893,
+            "name": "NETS"
+          },
+          "amount": 20.0,
+          "name": "test",
+          "remark": "test",
+          "date": "Mar 19, 2013 12:00:00 AM",
+          "id": 1363949972918
+        }
+      ],
+      "1363942776603": [
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1361694372893,
+            "name": "NETS"
+          },
+          "amount": 20.0,
+          "name": "test",
+          "remark": "test",
+          "date": "Mar 18, 2013 12:00:00 AM",
+          "id": 1363950018778
         }
       ],
       "1363314106821": [
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1363314106821,
+            "name": "Gifts"
+          },
+          "amount": 22.0,
+          "name": "fun",
+          "remark": "fund",
+          "date": "Mar 22, 2013 7:42:36 PM",
+          "id": 1363952568164
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1363314106821,
+            "name": "Gifts"
+          },
+          "amount": 99.0,
+          "name": "Laptop",
+          "remark": "nil",
+          "date": "Mar 22, 2013 7:14:33 PM",
+          "id": 1363950898967
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1361694372893,
+            "name": "NETS"
+          },
+          "amount": 20.0,
+          "name": "test",
+          "remark": "test",
+          "date": "Mar 22, 2013 12:00:00 AM",
+          "id": 1363952430261
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1361694372893,
+            "name": "NETS"
+          },
+          "amount": 20.0,
+          "name": "test",
+          "remark": "test",
+          "date": "Mar 22, 2013 12:00:00 AM",
+          "id": 1363952649900
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1361694372893,
+            "name": "NETS"
+          },
+          "amount": 999.0,
+          "name": "test",
+          "remark": "test",
+          "date": "Mar 20, 2013 3:40:53 PM",
+          "id": 1363950691392
+        },
         {
           "expenseType": "NEED",
           "paymentMethod": {
@@ -108,7 +238,7 @@
           "expenseType": "NEED",
           "paymentMethod": {
             "id": 1363314106821,
-            "name": "6uexg5bx1h1c"
+            "name": "Gifts"
           },
           "amount": 44.0,
           "name": "test",
@@ -120,7 +250,7 @@
           "expenseType": "NEED",
           "paymentMethod": {
             "id": 1363314106821,
-            "name": "6uexg5bx1h1c"
+            "name": "Gifts"
           },
           "amount": 165.81,
           "name": "1jaa73uagt4w",
@@ -199,6 +329,10 @@
         "id": 1362122547530,
         "name": "Salary"
       },
+      "1363950844232": {
+        "id": 1363950844232,
+        "name": "test"
+      },
       "1363314106821": {
         "id": 1363314106821,
         "name": "Scholarship"
@@ -210,6 +344,13 @@
     },
     "recordsByCategory": {
       "1364097417024": [
+        {
+          "amount": 2000000.0,
+          "name": "Inheritance",
+          "remark": ":\\",
+          "date": "Mar 22, 2013 6:54:57 PM",
+          "id": 1363949733763
+        },
         {
           "amount": 55.0,
           "name": "test",
@@ -226,6 +367,13 @@
         }
       ],
       "1362480320970": [
+        {
+          "amount": 25.0,
+          "name": "test",
+          "remark": "nil",
+          "date": "Mar 22, 2013 7:41:10 PM",
+          "id": 1363952483313
+        },
         {
           "amount": 85.81,
           "name": "64ru2kmtvo8w",
@@ -308,9 +456,9 @@
       "1363504544188": {
         "cat": {
           "id": 1363504544188,
-          "name": "Shit"
+          "name": "Jo"
         },
-        "targetAmt": 100000.0
+        "targetAmt": 100.0
       },
       "1363942776603": {
         "cat": {
