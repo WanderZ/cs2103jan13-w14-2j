@@ -100,7 +100,7 @@ public class StorageManager {
 	public void save(){
 		if(manager.isUpdated()){
 			writeToFile();
-			System.out.println(gson.toJson(manager));
+			System.out.println("stored");
 		}
 		timer.schedule(new TimerTask(){
 			public void run(){

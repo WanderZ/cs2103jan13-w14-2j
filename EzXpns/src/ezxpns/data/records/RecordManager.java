@@ -127,6 +127,9 @@ public class RecordManager<T extends Record>
 		categories.remove(0);
 		categories.put(0l, Category.undefined);
 		ran = new Random();
+		if(!recordsByCategory.containsKey(Category.undefined.id)){
+			recordsByCategory.put(Category.undefined.id, new TreeSet<T>());
+		}
 		for(Map.Entry<Long, TreeSet<T> > entry : recordsByCategory.entrySet()){
 			TreeSet<T> rs = entry.getValue();
 			Category cat = getCategory(entry.getKey());
@@ -407,8 +410,10 @@ public class RecordManager<T extends Record>
 	public boolean removeCategory(long identifier) {
 		if(recordsByCategory.containsKey(identifier)){
 			TreeSet<T> rs = recordsByCategory.get(identifier);
-			for(Record r : rs){
+			TreeSet<T> nrs = recordsByCategory.get(Category.undefined.id);
+			for(T r : rs){
 				r.category = Category.undefined;
+				nrs.add(r);
 			}
 			recordsByCategory.remove(identifier);
 		}
