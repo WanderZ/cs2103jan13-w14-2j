@@ -320,12 +320,7 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		dateChooserStart = new JDateChooser();
 		dateChooserStart.getJCalendar().setTodayButtonVisible(true);
 		dateChooserStart.setDateFormatString("dd/MM/yyyy");
-		try {
-			dateChooserStart.getJCalendar().setSelectableDateRange(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/1900"),new Date());
-		} catch (ParseException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		} // throw parseexception, but that will never happen
+		dateChooserStart.setMaxSelectableDate(new Date());
 		PropertyChangeListener calendarChangeListener  = new PropertyChangeListener() {
 	        @Override
 	        public void propertyChange(PropertyChangeEvent evt) {
@@ -336,12 +331,7 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		dateChooserEnd = new JDateChooser();
 		dateChooserEnd.getJCalendar().setTodayButtonVisible(true);
 		dateChooserEnd.setDateFormatString("dd/MM/yyyy");
-		try {
-			dateChooserEnd.getJCalendar().setSelectableDateRange(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/1900"),new Date());
-		} catch (ParseException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		} // throw parseexception, but that will never happen
+		dateChooserEnd.setMaxSelectableDate(new Date());
 	    dateChooserEnd.getJCalendar().addPropertyChangeListener("calendar",calendarChangeListener);
 
 		
