@@ -357,15 +357,19 @@ public class CategoryFrame extends JFrame {
 	 * modify the expense category and target editing
 	 */
 	private void modifyEx(){
-		String err = excats.validateCategoryName(exnameField.getText());
+		String err = null;
+		String newName = exnameField.getText();
+		if(curCat != addNew && !curCat.getName().equals(newName)){
+			err = excats.validateCategoryName(newName);
+		}
 		if(err == null){
 			if(curCat == addNew){
-				Category cat = excats.addNewCategory(new Category(exnameField.getText()));
+				Category cat = excats.addNewCategory(new Category(newName));
 				if(validateTarget(targetAmountField.getText())){
 					targetMgr.setTarget(cat, Double.parseDouble(targetAmountField.getText()));
 				}
 				exmo.update();
-				exlist.setSelectedIndex(0);
+				exlist.setSelectedValue(cat, true);
 			}else{
 				Category cat = excats.updateCategory(curCat.getID(), new Category(exnameField.getText()));
 				if(validateTarget(targetAmountField.getText())){
@@ -384,12 +388,16 @@ public class CategoryFrame extends JFrame {
 	 * modify the income category editing
 	 */
 	private void modifyIn(){
-		String err = incats.validateCategoryName(inNameField.getText());
+		String err = null;
+		String newName = inNameField.getText();
+		if(curCat != addNew && !curCat.getName().equals(newName)){
+			err = excats.validateCategoryName(newName);
+		}
 		if(err == null){
 			if(curCat == addNew){
-				Category cat = incats.addNewCategory(new Category(inNameField.getText()));
+				Category cat = incats.addNewCategory(new Category(newName));
 				inmo.update();
-				inlist.setSelectedIndex(0);
+				inlist.setSelectedValue(cat, true);
 			}else{
 				Category cat = incats.updateCategory(curCat.getID(), new Category(inNameField.getText()));
 				inmo.update();
