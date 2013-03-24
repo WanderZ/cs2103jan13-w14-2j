@@ -131,29 +131,30 @@ public class Ezxpns implements
 
 
 	@Override
-	public boolean createRecord(IncomeRecord r, boolean newCat) {
+	public IncomeRecord createRecord(IncomeRecord r, boolean newCat) {
 		if(newCat){
 			Category cat = data.incomes().addNewCategory(r.getCategory());
 			if(cat == null){
-				return false;
+				return null;
 			}
 			r = new IncomeRecord(r.getAmount(), r.getName(), r.getRemark(), r.getDate(), cat);
 		}
+		IncomeRecord nr = null;
 		try {
-			data.incomes().addNewRecord(r);
+			nr = data.incomes().addNewRecord(r);
 			summaryGenerator.markDataUpdated();
 		} catch (RecordUpdateException e) {
-			return false;
+			return null;
 		}
-		return true;
+		return nr;
 	}
 	
 	@Override
-	public boolean createRecord(ExpenseRecord r, boolean newCat, boolean newPay) {
+	public ExpenseRecord createRecord(ExpenseRecord r, boolean newCat, boolean newPay) {
 		if(newCat){
 			Category cat = data.incomes().addNewCategory(r.getCategory());
 			if(cat == null){
-				return false;
+				return null;
 			}
 			r = new ExpenseRecord(r.getAmount(), r.getName(), r.getRemark(), r.getDate(), cat,
 					r.getExpenseType(), r.getPaymentMethod());
@@ -161,20 +162,20 @@ public class Ezxpns implements
 		if(newPay){
 			PaymentMethod pay = data.expenses().addNewPaymentMethod(r.getPaymentMethod());
 			if(pay == null){
-				return false;
+				return null;
 			}
 			r = new ExpenseRecord(r.getAmount(), r.getName(), r.getRemark(), r.getDate(), r.getCategory(),
 					r.getExpenseType(), pay);
 		}
+		ExpenseRecord nr = null;
 		try {
-			data.expenses().addNewRecord(r);
+			nr = data.expenses().addNewRecord(r);
 			targetManager.markDataUpdated();
 			summaryGenerator.markDataUpdated();
 		} catch (RecordUpdateException e) {
-			return false;
+			return null;
 		}
-		store.save();
-		return true;
+		return nr;
 	}
 	
 	@Override

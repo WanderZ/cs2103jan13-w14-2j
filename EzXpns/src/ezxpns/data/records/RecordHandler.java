@@ -27,7 +27,7 @@ public interface RecordHandler {
 	 * @param newCat true for new category, otherwise false
 	 * @return true if creating a new record is successful, otherwise false
 	 */
-	public boolean createRecord(IncomeRecord newRecord, boolean newCat);
+	public IncomeRecord createRecord(IncomeRecord newRecord, boolean newCat);
 	
 	/**
 	 * Create a new expense record along with flags for new expense category and new payment method
@@ -36,7 +36,7 @@ public interface RecordHandler {
 	 * @param newPay true for new payment method, otherwise false
 	 * @return true if successful, else false
 	 */
-	public boolean createRecord(ExpenseRecord newRecord, boolean newCat, boolean newPay);
+	public ExpenseRecord createRecord(ExpenseRecord newRecord, boolean newCat, boolean newPay);
 	
 	/**
 	 * Remove record based on an identifier

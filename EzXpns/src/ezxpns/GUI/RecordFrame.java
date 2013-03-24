@@ -258,7 +258,7 @@ class PanelMain extends JPanel {
 		this.isExpense = true;
 		
 		panExpense = new ExpenseForm(recHandlerRef, expenseHandlerRef, payHandlerRef, undoMgrRef);
-		panIncome = new IncomeForm(recHandlerRef, incomeHandlerRef, undoMgrRef);
+		panIncome = new IncomeForm(recHandlerRef, incomeHandlerRef);
 		this.initTabs();
 		
 		
@@ -307,7 +307,7 @@ class PanelMain extends JPanel {
 			IncomeRecord record) {
 		this.setLayout(new BorderLayout());
 		this.isExpense = false;
-		panIncome = new IncomeForm(recHandlerRef, incomeHandlerRef, undoMgrRef, record);
+		panIncome = new IncomeForm(recHandlerRef, incomeHandlerRef, record);
 		this.add(panIncome, BorderLayout.CENTER);
 	}
 	
