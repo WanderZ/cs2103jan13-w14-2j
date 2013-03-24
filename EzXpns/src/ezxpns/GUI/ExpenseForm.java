@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,6 +21,9 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
+
+import com.toedter.calendar.JCalendar;
+import com.toedter.calendar.JDateChooser;
 
 import ezxpns.data.records.Category;
 import ezxpns.data.records.CategoryHandler;
@@ -46,7 +51,8 @@ public class ExpenseForm extends JPanel {
 	private JRadioButton rbtnNeed, rbtnWant;
 	private JLabel lblAmt, lblName, lblType, lblCat, lblPayment, lblDate, lblDesc;
 	private JTextField 	txtAmt, txtName;
-	private JFormattedTextField txtDate;
+	//private JFormattedTextField txtDate;
+	private JDateChooser txtDateChooser;
 	private JTextField txtDesc;
 	private JComboBox cboxCat, cboxPay;
 	
@@ -105,7 +111,7 @@ public class ExpenseForm extends JPanel {
 		cboxPay.setSelectedIndex(methods.indexOf(record.getPaymentMethod()));
 		
 		// Date
-		txtDate.setValue(record.getDate());
+		txtDateChooser.setDate(record.getDate());
 		
 		// Description
 		txtDesc.setText(record.getRemark());
@@ -240,16 +246,29 @@ public class ExpenseForm extends JPanel {
 		// This will need a listener to calculate and display the information on the label
 
 		lblDate = this.createLabel("Date");
-		txtDate = new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy"));
-		txtDate.setPreferredSize(new Dimension(200, 25));
-		txtDate.setValue(new Date());
-		txtDate.setBorder(BorderFactory.createLoweredBevelBorder());
+		// JDateChooser stuff starts here (tingzhe)
+		txtDateChooser = new JDateChooser(new Date());
+		txtDateChooser.getJCalendar().setTodayButtonVisible(true);
+		txtDateChooser.setDateFormatString("dd/MM/yyyy");
+		txtDateChooser.setMaxSelectableDate(new Date());
+		PropertyChangeListener calendarChangeListener  = new PropertyChangeListener() {
+	        @Override
+	        public void propertyChange(PropertyChangeEvent evt) {
+	            Date selectedDate = ((JCalendar)evt.getSource()).getDate();
+	        }
+	    };
+		txtDateChooser.setPreferredSize(new Dimension(200, 25));
+	    // JDateChooser stuff ends here (tingzhe)
+		//txtDate = new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy"));
+		//txtDate.setPreferredSize(new Dimension(200, 25));
+		//txtDate.setValue(new Date());
+		//txtDate.setBorder(BorderFactory.createLoweredBevelBorder());
 		this.add(lblDate);
-		this.add(txtDate);
+		this.add(txtDateChooser);
 		loForm.putConstraint(SpringLayout.WEST, lblDate, COL1_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.WEST, txtDate, COL2_PAD, SpringLayout.WEST, this);
+		loForm.putConstraint(SpringLayout.WEST, txtDateChooser, COL2_PAD, SpringLayout.WEST, this);
 		loForm.putConstraint(SpringLayout.NORTH, lblDate, TOP_PAD, SpringLayout.NORTH, lblAmt);
-		loForm.putConstraint(SpringLayout.NORTH, txtDate, TOP_PAD, SpringLayout.NORTH, txtAmt);
+		loForm.putConstraint(SpringLayout.NORTH, txtDateChooser, TOP_PAD, SpringLayout.NORTH, txtAmt);
 		// Insert Calendar View? Drop down box here
 
 		lblDesc = this.createLabel("Remarks");
@@ -260,7 +279,7 @@ public class ExpenseForm extends JPanel {
 		loForm.putConstraint(SpringLayout.WEST, lblDesc, COL1_PAD, SpringLayout.WEST, this);
 		loForm.putConstraint(SpringLayout.WEST, txtDesc, COL2_PAD, SpringLayout.WEST, this);
 		loForm.putConstraint(SpringLayout.NORTH, lblDesc, TOP_PAD, SpringLayout.NORTH, lblDate);
-		loForm.putConstraint(SpringLayout.NORTH, txtDesc, TOP_PAD, SpringLayout.NORTH, txtDate);
+		loForm.putConstraint(SpringLayout.NORTH, txtDesc, TOP_PAD, SpringLayout.NORTH, txtDateChooser);
 	}
 	
 	/**
@@ -302,7 +321,7 @@ public class ExpenseForm extends JPanel {
 	 * @return the Date object reference for the specified date
 	 */
 	public Date getDate() {
-		return (Date) txtDate.getValue();
+		return (Date) txtDateChooser.getDate();
 	}
 	
 	/**
@@ -367,7 +386,7 @@ public class ExpenseForm extends JPanel {
 		}
 		
 		if(!validateDate()) {
-			this.markErr(txtDate);
+			this.markErr(txtDateChooser);
 			validateSuccess = false;
 		}
 		
@@ -424,6 +443,14 @@ public class ExpenseForm extends JPanel {
 	 */
 	private void markErr(JTextField txtField) {
 		txtField.setBorder(BorderFactory.createLineBorder(Color.RED));
+	}
+	
+	/**
+	 * Method to mark fields with a red border to indicate to user that it has error
+	 * @param myTxtDateChooser JDateChooser to be marked for error
+	 */
+	private void markErr(JDateChooser myTxtDateChooser) {
+		myTxtDateChooser.setBorder(BorderFactory.createLineBorder(Color.RED));
 	}
 	
 	/**
