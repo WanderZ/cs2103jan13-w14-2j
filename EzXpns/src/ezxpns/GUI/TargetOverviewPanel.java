@@ -72,6 +72,7 @@ public class TargetOverviewPanel extends JPanel {
 		columnPanel = new JPanel();
 		updateTargets();
 		lblalertnumber = new JLabel();
+		tagsPane.add(lblalertnumber, "cell 2 0,alignx left,aligny top");
 		updateAlerts();
 
 	}// end constructor
@@ -124,7 +125,6 @@ public class TargetOverviewPanel extends JPanel {
 	 */
 	public void updateAlerts() {
 		lblalertnumber.setText("(" + targetMgr.getAlerts().size() + ")");
-		tagsPane.add(lblalertnumber, "cell 2 0,alignx left,aligny top");
 	}
 	
 	public void update() {

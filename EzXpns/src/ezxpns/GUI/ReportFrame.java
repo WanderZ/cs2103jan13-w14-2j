@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,7 +25,6 @@ import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -44,6 +45,9 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.util.Rotation;
 
+import com.toedter.calendar.JCalendar;
+import com.toedter.calendar.JDateChooser;
+
 import ezxpns.data.Report;
 import ezxpns.data.ReportCategory;
 import ezxpns.data.ReportGenerator;
@@ -58,9 +62,6 @@ import ezxpns.data.ReportGenerator.DateOrderException;
  */
 @SuppressWarnings("serial")
 public class ReportFrame extends JFrame implements ComponentListener {
-
-	private JFormattedTextField startDateField;
-	private JFormattedTextField endDateField;
 	private JPanel cards;
 	private JPanel generateReport;
 	private JPanel curtain;
@@ -82,6 +83,8 @@ public class ReportFrame extends JFrame implements ComponentListener {
 	private Report myReportData;
 	private JLabel lblErrorMsg;
 	private int pieChartIndex = 0;
+	private JDateChooser dateChooserStart;
+	private JDateChooser dateChooserEnd;
 	
 	DecimalFormat df = new DecimalFormat("#.##");
 
@@ -106,14 +109,6 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
 
 		dateFormat.setCalendar(new GregorianCalendar());
-
-		// http://stackoverflow.com/questions/852631/java-swing-how-to-show-a-panel-on-top-of-another-panel
-		// resize issue
-		// http://geti.dcc.ufrj.br/cursos/fes_2008_1/javatutorial/uiswing/events/componentlistener.html
-		// http://stackoverflow.com/questions/8792075/overlay-panel-above-another
-		// resizable font: http://java-sl.com/tip_adapt_label_font_size.html
-		// resizable image:
-		// http://www.java2s.com/Tutorial/Java/0261__2D-Graphics/Resizeanimage.htm
 
 		// Layaered Pane
 		layeredPane = new JLayeredPane();
@@ -318,25 +313,37 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		JLabel lblStartDate = new JLabel("Start Date");
 		lblStartDate.setForeground(Color.WHITE);
 
-		// Start Date
-		startDateField = new JFormattedTextField(dateFormat);
-		startDateField.setColumns(10);
-
 		JLabel lblEndDate = new JLabel("End Date");
 		lblEndDate.setForeground(Color.WHITE);
 
-		// End Date
-		endDateField = new JFormattedTextField(dateFormat);
-		endDateField.setColumns(10);
+		// New Date Chooser
+		dateChooserStart = new JDateChooser();
+		dateChooserStart.getJCalendar().setTodayButtonVisible(true);
+		dateChooserStart.setDateFormatString("dd/MM/yyyy");
+		dateChooserStart.setMaxSelectableDate(new Date());
+		PropertyChangeListener calendarChangeListener  = new PropertyChangeListener() {
+	        @Override
+	        public void propertyChange(PropertyChangeEvent evt) {
+	            Date selectedDate = ((JCalendar)evt.getSource()).getDate();
+	        }
+	    };
+	    dateChooserStart.getJCalendar().addPropertyChangeListener("calendar",calendarChangeListener);
+		dateChooserEnd = new JDateChooser();
+		dateChooserEnd.getJCalendar().setTodayButtonVisible(true);
+		dateChooserEnd.setDateFormatString("dd/MM/yyyy");
+		dateChooserEnd.setMaxSelectableDate(new Date());
+	    dateChooserEnd.getJCalendar().addPropertyChangeListener("calendar",calendarChangeListener);
 
+		
 		// "Generate" Button
 		JButton btnGenerate = new JButton("Generate");
 		btnGenerate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					myReportData = rptGen.generateReport(
+					/*myReportData = rptGen.generateReport(
 							dateFormat.parse(startDateField.getText()),
-							dateFormat.parse(endDateField.getText()));
+							dateFormat.parse(endDateField.getText()));*/
+					myReportData = rptGen.generateReport(dateChooserStart.getDate(), dateChooserEnd.getDate());
 				} catch (ParseException e1) {
 					// TODO Auto-generated catch block
 					lblErrorMsg
@@ -359,114 +366,65 @@ public class ReportFrame extends JFrame implements ComponentListener {
 				generateReport.setVisible(false);
 				curtain.setVisible(false);
 
-				startDateDisplay.setText(startDateField.getText());
-				endDateDisplay.setText(endDateField.getText());
+				startDateDisplay.setText(dateFormat.format(dateChooserStart.getDate()));
+				endDateDisplay.setText(dateFormat.format(dateChooserEnd.getDate()));
 			}
 
 		});
 
 		lblErrorMsg = new JLabel("");
 		lblErrorMsg.setForeground(Color.RED);
+		
+		
+		
 		GroupLayout gl_generateReport = new GroupLayout(generateReport);
-		gl_generateReport
-				.setHorizontalGroup(gl_generateReport
-						.createParallelGroup(Alignment.TRAILING)
-						.addGroup(
-								Alignment.LEADING,
-								gl_generateReport
-										.createSequentialGroup()
-										.addGap(20)
-										.addGroup(
-												gl_generateReport
-														.createParallelGroup(
-																Alignment.LEADING)
-														.addGroup(
-																gl_generateReport
-																		.createSequentialGroup()
-																		.addComponent(
-																				lblErrorMsg)
-																		.addPreferredGap(
-																				ComponentPlacement.RELATED,
-																				408,
-																				Short.MAX_VALUE)
-																		.addComponent(
-																				btnGenerate)
-																		.addGap(49))
-														.addGroup(
-																gl_generateReport
-																		.createSequentialGroup()
-																		.addGroup(
-																				gl_generateReport
-																						.createParallelGroup(
-																								Alignment.LEADING)
-																						.addComponent(
-																								lblGenerateAReport)
-																						.addGroup(
-																								gl_generateReport
-																										.createSequentialGroup()
-																										.addComponent(
-																												lblStartDate)
-																										.addPreferredGap(
-																												ComponentPlacement.RELATED)
-																										.addComponent(
-																												startDateField,
-																												GroupLayout.PREFERRED_SIZE,
-																												95,
-																												GroupLayout.PREFERRED_SIZE)
-																										.addGap(18)
-																										.addComponent(
-																												lblEndDate)
-																										.addPreferredGap(
-																												ComponentPlacement.RELATED)
-																										.addComponent(
-																												endDateField,
-																												GroupLayout.PREFERRED_SIZE,
-																												GroupLayout.DEFAULT_SIZE,
-																												GroupLayout.PREFERRED_SIZE)))
-																		.addContainerGap(
-																				203,
-																				Short.MAX_VALUE)))));
-		gl_generateReport
-				.setVerticalGroup(gl_generateReport
-						.createParallelGroup(Alignment.LEADING)
-						.addGroup(
-								gl_generateReport
-										.createSequentialGroup()
-										.addContainerGap()
-										.addComponent(lblGenerateAReport)
-										.addPreferredGap(
-												ComponentPlacement.RELATED,
-												GroupLayout.DEFAULT_SIZE,
-												Short.MAX_VALUE)
-										.addGroup(
-												gl_generateReport
-														.createParallelGroup(
-																Alignment.BASELINE)
-														.addComponent(
-																lblStartDate)
-														.addComponent(
-																startDateField,
-																GroupLayout.PREFERRED_SIZE,
-																GroupLayout.DEFAULT_SIZE,
-																GroupLayout.PREFERRED_SIZE)
-														.addComponent(
-																lblEndDate)
-														.addComponent(
-																endDateField,
-																GroupLayout.PREFERRED_SIZE,
-																GroupLayout.DEFAULT_SIZE,
-																GroupLayout.PREFERRED_SIZE))
-										.addPreferredGap(
-												ComponentPlacement.UNRELATED)
-										.addGroup(
-												gl_generateReport
-														.createParallelGroup(
-																Alignment.BASELINE)
-														.addComponent(
-																btnGenerate)
-														.addComponent(
-																lblErrorMsg))
-										.addGap(22)));
+		gl_generateReport.setHorizontalGroup(
+			gl_generateReport.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_generateReport.createSequentialGroup()
+					.addGap(20)
+					.addGroup(gl_generateReport.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_generateReport.createSequentialGroup()
+							.addGroup(gl_generateReport.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblErrorMsg)
+								.addComponent(lblGenerateAReport))
+							.addPreferredGap(ComponentPlacement.RELATED, 174, Short.MAX_VALUE)
+							.addComponent(btnGenerate)
+							.addGap(49))
+						.addGroup(gl_generateReport.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblStartDate)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(dateChooserStart, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblEndDate)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(dateChooserEnd, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap())))
+		);
+		gl_generateReport.setVerticalGroup(
+			gl_generateReport.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_generateReport.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_generateReport.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_generateReport.createSequentialGroup()
+							.addComponent(lblGenerateAReport)
+							.addPreferredGap(ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+							.addGroup(gl_generateReport.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_generateReport.createSequentialGroup()
+									.addGap(6)
+									.addComponent(lblStartDate)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addGroup(gl_generateReport.createParallelGroup(Alignment.BASELINE)
+										.addComponent(btnGenerate)
+										.addComponent(lblErrorMsg)))
+								.addComponent(dateChooserStart, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(dateChooserEnd, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(22))
+						.addGroup(gl_generateReport.createSequentialGroup()
+							.addGap(12)
+							.addComponent(lblEndDate)
+							.addGap(57))))
+		);
 		generateReport.setLayout(gl_generateReport);
 
 		// Add Component Listener to identified component

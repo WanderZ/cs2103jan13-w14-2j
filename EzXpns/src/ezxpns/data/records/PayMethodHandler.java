@@ -33,7 +33,9 @@ public interface PayMethodHandler {
 	public PaymentMethod updatePaymentMethod(long id, PaymentMethod paymentRef);
 	
 	/**
-	 * Whether the payment method name is in used
+	 * Validate if the name is acceptable
+	 * Returns an error string if not or null if yes
+	 * note: don't check if the name is not changed as it will return the name is being used
 	 */
-	public boolean containsPaymentMethodName(String name);
+	public String validatePaymentMethodName(String name);
 }
