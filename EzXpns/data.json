@@ -73,6 +73,7 @@
       }
     },
     "recordsByCategory": {
+      "0": [],
       "1363504544188": [
         {
           "expenseType": "NEED",
@@ -343,6 +344,7 @@
       }
     },
     "recordsByCategory": {
+      "0": [],
       "1364097417024": [
         {
           "amount": 2000000.0,

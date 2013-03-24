@@ -425,9 +425,16 @@ public class CategoryFrame extends JFrame{
 			    		"All records under this category will have an undefined category!";
 		if(JOptionPane.showConfirmDialog(this, message, "what?!",
 				JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+			Category original = curCat.copy();
+			double targetAmt = 0;
+			if(targetMgr.getTarget(curCat)!= null){
+				targetAmt = targetMgr.getTarget(curCat).getTargetAmt();
+			}
+			List<ExpenseRecord> recs = excats.getRecordsBy(curCat, -1);
 			excats.removeCategory(curCat.getID());
 			exmo.update();
 			exlist.setSelectedIndex(0);
+			notifyee.addUndoAction(getUndoRemoveExCat(recs, original, targetAmt), "Removing Category");
 			notifyee.updateAll();
 		}
 	}
@@ -440,11 +447,12 @@ public class CategoryFrame extends JFrame{
 		if(JOptionPane.showConfirmDialog(this, message, "what?!",
 				JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
 			List<IncomeRecord> oriRecords = incats.getRecordsBy(curCat, -1);
+			Category cat = curCat.copy();
 			incats.removeCategory(curCat.getID());
 			inmo.update();
 			inlist.setSelectedIndex(0);
 			notifyee.updateAll();
-			notifyee.addUndoAction(getUndoRemoveInCat(oriRecords, curCat), "Removing Category");
+			notifyee.addUndoAction(getUndoRemoveInCat(oriRecords, cat.copy()), "Removing Category");
 		}
 	}
 	
@@ -498,6 +506,25 @@ public class CategoryFrame extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				Category cat = incats.addNewCategory(original);
 				incats.addToCategory(recs, cat);
+			}
+		};
+	}
+	
+	private AbstractAction getUndoRemoveExCat(
+			final List<ExpenseRecord> recs,
+			final Category original,
+			final double targetAmt){
+		// deleting a category moves all records in it to undefined
+		// we need to undo this as well
+		return new AbstractAction(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Category cat = excats.addNewCategory(original);
+				excats.addToCategory(recs, cat);
+				if(targetAmt != 0){
+					targetMgr.setTarget(cat, targetAmt);
+				}
 			}
 		};
 	}
