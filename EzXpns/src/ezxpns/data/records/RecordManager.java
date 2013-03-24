@@ -305,6 +305,8 @@ public class RecordManager<T extends Record>
 		if(categories.get(id) == null){
 			throw new CategoryUpdateException("The category with the id does not exist!");
 		}
+		//same name, don't bother
+		if(newName.equals(categories.get(id).name))return;
 		String err = validateCategoryName(newName);
 		if(err != null)throw new CategoryUpdateException(newName);
 		categories.get(id).setName(newName);
