@@ -29,10 +29,12 @@ public class SavingsOverviewPanel extends JPanel {
 	//NWSGenerator nwsGenRef // parameter
 	public SavingsOverviewPanel() {
 		super();
+		setBackground(new Color(255, 255, 255));
 		//this.nwsGen = nwsGenRef; // reference
 		
 		setLayout(new BorderLayout(0, 0));
 		JPanel panelDonut = new JPanel();
+		panelDonut.setBackground(new Color(255, 255, 255));
 		add(panelDonut, BorderLayout.CENTER);
 		panelDonut.setLayout(new BoxLayout(panelDonut, BoxLayout.X_AXIS));
 		
