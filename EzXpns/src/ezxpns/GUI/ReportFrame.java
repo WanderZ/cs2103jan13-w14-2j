@@ -92,8 +92,8 @@ public class ReportFrame extends JFrame implements ComponentListener {
 	SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
 	private int PARAGRAPH_SPACE = 20;
-	public static final int DEFAULT_WIDTH = 600;
-	public static final int DEFAULT_HEIGHT = 400;
+	public static final int DEFAULT_WIDTH = 800;
+	public static final int DEFAULT_HEIGHT = 600;
 	public static final String[] columnNames = { "Category", "Frequency",
 			"Amount", "Percentage", "Amount/Frequency" };
 
@@ -128,6 +128,7 @@ public class ReportFrame extends JFrame implements ComponentListener {
 
 		// Button Panel
 		button = new JPanel();
+		button.setBackground(new Color(255, 255, 255));
 		button.setBounds(0, 0, WIDTH, 400);
 		button.setOpaque(false);
 		layeredPane.add(button);
@@ -180,10 +181,10 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		// Setting up the cards
 		cards.setLayout(new CardLayout(0, 0));
 		cardGeneral = new JPanel(); // General Card
-		cardGeneral.setBackground(Color.PINK);
+		cardGeneral.setBackground(new Color(255, 255, 255));
 		cardGeneral.setForeground(Color.RED);
 		cardExpense = new JPanel(); // Expense Card
-		cardExpense.setBackground(Color.ORANGE);
+		cardExpense.setBackground(new Color(255, 255, 255));
 		cardExpense.setForeground(Color.MAGENTA);
 		cards.add(cardGeneral, "GeneralCard");
 		cards.add(cardExpense, "ExpenseCard");
@@ -193,6 +194,7 @@ public class ReportFrame extends JFrame implements ComponentListener {
 						"[280.00,grow,fill]"));
 
 		expenseTable = new JPanel();
+		expenseTable.setBackground(new Color(255, 255, 255));
 		cardExpense.add(expenseTable, "cell 1 0,grow");
 
 		// ActionListener for General Button
@@ -440,6 +442,7 @@ public class ReportFrame extends JFrame implements ComponentListener {
 						"[280.00,grow,fill]"));
 
 		JPanel generalSummary = new JPanel();
+		generalSummary.setBackground(new Color(255, 255, 255));
 		cardGeneral.add(generalSummary, "cell 1 0,grow");
 		generalSummary.setLayout(new BoxLayout(generalSummary,
 				BoxLayout.PAGE_AXIS));
@@ -533,8 +536,8 @@ public class ReportFrame extends JFrame implements ComponentListener {
 
 	private PieDataset createDataset() {
 		DefaultPieDataset result = new DefaultPieDataset();
-		result.setValue("Balance", myReportData.getBalance());
 		result.setValue("Expense", myReportData.getTotalExpense());
+		result.setValue("Balance", myReportData.getBalance());
 		result.setValue("Income", myReportData.getTotalIncome());
 		return result;
 
@@ -568,7 +571,9 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		plot.setDirection(Rotation.CLOCKWISE);
 		plot.setOutlineVisible(false);
 		plot.setBackgroundPaint(Color.white);
-		plot.setForegroundAlpha(0.5f);
+		plot.setForegroundAlpha(1f);
+		plot.setShadowXOffset(0);
+	    plot.setShadowYOffset(0);		
 		return chart;
 
 	}
@@ -582,9 +587,9 @@ public class ReportFrame extends JFrame implements ComponentListener {
 			}
 		PieDataset dataset = createDataset();
 		// based on the dataset we create the chart
-		JFreeChart chart = createChart(dataset, "MY SUMMARY");
+		JFreeChart chart = createChart(dataset, ""); // dataset, title of chart
 		ChartPanel chartPanel = new ChartPanel(chart);
-		chartPanel.setPreferredSize(new java.awt.Dimension(250, 130));
+		chartPanel.setPreferredSize(new java.awt.Dimension(400, 400)); //250, 130
 
 		JPanel generalPieChart = new JPanel();
 		generalPieChart.add(chartPanel);

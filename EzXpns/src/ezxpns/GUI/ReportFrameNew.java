@@ -22,7 +22,7 @@ public class ReportFrameNew extends JFrame {
 
 	private ReportGenerator rptGen; // Place to store the reference
 
-	public static final int DEFAULT_WIDTH = 1440;
+	public static final int DEFAULT_WIDTH = 1200;
 	public static final int DEFAULT_HEIGHT = 800;
 	
 	public ReportFrameNew(ReportGenerator rptGenRef){ // Passing in the reference
