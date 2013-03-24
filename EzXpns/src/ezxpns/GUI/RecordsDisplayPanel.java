@@ -38,13 +38,17 @@ public class RecordsDisplayPanel extends JPanel implements ActionListener {
 	 */
 	public RecordsDisplayPanel(
 			RecordHandler recHandlerRef, 
-			RecordListView.RecordEditor editorRef) {
+			RecordListView.RecordEditor editorRef,
+			UpdateNotifyee notifyee) {
 		super(new BorderLayout());
 		
 		recHandler = recHandlerRef; // Receive Handler
 		editor = editorRef;
 		
 		this.setBackground(Color.WHITE);
+		
+		panContent = new RecordsListerPanel(recHandler, editor, notifyee);
+		this.add(panContent, BorderLayout.CENTER);
 		
 		this.loadRecords();
 	}	
@@ -59,8 +63,7 @@ public class RecordsDisplayPanel extends JPanel implements ActionListener {
 	 * Load Records from data storage
 	 */
 	private void loadRecords() {
-		panContent = new RecordsListerPanel(recHandler, editor);
-		this.add(panContent, BorderLayout.CENTER);
+		panContent.updateContent();
 	}
 	
 	public void update(){
@@ -83,20 +86,25 @@ class RecordsListerPanel extends JPanel {
 	
 	private List<Record> records;
 	private RecordHandler recHandler;
+	private RecordListView list;
 	
-	public RecordsListerPanel(RecordHandler recHandlerRef, RecordListView.RecordEditor editorRef) {
+	public RecordsListerPanel(RecordHandler recHandlerRef, RecordListView.RecordEditor editorRef, UpdateNotifyee notifyee) {
 		this.recHandler = recHandlerRef;
 		this.setLayout(new BorderLayout());
 		this.add(getTitleLabel("Recently added..."), BorderLayout.NORTH);
 		
-		this.initRecords();
-		
 //		MultiRecDisplay recDisplay = new MultiRecDisplay(records);
 //		this.add(recDisplay, BorderLayout.CENTER);
-		RecordListView list = new RecordListView(editorRef, recHandlerRef);
+		list = new RecordListView(editorRef, recHandlerRef, notifyee);
 		this.add(new JScrollPane(list), BorderLayout.CENTER);
-		list.show(records);
 		list.setPreferredScrollableViewportSize(new Dimension(150, 150));
+		
+		updateContent();
+	}
+	
+	public void updateContent(){
+		this.initRecords();
+		list.show(records);
 	}
 	
 	public RecordsListerPanel(int tabType, RecordHandler recHandlerRef) {		
