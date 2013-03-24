@@ -175,7 +175,7 @@ public class RecordListView extends JTable {
 		}
 		
 		if (rowIndex % 2 == 1 && !isCellSelected(rowIndex, vColIndex)) {
-			c.setBackground(Color.LIGHT_GRAY); 		// Odd Rows background color
+			c.setBackground(new Color(230, 230, 230));
 		} else {
 			c.setBackground(Color.WHITE); 			// Even rows background color
 		}
