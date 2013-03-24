@@ -34,7 +34,7 @@ import java.awt.event.FocusEvent;
  * Window for users to manage user-defined Categories as well as tagged Targets
  */
 @SuppressWarnings("serial")
-public class CategoryFrame extends JFrame implements UpdateNotifyee {
+public class CategoryFrame extends JFrame{
 	
 	private TargetManager targetMgr;
 	private UndoManager undoMgr;
@@ -268,6 +268,19 @@ public class CategoryFrame extends JFrame implements UpdateNotifyee {
 		exlist.setModel(exmo);
 		inlist.setModel(inmo);
 		
+		createUndo("test1");
+		createUndo("test2");
+	}
+	
+	private void createUndo(final String name){
+		notifyee.addUndoAction(new AbstractAction(){
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JOptionPane.showMessageDialog(null, name, "Error!!!!!", JOptionPane.ERROR_MESSAGE);
+			}
+			
+		}, name + "eh");
 	}
 	
 	/**
@@ -429,19 +442,6 @@ public class CategoryFrame extends JFrame implements UpdateNotifyee {
 			inlist.setSelectedIndex(0);
 			notifyee.updateAll();
 		}
-	}
-
-	@Override
-	public void updateAll() {
-		// TODO Auto-generated method stub
-		// TODO: Yujian to explain what is this for.
-	}
-
-	@Override
-	public void addUndoAction(AbstractAction action) {
-		// TODO Auto-generated method stub
-		undoMgr.add(null, null);
-		
 	}
 }
 

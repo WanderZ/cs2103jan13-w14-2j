@@ -22,5 +22,5 @@ public interface UpdateNotifyee {
 	 * To save an action done by the user into the undo stack
 	 * @param action
 	 */
-	public void addUndoAction(AbstractAction action);
+	public void addUndoAction(AbstractAction action, String name);
 }

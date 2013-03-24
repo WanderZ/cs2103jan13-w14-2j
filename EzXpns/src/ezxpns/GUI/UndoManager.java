@@ -27,6 +27,7 @@ public class UndoManager {
 		};
 		action.putValue(Action.NAME, "Undo");
 		action.setEnabled(false);
+		stack = new Stack<AbstractAction>();
 	}
 	
 	/**
