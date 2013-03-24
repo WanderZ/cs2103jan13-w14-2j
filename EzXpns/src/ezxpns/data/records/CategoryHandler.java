@@ -5,7 +5,7 @@ import java.util.Vector;
 /**
  *	Interface to handle the categories between the Graphical User Interface and the data storage (upon GUI Exit)
  */
-public interface CategoryHandler<T> {
+public interface CategoryHandler<T extends Record> {
 	/**
 	 * Get all user defined categories
 	 * @return List of all the Categories stored
