@@ -268,7 +268,7 @@ public class IncomeForm extends JPanel {
 	 * @return true if it is a historical date, otherwise false
 	 */
 	private boolean validateDate() {
-		if(!getDate().before(new Date())) return false; // #Constraint disallow users to add future records
+		if(getDate().after(new Date())) return false; // #Constraint disallow users to add future records
 		return true;
 	}
 	

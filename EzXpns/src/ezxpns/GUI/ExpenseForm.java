@@ -409,7 +409,7 @@ public class ExpenseForm extends JPanel {
 	 * @return true if the date is before today's date, otherwise false
 	 */
 	private boolean validateDate() {
-		//TODO: validate the date
+		if(getDate().after(new Date())) return false; // #Constraint disallow users to add future records
 		return true;
 	}
 	
