@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,7 +25,6 @@ import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -44,11 +45,13 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.util.Rotation;
 
+import com.toedter.calendar.JCalendar;
+import com.toedter.calendar.JDateChooser;
+
 import ezxpns.data.Report;
 import ezxpns.data.ReportCategory;
 import ezxpns.data.ReportGenerator;
 import ezxpns.data.ReportGenerator.DateOrderException;
-import com.toedter.calendar.JDateChooser;
 
 /**
  * The window to handle all the extensive record analysis and report <br />
@@ -106,14 +109,6 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
 
 		dateFormat.setCalendar(new GregorianCalendar());
-
-		// http://stackoverflow.com/questions/852631/java-swing-how-to-show-a-panel-on-top-of-another-panel
-		// resize issue
-		// http://geti.dcc.ufrj.br/cursos/fes_2008_1/javatutorial/uiswing/events/componentlistener.html
-		// http://stackoverflow.com/questions/8792075/overlay-panel-above-another
-		// resizable font: http://java-sl.com/tip_adapt_label_font_size.html
-		// resizable image:
-		// http://www.java2s.com/Tutorial/Java/0261__2D-Graphics/Resizeanimage.htm
 
 		// Layaered Pane
 		layeredPane = new JLayeredPane();
@@ -325,9 +320,30 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		dateChooserStart = new JDateChooser();
 		dateChooserStart.getJCalendar().setTodayButtonVisible(true);
 		dateChooserStart.setDateFormatString("dd/MM/yyyy");
+		try {
+			dateChooserStart.getJCalendar().setSelectableDateRange(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/1900"),new Date());
+		} catch (ParseException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} // throw parseexception, but that will never happen
+		PropertyChangeListener calendarChangeListener  = new PropertyChangeListener() {
+	        @Override
+	        public void propertyChange(PropertyChangeEvent evt) {
+	            Date selectedDate = ((JCalendar)evt.getSource()).getDate();
+	        }
+	    };
+	    dateChooserStart.getJCalendar().addPropertyChangeListener("calendar",calendarChangeListener);
 		dateChooserEnd = new JDateChooser();
 		dateChooserEnd.getJCalendar().setTodayButtonVisible(true);
 		dateChooserEnd.setDateFormatString("dd/MM/yyyy");
+		try {
+			dateChooserEnd.getJCalendar().setSelectableDateRange(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/1900"),new Date());
+		} catch (ParseException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} // throw parseexception, but that will never happen
+	    dateChooserEnd.getJCalendar().addPropertyChangeListener("calendar",calendarChangeListener);
+
 		
 		// "Generate" Button
 		JButton btnGenerate = new JButton("Generate");
