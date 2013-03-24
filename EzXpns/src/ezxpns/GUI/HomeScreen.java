@@ -132,7 +132,7 @@ public class HomeScreen extends JFrame implements UpdateNotifyee {
 	 */
 	private JPanel getRecordsPanel() {
 		if(panRecords == null) {
-			panRecords = new RecordsDisplayPanel(recHandler, guiCtrl);
+			panRecords = new RecordsDisplayPanel(recHandler, guiCtrl, this);
 			panRecords.setBackground(Color.WHITE);
 		}
 		return panRecords;

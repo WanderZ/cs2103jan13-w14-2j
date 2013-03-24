@@ -100,11 +100,13 @@ public class RecordListView extends JTable {
 	private JPopupMenu menu;
 	private Record itemSelected;
 	private int rowSelected;
+	private UpdateNotifyee notifyee;
 	
-	public RecordListView(RecordEditor ed, RecordHandler rh){
+	public RecordListView(RecordEditor ed, RecordHandler rh, UpdateNotifyee notifyee){
 		this();	// To call the superclass constructor
 		editor = ed;
 		rhandler = rh;
+		this.notifyee = notifyee;
 		setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Single selection
 		setIntercellSpacing(new Dimension(0, 0));
 		setShowHorizontalLines(false);
@@ -226,6 +228,7 @@ public class RecordListView extends JTable {
 			rhandler.removeRecord(records.get(row).getId());
 			records.remove(row);
 			model.fireTableRowsDeleted(row, row);
+			notifyee.updateAll();
 		}
 	}
 }
