@@ -42,18 +42,21 @@ public class SavingsOverviewPanel extends JPanel {
 		//DonutGraphics myNeeds = new DonutGraphics(nwsGen.getNeeds(), nwsGen.getMonthlyNeeds(), ExpenseType.NEED);
 		DonutGraphics myNeeds = new DonutGraphics(70, 50, ExpenseType.NEED);
 		myNeeds.setPreferredSize(new Dimension(DONUT_DIM,DONUT_DIM));
+		myNeeds.setBackground(new Color(255, 255, 255));
 		panelDonut.add(myNeeds);
 		
 		// WANTS
 		//DonutGraphics myWants = new DonutGraphics(nwsGen.getWants(), nwsGen.getMonthlyWants(), ExpenseType.WANT);
 		DonutGraphics myWants = new DonutGraphics(50, 40, ExpenseType.WANT);
 		myWants.setPreferredSize(new Dimension(DONUT_DIM,DONUT_DIM));
+		myWants.setBackground(new Color(255, 255, 255));
 		panelDonut.add(myWants);
 		
 		// SAVES
 		//DonutGraphics mySaves = new DonutGraphics(nwsGen.getSavings(), nwsGen.getMonthlySavings(), ExpenseType.SAVE);
 		DonutGraphics mySaves = new DonutGraphics(10, 20, ExpenseType.SAVE);
 		mySaves.setPreferredSize(new Dimension(DONUT_DIM, DONUT_DIM));
+		mySaves.setBackground(new Color(255, 255, 255));
 		panelDonut.add(mySaves);
 		
 	}
