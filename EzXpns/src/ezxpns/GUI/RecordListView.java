@@ -201,6 +201,8 @@ public class RecordListView extends JTable {
 	 * @param row
 	 */
 	public void itemEdited(Record newItem){
+		System.out.println(newItem);
+		if(newItem == null)return;
 		records.set(rowSelected, newItem);
 		model.fireTableRowsUpdated(rowSelected, rowSelected);
 		notifyee.updateAll();

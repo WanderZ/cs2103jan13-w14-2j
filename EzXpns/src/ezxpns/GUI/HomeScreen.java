@@ -41,6 +41,7 @@ public class HomeScreen extends JFrame implements UpdateNotifyee {
 			UndoManager undomng,
 			SummaryGenerator sumGenRef){
 		super("EzXpns - Main Menu"); // Setting the title
+		this.setBackground(Color.WHITE);
 		undoManager = undomng;
 		undoManager.setPostUndo(new AbstractAction(){
 
