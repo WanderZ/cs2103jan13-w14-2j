@@ -29,14 +29,18 @@ public class HomeScreen extends JFrame implements UpdateNotifyee {
 	private TargetManager targetMgr;
 	private SummaryGenerator sumGen;
 	
+	private UndoManager undoManager;
+	
 	private UIControl guiCtrl;
 	
 	public HomeScreen(
 			UIControl guiControlRef,
 			RecordHandler recHandlerRef,
 			TargetManager targetMgrRef,
+			UndoManager undomng,
 			SummaryGenerator sumGenRef){
 		super("EzXpns - Main Menu"); // Setting the title
+		undoManager = undomng;
 		this.setBounds(0, 0, DEFAULT_HEIGHT, DEFAULT_WEIGHT); /*x coordinate, y coordinate, width, height*/
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
@@ -141,8 +145,8 @@ public class HomeScreen extends JFrame implements UpdateNotifyee {
 	}
 
 	@Override
-	public void addUndoAction(AbstractAction action) {
-		// TODO Auto-generated method stub
+	public void addUndoAction(AbstractAction action, String name) {
+		undoManager.add(action, name);
 		
 	}
 }

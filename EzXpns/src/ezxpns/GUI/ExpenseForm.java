@@ -37,7 +37,7 @@ import ezxpns.data.records.RecordHandler;
 
 /** Panel to contain and maintain the form for a new expense record */
 @SuppressWarnings("serial")
-public class ExpenseForm extends JPanel implements UpdateNotifyee{
+public class ExpenseForm extends JPanel{
 	
 	// #Constants
 	public final int TOP_PAD = 27;
@@ -495,17 +495,5 @@ public class ExpenseForm extends JPanel implements UpdateNotifyee{
 			);
 		this.recHandler.createRecord(eRecord, isNewCategory(), isNewMethod());
 		return eRecord;
-	}
-
-	@Override
-	public void updateAll() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void addUndoAction(AbstractAction action) {
-		// TODO Auto-generated method stub
-		
 	}
 }

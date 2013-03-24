@@ -30,7 +30,7 @@ import ezxpns.data.records.RecordHandler;
 
 /** GUI Form for Income records */
 @SuppressWarnings("serial")
-public class IncomeForm extends JPanel implements UpdateNotifyee {
+public class IncomeForm extends JPanel{
 	
 	// #Constants
 	public final int TOP_PAD = 27;
@@ -369,17 +369,5 @@ public class IncomeForm extends JPanel implements UpdateNotifyee {
 		JLabel label = new JLabel(lblTxt);
 		label.setFont(new Font("Segoe UI", 0, 18)); // #Font
 		return label;
-	}
-
-	@Override
-	public void updateAll() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void addUndoAction(AbstractAction action) {
-		// TODO Auto-generated method stub
-		undoMgr.add(null, null);
 	}
 }
