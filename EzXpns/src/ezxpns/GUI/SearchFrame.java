@@ -72,8 +72,6 @@ public class SearchFrame extends JFrame implements ActionListener {
 		this.setLocationRelativeTo(null); // Set to start in the central area of the screen
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); 
-		// this.setExtendedState(JFrame.MAXIMIZED_BOTH); // Full screen
-	    // this.setUndecorated(true); // removes the title bar
 	}
 
 	@Override
@@ -101,7 +99,6 @@ public class SearchFrame extends JFrame implements ActionListener {
 				this.search(new SearchRequest(dateRange)); // Search by Date range
 			}
 			catch(Exception err) {
-				// Display err with date :(
 				return;
 			}
 		}
@@ -113,28 +110,7 @@ public class SearchFrame extends JFrame implements ActionListener {
 	 */
 	private void search(SearchRequest request) {
 		List<Record> results = handler.search(request);
-// 		System.out.println("results found: " + results.size()); // for debugging
-//		this.validate(); // Force repaint doesn't seem to work here
 		list.show(results);
-	}
-}
-
-/**
- * Panel to contain all the query results
- */
-@SuppressWarnings("serial")
-class ResultPanel extends JPanel {
-	
-	private MultiRecDisplay resultDisplay;
-	
-	public ResultPanel() {super();}
-	
-	public ResultPanel(List<Record> results) {
-		super(new BorderLayout(25, 25));
-		
-		resultDisplay = new MultiRecDisplay(results);
-		
-		this.add(resultDisplay, BorderLayout.CENTER);
 	}
 }
 
@@ -166,7 +142,7 @@ class SearchFormPanel extends JPanel {
 	
 	private JLabel getTitleLabel() {
 		if(lblTitle == null) {
-			lblTitle = new JLabel("Simple Search");
+			lblTitle = new JLabel("Search");
 			lblTitle.setFont(new Font("Segoe UI", 0, 24)); // #Font
 		}
 		return lblTitle;
@@ -282,22 +258,8 @@ class SearchBtnPanel extends JPanel {
 	
 	public JButton getSearchBtn() {
 		if(btnSearch == null) {
-			btnSearch = new JButton("  Find  ");
-			btnSearch.setBorder(BorderFactory.createRaisedBevelBorder());
+			btnSearch = new JButton("Find");
 			btnSearch.setFont(BTN_FONT);
-			btnSearch.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseEntered(MouseEvent mEvent) { // Hover start
-					JButton btn = (JButton) mEvent.getSource();
-					btn.setBorder(BorderFactory.createLoweredBevelBorder());
-				}
-				
-				@Override
-				public void mouseExited(MouseEvent mEvent) { // Hover end
-					JButton btn = (JButton) mEvent.getSource();
-					btn.setBorder(BorderFactory.createRaisedBevelBorder());
-				}
-			});
 		}
 		return btnSearch;
 	}
