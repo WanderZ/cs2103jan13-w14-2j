@@ -67,6 +67,9 @@ public class ExpenseRecordManager extends RecordManager<ExpenseRecord>
 
 	@Override
 	public PaymentMethod addNewPaymentMethod(PaymentMethod paymentRef) {
+		if(validatePaymentMethodName(paymentRef.name) != null){
+			return null;
+		}
 		paymentRef = paymentRef.copy();
 		while(payms.containsKey(paymentRef.id)){
 			paymentRef.id = (new Date()).getTime() + ran.nextInt();
@@ -101,6 +104,12 @@ public class ExpenseRecordManager extends RecordManager<ExpenseRecord>
 			return null;
 		}else{
 			PaymentMethod p = payms.get(id);
+			if(p.name.equals(paymentRef.name)){
+				return p;
+			}
+			if(validatePaymentMethodName(paymentRef.name) != null){
+				return null;
+			}
 			p.name = paymentRef.name;
 			markUpdate();
 			return p;
@@ -108,11 +117,22 @@ public class ExpenseRecordManager extends RecordManager<ExpenseRecord>
 	}
 
 	@Override
-	public boolean containsPaymentMethodName(String name) {
-		for(PaymentMethod pay : payms.values()){
-			if(pay.name.equals(name))return true;
+	public String validatePaymentMethodName(String name) {
+		if(name.length() < 2)return "Payment Method name is too short";
+		if(name.length() > 20)return "Payment Method name is too long";
+		if(name.contains(" "))return "Payment Method name should not contain spaces";
+		if(containsPaymentMethodName(name))return "Payment Method name is used.";
+		return null;
+	}
+
+	private boolean containsPaymentMethodName(String name) {
+		for(PaymentMethod p : payms.values()){
+			if(p.name.equals(name)){
+				return true;
+			}
 		}
 		return false;
 	}
+
 	
 }

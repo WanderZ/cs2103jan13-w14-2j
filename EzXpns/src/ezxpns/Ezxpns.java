@@ -83,6 +83,7 @@ public class Ezxpns implements
 		reportGenerator = new ReportGenerator(data);
 		summaryGenerator = new SummaryGenerator(data);
 		targetManager = data.targetManager();
+		UndoManager undoMgr = new UndoManager();
 		final UIControl main  = new UIControl( 	this, 				// SearchHandler
 												this, 				// RecordHandler
 												data.incomes(), 	// IncomeCategoryHandler
@@ -90,7 +91,8 @@ public class Ezxpns implements
 												data.expenses(),	// PaymentMethodHandler
 												targetManager, 		// Target Manager
 												reportGenerator, 	// Report Generator
-												summaryGenerator); 	// Summary Generator
+												summaryGenerator,	// Summary Generator 
+												undoMgr); 	
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
