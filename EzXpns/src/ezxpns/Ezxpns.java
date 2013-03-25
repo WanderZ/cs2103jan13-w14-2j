@@ -152,7 +152,7 @@ public class Ezxpns implements
 	@Override
 	public ExpenseRecord createRecord(ExpenseRecord r, boolean newCat, boolean newPay) {
 		if(newCat){
-			Category cat = data.incomes().addNewCategory(r.getCategory());
+			Category cat = data.expenses().addNewCategory(r.getCategory());
 			if(cat == null){
 				return null;
 			}
@@ -180,7 +180,7 @@ public class Ezxpns implements
 	
 	@Override
 	public List<Record> getRecords(int n) {
-		return data.combined().getRecordsBy(new Date(0), new Date(), n, false);
+		return data.combined().getRecordsBy(new Date(0), new Date(), n, true);
 	}
 	@Override
 	public Record getRecord(long identifier) {
@@ -214,7 +214,7 @@ public class Ezxpns implements
 	@Override
 	public boolean modifyRecord(long id, ExpenseRecord r, boolean newCat, boolean newPay) {
 		if(newCat){
-			Category cat = data.incomes().addNewCategory(r.getCategory());
+			Category cat = data.expenses().addNewCategory(r.getCategory());
 			if(cat == null){
 				return false;
 			}
