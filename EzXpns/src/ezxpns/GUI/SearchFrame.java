@@ -132,32 +132,41 @@ public class SearchFrame extends JFrame{
 	public void performSearch(){
 			// User invoked search
 			
-			String request;
-			request = panForm.getNameField().getText().trim();
-			if(!request.equals("")) {
-				this.search(new SearchRequest(request.toString())); // Search by Name
-				return;
+			SearchRequest req = null;
+			String name = panForm.getNameField().getText().trim();
+			if(!name.equals("")) {
+				req = new SearchRequest(name);
 			}
-			
-			// Name field is empty!
-			Category cat = (Category) panForm.getCatField().getSelectedItem();
+			Category cat = null;
+			try{
+				cat = (Category) panForm.getCatField().getSelectedItem();
+			}catch(Exception e){
+				
+			}
 
 			if(cat != null){
-				request = cat.toString();
-				if(!request.equals("")){
-					this.search(new SearchRequest(cat));
+				name = cat.toString();
+				if(req == null){
+					req = new SearchRequest(cat);
+				}else{
+					req.setCategory(cat);
 				}
-				return;
 			}	
-			// No Category entered!
 			
-			try {
-				Pair<Date, Date> dateRange = new Pair<Date, Date>(panForm.getStartDate(), panForm.getEndDate());
-				this.search(new SearchRequest(dateRange)); // Search by Date range
+			
+			Date start = panForm.getStartDate(),
+				 end = panForm.getEndDate();
+			if(start != null && end != null){
+				Pair<Date, Date> dateRange = new Pair<Date, Date>(start, end);
+				if(req == null){
+					req = new SearchRequest(dateRange);
+				}else{
+					req.setDateRange(dateRange);
+				}
+				if(req != null) search(req);
 			}
-			catch(Exception err) {
-				return;
-			}
+			
+			search(req);
 	}
 	
 	/** 
