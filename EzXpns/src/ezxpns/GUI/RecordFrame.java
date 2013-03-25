@@ -3,7 +3,7 @@ package ezxpns.GUI;
 import ezxpns.data.records.CategoryHandler;
 import ezxpns.data.records.ExpenseRecord;
 import ezxpns.data.records.IncomeRecord;
-import ezxpns.data.records.PayMethodHandler;
+import ezxpns.data.records.PaymentHandler;
 import ezxpns.data.records.Record;
 import ezxpns.data.records.RecordHandler;
 
@@ -41,7 +41,7 @@ public class RecordFrame extends JDialog implements ActionListener {
 	
 	private RecordHandler recHandler;
 	private CategoryHandler incomeHandler, expenseHandler;
-	private PayMethodHandler payHandler;
+	private PaymentHandler payHandler;
 	private UndoManager undoMgr;
 	
 	private PanelMain panMain;
@@ -59,7 +59,7 @@ public class RecordFrame extends JDialog implements ActionListener {
 			RecordHandler recHandlerRef, 
 			CategoryHandler incomeHandlerRef, 
 			CategoryHandler expenseHandlerRef,
-			PayMethodHandler payHandlerRef,
+			PaymentHandler payHandlerRef,
 			UndoManager undoMgrRef) {
 		
 		recHandler = recHandlerRef;
@@ -84,7 +84,7 @@ public class RecordFrame extends JDialog implements ActionListener {
 			RecordHandler recHandlerRef, 
 			CategoryHandler incomeHandlerRef, 
 			CategoryHandler expenseHandlerRef,
-			PayMethodHandler payHandlerRef,
+			PaymentHandler payHandlerRef,
 			UndoManager undoMgrRef,
 			int initTab) {
 		
@@ -117,7 +117,7 @@ public class RecordFrame extends JDialog implements ActionListener {
 	public RecordFrame(
 			RecordHandler recHandlerRef,
 			CategoryHandler expenseHandlerRef,
-			PayMethodHandler payHandlerRef,
+			PaymentHandler payHandlerRef,
 			UndoManager undoMgrRef,
 			ExpenseRecord record) {
 		this(recHandlerRef, null, expenseHandlerRef, payHandlerRef, undoMgrRef);
@@ -252,7 +252,7 @@ class PanelMain extends JPanel {
 			RecordHandler recHandlerRef,
 			CategoryHandler incomeHandlerRef,
 			CategoryHandler expenseHandlerRef,
-			PayMethodHandler payHandlerRef,
+			PaymentHandler payHandlerRef,
 			UndoManager undoMgrRef) {
 		this.setLayout(new BorderLayout());
 		this.isExpense = true;
@@ -280,7 +280,7 @@ class PanelMain extends JPanel {
 			RecordHandler recHandlerRef, 
 			CategoryHandler incomeHandlerRef, 
 			CategoryHandler expenseHandlerRef, 
-			PayMethodHandler payHandlerRef,
+			PaymentHandler payHandlerRef,
 			UndoManager undoMgrRef,
 			ExpenseRecord record) {
 		this.setLayout(new BorderLayout());
@@ -302,7 +302,7 @@ class PanelMain extends JPanel {
 			RecordHandler recHandlerRef, 
 			CategoryHandler incomeHandlerRef, 
 			CategoryHandler expenseHandlerRef, 
-			PayMethodHandler payHandlerRef,
+			PaymentHandler payHandlerRef,
 			UndoManager undoMgrRef,
 			IncomeRecord record) {
 		this.setLayout(new BorderLayout());

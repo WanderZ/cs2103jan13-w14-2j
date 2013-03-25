@@ -31,7 +31,7 @@ import ezxpns.data.records.RecordHandler;
 
 /** GUI Form for Income records */
 @SuppressWarnings("serial")
-public class IncomeForm extends JPanel{
+public class IncomeForm extends JPanel {
 	
 	// #Constants
 	public final int TOP_PAD = 27;

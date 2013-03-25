@@ -9,7 +9,7 @@ import ezxpns.data.TargetManager;
 import ezxpns.data.records.CategoryHandler;
 import ezxpns.data.records.ExpenseRecord;
 import ezxpns.data.records.IncomeRecord;
-import ezxpns.data.records.PayMethodHandler;
+import ezxpns.data.records.PaymentHandler;
 import ezxpns.data.records.Record;
 import ezxpns.data.records.RecordHandler;
 import ezxpns.data.records.SearchHandler;
@@ -31,7 +31,7 @@ public class UIControl implements RecordListView.RecordEditor {
 	private SearchHandler findHandler;
 	private RecordHandler recHandler;
 	private CategoryHandler inCatHandler, exCatHandler;
-	private PayMethodHandler payHandler;
+	private PaymentHandler payHandler;
 	private TargetManager targetMgr;
 	private ReportGenerator rptGen;
 	private SummaryGenerator sumGen;
@@ -53,7 +53,7 @@ public class UIControl implements RecordListView.RecordEditor {
 			RecordHandler recHandlerRef, 
 			CategoryHandler inCatHandlerRef, 
 			CategoryHandler exCatHandlerRef,
-			PayMethodHandler payHandlerRef,
+			PaymentHandler payHandlerRef,
 			TargetManager targetMgrRef,
 			ReportGenerator rptGenRef,
 			SummaryGenerator sumGenRef) {

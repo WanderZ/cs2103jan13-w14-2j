@@ -30,7 +30,7 @@ import ezxpns.data.records.Category;
 import ezxpns.data.records.CategoryHandler;
 import ezxpns.data.records.ExpenseRecord;
 import ezxpns.data.records.ExpenseType;
-import ezxpns.data.records.PayMethodHandler;
+import ezxpns.data.records.PaymentHandler;
 import ezxpns.data.records.PaymentMethod;
 import ezxpns.data.records.Record;
 import ezxpns.data.records.RecordHandler;
@@ -60,7 +60,7 @@ public class ExpenseForm extends JPanel{
 	// #Logic Components
 	private RecordHandler recHandler; 
 	private CategoryHandler catHandler;
-	private PayMethodHandler payHandler;
+	private PaymentHandler payHandler;
 	private UndoManager undoMgr;
 	
 	// #Data Components
@@ -78,7 +78,7 @@ public class ExpenseForm extends JPanel{
 	public ExpenseForm(
 			RecordHandler recHandlerRef, 
 			CategoryHandler catHandlerRef, 
-			PayMethodHandler payHandlerRef,
+			PaymentHandler payHandlerRef,
 			UndoManager undoMgrRef) {
 		
 		recHandler = recHandlerRef; 
@@ -102,7 +102,7 @@ public class ExpenseForm extends JPanel{
 	public ExpenseForm(
 			RecordHandler recHandlerRef, 
 			CategoryHandler catHandlerRef, 
-			PayMethodHandler payHandlerRef, 
+			PaymentHandler payHandlerRef, 
 			UndoManager undoMgrRef,
 			ExpenseRecord record) {
 		
