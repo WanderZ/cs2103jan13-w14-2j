@@ -11,22 +11,22 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+
+import net.miginfocom.swing.MigLayout;
 
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 
-import net.miginfocom.swing.MigLayout;
 import ezxpns.data.records.Category;
 import ezxpns.data.records.CategoryHandler;
 import ezxpns.data.records.Record;
@@ -130,7 +130,6 @@ public class SearchFrame extends JFrame{
 	}
 
 	public void performSearch(){
-			System.out.println("there");
 			// User invoked search
 			
 			String request;
@@ -176,7 +175,7 @@ public class SearchFrame extends JFrame{
 			panCtrls.revalidate();
 			btnAdvance.setText("Less options");
 			isMoreOption = true;
-			panForm.swtichToAdvance();
+			panForm.switchToAdvance();
 		}else{
 			panCtrls.setPreferredSize(new Dimension(DEFAULT_WIDTH, SIMPLE_HEIGHT));
 			panCtrls.revalidate();
@@ -205,15 +204,20 @@ class SearchFormPanel extends JPanel {
 	
 	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yy");
 	
-	public void swtichToAdvance(){
-		lblTitle.setVisible(false);
-		txtSimpleField.setVisible(false);
+	public void switchToAdvance(){
+		//lblTitle.setVisible(false);
+		//txtSimpleField.setVisible(false);
+		txtSimpleField.setEditable(false);
+		txtSimpleField.setBackground(this.getBackground());
+		lblTitle.setForeground(Color.GRAY);
 		this.revalidate();
 	}
 	
 	public void switchToSimple(){
-		lblTitle.setVisible(true);
-		txtSimpleField.setVisible(true);
+		//lblTitle.setVisible(true);
+		//txtSimpleField.setVisible(true);
+		txtSimpleField.setEditable(true);
+		lblTitle.setForeground(Color.BLACK);
 		this.revalidate();
 	}
 	
