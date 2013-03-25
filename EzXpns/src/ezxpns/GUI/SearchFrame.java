@@ -1,5 +1,6 @@
 package ezxpns.GUI;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -36,12 +37,12 @@ import ezxpns.util.Pair;
  * The window to handle the searching and querying needs of the user
  */
 @SuppressWarnings("serial")
-public class SearchFrame extends JFrame implements ActionListener {
+public class SearchFrame extends JFrame{
 	
 	public final int DEFAULT_WIDTH = 600;
 	public final int DEFAULT_HEIGHT = 400;
 	public final int SIMPLE_HEIGHT = 47;
-	public final int ADVANCE_HEIGHT = 140;
+	public final int ADVANCE_HEIGHT = 150;
 	
 	/** The handler object that implemented SearchHandler & CategoryHandler interface */
 	private SearchHandler handler;
@@ -51,11 +52,13 @@ public class SearchFrame extends JFrame implements ActionListener {
 	
 	// 2 main panels, the top (querying time frame) and the bottom (results, content)
 	private SearchFormPanel panForm;
-	private SearchBtnPanel panBtns;
+	private JPanel panBtns;
 	private JScrollPane panResult;
 	private RecordListView list;
 	private JPanel panCtrls;
 	private JButton btnAdvance;
+	
+	private boolean isMoreOption = false;
 	
 	/**
 	 * To create a new Search Window
@@ -70,12 +73,37 @@ public class SearchFrame extends JFrame implements ActionListener {
 		panCtrls = new JPanel();
 		panCtrls.setLayout(new BorderLayout());
 		
-		panForm = new SearchFormPanel(inCatHandRef, exCatHandRef, this);
+		panForm = new SearchFormPanel(inCatHandRef, exCatHandRef);
 		panCtrls.add(panForm, BorderLayout.CENTER);
 		panCtrls.setPreferredSize(new Dimension(DEFAULT_WIDTH, SIMPLE_HEIGHT)); // SIMPLE SEARCH EXPERIMENTATION
-		btnAdvance = panForm.getAdvanceBtn();
 		
-		panBtns = new SearchBtnPanel(this);
+		panBtns = new JPanel();
+		
+		btnAdvance = new JButton("More Options");
+		btnAdvance.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				switchMode();
+			}
+			
+		});
+		panBtns.setLayout(new BoxLayout(panBtns, BoxLayout.X_AXIS));
+		
+		JButton btnSearch = new JButton("Find");
+		panBtns.add(btnSearch);
+		panBtns.add(Box.createVerticalGlue());
+		
+		panBtns.add(btnAdvance);
+		
+		btnSearch.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				performSearch();
+			}
+			
+		});
+		
 		panCtrls.add(panBtns, BorderLayout.EAST);
 		
 		this.add(panCtrls, BorderLayout.NORTH);
@@ -95,9 +123,7 @@ public class SearchFrame extends JFrame implements ActionListener {
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); 
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent event) {
-		if(event.getSource() == panBtns.getSearchBtn()) {
+	public void performSearch(){
 			System.out.println("there");
 			// User invoked search
 			
@@ -109,10 +135,13 @@ public class SearchFrame extends JFrame implements ActionListener {
 			}
 			
 			// Name field is empty!
-			request = panForm.getCatField().getSelectedItem().toString().trim();
+			Category cat = (Category) panForm.getCatField().getSelectedItem();
 
-			if(!request.equals("")) {
-				this.search(new SearchRequest(new Category(request.toString()))); // Search by Category
+			if(cat != null){
+				request = cat.toString();
+				if(!request.equals("")){
+					this.search(new SearchRequest(cat));
+				}
 				return;
 			}	
 			// No Category entered!
@@ -124,14 +153,6 @@ public class SearchFrame extends JFrame implements ActionListener {
 			catch(Exception err) {
 				return;
 			}
-		}
-		
-		if (event.getSource() == panBtns.getAdvanceBtn()){
-			//panCtrls.setPreferredSize(new Dimension(DEFAULT_WIDTH, ADVANCE_HEIGHT));
-			System.out.println("here");
-			panCtrls.setPreferredSize(new Dimension(DEFAULT_WIDTH, ADVANCE_HEIGHT));
-			panCtrls.revalidate();
-		}
 	}
 	
 	/** 
@@ -142,6 +163,23 @@ public class SearchFrame extends JFrame implements ActionListener {
 		List<Record> results = handler.search(request);
 		list.show(results);
 	}
+	
+	private void switchMode(){
+		if(!isMoreOption){
+			panCtrls.setPreferredSize(new Dimension(DEFAULT_WIDTH, ADVANCE_HEIGHT));
+			panCtrls.revalidate();
+			btnAdvance.setText("Less options");
+			isMoreOption = true;
+			panForm.swtichToAdvance();
+		}else{
+			panCtrls.setPreferredSize(new Dimension(DEFAULT_WIDTH, SIMPLE_HEIGHT));
+			panCtrls.revalidate();
+			btnAdvance.setText("More options");
+			isMoreOption = false;
+			panForm.switchToSimple();
+		}
+		
+	}
 }
 
 @SuppressWarnings("serial")
@@ -150,7 +188,6 @@ class SearchFormPanel extends JPanel {
 	// CategoryHandler Reference for Category JComboBox
 	private CategoryHandler inCatHandRef;
 	private CategoryHandler exCatHandRef;
-	private ActionListener listener;
 	
 	private JLabel lblName, lblTitle, lblCat, lblDate, lblToDate;
 	private JTextField txtName, txtSimpleField;
@@ -162,15 +199,31 @@ class SearchFormPanel extends JPanel {
 	
 	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yy");
 	
-	public SearchFormPanel(CategoryHandler inCatHandRef, CategoryHandler exCatHandRef, ActionListener listener) {
+	public void swtichToAdvance(){
+		lblTitle.setVisible(false);
+		txtSimpleField.setVisible(false);
+		this.revalidate();
+	}
+	
+	public void switchToSimple(){
+		lblTitle.setVisible(true);
+		txtSimpleField.setVisible(true);
+		this.revalidate();
+	}
+	
+	public SearchFormPanel(CategoryHandler inCatHandRef, CategoryHandler exCatHandRef) {
 		this.inCatHandRef = inCatHandRef; // reference
 		this.exCatHandRef = exCatHandRef; // reference
 		
 		this.setLayout(new MigLayout("insets 15", "[left]10%[]", ""));
-		//this.add(this.getTitleLabel(), "span, wrap");
-		this.add(this.getTitleLabel(),"span 2");
-		this.add(this.getSimpleSearchField(), "span 1, wrap");
-		//this.add(this.getAdvanceBtn(), "wrap");
+		lblTitle = new JLabel("Search");
+		this.add(lblTitle,"span 2");
+		
+		txtSimpleField = new JTextField("");
+		txtSimpleField.setFont(FORM_FONT);
+		txtSimpleField.setPreferredSize(new Dimension(230,32));
+		this.add(txtSimpleField, "span 1, wrap");
+		
 		
 		this.add(this.getNameLabel(), "span 2");
 		this.add(this.getNameField(), "span, wrap");
@@ -182,32 +235,6 @@ class SearchFormPanel extends JPanel {
 		this.add(this.getDateField(), "split 3");
 		this.add(this.getToDateLabel());
 		this.add(this.getToDateField());
-	}
-	
-	private JLabel getTitleLabel() {
-		if(lblTitle == null) {
-			lblTitle = new JLabel("Search");
-			lblTitle.setFont(new Font("Segoe UI", 0, 24)); // #Font
-		}
-		return lblTitle;
-	}
-	
-	private JTextField getSimpleSearchField(){
-		if (txtSimpleField == null){
-			txtSimpleField = new JTextField("");
-			txtSimpleField.setFont(FORM_FONT);
-			txtSimpleField.setPreferredSize(new Dimension(230,32));
-		}
-		return txtSimpleField;
-	}
-	
-	public JButton getAdvanceBtn(){
-		if (btnAdvance == null){
-			btnAdvance = new JButton("More Options");
-			btnAdvance.setFont(FORM_FONT);
-			btnAdvance.addActionListener(listener);
-		}
-		return btnAdvance;
 	}
 	
 	private JLabel getNameLabel() {
@@ -237,7 +264,6 @@ class SearchFormPanel extends JPanel {
 	
 	public JComboBox getCatField() {
 		if(txtCat == null) {
-			//txtCat = new JTextField("");
 			Object[] myInCatList = new Category[inCatHandRef.getAllCategories().size()];
 			myInCatList = inCatHandRef.getAllCategories().toArray();
 			txtCat = new JComboBox();
@@ -322,50 +348,5 @@ class SearchFormPanel extends JPanel {
 	
 	public Date getEndDate() {
 		return (Date) txtEnd.getDate();
-	}
-}
-
-/**
- * Panel to containing the buttons for functionality
- */
-@SuppressWarnings("serial")
-class SearchBtnPanel extends JPanel {
-	
-	private JButton btnSearch, btnAdvance;
-	private final Font BTN_FONT = new Font("Segoe UI", 0, 24);
-	
-	/**
-	 * Constructor to get a panel for the buttons
-	 * @param listener
-	 */
-	public SearchBtnPanel(ActionListener listener) {
-		super();
-		BoxLayout loBtn = new BoxLayout(this, BoxLayout.X_AXIS); // Y_AXIS
-		this.setLayout(loBtn);
-		
-		// Layout to make it fill the width completely, and glue to the base
-
-		this.add(this.getAdvanceBtn());
-		this.add(this.getSearchBtn());
-		this.add(Box.createVerticalGlue());
-		
-		this.btnAdvance.addActionListener(listener);
-		this.btnSearch.addActionListener(listener);
-	}
-	
-	public JButton getSearchBtn() {
-		if(btnSearch == null) {
-			btnSearch = new JButton("Find");
-			btnSearch.setFont(BTN_FONT);
-		}
-		return btnSearch;
-	}
-	
-	public JButton getAdvanceBtn(){
-		if (btnAdvance == null){
-			btnAdvance = new JButton("More Options");
-			//btnAdvance.setFont(BTN_FONT);
-		}
-		return btnAdvance;
 	}
 }
