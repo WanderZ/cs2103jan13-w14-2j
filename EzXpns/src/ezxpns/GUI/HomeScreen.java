@@ -158,6 +158,5 @@ public class HomeScreen extends JFrame implements UpdateNotifyee {
 	@Override
 	public void addUndoAction(AbstractAction action, String name) {
 		undoManager.add(action, name);
-		
 	}
 }

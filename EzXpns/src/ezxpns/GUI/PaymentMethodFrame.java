@@ -36,11 +36,11 @@ public class PaymentMethodFrame extends JFrame {
 	private PaymentMethodModel mo;
 	
 	private PaymentMethod curPay;
-	private PayMethodHandler payhan;
+	private PaymentHandler payhan;
 	
 	private JList list;
 	
-	public PaymentMethodFrame(PayMethodHandler payhan) {
+	public PaymentMethodFrame(PaymentHandler payhan) {
 		this.payhan = payhan;
 		
 		this.setSize(500, 400);

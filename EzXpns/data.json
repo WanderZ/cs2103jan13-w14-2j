@@ -63,13 +63,13 @@
         "id": 1363314106821,
         "name": "Entertainment"
       },
-      "1364704133024": {
-        "id": 1364704133024,
-        "name": "Transport"
-      },
       "1364053692757": {
         "id": 1364053692757,
         "name": "Leisure"
+      },
+      "1364704133024": {
+        "id": 1364704133024,
+        "name": "Transport"
       }
     },
     "recordsByCategory": {
@@ -137,6 +137,18 @@
         }
       ],
       "1363942776603": [
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1361694372893,
+            "name": "NETS"
+          },
+          "amount": 100.0,
+          "name": "money",
+          "remark": "re",
+          "date": "Mar 22, 2013 12:00:00 AM",
+          "id": 1364222068344
+        },
         {
           "expenseType": "NEED",
           "paymentMethod": {
@@ -318,6 +330,10 @@
         "id": 0,
         "name": "undefined"
       },
+      "1364222011061": {
+        "id": 1364222011061,
+        "name": "idiotism"
+      },
       "1364097417024": {
         "id": 1364097417024,
         "name": "Gifts"
@@ -332,11 +348,15 @@
       },
       "1363950844232": {
         "id": 1363950844232,
-        "name": "test"
+        "name": "Loot"
       },
       "1363314106821": {
         "id": 1363314106821,
         "name": "Scholarship"
+      },
+      "1364222095831": {
+        "id": 1364222095831,
+        "name": "eh"
       },
       "1364935492692": {
         "id": 1364935492692,
@@ -346,6 +366,20 @@
     "recordsByCategory": {
       "0": [],
       "1364097417024": [
+        {
+          "amount": 2.0E7,
+          "name": "inheritance",
+          "remark": "wai!",
+          "date": "Mar 25, 2013 10:40:16 PM",
+          "id": 1364222433981
+        },
+        {
+          "amount": 2000000.0,
+          "name": "Inheritancez",
+          "remark": ":\\",
+          "date": "Mar 25, 2013 10:39:35 PM",
+          "id": 1364222379170
+        },
         {
           "amount": 2000000.0,
           "name": "Inheritance",
@@ -383,6 +417,20 @@
         }
       ],
       "1362480320970": [
+        {
+          "amount": 2000000.0,
+          "name": "Inheritanceee",
+          "remark": ":\\",
+          "date": "Mar 25, 2013 11:02:18 PM",
+          "id": 1364223741192
+        },
+        {
+          "amount": 2000000.0,
+          "name": "Inheritance",
+          "remark": ":\\",
+          "date": "Mar 25, 2013 10:41:06 PM",
+          "id": 1364222469677
+        },
         {
           "amount": 25.0,
           "name": "test",

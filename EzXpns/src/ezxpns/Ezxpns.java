@@ -105,27 +105,31 @@ public class Ezxpns implements
 	
 	@Override
 	public Vector<Record> search(SearchRequest req) {
-		RecordQueryHandler tofind = data.combined();
-		switch(req.getType()) {
-			case EXPENSE:
-				tofind = data.expenses();
-			break;
-			case INCOME:
-				tofind = data.incomes();
-			break;
-		}
+		RecordQueryHandler<Record> tofind = data.combined();
 		
+		Vector<Record> recs;
 		if(req.getName() != null){
-			return tofind.getRecordsBy(req.getName(), -1);
+			recs = tofind.getRecordsBy(req.getName(), -1);
 		}else if(req.getDateRange() != null){
 			Date start = req.getDateRange().getLeft(),
 				 end = req.getDateRange().getRight();
-			return tofind.getRecordsBy(start, end, -1, false);
+			recs = tofind.getRecordsBy(start, end, -1, true);
 		}else if(req.getCategory() != null){
-//			return tofind.getRecordsBy(req.getCategory(), -1);
-			return tofind.getRecordsByCategory(req.getCategory().getName());
+			recs = tofind.getRecordsBy(req.getCategory(), -1);
 		}else{
 			return null;
+		}
+		if(req.isMultiple()){
+			Vector<Record> re = new Vector<Record>();
+			for(Record r : recs){
+				if(req.match(r)){
+					re.add(r);
+				}
+			}
+			Collections.sort(re);
+			return re;
+		}else{
+			return recs;
 		}
 	}
 
@@ -152,7 +156,7 @@ public class Ezxpns implements
 	@Override
 	public ExpenseRecord createRecord(ExpenseRecord r, boolean newCat, boolean newPay) {
 		if(newCat){
-			Category cat = data.incomes().addNewCategory(r.getCategory());
+			Category cat = data.expenses().addNewCategory(r.getCategory());
 			if(cat == null){
 				return null;
 			}
@@ -180,7 +184,7 @@ public class Ezxpns implements
 	
 	@Override
 	public List<Record> getRecords(int n) {
-		return data.combined().getRecordsBy(new Date(0), new Date(), n, false);
+		return data.combined().getRecordsBy(new Date(0), new Date(), n, true);
 	}
 	@Override
 	public Record getRecord(long identifier) {
@@ -214,7 +218,7 @@ public class Ezxpns implements
 	@Override
 	public boolean modifyRecord(long id, ExpenseRecord r, boolean newCat, boolean newPay) {
 		if(newCat){
-			Category cat = data.incomes().addNewCategory(r.getCategory());
+			Category cat = data.expenses().addNewCategory(r.getCategory());
 			if(cat == null){
 				return false;
 			}
@@ -327,5 +331,25 @@ public class Ezxpns implements
 	@Override
 	public boolean addToCategory(List<ExpenseRecord> records, Category cat) {
 		return data.expenses().addToCategory(records, cat);
+	}
+
+	@Override
+	public Vector<Record> search(String partialMatch) {
+		Vector<Record> rs = data.combined().getRecordsWithNamePrefix(partialMatch);
+		Vector<Category> cats = data.incomes().getCategoryWithNamePrefix(partialMatch);
+		for(Category cat : cats){
+			rs.addAll(data.incomes().getRecordsBy(cat, -1));
+		}
+		cats = data.expenses().getCategoryWithNamePrefix(partialMatch);
+		for(Category cat : cats){
+			rs.addAll(data.expenses().getRecordsBy(cat, -1));
+		}
+		Collections.sort(rs);
+		return rs;
+	}
+
+	@Override
+	public Vector<Category> getCategoryWithNamePrefix(String prefix) {
+		return data.expenses().getCategoryWithNamePrefix(prefix);
 	}
 }

@@ -6,7 +6,7 @@ import ezxpns.data.records.*;
 /**
  *	Interface to handle the payment modes between the Graphical User Interface and the data storage (upon GUI Exit)
  */
-public interface PayMethodHandler {
+public interface PaymentHandler {
 	
 	/**
 	 * Get all defined payment modes

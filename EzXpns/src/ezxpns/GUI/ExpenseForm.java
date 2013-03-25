@@ -3,6 +3,7 @@ package ezxpns.GUI;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.beans.PropertyChangeEvent;
@@ -30,7 +31,7 @@ import ezxpns.data.records.Category;
 import ezxpns.data.records.CategoryHandler;
 import ezxpns.data.records.ExpenseRecord;
 import ezxpns.data.records.ExpenseType;
-import ezxpns.data.records.PayMethodHandler;
+import ezxpns.data.records.PaymentHandler;
 import ezxpns.data.records.PaymentMethod;
 import ezxpns.data.records.Record;
 import ezxpns.data.records.RecordHandler;
@@ -59,9 +60,11 @@ public class ExpenseForm extends JPanel{
 	
 	// #Logic Components
 	private RecordHandler recHandler; 
-	private CategoryHandler catHandler;
-	private PayMethodHandler payHandler;
+	private CategoryHandler<ExpenseRecord> catHandler;
+	private PaymentHandler payHandler;
 	private UndoManager undoMgr;
+	private UpdateNotifyee notifyee;
+	private boolean isEdit;
 	
 	// #Data Components
 	private List<Category> categories;
@@ -77,18 +80,21 @@ public class ExpenseForm extends JPanel{
 	 */
 	public ExpenseForm(
 			RecordHandler recHandlerRef, 
-			CategoryHandler catHandlerRef, 
-			PayMethodHandler payHandlerRef,
+			CategoryHandler<ExpenseRecord> catHandlerRef, 
+			PaymentHandler payHandlerRef,
+			UpdateNotifyee notifyeeRef,
 			UndoManager undoMgrRef) {
 		
 		recHandler = recHandlerRef; 
 		catHandler = catHandlerRef;
 		payHandler = payHandlerRef;
+		notifyee = notifyeeRef;
 		undoMgr = undoMgrRef;
 		
 		categories = catHandler.getAllCategories();
 		methods = payHandler.getAllPaymentMethod();
 		this.initFields();
+		isEdit = false;
 	}
 	
 	/**
@@ -101,15 +107,17 @@ public class ExpenseForm extends JPanel{
 	 */
 	public ExpenseForm(
 			RecordHandler recHandlerRef, 
-			CategoryHandler catHandlerRef, 
-			PayMethodHandler payHandlerRef, 
+			CategoryHandler<ExpenseRecord> catHandlerRef, 
+			PaymentHandler payHandlerRef, 
 			UndoManager undoMgrRef,
+			UpdateNotifyee notifyeeRef,
 			ExpenseRecord record) {
 		
-		this(recHandlerRef, catHandlerRef, payHandlerRef, undoMgrRef);
+		this(recHandlerRef, catHandlerRef, payHandlerRef, notifyeeRef, undoMgrRef);
 		
 		this.record = record;
 		this.populateFields();
+		isEdit = true;
 	}
 	
 	/**
@@ -129,8 +137,8 @@ public class ExpenseForm extends JPanel{
 		// Payment Method
 		cboxPay.setSelectedIndex(methods.indexOf(record.getPaymentMethod()));
 		
-		// Date
-		txtDateChooser.setDate(record.getDate());
+		// Date - populated only if editing
+		txtDateChooser.setDate(isEdit ? record.getDate() : new Date()); 
 		
 		// Description
 		txtDesc.setText(record.getRemark());
@@ -261,7 +269,7 @@ public class ExpenseForm extends JPanel{
 		loForm.putConstraint(SpringLayout.WEST, txtAmt, COL2_PAD, SpringLayout.WEST, this);
 		loForm.putConstraint(SpringLayout.NORTH, lblAmt, TOP_PAD, SpringLayout.NORTH, rbtnNeed);
 		loForm.putConstraint(SpringLayout.NORTH, txtAmt, TOP_PAD, SpringLayout.NORTH, rbtnWant);
-		// This will need a listener to calculate and display the information on the label
+		// TODO: Calculator
 
 		lblDate = this.createLabel("Date");
 		// JDateChooser stuff starts here (tingzhe)
@@ -287,7 +295,6 @@ public class ExpenseForm extends JPanel{
 		loForm.putConstraint(SpringLayout.WEST, txtDateChooser, COL2_PAD, SpringLayout.WEST, this);
 		loForm.putConstraint(SpringLayout.NORTH, lblDate, TOP_PAD, SpringLayout.NORTH, lblAmt);
 		loForm.putConstraint(SpringLayout.NORTH, txtDateChooser, TOP_PAD, SpringLayout.NORTH, txtAmt);
-		// Insert Calendar View? Drop down box here
 
 		lblDesc = this.createLabel("Remarks");
 		txtDesc = new JTextField("");
@@ -476,7 +483,7 @@ public class ExpenseForm extends JPanel{
 	 * @param amt the amount to update the field
 	 */
 	private void setAmt(double amt) {
-		this.txtAmt.setText(new DecimalFormat("##0.00").format(amt)); // May want to decimal format this
+		this.txtAmt.setText(new DecimalFormat("##0.00").format(amt));
 	}
 	
 	/** 
@@ -494,6 +501,34 @@ public class ExpenseForm extends JPanel{
 				this.getMode()										// Payment method/mode of this record
 			);
 		this.recHandler.createRecord(eRecord, isNewCategory(), isNewMethod());
+		notifyee.addUndoAction(createUndoAction(eRecord, isNewCategory(), isNewMethod()), isEdit ? " Edit Expense" : " New Expense");
 		return eRecord;
+	}
+	
+	/**
+	 * create an action to undo what was just done by the user
+	 * @param nExpense new ExpenseRecord that was just created by user 
+	 * @param isNewCat true for new category, otherwise false
+	 * @param isNewPay true for new payment method, otherwise false
+	 * @return AbstractAction undo action
+	 */
+	private AbstractAction createUndoAction(final ExpenseRecord nExpense, final boolean isNewCat, final boolean isNewPay) {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				if(isEdit) {
+					recHandler.modifyRecord(record.getId(), record, isNewCat, isNewPay);
+				}
+				else {
+					recHandler.removeRecord(nExpense.getId());
+				}
+				if(isNewCat) {
+					catHandler.removeCategory(nExpense.getCategory().getID());
+				}
+				if(isNewPay) {
+					payHandler.removePaymentMethod(nExpense.getPaymentMethod().getID());
+				}
+			}
+		};
 	}
 }
