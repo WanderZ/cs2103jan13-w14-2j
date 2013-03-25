@@ -63,13 +63,13 @@
         "id": 1363314106821,
         "name": "Entertainment"
       },
-      "1364704133024": {
-        "id": 1364704133024,
-        "name": "Transport"
-      },
       "1364053692757": {
         "id": 1364053692757,
         "name": "Leisure"
+      },
+      "1364704133024": {
+        "id": 1364704133024,
+        "name": "Transport"
       }
     },
     "recordsByCategory": {
