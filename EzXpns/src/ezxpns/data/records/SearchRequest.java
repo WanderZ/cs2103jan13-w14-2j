@@ -8,6 +8,8 @@ import ezxpns.data.records.*;
  * Wrapper class to contains search query parameters
  * <br />May support multiple queries (future iterations)
  * <br />but not handled in the master class for now.
+ * <br />To create a new request, just construct it with the required parameter,
+ * such as new SearchRequest(nameToSearch)
  */
 public class SearchRequest {
 

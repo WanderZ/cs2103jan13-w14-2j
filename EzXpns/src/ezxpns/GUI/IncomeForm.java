@@ -3,6 +3,7 @@ package ezxpns.GUI;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.beans.PropertyChangeEvent;
@@ -49,7 +50,6 @@ public class IncomeForm extends JPanel{
 	private RecordHandler recHandler; 
 	private CategoryHandler catHandler;
 	private IncomeRecord record;
-	private UndoManager undoMgr;
 	
 	// #Data Components
 	private List<Category> categories;
@@ -58,15 +58,12 @@ public class IncomeForm extends JPanel{
 	 * Create a form for a new income record
 	 * @param recHandlerRef 
 	 * @param catHandlerRef
-	 * @param undoMgrRef
 	 */
 	public IncomeForm(
 			RecordHandler recHandlerRef, 
-			CategoryHandler catHandlerRef,
-			UndoManager undoMgrRef) {
+			CategoryHandler catHandlerRef) {
 		recHandler = recHandlerRef;
 		catHandler = catHandlerRef;
-		undoMgr = undoMgrRef;
 		
 		categories = catHandler.getAllCategories();
 		this.initFields();
@@ -76,16 +73,14 @@ public class IncomeForm extends JPanel{
 	 * Create a form of the existing record
 	 * @param recHandlerRef 
 	 * @param catHandlerRef
-	 * @param undoMgrRef
 	 * @param record IncomeRecord object to be edit
 	 */
 	public IncomeForm(
 			RecordHandler recHandlerRef, 
 			CategoryHandler catHandlerRef, 
-			UndoManager undoMgrRef,
 			IncomeRecord record) {
 		
-		this(recHandlerRef, catHandlerRef, undoMgrRef);
+		this(recHandlerRef, catHandlerRef);
 		this.record = record;
 		this.populateFields();
 	}
@@ -356,8 +351,23 @@ public class IncomeForm extends JPanel{
 				this.getDate(), 
 				this.getCat()
 			);
-		this.recHandler.createRecord(iRecord, isNewCategory());
+		iRecord = this.recHandler.createRecord(iRecord, isNewCategory());
+		//er need notifyee
+		// notifyee.addUndoAction(getUndoAddInRec(iRecord.copy(), isNewCategory());
 		return iRecord;
+	}
+	
+	private AbstractAction getUndoAddInRec(final IncomeRecord rec, final boolean newCat){
+		return new AbstractAction(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				long catid = rec.getCategory().getID();
+				recHandler.removeRecord(rec.getId());
+				catHandler.removeCategory(catid);
+			}
+			
+		};
 	}
 	
 	/** 

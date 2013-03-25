@@ -9,6 +9,8 @@ import java.util.Stack;
 
 import javax.swing.*;
 
+import ezxpns.util.*;
+
 /**
  * A wrapper that allows one to easily add/perform undo actions
  * @author yyjhao
@@ -16,7 +18,8 @@ import javax.swing.*;
  */
 public class UndoManager {
 	private AbstractAction action;
-	private Stack<AbstractAction> stack;
+	private Stack<Pair<AbstractAction, String> > stack;
+	private AbstractAction postUndo;
 	
 	public UndoManager(){
 		action = new AbstractAction(){
@@ -27,7 +30,7 @@ public class UndoManager {
 		};
 		action.putValue(Action.NAME, "Undo");
 		action.setEnabled(false);
-		stack = new Stack<AbstractAction>();
+		stack = new Stack<Pair<AbstractAction, String> >();
 	}
 	
 	/**
@@ -42,16 +45,25 @@ public class UndoManager {
 	 * @param name the name of the action, without "undo"
 	 */
 	public void add(AbstractAction a, String name){
-		stack.push(a);
+		stack.push(new Pair(a, name));
 		action.setEnabled(true);
 		action.putValue(Action.NAME, "Undo " + name);
 	}
 	
+	public void setPostUndo(AbstractAction a){
+		postUndo = a;
+	}
+	
 	private void performUndo(){
-		(stack.pop()).actionPerformed(null);
+		(stack.pop()).getLeft().actionPerformed(null);
 		if(stack.empty()){
 			action.setEnabled(false);
 			action.putValue(Action.NAME, "Undo");
+		}else{
+			action.putValue(Action.NAME, stack.peek().getRight());
+		}
+		if(postUndo != null){
+			postUndo.actionPerformed(null);
 		}
 	}
 }

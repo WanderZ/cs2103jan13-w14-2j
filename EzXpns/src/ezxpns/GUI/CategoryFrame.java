@@ -29,6 +29,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.util.List;
 
 /**
  * Window for users to manage user-defined Categories as well as tagged Targets
@@ -38,7 +39,8 @@ public class CategoryFrame extends JFrame{
 	
 	private TargetManager targetMgr;
 	private UndoManager undoMgr;
-	private CategoryHandler excats, incats;
+	private CategoryHandler<ExpenseRecord> excats;
+	private CategoryHandler<IncomeRecord> incats;
 	private CategoryModel exmo, inmo;
 	
 	private JList exlist, inlist;
@@ -268,19 +270,6 @@ public class CategoryFrame extends JFrame{
 		exlist.setModel(exmo);
 		inlist.setModel(inmo);
 		
-		createUndo("test1");
-		createUndo("test2");
-	}
-	
-	private void createUndo(final String name){
-		notifyee.addUndoAction(new AbstractAction(){
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				JOptionPane.showMessageDialog(null, name, "Error!!!!!", JOptionPane.ERROR_MESSAGE);
-			}
-			
-		}, name + "eh");
 	}
 	
 	/**
@@ -373,14 +362,24 @@ public class CategoryFrame extends JFrame{
 				Category cat = excats.addNewCategory(new Category(newName));
 				if(validateTarget(targetAmountField.getText())){
 					targetMgr.setTarget(cat, Double.parseDouble(targetAmountField.getText()));
+					notifyee.addUndoAction(getUndoNewCat(cat.getID(), excats), "Creating new category");
+				}else{
+					notifyee.addUndoAction(getUndoNewCat(cat.getID(), excats), "Creating new category");
 				}
 				exmo.update();
 				exlist.setSelectedValue(cat, true);
 			}else{
+				Category original = curCat.copy();
+				Target tar = targetMgr.getTarget(curCat);
+				double targetAmt = 0;
+				if(tar != null){
+					targetAmt = tar.getTargetAmt();
+				}
 				Category cat = excats.updateCategory(curCat.getID(), new Category(exnameField.getText()));
 				if(validateTarget(targetAmountField.getText())){
 					targetMgr.setTarget(cat, Double.parseDouble(targetAmountField.getText()));
 				}
+				notifyee.addUndoAction(getUndoModifyExCat(cat.getID(), original, targetAmt), "Modify category");
 				exmo.update();
 				exlist.setSelectedValue(cat, true);
 			}
@@ -402,12 +401,15 @@ public class CategoryFrame extends JFrame{
 		if(err == null){
 			if(curCat == addNew){
 				Category cat = incats.addNewCategory(new Category(newName));
+				notifyee.addUndoAction(getUndoNewCat(cat.getID(), incats), "Create new category");
 				inmo.update();
 				inlist.setSelectedValue(cat, true);
 			}else{
+				Category original = curCat.copy();
 				Category cat = incats.updateCategory(curCat.getID(), new Category(inNameField.getText()));
 				inmo.update();
 				inlist.setSelectedValue(cat, true);
+				notifyee.addUndoAction(getUndoModifyInCat(cat.getID(), original), "Modify category");
 			}
 			notifyee.updateAll();
 		} else{
@@ -423,9 +425,16 @@ public class CategoryFrame extends JFrame{
 			    		"All records under this category will have an undefined category!";
 		if(JOptionPane.showConfirmDialog(this, message, "what?!",
 				JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+			Category original = curCat.copy();
+			double targetAmt = 0;
+			if(targetMgr.getTarget(curCat)!= null){
+				targetAmt = targetMgr.getTarget(curCat).getTargetAmt();
+			}
+			List<ExpenseRecord> recs = excats.getRecordsBy(curCat, -1);
 			excats.removeCategory(curCat.getID());
 			exmo.update();
 			exlist.setSelectedIndex(0);
+			notifyee.addUndoAction(getUndoRemoveExCat(recs, original, targetAmt), "Removing Category");
 			notifyee.updateAll();
 		}
 	}
@@ -437,11 +446,87 @@ public class CategoryFrame extends JFrame{
 			    		"All records under this category will have an undefined category!";
 		if(JOptionPane.showConfirmDialog(this, message, "what?!",
 				JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+			List<IncomeRecord> oriRecords = incats.getRecordsBy(curCat, -1);
+			Category cat = curCat.copy();
 			incats.removeCategory(curCat.getID());
 			inmo.update();
 			inlist.setSelectedIndex(0);
 			notifyee.updateAll();
+			notifyee.addUndoAction(getUndoRemoveInCat(oriRecords, cat.copy()), "Removing Category");
 		}
 	}
-}
+	
+	private AbstractAction getUndoNewCat(final long id, final CategoryHandler cats){
+		return new AbstractAction(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cats.removeCategory(id);
+			}
+			
+		};
+	}
+	
+	private AbstractAction getUndoModifyInCat(final long id, final Category original){
+		return new AbstractAction(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				incats.updateCategory(id, original);
+			}
+			
+		};
+	}
+	
+	private AbstractAction getUndoModifyExCat(
+			final long id,
+			final Category original,
+			final double originalTargetAmt){
+		return new AbstractAction(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Category cat = excats.updateCategory(id, original);
+				if(originalTargetAmt == 0){
+					targetMgr.removeCategoryTarget(id);
+				}else{
+					targetMgr.setTarget(cat, originalTargetAmt);
+				}
+			}
+			
+		};
+	}
+	
+	private AbstractAction getUndoRemoveInCat(final List<IncomeRecord> recs, final Category original){
+		// deleting a category moves all records in it to undefined
+		// we need to undo this as well
+		return new AbstractAction(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Category cat = incats.addNewCategory(original);
+				incats.addToCategory(recs, cat);
+			}
+		};
+	}
+	
+	private AbstractAction getUndoRemoveExCat(
+			final List<ExpenseRecord> recs,
+			final Category original,
+			final double targetAmt){
+		// deleting a category moves all records in it to undefined
+		// we need to undo this as well
+		return new AbstractAction(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Category cat = excats.addNewCategory(original);
+				excats.addToCategory(recs, cat);
+				if(targetAmt != 0){
+					targetMgr.setTarget(cat, targetAmt);
+				}
+			}
+		};
+	}
+}	
 
