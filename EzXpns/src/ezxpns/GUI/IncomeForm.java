@@ -364,7 +364,9 @@ public class IncomeForm extends JPanel{
 			public void actionPerformed(ActionEvent arg0) {
 				long catid = rec.getCategory().getID();
 				recHandler.removeRecord(rec.getId());
-				catHandler.removeCategory(catid);
+				if(newCat){
+					catHandler.removeCategory(catid);
+				}
 			}
 			
 		};
