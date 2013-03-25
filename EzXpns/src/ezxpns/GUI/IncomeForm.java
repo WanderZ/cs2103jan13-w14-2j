@@ -48,8 +48,10 @@ public class IncomeForm extends JPanel {
 	
 	// #Logic Components
 	private RecordHandler recHandler; 
-	private CategoryHandler catHandler;
+	private CategoryHandler<IncomeRecord> catHandler;
 	private IncomeRecord record;
+	private UpdateNotifyee notifyee;
+	private boolean isEdit;
 	
 	// #Data Components
 	private List<Category> categories;
@@ -61,12 +63,15 @@ public class IncomeForm extends JPanel {
 	 */
 	public IncomeForm(
 			RecordHandler recHandlerRef, 
-			CategoryHandler catHandlerRef) {
+			CategoryHandler<IncomeRecord> catHandlerRef,
+			UpdateNotifyee notifyeeRef) {
 		recHandler = recHandlerRef;
 		catHandler = catHandlerRef;
+		notifyee = notifyeeRef;
 		
 		categories = catHandler.getAllCategories();
 		this.initFields();
+		isEdit = false;
 	}
 	
 	/**
@@ -77,12 +82,14 @@ public class IncomeForm extends JPanel {
 	 */
 	public IncomeForm(
 			RecordHandler recHandlerRef, 
-			CategoryHandler catHandlerRef, 
+			CategoryHandler<IncomeRecord> catHandlerRef,
+			UpdateNotifyee notifyeeRef,
 			IncomeRecord record) {
 		
-		this(recHandlerRef, catHandlerRef);
+		this(recHandlerRef, catHandlerRef, notifyeeRef);
 		this.record = record;
 		this.populateFields();
+		isEdit = true;
 	}
 	
 	/**
@@ -99,7 +106,7 @@ public class IncomeForm extends JPanel {
 		cboxCat.setSelectedIndex(categories.indexOf(record.getCategory()));
 		
 		// Date
-		txtDateChooser.setDate(record.getDate());
+		txtDateChooser.setDate(isEdit ? record.getDate() : new Date());
 		
 		// Description
 		txtDesc.setText(record.getRemark());
@@ -148,7 +155,6 @@ public class IncomeForm extends JPanel {
 		loForm.putConstraint(SpringLayout.WEST, txtName, COL2_PAD, SpringLayout.WEST, this);
 		loForm.putConstraint(SpringLayout.NORTH, lblName, TOP_PAD, SpringLayout.NORTH, this);
 		loForm.putConstraint(SpringLayout.NORTH, txtName, TOP_PAD, SpringLayout.NORTH, this);
-		// AutoComplete (for the rest of the fields - when completed?)
 		
 		lblCat = this.createLabel("Category");
 		cboxCat = new JComboBox();
@@ -172,7 +178,7 @@ public class IncomeForm extends JPanel {
 		loForm.putConstraint(SpringLayout.WEST, txtAmt, COL2_PAD, SpringLayout.WEST, this);
 		loForm.putConstraint(SpringLayout.NORTH, lblAmt, TOP_PAD, SpringLayout.NORTH, lblCat);
 		loForm.putConstraint(SpringLayout.NORTH, txtAmt, TOP_PAD, SpringLayout.NORTH, cboxCat);
-		// This will need a listener to calculate and display the information on the label
+		// TODO: Calculator
 		
 		lblDate = this.createLabel("Date");
 		// JDateChooser stuff starts here (tingzhe)
@@ -199,7 +205,6 @@ public class IncomeForm extends JPanel {
 		loForm.putConstraint(SpringLayout.WEST, txtDateChooser, COL2_PAD, SpringLayout.WEST, this);
 		loForm.putConstraint(SpringLayout.NORTH, lblDate, TOP_PAD, SpringLayout.NORTH, lblAmt);
 		loForm.putConstraint(SpringLayout.NORTH, txtDateChooser, TOP_PAD, SpringLayout.NORTH, txtAmt);
-		// Insert Calendar View? Drop down box here
 		
 		lblDesc = this.createLabel("Remarks");
 		txtDesc = new JTextField("");
@@ -237,9 +242,9 @@ public class IncomeForm extends JPanel {
 			validateSuccess = false;
 		}
 		
-		//TODO: Validate Income Category
+		// TODO: Validate Income Category
 		
-		//TODO: Validate Description?
+		// TODO: Validate Description?
 		
 		return validateSuccess;
 	}
@@ -251,8 +256,12 @@ public class IncomeForm extends JPanel {
 	private boolean validateAmt() {
 		// Data type check
 		double result;
-		try {result = Double.parseDouble(getAmt());}
-		catch(Exception err) { return false; }
+		try {
+			result = Double.parseDouble(getAmt());
+		}
+		catch(Exception err) { 
+			return false; 
+		}
 		
 		// Value check		
 		return result >= 0.01; // Minimum value
@@ -319,7 +328,7 @@ public class IncomeForm extends JPanel {
 	 * @param amt the amount to update the field
 	 */
 	private void setAmt(double amt) {
-		this.txtAmt.setText(new DecimalFormat("##0.00").format(amt)); // May want to decimal format this
+		this.txtAmt.setText(new DecimalFormat("##0.00").format(amt));
 	}
 	
 	/**
@@ -343,7 +352,6 @@ public class IncomeForm extends JPanel {
 	 * @return Record object containing the user input
 	 */
 	public Record save() {
-		System.out.println("Save button invoked! trying to save... ");
 		IncomeRecord iRecord = new IncomeRecord(
 				Double.parseDouble(this.getAmt()), 
 				this.getName(), 
@@ -352,23 +360,31 @@ public class IncomeForm extends JPanel {
 				this.getCat()
 			);
 		iRecord = this.recHandler.createRecord(iRecord, isNewCategory());
-		//er need notifyee
-		// notifyee.addUndoAction(getUndoAddInRec(iRecord.copy(), isNewCategory());
+		notifyee.addUndoAction(createUndoAction(iRecord, isNewCategory()), isEdit ? "Edit Income" : "New Income");
 		return iRecord;
 	}
 	
-	private AbstractAction getUndoAddInRec(final IncomeRecord rec, final boolean newCat){
-		return new AbstractAction(){
-
+	/**
+	 * Create an action to undo what the user just did
+	 * @param nRecord new IncomeRecord that user just created
+	 * @param isNewCat true for creation of new category, otherwise false
+	 * @return AbstractAction undo action
+	 */
+	private AbstractAction createUndoAction(final IncomeRecord nRecord, final boolean isNewCat) {
+		return new AbstractAction() {
+			
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				long catid = rec.getCategory().getID();
-				recHandler.removeRecord(rec.getId());
-				if(newCat){
-					catHandler.removeCategory(catid);
+			public void actionPerformed(ActionEvent event) {
+				if(isEdit) {
+					recHandler.modifyRecord(record.getId(), record, false); // Undo an edit.
+				}
+				else { // A new record
+					recHandler.removeRecord(nRecord.getId()); // Remove the Record	
+				}
+				if(isNewCat) { 
+					catHandler.removeCategory(nRecord.getCategory().getID());
 				}
 			}
-			
 		};
 	}
 	
