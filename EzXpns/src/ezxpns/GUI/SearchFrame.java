@@ -89,16 +89,15 @@ public class SearchFrame extends JFrame implements ActionListener {
 		if(event.getSource() == panBtns.getSearchBtn()) {
 			// User invoked search
 			
-			StringBuilder request = new StringBuilder();
-			request.append(panForm.getNameField().getText().trim());
+			String request;
+			request = panForm.getNameField().getText().trim();
 			if(!request.equals("")) {
 				this.search(new SearchRequest(request.toString())); // Search by Name
 				return;
 			}
 			
 			// Name field is empty!
-			request.append(panForm.getCatField().getSelectedItem().toString().trim()); // I changed some stuff, how sure how to get search working (tingzhe)
-			System.out.println(request.append(panForm.getCatField().getSelectedItem().toString().trim()));
+			request = panForm.getCatField().getSelectedItem().toString().trim();
 
 			if(!request.equals("")) {
 				this.search(new SearchRequest(new Category(request.toString()))); // Search by Category
