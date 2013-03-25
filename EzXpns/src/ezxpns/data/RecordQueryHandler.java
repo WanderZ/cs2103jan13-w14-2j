@@ -40,4 +40,9 @@ public interface RecordQueryHandler<T extends Record> {
 	 * @return list of records with same category name
 	 */
 	Vector<T> getRecordsByCategory(String name);
+	
+	/**
+	 * Get records with name starting with the string
+	 */
+	Vector<T> getRecordsWithNamePrefix(String prefix);
 }

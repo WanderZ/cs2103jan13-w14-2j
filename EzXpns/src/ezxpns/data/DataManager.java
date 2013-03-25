@@ -88,6 +88,15 @@ public class DataManager extends Storable
 			Collections.sort(rs);
 			return rs;
 		}
+
+		@Override
+		public Vector<Record> getRecordsWithNamePrefix(String prefix) {
+			Vector<Record> rs = new Vector<Record>();
+			rs.addAll(incomes.getRecordsWithNamePrefix(prefix));
+			rs.addAll(expenses.getRecordsWithNamePrefix(prefix));
+			Collections.sort(rs);
+			return rs;
+		}
 		
 	}
 	

@@ -115,7 +115,6 @@ public class Ezxpns implements
 				 end = req.getDateRange().getRight();
 			recs = tofind.getRecordsBy(start, end, -1, true);
 		}else if(req.getCategory() != null){
-//			recs = tofind.getRecordsByCategory(req.getCategory().getName());
 			recs = tofind.getRecordsBy(req.getCategory(), -1);
 		}else{
 			return null;
@@ -332,5 +331,25 @@ public class Ezxpns implements
 	@Override
 	public boolean addToCategory(List<ExpenseRecord> records, Category cat) {
 		return data.expenses().addToCategory(records, cat);
+	}
+
+	@Override
+	public Vector<Record> search(String partialMatch) {
+		Vector<Record> rs = data.combined().getRecordsWithNamePrefix(partialMatch);
+		Vector<Category> cats = data.incomes().getCategoryWithNamePrefix(partialMatch);
+		for(Category cat : cats){
+			rs.addAll(data.incomes().getRecordsBy(cat, -1));
+		}
+		cats = data.expenses().getCategoryWithNamePrefix(partialMatch);
+		for(Category cat : cats){
+			rs.addAll(data.expenses().getRecordsBy(cat, -1));
+		}
+		Collections.sort(rs);
+		return rs;
+	}
+
+	@Override
+	public Vector<Category> getCategoryWithNamePrefix(String prefix) {
+		return data.expenses().getCategoryWithNamePrefix(prefix);
 	}
 }

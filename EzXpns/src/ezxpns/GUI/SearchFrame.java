@@ -130,8 +130,8 @@ public class SearchFrame extends JFrame{
 	}
 
 	public void performSearch(){
-			// User invoked search
-			
+		if(isMoreOption){
+		
 			SearchRequest req = null;
 			String name = panForm.getNameField().getText().trim();
 			if(!name.equals("")) {
@@ -167,6 +167,9 @@ public class SearchFrame extends JFrame{
 			}
 			
 			search(req);
+		}else{
+			search(panForm.getSimpleQuery());
+		}
 	}
 	
 	/** 
@@ -175,6 +178,11 @@ public class SearchFrame extends JFrame{
 	 */
 	private void search(SearchRequest request) {
 		List<Record> results = handler.search(request);
+		list.show(results);
+	}
+	
+	private void search(String prefix){
+		List<Record> results = handler.search(prefix);
 		list.show(results);
 	}
 	
@@ -214,19 +222,18 @@ class SearchFormPanel extends JPanel {
 	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yy");
 	
 	public void switchToAdvance(){
-		//lblTitle.setVisible(false);
-		//txtSimpleField.setVisible(false);
 		txtSimpleField.setEditable(false);
+		txtSimpleField.setText("");
 		txtSimpleField.setBackground(this.getBackground());
 		lblTitle.setForeground(Color.GRAY);
+		this.getNameField().requestFocusInWindow();
 		this.revalidate();
 	}
 	
 	public void switchToSimple(){
-		//lblTitle.setVisible(true);
-		//txtSimpleField.setVisible(true);
 		txtSimpleField.setEditable(true);
 		lblTitle.setForeground(Color.BLACK);
+		txtSimpleField.requestFocusInWindow();
 		this.revalidate();
 	}
 	
@@ -298,7 +305,7 @@ class SearchFormPanel extends JPanel {
 		}
 		return txtCat;
 	}
-
+	
 	private JLabel getDateLabel() {
 		if(lblDate == null) {
 			lblDate = new JLabel("Date");
@@ -336,6 +343,10 @@ class SearchFormPanel extends JPanel {
 		    txtStart.getJCalendar().addPropertyChangeListener("calendar",calendarChangeListener);
 		}
 		return txtStart;
+	}
+	
+	public String getSimpleQuery(){
+		return this.txtSimpleField.getText();
 	}
 	
 	public Date getStartDate() {
