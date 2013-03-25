@@ -180,7 +180,7 @@ public class Ezxpns implements
 	
 	@Override
 	public List<Record> getRecords(int n) {
-		return data.combined().getRecordsBy(new Date(0), new Date(), n, false);
+		return data.combined().getRecordsBy(new Date(0), new Date(), n, true);
 	}
 	@Override
 	public Record getRecord(long identifier) {
