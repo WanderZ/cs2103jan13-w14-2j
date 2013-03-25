@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import ezxpns.data.TargetManager.DataProvider;
 import ezxpns.data.records.ExpenseType;
 
 /**
@@ -12,20 +13,6 @@ import ezxpns.data.records.ExpenseType;
  *
  */
 
-/**
- * First Month : Uses default NWS ratios
- * Second Month onwards: Uses data from previous month to construct this month's ratios
- * This month's ratio will not change unless user modified last month's data
- * This month ratio will also be saved in an array, thisNWSTarget
- * 
- * if user did not modify last month's record, you can just retrieve the ratios normally
- * 1.getNeeds() getWants() getSavings()
- * 
- * if user modified last month's record, we have to recalculate last month's ratio, then calculate this month's ratio
- * 1. getNewRatios();
- * 2. get all the ratios again! getNeeds() getWants() getSavings()
- * 
- */
 
 public class NWSGenerator extends Storable{
 	
@@ -36,11 +23,7 @@ public class NWSGenerator extends Storable{
 		double getPrevMonthlyExpense(ExpenseType type); //get the previous month's data
 		double getPrevMonthIncome(); // get previous month's income
 		
-		/*I will need the NWSdata object to be stored in the database. I will be constantly retrieving them and modifying them
-		*the first data can be created using new NWSdata(). nothing inside the constructor. Thereafter, I will be modifying the NWSdata 
-		*using the setAll(Calendar date, double n, double w, double s). I wont remove the object or create a new one
-		*so i need 2 empty NWSdata inside the database: one for the past month, and one for the current month
-		*/
+		
 		NWSdata getPastMonthNWS(); 
 		NWSdata getThisMonthNWS();
 	}
@@ -48,10 +31,12 @@ public class NWSGenerator extends Storable{
 	private transient DataProvider data;
 	private transient boolean dataUpdated = true;
 	
+	//Ideal or default ratios
 	private final double NEEDS = 0.5;
 	private final double WANTS = 0.3;
 	private final double SAVINGS = 0.2;
-	private final double BUFFER = 0.03; //+- 3% buffer
+	
+	private final double BUFFER = 0.05; //+- 5% buffer
 	
 	// 0.1<Needs<0.8
 	private final double MAXNEEDS = 0.7;
@@ -63,12 +48,10 @@ public class NWSGenerator extends Storable{
 	private final double MAXSAVINGS = 0.7;
 	private final double MINSAVINGS = 0.2;
 	
-	private transient double targetSavings;
-	private transient double targetNeeds;
-	private transient double targetWants;
+
 	
-	private NWSdata pastMonthNWS;
-	private NWSdata thisMonthNWS;
+	private NWSdata pastMonthNWS = new NWSdata();
+	private NWSdata thisMonthNWS = new NWSdata();
 	
 	
 public NWSGenerator(DataProvider data){
@@ -77,24 +60,20 @@ public NWSGenerator(DataProvider data){
 	pastMonthNWS = data.getPastMonthNWS();
 	thisMonthNWS = data.getThisMonthNWS();
 	
+	
 	//if there is no past month data or this month data, set the ratio as default.
-	if((!thisMonthNWS.isSet())&&(!pastMonthNWS.isSet())){
-	thisMonthNWS.setAll(new GregorianCalendar(), NEEDS, WANTS, SAVINGS);	
-	}
-	
-	//Need to change the ratio for this month
-	else if(thisMonthNWS.isSet()){
-		if(isNewMonth(thisMonthNWS.getDate())){
-		getNewRatios();
-		pastMonthNWS.setAll(thisMonthNWS.getDate(),thisMonthNWS.getNeeds(),thisMonthNWS.getWants(),thisMonthNWS.getSavings());
-		thisMonthNWS.setAll(new GregorianCalendar(), targetNeeds, targetWants, targetSavings);
-	}
+		if((!thisMonthNWS.isSet())&&(!pastMonthNWS.isSet())){
+		thisMonthNWS.setAll(new GregorianCalendar(), NEEDS, WANTS, SAVINGS);	
 		}
-	
-	if(!pastMonthNWS.isSet()){
-		pastMonthNWS.setAll(new GregorianCalendar(), NEEDS, WANTS, SAVINGS);
-	}
-	
+		
+		//Need to change the ratio for this month
+		else if(thisMonthNWS.isSet()){
+			if(isNewMonth(thisMonthNWS.getDate())){
+			double[] array = generateRatios();
+			pastMonthNWS.setAll(thisMonthNWS.getDate(),thisMonthNWS.getNeeds(),thisMonthNWS.getWants(),thisMonthNWS.getSavings());
+			thisMonthNWS.setAll(new GregorianCalendar(), array[0], array[1], array[2]);
+		}
+			}
 	
 }
 	
@@ -134,109 +113,276 @@ public double getMonthlySavings(){
 	return data.getMonthlyIncome()-getMonthlyNeeds()-getMonthlyWants();
 }
 
+public void setDataProvider(DataProvider data){
+	this.data = data;
+	dataUpdated = true;
+}
 
-public void getNewRatios(){
-	/*i represents the state of the finance.
-	 *eg. Needs and Wants have exceeded limit and Savings have not met target
-	 *exceed limit -> 1, did not meet target --> 0,
-	 *meet a target by a difference of +- 3% -> there will be no change in the ratios.
-	 *Needs|Wants|Savings
-	 *  1  |  1  |  0   implies i = 110 = 6
-	 */
+public void markDataUpdated(){
+	dataUpdated = true;
+}
+
+public double[] generateRatios(){
+	double targetSavings;
+	double targetNeeds;
+	double targetWants;
+	double [] array = new double[3];
+
+		
+		if(!pastMonthNWS.isSet()){
+			pastMonthNWS.setAll(new GregorianCalendar(), NEEDS, WANTS, SAVINGS);
+			targetNeeds =  NEEDS;
+			targetWants = WANTS;
+			targetSavings = SAVINGS;
+			array[0] = targetNeeds;
+			array[1] = targetWants;
+			array[2] = targetSavings;
+			return array;
+		}
+	
+	
+
+		targetNeeds =  pastMonthNWS.getNeeds();
+		targetWants = pastMonthNWS.getWants();
+		targetSavings = pastMonthNWS.getSavings();
+
+	
+	
+	double prevMonthIncome = data.getPrevMonthIncome();
+	double prevMonthNeedsExp = data.getPrevMonthlyExpense(ExpenseType.NEED)/prevMonthIncome; //ratio
+	double prevMonthWantsExp = data.getPrevMonthlyExpense(ExpenseType.WANT)/prevMonthIncome; //ratio
+	double prevMonthSavings = 1 - prevMonthNeedsExp - prevMonthWantsExp;
+	
+	//negative ratio means user spend more than his income
+	if(prevMonthSavings<0){
+		prevMonthSavings = 0;
+	}
+	
+	
+	//difference from  ____ Targets = Target ratio - Actual ratio
+	// diff>0 => did not meet target
+	// diff<0 => exceeded target
+	double diffFromNT = targetNeeds - prevMonthNeedsExp;
+	double diffFromWT = targetWants - prevMonthWantsExp;
+	double diffFromST = targetSavings - prevMonthSavings;	
+	
 	int i=0;
 	
-	double past_income = data.getPrevMonthIncome();
-	double past_n_exp = data.getPrevMonthlyExpense(ExpenseType.NEED)/past_income;
-	double past_w_exp = data.getPrevMonthlyExpense(ExpenseType.WANT)/past_income;
-	double past_s_exp = 1 - past_n_exp - past_w_exp;
+	/*
+	 * if the difference from the target is more than 5%, 
+	 * we will count it as missing the target
+	 * Now we will compute i, which represent the state. 
+	 * the value of i should be read at base 2
+	 * eg. i = 6 (in base 10) = 110 (in base 2)
+	 * Needs|Wants|Savings
+	 *   1  |  1  |  0   
+	 * this implies that Needs and Wants did not meet the 
+	 * target, 
+	 * while Savings has met the target (<5% diff)
+	 */
+	if(Math.abs(diffFromNT)>=BUFFER){
+		i+=4;
+	}
 	
-	if(!pastMonthNWS.isSet()){
+	if(Math.abs(diffFromWT)>=BUFFER){
+		i+=2;
+	}
+
+	if(Math.abs(diffFromST)>=BUFFER){
+		i+= 1;	
+	}
+	
+
+	//if(excess_x<0) => exceed the target by |excess_x|
+	//if(excess_x>0) => miss the target by |excess_x|
+	
+		switch(i){
+		
+	case 0: // 000 // VERY GOOD but will try and increase savings
+		if(diffFromNT>0){
+			if(canIncrease(MAXSAVINGS, targetSavings)
+			&& canReduce(MINNEEDS, targetNeeds))
+			targetNeeds-=BUFFER;
+			targetSavings+=BUFFER;
+		}
+		
+		if(diffFromWT>0){
+			if(canIncrease(MAXSAVINGS, targetSavings)
+					&& canReduce(MINWANTS, targetWants)){
+				targetWants-=BUFFER;
+				targetSavings+=BUFFER;
+			}
+		}
+		
+		break;
+	
+	case 1://001	
+		if(diffFromST>0){
+			if(canReduce(MINSAVINGS, targetSavings)){
+			if(diffFromNT<0&&canIncrease(MAXNEEDS, targetNeeds)){
+				targetSavings -= BUFFER;
+				targetNeeds += BUFFER;
+			}
+			
+			else if(diffFromWT<0 && canIncrease(MAXWANTS, targetWants)){
+				targetSavings -= BUFFER;
+				targetWants += BUFFER;
+		}
+			
+	}
+		}
+	
+	else{ //target more than 0
+		if(canIncrease(MAXSAVINGS, targetSavings)){
+		if(diffFromNT>0&&canReduce(MINNEEDS, targetNeeds)){
+			targetSavings += BUFFER;
+			targetNeeds -= BUFFER;
+		}
+		else if(diffFromWT>0&&canReduce(MINWANTS, targetWants)){
+			targetSavings += BUFFER;
+			targetWants -= BUFFER;
+		}
+		}
+	}
+
+		
+		break;
+	case 2://010 
+		if(diffFromWT>0){
+			if(canReduce(MINWANTS, targetWants)){
+			if(diffFromNT<0&&canIncrease(MAXNEEDS, targetNeeds)){
+				targetWants -= BUFFER;
+				targetNeeds += BUFFER;
+			}
+			
+			else if(diffFromST<0 && canIncrease(MAXSAVINGS, targetSavings)){
+				targetWants -= BUFFER;
+				targetSavings += BUFFER;
+		}
+			
+	}
+		}
+	
+	else{
+		if(canIncrease(MAXWANTS, targetWants)){
+		if(diffFromNT>0&&canReduce(MINNEEDS, targetNeeds)){
+			targetWants += BUFFER;
+			targetNeeds -= BUFFER;
+		}
+		else if(diffFromST>0&&canReduce(MINSAVINGS, targetSavings)){
+			targetWants += BUFFER;
+			targetSavings-= BUFFER;
+		}
+		}
+	}
+	
+		
+		break;
+	case 3://011 
+	
+	if(diffFromWT>0 && diffFromST<0){
+if(canIncrease(MAXSAVINGS,targetSavings)&&canReduce(MINWANTS, targetWants)){
+		targetSavings+=BUFFER;
+		targetWants-=BUFFER;
+}		
+	}
+	
+	else if( diffFromWT<0 && diffFromST>0){
+	if(canReduce(MINSAVINGS,targetSavings) && canIncrease(MAXWANTS, targetWants)){
+	targetSavings -= BUFFER;
+	targetWants += BUFFER;
+	}
+}
+		
+	
+		break;
+	case 4://100 
+	if(diffFromNT>0){
+		if(canReduce(MINNEEDS, targetNeeds)){
+			if(diffFromST<0 && canIncrease(MAXSAVINGS, targetSavings)){
+				targetSavings += BUFFER;
+				targetNeeds -= BUFFER;
+			}
+			
+			else if(diffFromWT<0 && canIncrease(MAXWANTS, targetWants)){
+				targetWants += BUFFER;
+				targetNeeds -= BUFFER;
+			}
+		}
+	}
+	else{
+		if(canIncrease(MAXNEEDS, targetNeeds)){
+			if(diffFromST>0 && canReduce(MINSAVINGS, targetSavings)){
+				targetSavings -= BUFFER;
+				targetNeeds += BUFFER;
+			}
+			else if(diffFromWT>0 && canReduce(MINWANTS, targetWants)){
+				targetWants -= BUFFER;
+				targetNeeds += BUFFER;
+			}
+		}
+	}
+		break;
+	case 5://101
+	if(diffFromNT>0 && diffFromST<0){
+		if(canReduce(MINNEEDS, targetNeeds) && canIncrease(MAXSAVINGS, targetSavings)){
+			targetNeeds -= BUFFER;
+			targetSavings += BUFFER;
+		}
+	}
+	else if(diffFromNT<0 && diffFromST>0){
+		if(canIncrease(MAXNEEDS, targetNeeds) && canReduce(MINSAVINGS, targetSavings)){
+			targetNeeds += BUFFER;
+			targetSavings -= BUFFER;
+		}
+	}
+		break;
+	case 6://110
+	if(diffFromNT>0 && diffFromWT<0){
+		if(canReduce(MINNEEDS, targetNeeds) && canIncrease(MAXWANTS, targetWants)){
+			targetNeeds -= BUFFER;
+			targetWants += BUFFER;
+		}
+	}
+	
+	else if(diffFromNT<0 && diffFromWT>0){
+		if(canIncrease(MAXNEEDS, targetNeeds) && canReduce(MAXWANTS, targetWants)){
+			targetNeeds += BUFFER;
+			targetWants -= BUFFER;
+		}
+	}
+		break;
+		
+	case 7: //111
+	{	
 		targetNeeds = NEEDS;
 		targetWants = WANTS;
 		targetSavings = SAVINGS;
-		return;
-		}
-	
-	double excess_n = pastMonthNWS.getNeeds() - past_n_exp;
-	double excess_w = pastMonthNWS.getWants() - past_w_exp;
-	double excess_s = pastMonthNWS.getSavings() - past_s_exp;	
-	
-	
-	if(Math.abs(excess_n)>BUFFER && Math.abs(excess_w)>BUFFER &&Math.abs(excess_s)>BUFFER){
-		if (excess_n>0){ //exceeded Needs
-			i+=4; 
-		}
-		if(excess_w>0){ //exceeded Wants
-			i+=2;
-		}
-
-		if(excess_s<0){
-			i+=1;	
-		}
-	
-	
-	
-	switch(i){
-	
-	case 1://001//reduce wants -> reduce needs -> increase savings 
-		targetWants = reduceTarget(MINWANTS, Math.abs(excess_w), targetWants);
-		targetNeeds = reduceTarget(MINNEEDS,Math.abs(excess_n), targetNeeds);
-		targetSavings = 1 - targetNeeds - targetWants;		
-		break;
-	case 2://010//reduce needs -> increase wants
-		{
-		targetNeeds = reduceTarget(MINNEEDS, Math.abs(excess_n),targetNeeds);
-		targetWants = 1- targetNeeds - targetSavings;
-		}
-		break;
-	case 3://011 //reduce needs -> increase savings -> increase wants
-	{
-		targetNeeds = reduceTarget(MINNEEDS, Math.abs(excess_n), targetNeeds);
-		targetWants = increaseTarget(MAXWANTS, Math.abs(excess_w), targetWants);
-		targetSavings = 1- targetNeeds- targetWants;
-		
-	}
-		break;
-	case 4://100 //reduce wants -> reduce savings -> increase needs
-	{	
-		targetWants = reduceTarget(MINWANTS, Math.abs(excess_w), targetWants);
-		targetSavings = reduceTarget(MINSAVINGS, Math.abs(excess_s), targetSavings);
-		targetNeeds = 1-targetWants - targetNeeds;
-		
-	}
-		break;
-	case 5://101//reduce wants -> increase needs
-	{
-		targetWants = reduceTarget(MINWANTS, Math.abs(excess_w),targetWants);
-		targetNeeds = 1-targetWants - targetSavings;
 	}
 		
-		break;
-	case 6://110//excess spendings
-		{
-		targetSavings = reduceTarget(MINSAVINGS, Math.abs(excess_s), targetSavings);
-		targetWants = reduceTarget(MINWANTS, Math.abs(excess_w), targetWants);
-		targetNeeds = 1-targetSavings - targetWants;
-	}
-		break;
-
 	default:
 		break;	
-	}	
+	}
+		array[0] = targetNeeds;
+		array[1] = targetWants;
+		array[2] = targetSavings;
+return array;
 	}
 	
+
+
+private boolean canIncrease(double MAX, double oldTarget){
+	if((oldTarget+0.05)<=MAX){
+	return true;
+	}
+	return false;
 }
 
-private double increaseTarget(double MAX, double increment, double oldTarget){
-	if(oldTarget+0.75*increment<=MAX)
-	return oldTarget+0.75*increment;
-	else return MAX;
-}
-
-private double reduceTarget(double MIN, double decrement, double oldTarget){
-	if(oldTarget-0.75*decrement>=MIN)
-		return oldTarget-0.5*decrement;
-	else return MIN;
+private boolean canReduce(double MIN, double oldTarget){
+	if((oldTarget-0.05)>=MIN){
+		return true;
+	}
+	return false;
 }
 
 /**
