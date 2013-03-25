@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -18,6 +20,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+
+import com.toedter.calendar.JCalendar;
+import com.toedter.calendar.JDateChooser;
 
 import net.miginfocom.swing.MigLayout;
 import ezxpns.data.records.Category;
@@ -135,7 +140,8 @@ class SearchFormPanel extends JPanel {
 	private JLabel lblName, lblTitle, lblCat, lblDate, lblToDate;
 	private JTextField txtName;
 	private JComboBox txtCat;
-	private JFormattedTextField txtStart, txtEnd;
+	//private JFormattedTextField txtStart, txtEnd;
+	private JDateChooser txtStart, txtEnd;
 	private final Font FORM_FONT = new Font("Segoe UI", 0, 14); // #Font
 	
 	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yy");
@@ -197,7 +203,10 @@ class SearchFormPanel extends JPanel {
 			//txtCat = new JTextField("");
 			Object[] myInCatList = new Category[inCatHandRef.getAllCategories().size()];
 			myInCatList = inCatHandRef.getAllCategories().toArray();
-			txtCat = new JComboBox(myInCatList);
+			txtCat = new JComboBox();
+			txtCat.insertItemAt("", 0); // insert empty item;
+			for (int i = 0; i < inCatHandRef.getAllCategories().size(); i++)
+				txtCat.addItem(myInCatList[i]);
 			Object[] myExCatList = new Category[exCatHandRef.getAllCategories().size()];
 			myExCatList = exCatHandRef.getAllCategories().toArray();
 			for (int i = 0; i < exCatHandRef.getAllCategories().size(); i++)
@@ -225,34 +234,57 @@ class SearchFormPanel extends JPanel {
 		return lblToDate;
 	}
 	
-	private JFormattedTextField getDateField() {
+	private JDateChooser getDateField() {
 		if(txtStart == null) {
-			txtStart = new JFormattedTextField(DATE_FORMAT);
-			txtStart.setFont(FORM_FONT); // #Font
-			txtStart.setValue(new Date());
-			txtStart.setPreferredSize(new Dimension(100, 32));
-			txtStart.setHorizontalAlignment(JTextField.CENTER);
+			//txtStart = new JFormattedTextField(DATE_FORMAT);
+			//txtStart.setFont(FORM_FONT); // #Font
+			//txtStart.setValue(new Date());
+			//txtStart.setPreferredSize(new Dimension(100, 32));
+			//txtStart.setHorizontalAlignment(JTextField.CENTER);
+			txtStart = new JDateChooser();
+			txtStart.getJCalendar().setTodayButtonVisible(true);
+			txtStart.setDateFormatString("dd/MM/yyyy");
+			txtStart.setMaxSelectableDate(new Date());
+			PropertyChangeListener calendarChangeListener  = new PropertyChangeListener() {
+		        @Override
+		        public void propertyChange(PropertyChangeEvent evt) {
+		            Date selectedDate = ((JCalendar)evt.getSource()).getDate();
+		        }
+		    };
+		    txtStart.getJCalendar().addPropertyChangeListener("calendar",calendarChangeListener);
 		}
 		return txtStart;
 	}
 	
 	public Date getStartDate() {
-		return (Date)txtStart.getValue();
+		return (Date)txtStart.getDate();
 	}
 	
-	private JFormattedTextField getToDateField() {
+	private JDateChooser getToDateField() {
 		if(txtEnd == null) {
-			txtEnd = new JFormattedTextField(DATE_FORMAT);
-			txtEnd.setFont(FORM_FONT); // #Font
-			txtEnd.setValue(new Date());
-			txtEnd.setPreferredSize(new Dimension(100, 32));
-			txtEnd.setHorizontalAlignment(JTextField.CENTER);
+			//txtEnd = new JFormattedTextField(DATE_FORMAT);
+			//txtEnd.setFont(FORM_FONT); // #Font
+			//txtEnd.setValue(new Date());
+			//txtEnd.setPreferredSize(new Dimension(100, 32));
+			//txtEnd.setHorizontalAlignment(JTextField.CENTER);
+			txtEnd = new JDateChooser();
+			txtEnd.getJCalendar().setTodayButtonVisible(true);
+			txtEnd.setDateFormatString("dd/MM/yyyy");
+			txtEnd.setMaxSelectableDate(new Date());
+			PropertyChangeListener calendarChangeListener  = new PropertyChangeListener() {
+		        @Override
+		        public void propertyChange(PropertyChangeEvent evt) {
+		            Date selectedDate = ((JCalendar)evt.getSource()).getDate();
+		        }
+		    };
+		    txtEnd.getJCalendar().addPropertyChangeListener("calendar",calendarChangeListener);
+			
 		}
 		return txtEnd;
 	}
 	
 	public Date getEndDate() {
-		return (Date) txtEnd.getValue();
+		return (Date) txtEnd.getDate();
 	}
 }
 
