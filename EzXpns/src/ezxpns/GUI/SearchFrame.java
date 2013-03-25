@@ -4,17 +4,24 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import javax.swing.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
-
 import ezxpns.data.records.Category;
+import ezxpns.data.records.CategoryHandler;
 import ezxpns.data.records.Record;
 import ezxpns.data.records.SearchHandler;
 import ezxpns.data.records.SearchRequest;
@@ -29,8 +36,11 @@ public class SearchFrame extends JFrame implements ActionListener {
 	public final int DEFAULT_WIDTH = 600;
 	public final int DEFAULT_HEIGHT = 400;
 	
-	/** The handler object that implemented SearchHandler interface */
+	/** The handler object that implemented SearchHandler & CategoryHandler interface */
 	private SearchHandler handler;
+	private CategoryHandler inCatHandRef;
+	private CategoryHandler exCatHandRef;
+
 	
 	// 2 main panels, the top (querying time frame) and the bottom (results, content)
 	private SearchFormPanel panForm;
@@ -40,9 +50,9 @@ public class SearchFrame extends JFrame implements ActionListener {
 	
 	/**
 	 * To create a new Search Window
-	 * @param handlerRef the reference to the SearchHandler object
+	 * @param handlerRef the reference to the SearchHandler object, catHandRef to CategoryHandler
 	 */
-	public SearchFrame(SearchHandler handlerRef, RecordListView li) {
+	public SearchFrame(SearchHandler handlerRef, RecordListView li, CategoryHandler inCatHandRef, CategoryHandler exCatHandRef) {
 		super();
 		this.init();
 		this.setLayout(new BorderLayout(25, 25));
@@ -51,7 +61,7 @@ public class SearchFrame extends JFrame implements ActionListener {
 		JPanel panCtrls = new JPanel();
 		panCtrls.setLayout(new BorderLayout());
 		
-		panForm = new SearchFormPanel();
+		panForm = new SearchFormPanel(inCatHandRef, exCatHandRef);
 		panCtrls.add(panForm, BorderLayout.CENTER);
 		
 		panBtns = new SearchBtnPanel(this);
@@ -87,7 +97,9 @@ public class SearchFrame extends JFrame implements ActionListener {
 			}
 			
 			// Name field is empty!
-			request.append(panForm.getCatField().getText().trim());
+			request.append(panForm.getCatField().getSelectedItem().toString().trim()); // I changed some stuff, how sure how to get search working (tingzhe)
+			System.out.println(request.append(panForm.getCatField().getSelectedItem().toString().trim()));
+
 			if(!request.equals("")) {
 				this.search(new SearchRequest(new Category(request.toString()))); // Search by Category
 				return;
@@ -117,14 +129,22 @@ public class SearchFrame extends JFrame implements ActionListener {
 @SuppressWarnings("serial")
 class SearchFormPanel extends JPanel {
 	
+	// CategoryHandler Reference for Category JComboBox
+	private CategoryHandler inCatHandRef;
+	private CategoryHandler exCatHandRef;
+	
 	private JLabel lblName, lblTitle, lblCat, lblDate, lblToDate;
-	private JTextField txtName, txtCat;
+	private JTextField txtName;
+	private JComboBox txtCat;
 	private JFormattedTextField txtStart, txtEnd;
 	private final Font FORM_FONT = new Font("Segoe UI", 0, 14); // #Font
 	
 	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yy");
 	
-	public SearchFormPanel() {
+	public SearchFormPanel(CategoryHandler inCatHandRef, CategoryHandler exCatHandRef) {
+		this.inCatHandRef = inCatHandRef; // reference
+		this.exCatHandRef = exCatHandRef; // reference
+		
 		this.setLayout(new MigLayout("insets 15", "[left]10%[]", ""));
 		this.add(this.getTitleLabel(), "span, wrap");
 		
@@ -173,9 +193,16 @@ class SearchFormPanel extends JPanel {
 		return lblCat;
 	}
 	
-	public JTextField getCatField() {
+	public JComboBox getCatField() {
 		if(txtCat == null) {
-			txtCat = new JTextField("");
+			//txtCat = new JTextField("");
+			Object[] myInCatList = new Category[inCatHandRef.getAllCategories().size()];
+			myInCatList = inCatHandRef.getAllCategories().toArray();
+			txtCat = new JComboBox(myInCatList);
+			Object[] myExCatList = new Category[exCatHandRef.getAllCategories().size()];
+			myExCatList = exCatHandRef.getAllCategories().toArray();
+			for (int i = 0; i < exCatHandRef.getAllCategories().size(); i++)
+				txtCat.addItem(myExCatList[i]);
 			txtCat.setFont(FORM_FONT); // #Font
 			txtCat.setPreferredSize(new Dimension(230, 32));
 		}
