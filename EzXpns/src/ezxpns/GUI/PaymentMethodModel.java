@@ -17,14 +17,14 @@ public class PaymentMethodModel extends AbstractListModel {
 	 * @param cat the data source of category
 	 * @param toadd a list item that upon selected, let the user add new category
 	 */
-	public PaymentMethodModel(PayMethodHandler pay, PaymentMethod toadd){
+	public PaymentMethodModel(PaymentHandler pay, PaymentMethod toadd){
 		this.pay = pay;
 		pays = pay.getAllPaymentMethod();
 		pays.add(toadd);
 		this.toadd = toadd;
 	}
 	
-	private PayMethodHandler pay;
+	private PaymentHandler pay;
 	private List<PaymentMethod> pays;
 	private PaymentMethod toadd;
 

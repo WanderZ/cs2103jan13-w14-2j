@@ -36,6 +36,35 @@ public class SearchRequest {
 		this.category = category;
 	}
 	
+	public boolean match(Record r){
+		return (name == null || r.name.equals(name)) &&
+				(category == null || r.category.equals(category)) &&
+				(dateRange == null || 
+					((r.date.before(dateRange.getRight()) || r.date.equals(dateRange.getRight())) &&
+							(r.date.after(dateRange.getLeft()) || r.date.equals(dateRange.getLeft()))));
+	}
+	
+	public void setName(String name){
+		if(this.name == null){
+			this.multiple = true;
+		}
+		this.name = name;
+	}
+	
+	public void setCategory(Category category){
+		if(this.category == null){
+			this.multiple = true;
+		}
+		this.category = category;
+	}
+	
+	public void setDateRange(Pair<Date, Date> dateRange){
+		if(this.dateRange == null){
+			this.multiple = true;
+		}
+		this.dateRange = dateRange;
+	}
+	
 	public RecordType getType() {return type;}
 	public String getName() {return name;}
 	public Pair<Date, Date> getDateRange() {return dateRange;}

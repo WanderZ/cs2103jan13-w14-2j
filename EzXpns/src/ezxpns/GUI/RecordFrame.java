@@ -3,7 +3,7 @@ package ezxpns.GUI;
 import ezxpns.data.records.CategoryHandler;
 import ezxpns.data.records.ExpenseRecord;
 import ezxpns.data.records.IncomeRecord;
-import ezxpns.data.records.PayMethodHandler;
+import ezxpns.data.records.PaymentHandler;
 import ezxpns.data.records.Record;
 import ezxpns.data.records.RecordHandler;
 
@@ -12,6 +12,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -40,9 +41,12 @@ public class RecordFrame extends JDialog implements ActionListener {
 	public static final int TAB_EXPENSE = 1100;
 	
 	private RecordHandler recHandler;
-	private CategoryHandler incomeHandler, expenseHandler;
-	private PayMethodHandler payHandler;
+	private CategoryHandler<IncomeRecord> incomeHandler;
+	private CategoryHandler<ExpenseRecord> expenseHandler;
+	private PaymentHandler payHandler;
+	private UpdateNotifyee notifyee;
 	private UndoManager undoMgr;
+	private boolean isEditing;
 	
 	private PanelMain panMain;
 	private PanelOption panOpt;
@@ -57,18 +61,21 @@ public class RecordFrame extends JDialog implements ActionListener {
 	 */
 	public RecordFrame(
 			RecordHandler recHandlerRef, 
-			CategoryHandler incomeHandlerRef, 
-			CategoryHandler expenseHandlerRef,
-			PayMethodHandler payHandlerRef,
+			CategoryHandler<IncomeRecord> incomeHandlerRef, 
+			CategoryHandler<ExpenseRecord> expenseHandlerRef,
+			PaymentHandler payHandlerRef,
+			UpdateNotifyee notifyeeRef,
 			UndoManager undoMgrRef) {
 		
 		recHandler = recHandlerRef;
 		incomeHandler = incomeHandlerRef;
 		expenseHandler = expenseHandlerRef;
 		payHandler = payHandlerRef;
+		notifyee = notifyeeRef;
 		undoMgr = undoMgrRef;
 		
 		this.initFrame();
+		isEditing = false;
 	}
 	
 	/**
@@ -82,19 +89,20 @@ public class RecordFrame extends JDialog implements ActionListener {
 	 */
 	public RecordFrame(
 			RecordHandler recHandlerRef, 
-			CategoryHandler incomeHandlerRef, 
-			CategoryHandler expenseHandlerRef,
-			PayMethodHandler payHandlerRef,
+			CategoryHandler<IncomeRecord> incomeHandlerRef, 
+			CategoryHandler<ExpenseRecord> expenseHandlerRef,
+			PaymentHandler payHandlerRef,
+			UpdateNotifyee notifyeeRef,
 			UndoManager undoMgrRef,
 			int initTab) {
 		
-		this(recHandlerRef, incomeHandlerRef, expenseHandlerRef, payHandlerRef, undoMgrRef);
+		this(recHandlerRef, incomeHandlerRef, expenseHandlerRef, payHandlerRef, notifyeeRef, undoMgrRef);
 		this.initComponent();
 		
 		panMain.toggleIncomeTab(); // Fix
 		panMain.toggleExpenseTab(); // Default
 		
-		//TODO: Refactor this bit
+		// TODO: Refactor this bit
 		/* This part may need refactoring to enums */
 		switch(initTab) {
 			case TAB_INCOME: 
@@ -116,12 +124,14 @@ public class RecordFrame extends JDialog implements ActionListener {
 	 */
 	public RecordFrame(
 			RecordHandler recHandlerRef,
-			CategoryHandler expenseHandlerRef,
-			PayMethodHandler payHandlerRef,
+			CategoryHandler<ExpenseRecord> expenseHandlerRef,
+			PaymentHandler payHandlerRef,
 			UndoManager undoMgrRef,
+			UpdateNotifyee notifyeeRef,
 			ExpenseRecord record) {
-		this(recHandlerRef, null, expenseHandlerRef, payHandlerRef, undoMgrRef);
+		this(recHandlerRef, null, expenseHandlerRef, payHandlerRef, notifyeeRef, undoMgrRef);
 		this.initComponent(record);
+		isEditing = true;
 	}
 	
 	/**
@@ -133,11 +143,13 @@ public class RecordFrame extends JDialog implements ActionListener {
 	 */
 	public RecordFrame(
 			RecordHandler recHandlerRef, 
-			CategoryHandler incomeHandlerRef,
+			CategoryHandler<IncomeRecord> incomeHandlerRef,
 			UndoManager undoMgrRef,
+			UpdateNotifyee notifyeeRef,
 			IncomeRecord record) {
-		this(recHandlerRef, incomeHandlerRef, null, null, undoMgrRef);
+		this(recHandlerRef, incomeHandlerRef, null, null, notifyeeRef, undoMgrRef);
 		this.initComponent(record);
+		isEditing = true;
 	}
 	
 	/**
@@ -156,7 +168,7 @@ public class RecordFrame extends JDialog implements ActionListener {
 	 * Initialize this frame with its components
 	 */
 	private void initComponent() {
-		panMain = new PanelMain(recHandler, incomeHandler, expenseHandler, payHandler, undoMgr);
+		panMain = new PanelMain(recHandler, incomeHandler, expenseHandler, payHandler, notifyee, undoMgr);
 		getContentPane().add(panMain, BorderLayout.CENTER);
 		
 		panOpt = new PanelOption(this);
@@ -168,7 +180,7 @@ public class RecordFrame extends JDialog implements ActionListener {
 	 * @param record ExpenseRecord to be modified
 	 */
 	private void initComponent(ExpenseRecord record) {
-		panMain = new PanelMain(recHandler, incomeHandler, expenseHandler, payHandler, undoMgr, record);
+		panMain = new PanelMain(recHandler, incomeHandler, expenseHandler, payHandler, undoMgr, notifyee, record);
 		getContentPane().add(panMain, BorderLayout.CENTER);
 		
 		panOpt = new PanelOption(this);
@@ -180,7 +192,7 @@ public class RecordFrame extends JDialog implements ActionListener {
 	 * @param record IncomeRecord to be modified
 	 */
 	private void initComponent(IncomeRecord record) {
-		panMain = new PanelMain(recHandler, incomeHandler, expenseHandler, payHandler, undoMgr, record);
+		panMain = new PanelMain(recHandler, incomeHandler, expenseHandler, payHandler, undoMgr, notifyee, record);
 		getContentPane().add(panMain, BorderLayout.CENTER);
 		
 		panOpt = new PanelOption(this);
@@ -193,30 +205,45 @@ public class RecordFrame extends JDialog implements ActionListener {
 			System.out.println("Saved invoked!");
 			if(panMain.validateForm()) { // Invoke validation
 				System.out.println("Validate Success!");
-				panMain.save(); //TODO: to return all that is added, Category, Payment method, new Record (Pair in Pair)
+				// panMain.save(); //TODO: to return all that is added, Category, Payment method, new Record (Pair in Pair)
 				// all is good. save as new Record.
 				// Check if it is a recurring record
 				// do the necessary to ensure that EzXpns knows it.
-				this.closeWin();
+				this.closeWin(panMain.save());
 				return;
 			}
 			System.out.println("Validate Fail!");
-			//TODO: Display why the validation failed back to user
+			// TODO: Display why the validation failed back to user
 		}
 		
 		if(this.panOpt.getCancelBtn() == e.getSource()) {
-			this.closeWin();
+			this.closeWin(null);
 		}
 	}
 	
 	/**
 	 * To close this window safely
 	 */
-	public void closeWin() {
-        WindowEvent wev = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
-        this.dispatchEvent(wev); // "Throw" Event
+	public void closeWin(Record record) {
+		SuccessfulSaveEvent success = new SuccessfulSaveEvent(this, WindowEvent.WINDOW_CLOSING, record);
+        // WindowEvent wev = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
+        this.dispatchEvent(success); // "Throw" Event
         this.dispose();
         // java.awt.Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(wev); // Don't seem to work
+	}
+}
+
+class SuccessfulSaveEvent extends WindowEvent {
+
+	private Record saved;
+	
+	public SuccessfulSaveEvent(Window source, int id, Record savedRecord) {
+		super(source, id);
+		saved = savedRecord;
+	}
+	
+	public Record getRecord() {
+		return saved;
 	}
 }
 
@@ -250,15 +277,16 @@ class PanelMain extends JPanel {
 	 */
 	public PanelMain(
 			RecordHandler recHandlerRef,
-			CategoryHandler incomeHandlerRef,
-			CategoryHandler expenseHandlerRef,
-			PayMethodHandler payHandlerRef,
+			CategoryHandler<IncomeRecord> incomeHandlerRef,
+			CategoryHandler<ExpenseRecord> expenseHandlerRef,
+			PaymentHandler payHandlerRef,
+			UpdateNotifyee notifyeeRef,
 			UndoManager undoMgrRef) {
 		this.setLayout(new BorderLayout());
 		this.isExpense = true;
 		
-		panExpense = new ExpenseForm(recHandlerRef, expenseHandlerRef, payHandlerRef, undoMgrRef);
-		panIncome = new IncomeForm(recHandlerRef, incomeHandlerRef);
+		panExpense = new ExpenseForm(recHandlerRef, expenseHandlerRef, payHandlerRef, notifyeeRef, undoMgrRef);
+		panIncome = new IncomeForm(recHandlerRef, incomeHandlerRef, notifyeeRef);
 		this.initTabs();
 		
 		
@@ -278,14 +306,16 @@ class PanelMain extends JPanel {
 	 */
 	public PanelMain(
 			RecordHandler recHandlerRef, 
-			CategoryHandler incomeHandlerRef, 
-			CategoryHandler expenseHandlerRef, 
-			PayMethodHandler payHandlerRef,
+			CategoryHandler<IncomeRecord> incomeHandlerRef, 
+			CategoryHandler<ExpenseRecord> expenseHandlerRef, 
+			PaymentHandler payHandlerRef,
 			UndoManager undoMgrRef,
+			UpdateNotifyee notifyeeRef,
 			ExpenseRecord record) {
+		
 		this.setLayout(new BorderLayout());
 		this.isExpense = true;
-		panExpense = new ExpenseForm(recHandlerRef, expenseHandlerRef, payHandlerRef, undoMgrRef, record);
+		panExpense = new ExpenseForm(recHandlerRef, expenseHandlerRef, payHandlerRef, undoMgrRef, notifyeeRef, record);
 		this.add(panExpense, BorderLayout.CENTER);
 	}
 	
@@ -300,14 +330,15 @@ class PanelMain extends JPanel {
 	 */
 	public PanelMain(
 			RecordHandler recHandlerRef, 
-			CategoryHandler incomeHandlerRef, 
-			CategoryHandler expenseHandlerRef, 
-			PayMethodHandler payHandlerRef,
+			CategoryHandler<IncomeRecord> incomeHandlerRef, 
+			CategoryHandler<ExpenseRecord> expenseHandlerRef, 
+			PaymentHandler payHandlerRef,
 			UndoManager undoMgrRef,
+			UpdateNotifyee notifyeeRef,
 			IncomeRecord record) {
 		this.setLayout(new BorderLayout());
 		this.isExpense = false;
-		panIncome = new IncomeForm(recHandlerRef, incomeHandlerRef, record);
+		panIncome = new IncomeForm(recHandlerRef, incomeHandlerRef, notifyeeRef, record);
 		this.add(panIncome, BorderLayout.CENTER);
 	}
 	

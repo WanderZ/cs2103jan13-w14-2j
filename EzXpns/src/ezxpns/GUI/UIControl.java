@@ -9,7 +9,7 @@ import ezxpns.data.TargetManager;
 import ezxpns.data.records.CategoryHandler;
 import ezxpns.data.records.ExpenseRecord;
 import ezxpns.data.records.IncomeRecord;
-import ezxpns.data.records.PayMethodHandler;
+import ezxpns.data.records.PaymentHandler;
 import ezxpns.data.records.Record;
 import ezxpns.data.records.RecordHandler;
 import ezxpns.data.records.SearchHandler;
@@ -30,8 +30,9 @@ public class UIControl implements RecordListView.RecordEditor {
 	// Logical Components
 	private SearchHandler findHandler;
 	private RecordHandler recHandler;
-	private CategoryHandler inCatHandler, exCatHandler;
-	private PayMethodHandler payHandler;
+	private CategoryHandler<IncomeRecord> inCatHandler;
+	private CategoryHandler<ExpenseRecord> exCatHandler;
+	private PaymentHandler payHandler;
 	private TargetManager targetMgr;
 	private ReportGenerator rptGen;
 	private SummaryGenerator sumGen;
@@ -41,8 +42,8 @@ public class UIControl implements RecordListView.RecordEditor {
 	 * To create a UI Manager. 
 	 * @param searchHandlerRef the reference to the search handling logic component
 	 * @param recHandlerRef the reference to the record handling logic component
-	 * @param inCatHandlerRef the reference to the income category handling logic component
-	 * @param exCatHandlerRef the reference to the expense category handling logic component
+	 * @param incomeHandlerRef the reference to the income category handling logic component
+	 * @param expenseHandlerRef the reference to the expense category handling logic component
 	 * @param payHandlerRef the reference to the payment method handling logic component
 	 * @param targetMgrRef the reference to the target management logic component
 	 * @param rptGenRef the reference to the report generator logic component
@@ -51,9 +52,9 @@ public class UIControl implements RecordListView.RecordEditor {
 	public UIControl(
 			SearchHandler searchHandlerRef, 
 			RecordHandler recHandlerRef, 
-			CategoryHandler inCatHandlerRef, 
-			CategoryHandler exCatHandlerRef,
-			PayMethodHandler payHandlerRef,
+			CategoryHandler<IncomeRecord> incomeHandlerRef, 
+			CategoryHandler<ExpenseRecord> expenseHandlerRef,
+			PaymentHandler payHandlerRef,
 			TargetManager targetMgrRef,
 			ReportGenerator rptGenRef,
 			SummaryGenerator sumGenRef) {
@@ -61,8 +62,8 @@ public class UIControl implements RecordListView.RecordEditor {
 		// Handlers for the various places
 		findHandler = searchHandlerRef;
 		recHandler = recHandlerRef;
-		inCatHandler = inCatHandlerRef;
-		exCatHandler = exCatHandlerRef;
+		inCatHandler = incomeHandlerRef;
+		exCatHandler = expenseHandlerRef;
 		targetMgr = targetMgrRef;
 		payHandler = payHandlerRef;
 		rptGen = rptGenRef;
@@ -102,7 +103,7 @@ public class UIControl implements RecordListView.RecordEditor {
 	 * @param recordType the type of new record Expense/Income 
 	 */
 	public void showRecWin(int recordType) {
-		recWin = new RecordFrame(recHandler, inCatHandler, exCatHandler, payHandler, undoMgr, recordType);
+		recWin = new RecordFrame(recHandler, inCatHandler, exCatHandler, payHandler, homeScreen, undoMgr, recordType);
 		recWin.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent wEvent) {
@@ -118,7 +119,7 @@ public class UIControl implements RecordListView.RecordEditor {
 	 * @param record ExpenseRecord to be edited
 	 */
 	public void showRecWin(ExpenseRecord record) {
-		recWin = new RecordFrame(recHandler, exCatHandler, payHandler, undoMgr, record);
+		recWin = new RecordFrame(recHandler, exCatHandler, payHandler, undoMgr, homeScreen, record);
 		recWin.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent wEvent) {
@@ -133,7 +134,7 @@ public class UIControl implements RecordListView.RecordEditor {
 	 * @param record IncomeRecord to be be edited
 	 */
 	public void showRecWin(IncomeRecord record) {
-		recWin = new RecordFrame(recHandler, inCatHandler, undoMgr, record);
+		recWin = new RecordFrame(recHandler, inCatHandler, undoMgr, homeScreen, record);
 		recWin.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent wEvent) {
@@ -148,16 +149,15 @@ public class UIControl implements RecordListView.RecordEditor {
 	 */
 	public void showSearchWin() {
 		if(searchWin == null) {
-			searchWin = new SearchFrame(findHandler, new RecordListView(this, recHandler, homeScreen));
+			searchWin = new SearchFrame(findHandler, new RecordListView(this, recHandler, homeScreen),inCatHandler,exCatHandler);
 		}
 		searchWin.setVisible(true);
 	}
 
 	@Override
 	public void edit(Record record, RecordListView display) {
-		// TODO Auto-generated method stub
 		
-		RecordListView displayer = display; 
+		final RecordListView displayer = display; 
 		
 		//TODO: Check if this can be integrated better - need further testing
 		if(record instanceof ExpenseRecord) {
@@ -169,9 +169,18 @@ public class UIControl implements RecordListView.RecordEditor {
 			this.showRecWin(income);
 		}
 		
-		//TODO: call the callback method in display
-		displayer.itemEdited(null); // null for no changes
-		
+		recWin.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent wEvent) {
+				if(wEvent instanceof SuccessfulSaveEvent) {
+					//TODO: call the callback method in display
+					SuccessfulSaveEvent success = (SuccessfulSaveEvent) wEvent;
+					displayer.itemEdited(success.getRecord()); 
+					System.out.println("I was here");
+					System.out.println(success.getRecord().getName());
+				}
+			}
+		});
 	}
 	
 	/** 
