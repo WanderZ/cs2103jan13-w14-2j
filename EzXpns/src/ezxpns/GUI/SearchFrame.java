@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
@@ -43,6 +44,11 @@ public class SearchFrame extends JFrame implements ActionListener {
 	public final int SIMPLE_HEIGHT = 47;
 	public final int ADVANCE_HEIGHT = 140;
 	
+	/** Whether Advance Options is open or not*/
+	public final int OPEN = 1;
+	public final int CLOSE = 0;
+	private int Option_Status = 0;
+	
 	/** The handler object that implemented SearchHandler & CategoryHandler interface */
 	private SearchHandler handler;
 	private CategoryHandler inCatHandRef;
@@ -55,7 +61,6 @@ public class SearchFrame extends JFrame implements ActionListener {
 	private JScrollPane panResult;
 	private RecordListView list;
 	private JPanel panCtrls;
-	private JButton btnAdvance;
 	
 	/**
 	 * To create a new Search Window
@@ -70,10 +75,10 @@ public class SearchFrame extends JFrame implements ActionListener {
 		panCtrls = new JPanel();
 		panCtrls.setLayout(new BorderLayout());
 		
+		
 		panForm = new SearchFormPanel(inCatHandRef, exCatHandRef, this);
 		panCtrls.add(panForm, BorderLayout.CENTER);
 		panCtrls.setPreferredSize(new Dimension(DEFAULT_WIDTH, SIMPLE_HEIGHT)); // SIMPLE SEARCH EXPERIMENTATION
-		btnAdvance = panForm.getAdvanceBtn();
 		
 		panBtns = new SearchBtnPanel(this);
 		panCtrls.add(panBtns, BorderLayout.EAST);
@@ -128,9 +133,17 @@ public class SearchFrame extends JFrame implements ActionListener {
 		
 		if (event.getSource() == panBtns.getAdvanceBtn()){
 			//panCtrls.setPreferredSize(new Dimension(DEFAULT_WIDTH, ADVANCE_HEIGHT));
-			System.out.println("here");
-			panCtrls.setPreferredSize(new Dimension(DEFAULT_WIDTH, ADVANCE_HEIGHT));
-			panCtrls.revalidate();
+			if (Option_Status == 0){
+				Option_Status = 1;
+				panCtrls.setPreferredSize(new Dimension(DEFAULT_WIDTH, ADVANCE_HEIGHT));
+				panCtrls.revalidate();
+				}
+			else{
+				Option_Status = 0;
+				panCtrls.setPreferredSize(new Dimension(DEFAULT_WIDTH, SIMPLE_HEIGHT));
+				panCtrls.revalidate();
+			}
+				
 		}
 	}
 	
