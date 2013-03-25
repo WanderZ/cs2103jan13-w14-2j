@@ -156,7 +156,6 @@ public class UIControl implements RecordListView.RecordEditor {
 
 	@Override
 	public void edit(Record record, RecordListView display) {
-		// TODO Auto-generated method stub
 		
 		final RecordListView displayer = display; 
 		
@@ -178,6 +177,7 @@ public class UIControl implements RecordListView.RecordEditor {
 					SuccessfulSaveEvent success = (SuccessfulSaveEvent) wEvent;
 					displayer.itemEdited(success.getRecord()); 
 					System.out.println("I was here");
+					System.out.println(success.getRecord().getName());
 				}
 			}
 		});
