@@ -100,11 +100,13 @@ public class RecordListView extends JTable {
 	private JPopupMenu menu;
 	private Record itemSelected;
 	private int rowSelected;
+	private UpdateNotifyee notifyee;
 	
-	public RecordListView(RecordEditor ed, RecordHandler rh){
+	public RecordListView(RecordEditor ed, RecordHandler rh, UpdateNotifyee notifyee){
 		this();	// To call the superclass constructor
 		editor = ed;
 		rhandler = rh;
+		this.notifyee = notifyee;
 		setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Single selection
 		setIntercellSpacing(new Dimension(0, 0));
 		setShowHorizontalLines(false);
@@ -141,7 +143,7 @@ public class RecordListView extends JTable {
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				if(arg0.getClickCount() == 2){
+				if(arg0.getClickCount() == 2 && arg0.getButton() == MouseEvent.BUTTON1){
 					editItemAt(rowAtPoint(arg0.getPoint()));
 				}
 			}
@@ -199,9 +201,12 @@ public class RecordListView extends JTable {
 	 * @param row
 	 */
 	public void itemEdited(Record newItem){
+		System.out.println(newItem);
+		if(newItem == null)return;
 		records.set(rowSelected, newItem);
 		model.fireTableRowsUpdated(rowSelected, rowSelected);
-		setEnabled(true);
+		notifyee.updateAll();
+		System.out.println("edited");
 	}
 	
 	/**
@@ -209,7 +214,6 @@ public class RecordListView extends JTable {
 	 * @param row the row Id of the Record that user has indicated for editing
 	 */
 	protected void editItemAt(int row){
-		setEnabled(false);
 		rowSelected = row;
 		itemSelected = records.get(row);
 		editor.edit(itemSelected, this);
@@ -223,9 +227,32 @@ public class RecordListView extends JTable {
 		String message = "Are you sure you want to remove this record?";
 		if(JOptionPane.showConfirmDialog(this, message, "what?!",
 				JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+			Record original = records.get(row);
+			if(original instanceof IncomeRecord){
+				original = ((IncomeRecord)original).copy();
+			}else{
+				original = ((ExpenseRecord)original).copy();
+			}
 			rhandler.removeRecord(records.get(row).getId());
 			records.remove(row);
 			model.fireTableRowsDeleted(row, row);
+			notifyee.updateAll();
+			notifyee.addUndoAction(getUndoDeleteRecord(original), "Removing Record");
 		}
+	}
+	
+	private AbstractAction getUndoDeleteRecord(final Record original){
+		return new AbstractAction(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(original instanceof IncomeRecord){
+					rhandler.createRecord((IncomeRecord)original, false);
+				}else{
+					rhandler.createRecord((ExpenseRecord)original, false, false);
+				}
+			}
+			
+		};
 	}
 }
