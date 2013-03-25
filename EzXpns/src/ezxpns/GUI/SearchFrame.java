@@ -85,6 +85,13 @@ public class SearchFrame extends JFrame{
 		
 		panBtns = new JPanel();
 		
+		panForm.addListenerToTextFields(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				performSearch();
+			}
+		});
+		
 		btnAdvance = new JButton("More Options");
 		btnAdvance.addActionListener(new ActionListener(){
 
@@ -101,6 +108,7 @@ public class SearchFrame extends JFrame{
 		panBtns.add(Box.createVerticalGlue());
 		
 		panBtns.add(btnAdvance);
+		
 		
 		btnSearch.addActionListener(new ActionListener(){
 			@Override
@@ -235,6 +243,11 @@ class SearchFormPanel extends JPanel {
 		lblTitle.setForeground(Color.BLACK);
 		txtSimpleField.requestFocusInWindow();
 		this.revalidate();
+	}
+	
+	public void addListenerToTextFields(ActionListener listener){
+		txtSimpleField.addActionListener(listener);
+		getNameField().addActionListener(listener);
 	}
 	
 	public SearchFormPanel(CategoryHandler inCatHandRef, CategoryHandler exCatHandRef) {
