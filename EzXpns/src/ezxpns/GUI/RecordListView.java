@@ -192,6 +192,7 @@ public class RecordListView extends JTable {
 	 */
 	public void show(List<Record> records){
 		this.records = records;
+		System.out.println(records.size());
 		model.fireTableDataChanged();
 	}
 
@@ -236,8 +237,8 @@ public class RecordListView extends JTable {
 			rhandler.removeRecord(records.get(row).getId());
 			records.remove(row);
 			model.fireTableRowsDeleted(row, row);
-			notifyee.updateAll();
 			notifyee.addUndoAction(getUndoDeleteRecord(original), "Removing Record");
+			notifyee.updateAll();
 		}
 	}
 	
