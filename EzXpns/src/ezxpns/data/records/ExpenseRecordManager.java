@@ -10,7 +10,7 @@ import java.util.*;
  * @author yyjhao
  */
 public class ExpenseRecordManager extends RecordManager<ExpenseRecord>
-	implements PayMethodHandler{
+	implements PaymentHandler{
 	
 	private TreeMap<Long, PaymentMethod> payms = new TreeMap<Long, PaymentMethod>();
 	private transient TreeMap<Long, TreeSet<ExpenseRecord>> recordsByPaym;
