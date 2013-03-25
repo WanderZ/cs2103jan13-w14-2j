@@ -12,6 +12,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -45,6 +46,7 @@ public class RecordFrame extends JDialog implements ActionListener {
 	private PaymentHandler payHandler;
 	private UpdateNotifyee notifyee;
 	private UndoManager undoMgr;
+	private boolean isEditing;
 	
 	private PanelMain panMain;
 	private PanelOption panOpt;
@@ -73,6 +75,7 @@ public class RecordFrame extends JDialog implements ActionListener {
 		undoMgr = undoMgrRef;
 		
 		this.initFrame();
+		isEditing = false;
 	}
 	
 	/**
@@ -128,6 +131,7 @@ public class RecordFrame extends JDialog implements ActionListener {
 			ExpenseRecord record) {
 		this(recHandlerRef, null, expenseHandlerRef, payHandlerRef, notifyeeRef, undoMgrRef);
 		this.initComponent(record);
+		isEditing = true;
 	}
 	
 	/**
@@ -145,6 +149,7 @@ public class RecordFrame extends JDialog implements ActionListener {
 			IncomeRecord record) {
 		this(recHandlerRef, incomeHandlerRef, null, null, notifyeeRef, undoMgrRef);
 		this.initComponent(record);
+		isEditing = true;
 	}
 	
 	/**
@@ -200,11 +205,11 @@ public class RecordFrame extends JDialog implements ActionListener {
 			System.out.println("Saved invoked!");
 			if(panMain.validateForm()) { // Invoke validation
 				System.out.println("Validate Success!");
-				panMain.save(); //TODO: to return all that is added, Category, Payment method, new Record (Pair in Pair)
+				// panMain.save(); //TODO: to return all that is added, Category, Payment method, new Record (Pair in Pair)
 				// all is good. save as new Record.
 				// Check if it is a recurring record
 				// do the necessary to ensure that EzXpns knows it.
-				this.closeWin();
+				this.closeWin(panMain.save());
 				return;
 			}
 			System.out.println("Validate Fail!");
@@ -212,18 +217,33 @@ public class RecordFrame extends JDialog implements ActionListener {
 		}
 		
 		if(this.panOpt.getCancelBtn() == e.getSource()) {
-			this.closeWin();
+			this.closeWin(null);
 		}
 	}
 	
 	/**
 	 * To close this window safely
 	 */
-	public void closeWin() {
-        WindowEvent wev = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
-        this.dispatchEvent(wev); // "Throw" Event
+	public void closeWin(Record record) {
+		SuccessfulSaveEvent success = new SuccessfulSaveEvent(this, WindowEvent.WINDOW_CLOSING, record);
+        // WindowEvent wev = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
+        this.dispatchEvent(success); // "Throw" Event
         this.dispose();
         // java.awt.Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(wev); // Don't seem to work
+	}
+}
+
+class SuccessfulSaveEvent extends WindowEvent {
+
+	private Record saved;
+	
+	public SuccessfulSaveEvent(Window source, int id, Record savedRecord) {
+		super(source, id);
+		saved = savedRecord;
+	}
+	
+	public Record getRecord() {
+		return saved;
 	}
 }
 

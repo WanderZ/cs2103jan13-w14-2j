@@ -158,7 +158,7 @@ public class UIControl implements RecordListView.RecordEditor {
 	public void edit(Record record, RecordListView display) {
 		// TODO Auto-generated method stub
 		
-		RecordListView displayer = display; 
+		final RecordListView displayer = display; 
 		
 		//TODO: Check if this can be integrated better - need further testing
 		if(record instanceof ExpenseRecord) {
@@ -170,9 +170,17 @@ public class UIControl implements RecordListView.RecordEditor {
 			this.showRecWin(income);
 		}
 		
-		//TODO: call the callback method in display
-		displayer.itemEdited(null); // null for no changes
-		
+		recWin.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent wEvent) {
+				if(wEvent instanceof SuccessfulSaveEvent) {
+					//TODO: call the callback method in display
+					SuccessfulSaveEvent success = (SuccessfulSaveEvent) wEvent;
+					displayer.itemEdited(success.getRecord()); 
+					System.out.println("I was here");
+				}
+			}
+		});
 	}
 	
 	/** 
