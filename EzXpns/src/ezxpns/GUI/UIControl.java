@@ -103,7 +103,7 @@ public class UIControl implements RecordListView.RecordEditor {
 	 * @param recordType the type of new record Expense/Income 
 	 */
 	public void showRecWin(int recordType) {
-		recWin = new RecordFrame(recHandler, inCatHandler, exCatHandler, payHandler, homeScreen, undoMgr, recordType);
+		recWin = new RecordFrame(recHandler, inCatHandler, exCatHandler, payHandler, homeScreen, recordType);
 		recWin.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent wEvent) {
@@ -119,7 +119,7 @@ public class UIControl implements RecordListView.RecordEditor {
 	 * @param record ExpenseRecord to be edited
 	 */
 	public void showRecWin(ExpenseRecord record) {
-		recWin = new RecordFrame(recHandler, exCatHandler, payHandler, undoMgr, homeScreen, record);
+		recWin = new RecordFrame(recHandler, exCatHandler, payHandler, homeScreen, record);
 		recWin.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent wEvent) {
@@ -177,7 +177,6 @@ public class UIControl implements RecordListView.RecordEditor {
 					SuccessfulSaveEvent success = (SuccessfulSaveEvent) wEvent;
 					displayer.itemEdited(success.getRecord()); 
 					System.out.println("I was here");
-					System.out.println(success.getRecord().getName());
 				}
 			}
 		});
