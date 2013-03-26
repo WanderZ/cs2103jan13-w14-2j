@@ -1,12 +1,15 @@
 package ezxpns.GUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -63,6 +66,7 @@ public class SearchFrame extends JFrame{
 	private JScrollPane panResult;
 	private RecordListView list;
 	private JPanel panCtrls;
+	private InfoPanel panInfo;
 	private JButton btnAdvance;
 	
 	private boolean isMoreOption = false;
@@ -74,7 +78,7 @@ public class SearchFrame extends JFrame{
 	public SearchFrame(SearchHandler handlerRef, RecordListView li, CategoryHandler inCatHandRef, CategoryHandler exCatHandRef, PaymentHandler payHandRef) {
 		super();
 		this.init();
-		this.setLayout(new BorderLayout(25, 25));
+		this.setLayout(new BorderLayout(25, 5)); // org: 25, 25
 		this.handler = handlerRef;
 		
 		panCtrls = new JPanel();
@@ -123,6 +127,11 @@ public class SearchFrame extends JFrame{
 		
 		this.add(panCtrls, BorderLayout.NORTH);
 		
+		// InfoPanel
+		panInfo = new InfoPanel();
+		this.add(panInfo, BorderLayout.SOUTH);
+
+		// list
 		list = li;
 		list.setPreferredScrollableViewportSize(new Dimension(100, 200));
 		this.panResult = new JScrollPane(list);
@@ -188,11 +197,15 @@ public class SearchFrame extends JFrame{
 	private void search(SearchRequest request) {
 		List<Record> results = handler.search(request);
 		list.show(results);
+		panInfo.setNumRec(results.size());
+		panInfo.setTotalAmt(Record.sumAmount(results));
 	}
 	
 	private void search(String prefix){
 		List<Record> results = handler.search(prefix);
 		list.show(results);
+		panInfo.setNumRec(results.size());
+		panInfo.setTotalAmt(Record.sumAmount(results));
 	}
 	
 	private void switchMode(){
@@ -225,7 +238,6 @@ class SearchFormPanel extends JPanel {
 	private JTextField txtName, txtSimpleField;
 	private JComboBox txtCat, txtPay;
 	private JButton btnAdvance;
-	//private JFormattedTextField txtStart, txtEnd;
 	private JDateChooser txtStart, txtEnd;
 	private final Font FORM_FONT = new Font("Segoe UI", 0, 14); // #Font
 	
@@ -419,5 +431,41 @@ class SearchFormPanel extends JPanel {
 	
 	public Date getEndDate() {
 		return (Date) txtEnd.getDate();
+	}
+}
+
+@SuppressWarnings("serial")
+class InfoPanel extends JPanel{
+	private JLabel lblNumRec;
+	private JLabel lblTotalAmt;
+	private DecimalFormat df = new DecimalFormat("#.##");
+	
+	public InfoPanel(){
+		setLayout(new MigLayout("","1[]15[]","0[]0"));
+		setPreferredSize(new Dimension(600, 25));
+		this.add(getNumRecLabel());
+		this.add(getTotalAmtLabel());
+	}
+	
+	private JLabel getNumRecLabel() {
+		if (lblNumRec == null){
+			lblNumRec = new JLabel("No. of Records: - ");
+		}
+		return lblNumRec;
+	}
+
+	private JLabel getTotalAmtLabel() {
+		if (lblTotalAmt == null){
+			lblTotalAmt = new JLabel("Total Amount: - ");
+		}
+		return lblTotalAmt;
+	}
+
+	public void setNumRec(int num){
+		lblNumRec.setText("No. of Records: " +  num);
+	}
+	
+	public void setTotalAmt(double num){
+		lblTotalAmt.setText("Total Amount: " + df.format(num)); // 2 decimal place later
 	}
 }
