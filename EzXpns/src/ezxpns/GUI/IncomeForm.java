@@ -102,7 +102,6 @@ public class IncomeForm extends JPanel {
 	 * To populate all the fields with the given record's data
 	 */
 	private void populateFields() {
-		System.out.println("Entered IncomeForm populateFields()");
 		// Name
 		txtName.setText(record.getName());
 		
@@ -114,7 +113,6 @@ public class IncomeForm extends JPanel {
 		
 		// Date
 		txtDateChooser.setDate(isEdit ? record.getDate() : new Date());
-		System.out.println("incomeform - isEdit? " + isEdit);
 		
 		// Description
 		txtDesc.setText(record.getRemark());
@@ -368,10 +366,7 @@ public class IncomeForm extends JPanel {
 				this.getCat()
 			);
 		if(isEdit) {
-			System.out.println(
-					"Modify: " +
-					this.recHandler.modifyRecord(record.getId(), iRecord, isNewCategory())
-			);
+			this.recHandler.modifyRecord(record.getId(), iRecord, isNewCategory());
 		}
 		else {
 			iRecord = this.recHandler.createRecord(iRecord, isNewCategory());
