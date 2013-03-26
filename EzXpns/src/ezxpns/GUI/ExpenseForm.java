@@ -9,7 +9,6 @@ import java.awt.event.FocusListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -112,15 +111,16 @@ public class ExpenseForm extends JPanel{
 		this(recHandlerRef, catHandlerRef, payHandlerRef, notifyeeRef);
 		
 		this.record = record;
-		this.populateFields();
 		isEdit = true;
+		this.populateFields();
+		
 	}
 	
 	/**
 	 * To populate all the fields with the given record's data
 	 */
 	private void populateFields() {
-		
+		System.out.println("Entered ExpenseForm populateFields()");
 		// Name
 		txtName.setText(record.getName());
 		
