@@ -65,15 +65,15 @@ public class RecordFrame extends JDialog implements ActionListener {
 			CategoryHandler<ExpenseRecord> expenseHandlerRef,
 			PaymentHandler payHandlerRef,
 			UpdateNotifyee notifyeeRef) {
-		super(homeRef, true);
+		super(homeRef, "EzXpns", true); /* Owner, Title, Modularity */
 		recHandler = recHandlerRef;
 		incomeHandler = incomeHandlerRef;
 		expenseHandler = expenseHandlerRef;
 		payHandler = payHandlerRef;
 		notifyee = notifyeeRef;
-		
-		this.initFrame();
 		isEditing = false;
+		this.initFrame();
+		
 	}
 	
 	/**
@@ -128,8 +128,9 @@ public class RecordFrame extends JDialog implements ActionListener {
 			UpdateNotifyee notifyeeRef,
 			ExpenseRecord record) {
 		this(homeRef, recHandlerRef, null, expenseHandlerRef, payHandlerRef, notifyeeRef);
-		this.initComponent(record);
 		isEditing = true;
+		this.initComponent(record);
+		
 	}
 	
 	/**
@@ -147,15 +148,16 @@ public class RecordFrame extends JDialog implements ActionListener {
 			UpdateNotifyee notifyeeRef,
 			IncomeRecord record) {
 		this(homeRef, recHandlerRef, incomeHandlerRef, null, null, notifyeeRef);
-		this.initComponent(record);
 		isEditing = true;
+		this.initComponent(record);
+		
 	}
 	
 	/**
 	 * Initialize this frame with its properties
 	 */
 	private void initFrame() {
-		this.setTitle("EzXpns - New Record");
+		
 		getContentPane().setLayout(new BorderLayout(5, 5));
 		this.setBounds(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		this.setLocationRelativeTo(null);
@@ -167,6 +169,7 @@ public class RecordFrame extends JDialog implements ActionListener {
 	 * Initialize this frame with its components
 	 */
 	private void initComponent() {
+		this.setTitle(isEditing? "EzXpns - Edit Record" : "EzXpns - New Record");
 		panMain = new PanelMain(recHandler, incomeHandler, expenseHandler, payHandler, notifyee);
 		getContentPane().add(panMain, BorderLayout.CENTER);
 		
