@@ -49,6 +49,10 @@ public class IncomeForm extends JPanel {
 	// #Logic Components
 	private RecordHandler recHandler; 
 	private CategoryHandler<IncomeRecord> catHandler;
+	
+	/**
+	 * The Existing record, if available
+	 */
 	private IncomeRecord record;
 	private UpdateNotifyee notifyee;
 	private boolean isEdit;
@@ -359,7 +363,15 @@ public class IncomeForm extends JPanel {
 				this.getDate(), 
 				this.getCat()
 			);
-		iRecord = this.recHandler.createRecord(iRecord, isNewCategory());
+		if(isEdit) {
+			System.out.println(
+					"Modify: " +
+					this.recHandler.modifyRecord(record.getId(), iRecord, isNewCategory())
+			);
+		}
+		else {
+			iRecord = this.recHandler.createRecord(iRecord, isNewCategory());
+		}
 		notifyee.addUndoAction(createUndoAction(iRecord, isNewCategory()), isEdit ? "Edit Income" : "New Income");
 		return iRecord;
 	}

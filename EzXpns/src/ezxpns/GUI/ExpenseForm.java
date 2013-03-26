@@ -62,7 +62,6 @@ public class ExpenseForm extends JPanel{
 	private RecordHandler recHandler; 
 	private CategoryHandler<ExpenseRecord> catHandler;
 	private PaymentHandler payHandler;
-	private UndoManager undoMgr;
 	private UpdateNotifyee notifyee;
 	private boolean isEdit;
 	
@@ -82,14 +81,12 @@ public class ExpenseForm extends JPanel{
 			RecordHandler recHandlerRef, 
 			CategoryHandler<ExpenseRecord> catHandlerRef, 
 			PaymentHandler payHandlerRef,
-			UpdateNotifyee notifyeeRef,
-			UndoManager undoMgrRef) {
+			UpdateNotifyee notifyeeRef) {
 		
 		recHandler = recHandlerRef; 
 		catHandler = catHandlerRef;
 		payHandler = payHandlerRef;
 		notifyee = notifyeeRef;
-		undoMgr = undoMgrRef;
 		
 		categories = catHandler.getAllCategories();
 		methods = payHandler.getAllPaymentMethod();
@@ -108,12 +105,11 @@ public class ExpenseForm extends JPanel{
 	public ExpenseForm(
 			RecordHandler recHandlerRef, 
 			CategoryHandler<ExpenseRecord> catHandlerRef, 
-			PaymentHandler payHandlerRef, 
-			UndoManager undoMgrRef,
+			PaymentHandler payHandlerRef,
 			UpdateNotifyee notifyeeRef,
 			ExpenseRecord record) {
 		
-		this(recHandlerRef, catHandlerRef, payHandlerRef, notifyeeRef, undoMgrRef);
+		this(recHandlerRef, catHandlerRef, payHandlerRef, notifyeeRef);
 		
 		this.record = record;
 		this.populateFields();
@@ -139,6 +135,9 @@ public class ExpenseForm extends JPanel{
 		
 		// Date - populated only if editing
 		txtDateChooser.setDate(isEdit ? record.getDate() : new Date()); 
+		System.out.println("isEdit: " + isEdit);
+		System.out.println("Date:" + record.getDate());
+		System.out.println("2Day:" + new Date());
 		
 		// Description
 		txtDesc.setText(record.getRemark());
@@ -500,7 +499,16 @@ public class ExpenseForm extends JPanel{
 				this.getType(), 									// The ExpenseType of the record (need/want)
 				this.getMode()										// Payment method/mode of this record
 			);
-		this.recHandler.createRecord(eRecord, isNewCategory(), isNewMethod());
+		
+		if(isEdit) {
+			System.out.println(
+					"Modify: " + 
+					this.recHandler.modifyRecord(record.getId(), eRecord, isNewCategory(), isNewMethod())
+			);
+		}
+		else {
+			eRecord = this.recHandler.createRecord(eRecord, isNewCategory(), isNewMethod());
+		}
 		notifyee.addUndoAction(createUndoAction(eRecord, isNewCategory(), isNewMethod()), isEdit ? " Edit Expense" : " New Expense");
 		return eRecord;
 	}
@@ -513,6 +521,7 @@ public class ExpenseForm extends JPanel{
 	 * @return AbstractAction undo action
 	 */
 	private AbstractAction createUndoAction(final ExpenseRecord nExpense, final boolean isNewCat, final boolean isNewPay) {
+		final ExpenseRecord record = this.record; // Making sure that the record will not get edited
 		return new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
