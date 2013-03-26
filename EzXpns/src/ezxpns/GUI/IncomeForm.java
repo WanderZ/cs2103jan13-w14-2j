@@ -69,6 +69,7 @@ public class IncomeForm extends JPanel {
 			RecordHandler recHandlerRef, 
 			CategoryHandler<IncomeRecord> catHandlerRef,
 			UpdateNotifyee notifyeeRef) {
+		
 		recHandler = recHandlerRef;
 		catHandler = catHandlerRef;
 		notifyee = notifyeeRef;
@@ -92,14 +93,16 @@ public class IncomeForm extends JPanel {
 		
 		this(recHandlerRef, catHandlerRef, notifyeeRef);
 		this.record = record;
-		this.populateFields();
 		isEdit = true;
+		this.populateFields();
+		
 	}
 	
 	/**
 	 * To populate all the fields with the given record's data
 	 */
 	private void populateFields() {
+		System.out.println("Entered IncomeForm populateFields()");
 		// Name
 		txtName.setText(record.getName());
 		
@@ -111,6 +114,7 @@ public class IncomeForm extends JPanel {
 		
 		// Date
 		txtDateChooser.setDate(isEdit ? record.getDate() : new Date());
+		System.out.println("incomeform - isEdit? " + isEdit);
 		
 		// Description
 		txtDesc.setText(record.getRemark());
