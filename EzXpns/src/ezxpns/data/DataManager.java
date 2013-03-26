@@ -103,7 +103,7 @@ public class DataManager extends Storable
 	
 	private ExpenseRecordManager _expenses = new ExpenseRecordManager();
 	private RecordManager<IncomeRecord> _incomes = new RecordManager<IncomeRecord>();
-	private NWSGenerator nwsGen = new NWSGenerator(this);
+	private NWSGenerator _nwsGen = new NWSGenerator(this);
 	/**
 	 * Note that this is a combination of both income and expense record manager, <br />
 	 * so it need not be persistent, since all its data is from the two manager
@@ -153,7 +153,7 @@ public class DataManager extends Storable
 	public boolean isUpdated(){
 		return _expenses.isUpdated() || _incomes.isUpdated()
 				|| _targetManager.isUpdated()
-				|| nwsGen.isUpdated();
+				|| _nwsGen.isUpdated();
 	}
 	
 	@Override
@@ -163,7 +163,7 @@ public class DataManager extends Storable
 		_combined = new CombinedRecordsQueryHandler(_incomes, _expenses);
 		_targetManager.setDataProvider(this);
 		_targetManager.afterDeserialize();
-		nwsGen.afterDeserialize();
+		_nwsGen.afterDeserialize();
 	}
 	
 	@Override
@@ -171,7 +171,7 @@ public class DataManager extends Storable
 		_expenses.saved();
 		_incomes.saved();
 		_targetManager.saved();
-		nwsGen.saved();
+		_nwsGen.saved();
 	}
 
 	@Override
@@ -237,5 +237,9 @@ public class DataManager extends Storable
 	@Override
 	public double getPrevMonthIncome() {
 		return 0;
+	}
+
+	public NWSGenerator nwsGen() {
+		return _nwsGen;
 	}
 }
