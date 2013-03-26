@@ -21,11 +21,7 @@ public class NWSGenerator extends Storable{
 		double getMonthlyIncome();
 		
 		double getPrevMonthlyExpense(ExpenseType type); //get the previous month's data
-		double getPrevMonthIncome(); // get previous month's income
-		
-		
-		NWSdata getPastMonthNWS(); 
-		NWSdata getThisMonthNWS();
+		double getPrevMonthIncome(); 					// get previous month's income
 	}
 	
 	private transient DataProvider data;
@@ -50,68 +46,35 @@ public class NWSGenerator extends Storable{
 	
 
 	
-	private NWSdata pastMonthNWS = new NWSdata();
+	private NWSdata pastMonthNWS = new NWSdata(); 
 	private NWSdata thisMonthNWS = new NWSdata();
 	
 	
 public NWSGenerator(DataProvider data){
 	this.data = data;
 	dataUpdated = true;
-	pastMonthNWS = data.getPastMonthNWS();
-	thisMonthNWS = data.getThisMonthNWS();
 	
 	
-	//if there is no past month data or this month data, set the ratio as default.
+		//if there is no past month data or this month data, set the ratio as default.
 		if((!thisMonthNWS.isSet())&&(!pastMonthNWS.isSet())){
 		thisMonthNWS.setAll(new GregorianCalendar(), NEEDS, WANTS, SAVINGS);	
 		}
 		
-		//Need to change the ratio for this month
-		else if(thisMonthNWS.isSet()){
+	
+		if(thisMonthNWS.isSet()){
 			if(isNewMonth(thisMonthNWS.getDate())){
-			double[] array = generateRatios();
 			pastMonthNWS.setAll(thisMonthNWS.getDate(),thisMonthNWS.getNeeds(),thisMonthNWS.getWants(),thisMonthNWS.getSavings());
-			thisMonthNWS.setAll(new GregorianCalendar(), array[0], array[1], array[2]);
+			generateRatios(); //this updates thisMonthNWS
 		}
 			}
+		
+		//past month is not set, then set as default
+		if(!pastMonthNWS.isSet()){
+			pastMonthNWS.setAll(new GregorianCalendar(), NEEDS, WANTS, SAVINGS);
+		}
 	
 }
-	
-public double getNeeds(){
-	return thisMonthNWS.getNeeds();
-}
 
-public double getWants(){
-	return thisMonthNWS.getWants();
-}
-
-public double getSavings(){
-	return thisMonthNWS.getSavings();
-}
-
-/**
- * This retrieves the actual amount of money spend on WANTS
- * @return the actual amount of money spend on WANTS
- */
-public double getMonthlyWants(){
-	return data.getMonthlyExpense(ExpenseType.WANT);
-}
-
-/**
- * This retrieves the actual amount of money spend on NEEDS
- * @return the actual amount of money spend on NEEDS
- */
-public double getMonthlyNeeds(){
-	return data.getMonthlyExpense(ExpenseType.NEED);
-}
-
-/**
- * The retrieves actual amount of not spent this month i.e. the savings
- * @return the actual amount of money not spent
- */
-public double getMonthlySavings(){
-	return data.getMonthlyIncome()-getMonthlyNeeds()-getMonthlyWants();
-}
 
 public void setDataProvider(DataProvider data){
 	this.data = data;
@@ -122,23 +85,100 @@ public void markDataUpdated(){
 	dataUpdated = true;
 }
 
-public double[] generateRatios(){
+@Override
+public void afterDeserialize(){
+	// what do i put here?
+	//I need two item
+	//NWSdata pastMonthNWS
+	//NWSdata thisMonthNWS
+}
+
+
+
+
+/*
+ * Getter Methods for GUI 
+ */
+
+
+/**
+ * This returns the NEEDS target for this month as a ratio over 100
+ * @return
+ */
+public double getNeeds(){
+	return thisMonthNWS.getNeeds();
+}
+
+/**
+ * This returns the WANTS target for this month as a ratio over 100
+ * @return
+ */
+public double getWants(){
+	return thisMonthNWS.getWants();
+}
+
+/**
+ * Returns the SAVINGS target for this month as a ratio over 100
+ * @return
+ */
+public double getSavings(){
+	return thisMonthNWS.getSavings();
+}
+
+/**
+ * Returns the actual amount of money spend on WANTS
+ * @return 
+ */
+public double getMonthlyWants(){
+	return data.getMonthlyExpense(ExpenseType.WANT);
+}
+
+/**
+ * Returns the actual amount of money spend on NEEDS
+ * @return 
+ */
+public double getMonthlyNeeds(){
+	return data.getMonthlyExpense(ExpenseType.NEED);
+}
+
+/**
+ * Returns actual amount of not spent this month i.e. the savings
+ * @return 
+ */
+public double getMonthlySavings(){
+	return data.getMonthlyIncome()-getMonthlyNeeds()-getMonthlyWants();
+}
+
+/**
+ * Returns a copy of NWSdata for this month
+ * @return
+ */
+public NWSdata getNWSdataCopy(){
+	if(dataUpdated){
+		generateRatios();
+		dataUpdated = false; // i just add this cos it is similar to targetManager. 
+		//the point is I need to call generateRatio when 
+		//1. someone changes last month's records. Recalculate ratio for this month since it is based on last month's data
+		//2. Transit to new month so i need the calculate the new ratios for this month
+	}
+	
+	NWSdata copy = new NWSdata(
+			thisMonthNWS.getDate(), 
+			thisMonthNWS.getNeeds(), 
+			thisMonthNWS.getWants(), 
+			thisMonthNWS.getWants());
+	return copy;
+}
+
+/**
+ * Sets the ratio for NEEDS, WANTS and SAVINGS
+ * @return
+ */
+public void generateRatios(){
 	double targetSavings;
 	double targetNeeds;
 	double targetWants;
-	double [] array = new double[3];
 
-		
-		if(!pastMonthNWS.isSet()){
-			pastMonthNWS.setAll(new GregorianCalendar(), NEEDS, WANTS, SAVINGS);
-			targetNeeds =  NEEDS;
-			targetWants = WANTS;
-			targetSavings = SAVINGS;
-			array[0] = targetNeeds;
-			array[1] = targetWants;
-			array[2] = targetSavings;
-			return array;
-		}
 	
 	
 
@@ -199,6 +239,7 @@ public double[] generateRatios(){
 		switch(i){
 		
 	case 0: // 000 // VERY GOOD but will try and increase savings
+		if(diffFromST<0){
 		if(diffFromNT>0){
 			if(canIncrease(MAXSAVINGS, targetSavings)
 			&& canReduce(MINNEEDS, targetNeeds))
@@ -213,7 +254,7 @@ public double[] generateRatios(){
 				targetSavings+=BUFFER;
 			}
 		}
-		
+		}
 		break;
 	
 	case 1://001	
@@ -363,14 +404,32 @@ if(canIncrease(MAXSAVINGS,targetSavings)&&canReduce(MINWANTS, targetWants)){
 	default:
 		break;	
 	}
-		array[0] = targetNeeds;
-		array[1] = targetWants;
-		array[2] = targetSavings;
-return array;
+		
+		
+		
+		
+		//HELLO LOOK HERE! I PUT IT HERE IS IT CORRECT??
+		thisMonthNWS.setAll(new GregorianCalendar(), targetNeeds, targetWants, targetSavings);
+		markUpdate();
+		
 	}
+
 	
+/*
+ * 
+ * 
+ * Helper methods
+ * 
+ * 
+ * 
+ * */
 
-
+/**
+ * This returns true if the needs, wants or savings target can be increased by 5% without exceeding MAX
+ * @param MAX
+ * @param oldTarget
+ * @return 
+ */
 private boolean canIncrease(double MAX, double oldTarget){
 	if((oldTarget+0.05)<=MAX){
 	return true;
@@ -378,6 +437,12 @@ private boolean canIncrease(double MAX, double oldTarget){
 	return false;
 }
 
+/**
+ * This returns true if the needs, wants or savings target can be reduced by 5% without going below MIN
+ * @param MIN
+ * @param oldTarget
+ * @return
+ */
 private boolean canReduce(double MIN, double oldTarget){
 	if((oldTarget-0.05)>=MIN){
 		return true;
@@ -386,7 +451,7 @@ private boolean canReduce(double MIN, double oldTarget){
 }
 
 /**
- * This method checks if there is a need to recalculate the NWS ratios for a new month
+ * This returns true if it is a new month. 
  * @param date
  * @return true if date's Month and Year is different from the date in thisMonthNWS
  */
