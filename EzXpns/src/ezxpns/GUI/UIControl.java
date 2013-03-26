@@ -149,7 +149,7 @@ public class UIControl implements RecordListView.RecordEditor {
 	 */
 	public void showSearchWin() {
 		if(searchWin == null) {
-			searchWin = new SearchFrame(findHandler, new RecordListView(this, recHandler, homeScreen),inCatHandler,exCatHandler);
+			searchWin = new SearchFrame(findHandler, new RecordListView(this, recHandler, homeScreen),inCatHandler,exCatHandler, payHandler);
 		}
 		searchWin.setVisible(true);
 	}
