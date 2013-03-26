@@ -70,4 +70,7 @@ public interface CategoryHandler<T extends Record> {
 	 * 
 	 */
 	public boolean addToCategory(List<T> records, Category cat);
+	
+	
+	Vector<Category> getCategoryWithNamePrefix(String prefix);
 }

@@ -10,4 +10,5 @@ package ezxpns.data.records;
  */
 public interface SearchHandler {
 	public java.util.Vector<Record> search(SearchRequest req);
+	public java.util.Vector<Record> search(String partialMatch);
 }
