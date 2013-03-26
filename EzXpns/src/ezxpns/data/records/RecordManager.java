@@ -44,7 +44,7 @@ public class RecordManager<T extends Record>
 	 */
 	private HashMap<Long, TreeSet<T> > recordsByCategory;
 	private transient TreeMap<Date, Vector<T> > recordsByDate;
-	private transient HashMap<String, TreeSet<T> > recordsByName;
+	private transient TreeMap<String, TreeSet<T> > recordsByName;
 	protected transient TreeMap<Long, T> recordsById;
 	
 	/**
@@ -106,7 +106,7 @@ public class RecordManager<T extends Record>
 		categories.put(Category.undefined.getID(), Category.undefined);
 		recordsByCategory = new HashMap<Long, TreeSet<T> >();
 		recordsByDate = new TreeMap<Date, Vector<T> >();
-		recordsByName = new HashMap<String, TreeSet<T> >();
+		recordsByName = new TreeMap<String, TreeSet<T> >();
 		recordsById = new TreeMap<Long, T>();
 		monthlySumByCategory = new HashMap<Long, Double>();
 		cal.set(Calendar.HOUR, 0);
@@ -502,5 +502,24 @@ public class RecordManager<T extends Record>
 			}
 		}
 		return true;
+	}
+	@Override
+	public Vector<T> getRecordsWithNamePrefix(String prefix) {
+		String end = prefix.substring(0, prefix.length() - 1) + (char)(prefix.charAt(prefix.length() - 1) + 1);
+		Vector<T> allRecs = new Vector<T>();
+		for(TreeSet<T> rs : recordsByName.subMap(prefix, end).values()){
+			allRecs.addAll(rs);
+		}
+		return allRecs;
+	}
+	@Override
+	public Vector<Category> getCategoryWithNamePrefix(String prefix) {
+		Vector<Category> cats = new Vector<Category>();
+		for(Category cat : categories.values()){
+			if(cat.getName().startsWith(prefix)){
+				cats.add(cat);
+			}
+		}
+		return cats;
 	}
 }
