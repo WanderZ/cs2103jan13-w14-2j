@@ -16,7 +16,8 @@ public class DataManager extends Storable
 	implements
 		ReportGenerator.DataProvider,
 		TargetManager.DataProvider,
-		SummaryGenerator.DataProvider{
+		SummaryGenerator.DataProvider,
+		NWSGenerator.DataProvider{
 	/**
 	 * @author yyjhao
 	 * A helper class that handles query that ask for both
@@ -102,6 +103,7 @@ public class DataManager extends Storable
 	
 	private ExpenseRecordManager _expenses = new ExpenseRecordManager();
 	private RecordManager<IncomeRecord> _incomes = new RecordManager<IncomeRecord>();
+	private NWSGenerator nwsGen = new NWSGenerator(this);
 	/**
 	 * Note that this is a combination of both income and expense record manager, <br />
 	 * so it need not be persistent, since all its data is from the two manager
@@ -150,7 +152,8 @@ public class DataManager extends Storable
 	@Override
 	public boolean isUpdated(){
 		return _expenses.isUpdated() || _incomes.isUpdated()
-				|| _targetManager.isUpdated();
+				|| _targetManager.isUpdated()
+				|| nwsGen.isUpdated();
 	}
 	
 	@Override
@@ -160,6 +163,7 @@ public class DataManager extends Storable
 		_combined = new CombinedRecordsQueryHandler(_incomes, _expenses);
 		_targetManager.setDataProvider(this);
 		_targetManager.afterDeserialize();
+		nwsGen.afterDeserialize();
 	}
 	
 	@Override
@@ -167,6 +171,7 @@ public class DataManager extends Storable
 		_expenses.saved();
 		_incomes.saved();
 		_targetManager.saved();
+		nwsGen.saved();
 	}
 
 	@Override
@@ -217,5 +222,20 @@ public class DataManager extends Storable
 	@Override
 	public Category getCategory(long id) {
 		return _expenses.getCategory(id);
+	}
+
+	@Override
+	public double getMonthlyExpense(ExpenseType type) {
+		return _expenses.getMonthlySum();
+	}
+
+	@Override
+	public double getPrevMonthlyExpense(ExpenseType type) {
+		return 0;
+	}
+
+	@Override
+	public double getPrevMonthIncome() {
+		return 0;
 	}
 }
