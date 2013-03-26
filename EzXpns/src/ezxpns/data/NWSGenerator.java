@@ -457,4 +457,9 @@ private boolean isNewMonth(Calendar date){
 	return true;
 }
 
+
+public void markDataUpdate() {
+	dataUpdated = true;
+}
+
 }
