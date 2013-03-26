@@ -1,17 +1,19 @@
 package ezxpns.GUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -29,6 +31,8 @@ import com.toedter.calendar.JDateChooser;
 
 import ezxpns.data.records.Category;
 import ezxpns.data.records.CategoryHandler;
+import ezxpns.data.records.PaymentHandler;
+import ezxpns.data.records.PaymentMethod;
 import ezxpns.data.records.Record;
 import ezxpns.data.records.SearchHandler;
 import ezxpns.data.records.SearchRequest;
@@ -43,7 +47,7 @@ public class SearchFrame extends JFrame{
 	public final int DEFAULT_WIDTH = 600;
 	public final int DEFAULT_HEIGHT = 400;
 	public final int SIMPLE_HEIGHT = 47;
-	public final int ADVANCE_HEIGHT = 150;
+	public final int ADVANCE_HEIGHT = 170;
 	
 	/** Whether Advance Options is open or not*/
 	public final int OPEN = 1;
@@ -62,6 +66,7 @@ public class SearchFrame extends JFrame{
 	private JScrollPane panResult;
 	private RecordListView list;
 	private JPanel panCtrls;
+	private InfoPanel panInfo;
 	private JButton btnAdvance;
 	
 	private boolean isMoreOption = false;
@@ -70,16 +75,16 @@ public class SearchFrame extends JFrame{
 	 * To create a new Search Window
 	 * @param handlerRef the reference to the SearchHandler object, catHandRef to CategoryHandler
 	 */
-	public SearchFrame(SearchHandler handlerRef, RecordListView li, CategoryHandler inCatHandRef, CategoryHandler exCatHandRef) {
+	public SearchFrame(SearchHandler handlerRef, RecordListView li, CategoryHandler inCatHandRef, CategoryHandler exCatHandRef, PaymentHandler payHandRef) {
 		super();
 		this.init();
-		this.setLayout(new BorderLayout(25, 25));
+		this.setLayout(new BorderLayout(25, 5)); // org: 25, 25
 		this.handler = handlerRef;
 		
 		panCtrls = new JPanel();
 		panCtrls.setLayout(new BorderLayout());
 		
-		panForm = new SearchFormPanel(inCatHandRef, exCatHandRef);
+		panForm = new SearchFormPanel(inCatHandRef, exCatHandRef, payHandRef);
 		panCtrls.add(panForm, BorderLayout.CENTER);
 		panCtrls.setPreferredSize(new Dimension(DEFAULT_WIDTH, SIMPLE_HEIGHT)); // SIMPLE SEARCH EXPERIMENTATION
 		
@@ -122,6 +127,11 @@ public class SearchFrame extends JFrame{
 		
 		this.add(panCtrls, BorderLayout.NORTH);
 		
+		// InfoPanel
+		panInfo = new InfoPanel();
+		this.add(panInfo, BorderLayout.SOUTH);
+
+		// list
 		list = li;
 		list.setPreferredScrollableViewportSize(new Dimension(100, 200));
 		this.panResult = new JScrollPane(list);
@@ -187,11 +197,15 @@ public class SearchFrame extends JFrame{
 	private void search(SearchRequest request) {
 		List<Record> results = handler.search(request);
 		list.show(results);
+		panInfo.setNumRec(results.size());
+		panInfo.setTotalAmt(Record.sumAmount(results));
 	}
 	
 	private void search(String prefix){
 		List<Record> results = handler.search(prefix);
 		list.show(results);
+		panInfo.setNumRec(results.size());
+		panInfo.setTotalAmt(Record.sumAmount(results));
 	}
 	
 	private void switchMode(){
@@ -218,12 +232,12 @@ class SearchFormPanel extends JPanel {
 	// CategoryHandler Reference for Category JComboBox
 	private CategoryHandler inCatHandRef;
 	private CategoryHandler exCatHandRef;
+	private PaymentHandler payHandRef;
 	
-	private JLabel lblName, lblTitle, lblCat, lblDate, lblToDate;
+	private JLabel lblName, lblTitle, lblCat, lblPay, lblDate, lblToDate;
 	private JTextField txtName, txtSimpleField;
-	private JComboBox txtCat;
+	private JComboBox txtCat, txtPay;
 	private JButton btnAdvance;
-	//private JFormattedTextField txtStart, txtEnd;
 	private JDateChooser txtStart, txtEnd;
 	private final Font FORM_FONT = new Font("Segoe UI", 0, 14); // #Font
 	
@@ -250,9 +264,10 @@ class SearchFormPanel extends JPanel {
 		getNameField().addActionListener(listener);
 	}
 	
-	public SearchFormPanel(CategoryHandler inCatHandRef, CategoryHandler exCatHandRef) {
+	public SearchFormPanel(CategoryHandler inCatHandRef, CategoryHandler exCatHandRef, PaymentHandler payHandRef) {
 		this.inCatHandRef = inCatHandRef; // reference
 		this.exCatHandRef = exCatHandRef; // reference
+		this.payHandRef = payHandRef; 	  // reference
 		
 		this.setLayout(new MigLayout("insets 15", "[left]10%[]", ""));
 		lblTitle = new JLabel("Search");
@@ -269,6 +284,9 @@ class SearchFormPanel extends JPanel {
 		
 		this.add(this.getCatLabel(), "span 2");
 		this.add(this.getCatField(), "span, wrap");
+		
+		this.add(this.getPayLabel(), "span 2");
+		this.add(this.getPayField(), "span, wrap");
 		
 		this.add(this.getDateLabel(), "span 2");
 		this.add(this.getDateField(), "split 3");
@@ -317,6 +335,28 @@ class SearchFormPanel extends JPanel {
 			txtCat.setPreferredSize(new Dimension(230, 32));
 		}
 		return txtCat;
+	}
+	
+	private JLabel getPayLabel(){
+		if (lblPay == null){
+			lblPay = new JLabel("Payment");
+			lblPay.setFont(FORM_FONT);
+		}
+		return lblPay;
+	}
+	
+	public JComboBox getPayField() {
+		if(txtPay == null) {
+			Object[] myPayList = new PaymentMethod[payHandRef.getAllPaymentMethod().size()];
+			myPayList = payHandRef.getAllPaymentMethod().toArray();
+			txtPay = new JComboBox();
+			txtPay.insertItemAt("", 0); // insert empty item;
+			for (int i = 0; i < payHandRef.getAllPaymentMethod().size(); i++)
+				txtPay.addItem(myPayList[i]);
+			txtPay.setFont(FORM_FONT); // #Font
+			txtPay.setPreferredSize(new Dimension(230, 32));
+		}
+		return txtPay;
 	}
 	
 	private JLabel getDateLabel() {
@@ -391,5 +431,41 @@ class SearchFormPanel extends JPanel {
 	
 	public Date getEndDate() {
 		return (Date) txtEnd.getDate();
+	}
+}
+
+@SuppressWarnings("serial")
+class InfoPanel extends JPanel{
+	private JLabel lblNumRec;
+	private JLabel lblTotalAmt;
+	private DecimalFormat df = new DecimalFormat("#.##");
+	
+	public InfoPanel(){
+		setLayout(new MigLayout("","1[]15[]","0[]0"));
+		setPreferredSize(new Dimension(600, 25));
+		this.add(getNumRecLabel());
+		this.add(getTotalAmtLabel());
+	}
+	
+	private JLabel getNumRecLabel() {
+		if (lblNumRec == null){
+			lblNumRec = new JLabel("No. of Records: - ");
+		}
+		return lblNumRec;
+	}
+
+	private JLabel getTotalAmtLabel() {
+		if (lblTotalAmt == null){
+			lblTotalAmt = new JLabel("Total Amount: - ");
+		}
+		return lblTotalAmt;
+	}
+
+	public void setNumRec(int num){
+		lblNumRec.setText("No. of Records: " +  num);
+	}
+	
+	public void setTotalAmt(double num){
+		lblTotalAmt.setText("Total Amount: " + df.format(num)); // 2 decimal place later
 	}
 }

@@ -9,7 +9,6 @@ import java.awt.event.FocusListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -62,7 +61,6 @@ public class ExpenseForm extends JPanel{
 	private RecordHandler recHandler; 
 	private CategoryHandler<ExpenseRecord> catHandler;
 	private PaymentHandler payHandler;
-	private UndoManager undoMgr;
 	private UpdateNotifyee notifyee;
 	private boolean isEdit;
 	
@@ -82,14 +80,12 @@ public class ExpenseForm extends JPanel{
 			RecordHandler recHandlerRef, 
 			CategoryHandler<ExpenseRecord> catHandlerRef, 
 			PaymentHandler payHandlerRef,
-			UpdateNotifyee notifyeeRef,
-			UndoManager undoMgrRef) {
+			UpdateNotifyee notifyeeRef) {
 		
 		recHandler = recHandlerRef; 
 		catHandler = catHandlerRef;
 		payHandler = payHandlerRef;
 		notifyee = notifyeeRef;
-		undoMgr = undoMgrRef;
 		
 		categories = catHandler.getAllCategories();
 		methods = payHandler.getAllPaymentMethod();
@@ -108,23 +104,22 @@ public class ExpenseForm extends JPanel{
 	public ExpenseForm(
 			RecordHandler recHandlerRef, 
 			CategoryHandler<ExpenseRecord> catHandlerRef, 
-			PaymentHandler payHandlerRef, 
-			UndoManager undoMgrRef,
+			PaymentHandler payHandlerRef,
 			UpdateNotifyee notifyeeRef,
 			ExpenseRecord record) {
 		
-		this(recHandlerRef, catHandlerRef, payHandlerRef, notifyeeRef, undoMgrRef);
+		this(recHandlerRef, catHandlerRef, payHandlerRef, notifyeeRef);
 		
 		this.record = record;
-		this.populateFields();
 		isEdit = true;
+		this.populateFields();
+		
 	}
 	
 	/**
 	 * To populate all the fields with the given record's data
 	 */
 	private void populateFields() {
-		
 		// Name
 		txtName.setText(record.getName());
 		
@@ -415,8 +410,9 @@ public class ExpenseForm extends JPanel{
 			validateSuccess = false;
 		}
 		
-		//TODO: Insert Validation for Category
-		//TODO: INsert Validation for Payment Method
+		// TODO: Validate Category Name
+		// TODO: Validate Payment Method Name
+		// TODO: Validate Description?
 		
 		System.out.println("Name: " + getName());
 		System.out.println("Amt: " + getAmt());
@@ -500,7 +496,13 @@ public class ExpenseForm extends JPanel{
 				this.getType(), 									// The ExpenseType of the record (need/want)
 				this.getMode()										// Payment method/mode of this record
 			);
-		this.recHandler.createRecord(eRecord, isNewCategory(), isNewMethod());
+		
+		if(isEdit) {
+			this.recHandler.modifyRecord(record.getId(), eRecord, isNewCategory(), isNewMethod());
+		}
+		else {
+			eRecord = this.recHandler.createRecord(eRecord, isNewCategory(), isNewMethod());
+		}
 		notifyee.addUndoAction(createUndoAction(eRecord, isNewCategory(), isNewMethod()), isEdit ? " Edit Expense" : " New Expense");
 		return eRecord;
 	}
@@ -513,6 +515,7 @@ public class ExpenseForm extends JPanel{
 	 * @return AbstractAction undo action
 	 */
 	private AbstractAction createUndoAction(final ExpenseRecord nExpense, final boolean isNewCat, final boolean isNewPay) {
+		final ExpenseRecord record = this.record; // Making sure that the record will not get edited
 		return new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
