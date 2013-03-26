@@ -26,6 +26,7 @@ import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -94,6 +95,9 @@ public class ReportFrame extends JFrame implements ComponentListener {
 	private int pieChartIndex = 0;
 	private JDateChooser dateChooserStart;
 	private JDateChooser dateChooserEnd;
+	private ColorSquare myIncome;
+	private ColorSquare myExpense;
+	private ColorSquare myBalance;
 	
 	DecimalFormat df = new DecimalFormat("#.##");
 
@@ -448,26 +452,33 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		cardGeneral
 				.setLayout(new MigLayout("",
 						"[262.00,grow,center][260.00,grow,right]",
-						"[280.00,grow,fill]"));
+						"[280.00,grow]"));
 
 		JPanel generalSummary = new JPanel();
 		generalSummary.setBackground(new Color(255, 255, 255));
-		cardGeneral.add(generalSummary, "cell 1 0,grow");
-		generalSummary.setLayout(new BoxLayout(generalSummary,
-				BoxLayout.PAGE_AXIS));
-
+		cardGeneral.add(generalSummary, "cell 1 0,alignx center,aligny center");
+		//generalSummary.setLayout(new BoxLayout(generalSummary,
+			//	BoxLayout.PAGE_AXIS));
+		generalSummary.setLayout(new MigLayout("","[100]","[20][20][20]"));
+		
 		// Summary Details
 
-		lblIncome = new JLabel("Income:");
-		lblIncome.setAlignmentX(0.4f);
-		lblIncome.setAlignmentY(Component.TOP_ALIGNMENT);
-		lblIncome.setHorizontalAlignment(SwingConstants.LEFT);
-		generalSummary.add(Box.createVerticalGlue());
-		generalSummary.add(lblIncome);
-		generalSummary.add(Box
-				.createRigidArea(new Dimension(0, PARAGRAPH_SPACE)));
+		//lblIncome = new JLabel("Income:");
+		//lblIncome.setAlignmentX(0.4f);
+		//lblIncome.setAlignmentY(Component.TOP_ALIGNMENT);
+		//lblIncome.setHorizontalAlignment(SwingConstants.LEFT);
+		myIncome = new ColorSquare("Income");
+		//generalSummary.add(Box.createVerticalGlue());
+		//generalSummary.add(lblIncome);
+		generalSummary.add(myIncome, "wrap");
+		myExpense = new ColorSquare("Expense");
+		generalSummary.add(myExpense, "wrap");
+		myBalance = new ColorSquare("Balance");
+		generalSummary.add(myBalance, "wrap");
+		//generalSummary.add(Box
+			//	.createRigidArea(new Dimension(0, PARAGRAPH_SPACE)));
 
-		lblExpense = new JLabel("Expense:");
+		/*lblExpense = new JLabel("Expense:");
 		lblExpense.setAlignmentX(0.4f);
 		lblExpense.setAlignmentY(0.0f);
 		lblExpense.setHorizontalAlignment(SwingConstants.LEFT);
@@ -480,7 +491,7 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		lblBalance.setAlignmentY(0.0f);
 		lblBalance.setHorizontalAlignment(SwingConstants.LEFT);
 		generalSummary.add(lblBalance);
-		generalSummary.add(Box.createVerticalGlue());
+		generalSummary.add(Box.createVerticalGlue());*/
 
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -540,8 +551,8 @@ public class ReportFrame extends JFrame implements ComponentListener {
 	private CategoryDataset createDatasetGeneral() {
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		dataset.addValue(myReportData.getBalance(), "Balance", "");
-		dataset.addValue(myReportData.getTotalExpense(), "Expense", "");
 		dataset.addValue(myReportData.getTotalIncome(), "Income", "");
+		dataset.addValue(myReportData.getTotalExpense(), "Expense", "");
 		
 		return dataset;
 	}
@@ -583,7 +594,7 @@ private JFreeChart createChart(CategoryDataset dataset) {
         
         // create the chart...
         final JFreeChart chart = ChartFactory.createBarChart(
-            "Bar Chart Demo",         // chart title
+            "My Summary",         // chart title
             "Type",               // domain axis label
             "Amount",                  // range axis label
             dataset,                  // data
@@ -691,12 +702,15 @@ private JFreeChart createChart(CategoryDataset dataset) {
 	}
 
 	private void initSummary() {
-		// TODO Auto-generated method stub
-		lblIncome.setText("Income:\t"
-				+ df.format(myReportData.getTotalIncome()));
-		lblExpense.setText("Expense:\t"
+		//lblIncome.setText("Income:\t"
+			//	+ df.format(myReportData.getTotalIncome()));
+		myIncome.setLabelAmount(myReportData.getTotalIncome());
+		myIncome.setLabelPercentage(20);
+		/*lblExpense.setText("Expense:\t"
 				+ df.format(myReportData.getTotalExpense()));
-		lblBalance.setText("Balance:\t" + df.format(myReportData.getBalance()));
+		lblBalance.setText("Balance:\t" + df.format(myReportData.getBalance()));*/
+		myExpense.setLabelAmount(myReportData.getTotalExpense());
+		myBalance.setLabelAmount(myReportData.getBalance());
 	}
 
 	/**
@@ -763,5 +777,43 @@ private JFreeChart createChart(CategoryDataset dataset) {
 		public int getColumnCount() {
 			return columnNames.length;
 		}
+	}
+	
+	public class ColorSquare extends JPanel{
+		
+		private JLabel lblName = new JLabel("");
+		private JLabel lblAmount = new JLabel("");
+		private JLabel lblPercentage = new JLabel("");
+		private int WIDTH = 150;
+		private int HEIGHT = 20;
+		DecimalFormat formatter = new DecimalFormat("#,###.00");        
+		DecimalFormat df = new DecimalFormat("#.#");
+		
+		public ColorSquare(String name){
+			this.setLabelName(name);
+			this.setLayout(new MigLayout("","[50][50][15]","[10][10]"));
+			this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+			this.add(lblName,"span 2");
+			this.add(lblPercentage, "wrap");
+			this.add(lblAmount, "span 3");
+		}
+		
+		public void changeBackground(Color myColor){
+			this.setBackground(myColor);
+		}
+		
+		public void setLabelName(String name){
+			lblName.setText(name);
+		}
+		
+		public void setLabelAmount(double amount){
+			lblAmount.setText("$"+ formatter.format(amount));
+		}
+		
+		public void setLabelPercentage(double percent){
+			lblPercentage.setText(""+df.format(percent)+"%");
+		}
+		
+		
 	}
 }
