@@ -27,6 +27,22 @@ public abstract class Record implements Comparable<Record>{
 		}
 		return sum;
 	}
+	
+	/**
+	 * A helper function to calculate balance of all records
+	 * + for income and - for expense
+	 */
+	public static double sumBalance(List<Record> rs){
+		double balance = 0;
+		for(Record r : rs){
+			if(r instanceof IncomeRecord){
+				balance += r.getAmount();
+			}else{
+				balance -= r.getAmount();
+			}
+		}
+		return balance;
+	}
 
 	
 	/**
