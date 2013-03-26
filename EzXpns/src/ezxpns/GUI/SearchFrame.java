@@ -11,7 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -29,6 +28,8 @@ import com.toedter.calendar.JDateChooser;
 
 import ezxpns.data.records.Category;
 import ezxpns.data.records.CategoryHandler;
+import ezxpns.data.records.PaymentHandler;
+import ezxpns.data.records.PaymentMethod;
 import ezxpns.data.records.Record;
 import ezxpns.data.records.SearchHandler;
 import ezxpns.data.records.SearchRequest;
@@ -43,7 +44,7 @@ public class SearchFrame extends JFrame{
 	public final int DEFAULT_WIDTH = 600;
 	public final int DEFAULT_HEIGHT = 400;
 	public final int SIMPLE_HEIGHT = 47;
-	public final int ADVANCE_HEIGHT = 150;
+	public final int ADVANCE_HEIGHT = 170;
 	
 	/** Whether Advance Options is open or not*/
 	public final int OPEN = 1;
@@ -70,7 +71,7 @@ public class SearchFrame extends JFrame{
 	 * To create a new Search Window
 	 * @param handlerRef the reference to the SearchHandler object, catHandRef to CategoryHandler
 	 */
-	public SearchFrame(SearchHandler handlerRef, RecordListView li, CategoryHandler inCatHandRef, CategoryHandler exCatHandRef) {
+	public SearchFrame(SearchHandler handlerRef, RecordListView li, CategoryHandler inCatHandRef, CategoryHandler exCatHandRef, PaymentHandler payHandRef) {
 		super();
 		this.init();
 		this.setLayout(new BorderLayout(25, 25));
@@ -79,7 +80,7 @@ public class SearchFrame extends JFrame{
 		panCtrls = new JPanel();
 		panCtrls.setLayout(new BorderLayout());
 		
-		panForm = new SearchFormPanel(inCatHandRef, exCatHandRef);
+		panForm = new SearchFormPanel(inCatHandRef, exCatHandRef, payHandRef);
 		panCtrls.add(panForm, BorderLayout.CENTER);
 		panCtrls.setPreferredSize(new Dimension(DEFAULT_WIDTH, SIMPLE_HEIGHT)); // SIMPLE SEARCH EXPERIMENTATION
 		
@@ -218,10 +219,11 @@ class SearchFormPanel extends JPanel {
 	// CategoryHandler Reference for Category JComboBox
 	private CategoryHandler inCatHandRef;
 	private CategoryHandler exCatHandRef;
+	private PaymentHandler payHandRef;
 	
-	private JLabel lblName, lblTitle, lblCat, lblDate, lblToDate;
+	private JLabel lblName, lblTitle, lblCat, lblPay, lblDate, lblToDate;
 	private JTextField txtName, txtSimpleField;
-	private JComboBox txtCat;
+	private JComboBox txtCat, txtPay;
 	private JButton btnAdvance;
 	//private JFormattedTextField txtStart, txtEnd;
 	private JDateChooser txtStart, txtEnd;
@@ -250,9 +252,10 @@ class SearchFormPanel extends JPanel {
 		getNameField().addActionListener(listener);
 	}
 	
-	public SearchFormPanel(CategoryHandler inCatHandRef, CategoryHandler exCatHandRef) {
+	public SearchFormPanel(CategoryHandler inCatHandRef, CategoryHandler exCatHandRef, PaymentHandler payHandRef) {
 		this.inCatHandRef = inCatHandRef; // reference
 		this.exCatHandRef = exCatHandRef; // reference
+		this.payHandRef = payHandRef; 	  // reference
 		
 		this.setLayout(new MigLayout("insets 15", "[left]10%[]", ""));
 		lblTitle = new JLabel("Search");
@@ -269,6 +272,9 @@ class SearchFormPanel extends JPanel {
 		
 		this.add(this.getCatLabel(), "span 2");
 		this.add(this.getCatField(), "span, wrap");
+		
+		this.add(this.getPayLabel(), "span 2");
+		this.add(this.getPayField(), "span, wrap");
 		
 		this.add(this.getDateLabel(), "span 2");
 		this.add(this.getDateField(), "split 3");
@@ -317,6 +323,28 @@ class SearchFormPanel extends JPanel {
 			txtCat.setPreferredSize(new Dimension(230, 32));
 		}
 		return txtCat;
+	}
+	
+	private JLabel getPayLabel(){
+		if (lblPay == null){
+			lblPay = new JLabel("Payment");
+			lblPay.setFont(FORM_FONT);
+		}
+		return lblPay;
+	}
+	
+	public JComboBox getPayField() {
+		if(txtPay == null) {
+			Object[] myPayList = new PaymentMethod[payHandRef.getAllPaymentMethod().size()];
+			myPayList = payHandRef.getAllPaymentMethod().toArray();
+			txtPay = new JComboBox();
+			txtPay.insertItemAt("", 0); // insert empty item;
+			for (int i = 0; i < payHandRef.getAllPaymentMethod().size(); i++)
+				txtPay.addItem(myPayList[i]);
+			txtPay.setFont(FORM_FONT); // #Font
+			txtPay.setPreferredSize(new Dimension(230, 32));
+		}
+		return txtPay;
 	}
 	
 	private JLabel getDateLabel() {
