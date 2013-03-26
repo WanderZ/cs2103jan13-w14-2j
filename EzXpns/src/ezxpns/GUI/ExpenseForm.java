@@ -120,7 +120,6 @@ public class ExpenseForm extends JPanel{
 	 * To populate all the fields with the given record's data
 	 */
 	private void populateFields() {
-		System.out.println("Entered ExpenseForm populateFields()");
 		// Name
 		txtName.setText(record.getName());
 		
@@ -135,9 +134,6 @@ public class ExpenseForm extends JPanel{
 		
 		// Date - populated only if editing
 		txtDateChooser.setDate(isEdit ? record.getDate() : new Date()); 
-		System.out.println("isEdit: " + isEdit);
-		System.out.println("Date:" + record.getDate());
-		System.out.println("2Day:" + new Date());
 		
 		// Description
 		txtDesc.setText(record.getRemark());
@@ -414,8 +410,9 @@ public class ExpenseForm extends JPanel{
 			validateSuccess = false;
 		}
 		
-		//TODO: Insert Validation for Category
-		//TODO: INsert Validation for Payment Method
+		// TODO: Validate Category Name
+		// TODO: Validate Payment Method Name
+		// TODO: Validate Description?
 		
 		System.out.println("Name: " + getName());
 		System.out.println("Amt: " + getAmt());
@@ -501,10 +498,7 @@ public class ExpenseForm extends JPanel{
 			);
 		
 		if(isEdit) {
-			System.out.println(
-					"Modify: " + 
-					this.recHandler.modifyRecord(record.getId(), eRecord, isNewCategory(), isNewMethod())
-			);
+			this.recHandler.modifyRecord(record.getId(), eRecord, isNewCategory(), isNewMethod());
 		}
 		else {
 			eRecord = this.recHandler.createRecord(eRecord, isNewCategory(), isNewMethod());

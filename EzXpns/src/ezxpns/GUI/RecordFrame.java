@@ -59,12 +59,13 @@ public class RecordFrame extends JDialog implements ActionListener {
 	 * @param undoMgrRef UndoManager reference for managing undo actions
 	 */
 	public RecordFrame(
+			JFrame homeRef,
 			RecordHandler recHandlerRef, 
 			CategoryHandler<IncomeRecord> incomeHandlerRef, 
 			CategoryHandler<ExpenseRecord> expenseHandlerRef,
 			PaymentHandler payHandlerRef,
 			UpdateNotifyee notifyeeRef) {
-		
+		super(homeRef, true);
 		recHandler = recHandlerRef;
 		incomeHandler = incomeHandlerRef;
 		expenseHandler = expenseHandlerRef;
@@ -85,6 +86,7 @@ public class RecordFrame extends JDialog implements ActionListener {
 	 * @param initTab use either TAB_INCOME or TAB_EXPENSE to indicate which tab to choose
 	 */
 	public RecordFrame(
+			JFrame homeRef,
 			RecordHandler recHandlerRef, 
 			CategoryHandler<IncomeRecord> incomeHandlerRef, 
 			CategoryHandler<ExpenseRecord> expenseHandlerRef,
@@ -92,7 +94,7 @@ public class RecordFrame extends JDialog implements ActionListener {
 			UpdateNotifyee notifyeeRef,
 			int initTab) {
 		
-		this(recHandlerRef, incomeHandlerRef, expenseHandlerRef, payHandlerRef, notifyeeRef);
+		this(homeRef, recHandlerRef, incomeHandlerRef, expenseHandlerRef, payHandlerRef, notifyeeRef);
 		this.initComponent();
 		
 		panMain.toggleIncomeTab(); // Fix
@@ -119,12 +121,13 @@ public class RecordFrame extends JDialog implements ActionListener {
 	 * @param record existing ExpenseRecord to be edited
 	 */
 	public RecordFrame(
+			JFrame homeRef,
 			RecordHandler recHandlerRef,
 			CategoryHandler<ExpenseRecord> expenseHandlerRef,
 			PaymentHandler payHandlerRef,
 			UpdateNotifyee notifyeeRef,
 			ExpenseRecord record) {
-		this(recHandlerRef, null, expenseHandlerRef, payHandlerRef, notifyeeRef);
+		this(homeRef, recHandlerRef, null, expenseHandlerRef, payHandlerRef, notifyeeRef);
 		this.initComponent(record);
 		isEditing = true;
 	}
@@ -137,12 +140,13 @@ public class RecordFrame extends JDialog implements ActionListener {
 	 * @param record existing IncomeRecord to be edited
 	 */
 	public RecordFrame(
+			JFrame homeRef,
 			RecordHandler recHandlerRef, 
 			CategoryHandler<IncomeRecord> incomeHandlerRef,
 			UndoManager undoMgrRef,
 			UpdateNotifyee notifyeeRef,
 			IncomeRecord record) {
-		this(recHandlerRef, incomeHandlerRef, null, null, notifyeeRef);
+		this(homeRef, recHandlerRef, incomeHandlerRef, null, null, notifyeeRef);
 		this.initComponent(record);
 		isEditing = true;
 	}
