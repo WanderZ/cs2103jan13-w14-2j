@@ -17,6 +17,9 @@ public class Report {
 	private double totalIncome = 0;
 	private double totalExpense = 0;
 	private double balance = 0;
+	private double incomePercentage = 0;
+	private double expensePercentage = 0;
+	private double balancePercentage = 0;
 
 	// 1. Expense
 	private Vector<ReportCategory> ExpenseCategory;
@@ -47,6 +50,17 @@ public class Report {
 		totalIncome = income;
 		totalExpense = expense;
 		this.balance = balance;
+		double total = income + expense + balance;
+		if (total == 0){
+			incomePercentage = 0;
+			expensePercentage = 0;
+			balancePercentage = 0;
+		}
+		else{
+		incomePercentage = income/total*100;
+		expensePercentage = expense/total*100;
+		balancePercentage = balance/total*100;
+		}
 	}
 
 	/**
@@ -123,5 +137,29 @@ public class Report {
 	 */
 	public double getAveExpense() {
 		return aveExpense;
+	}
+	
+	/**
+	 * Get the percentage of income
+	 * @return
+	 */
+	public double getIncomePercentage(){
+		return incomePercentage;
+	}
+	
+	/**
+	 * Get the percentage of expense
+	 * @return
+	 */
+	public double getExpensePercentage(){
+		return expensePercentage;
+	}
+	
+	/**
+	 * Get the percentage of balance
+	 * @return
+	 */
+	public double getBalancePercentage(){
+		return balancePercentage;
 	}
 }
