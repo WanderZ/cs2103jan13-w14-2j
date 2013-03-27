@@ -143,7 +143,6 @@ public class RecordFrame extends JDialog implements ActionListener {
 			JFrame homeRef,
 			RecordHandler recHandlerRef, 
 			CategoryHandler<IncomeRecord> incomeHandlerRef,
-			UndoManager undoMgrRef,
 			UpdateNotifyee notifyeeRef,
 			IncomeRecord record) {
 		this(homeRef, recHandlerRef, incomeHandlerRef, null, null, notifyeeRef);
@@ -221,8 +220,11 @@ public class RecordFrame extends JDialog implements ActionListener {
 	 * Closing the window - without editing
 	 */
 	public void closeWin() {
+		System.out.println("Closing Normally");
+		notifyee.updateAll();
 		WindowEvent wev = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
         this.dispatchEvent(wev); // "Throw" Event
+        this.setVisible(false);
         this.dispose();
 	}
 	
@@ -230,9 +232,10 @@ public class RecordFrame extends JDialog implements ActionListener {
 	 * To close this window safely - in edit mode
 	 */
 	public void closeWin(Record record) {
+		System.out.println("Closing Successfully :)");
 		SuccessfulSaveEvent success = new SuccessfulSaveEvent(this, WindowEvent.WINDOW_CLOSING, record);
-        // WindowEvent wev = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
-        this.dispatchEvent(success); // "Throw" Event
+		this.dispatchEvent(success); // "Throw" Event
+        this.setVisible(false);
         this.dispose();
         // java.awt.Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(wev); // Don't seem to work
 	}
@@ -240,7 +243,6 @@ public class RecordFrame extends JDialog implements ActionListener {
 
 /**
  * Modified WindowEvent to return the edited record
- *
  */
 @SuppressWarnings("serial")
 class SuccessfulSaveEvent extends WindowEvent {
@@ -249,6 +251,7 @@ class SuccessfulSaveEvent extends WindowEvent {
 	
 	public SuccessfulSaveEvent(Window source, int id, Record savedRecord) {
 		super(source, id);
+		System.out.println("I'm created :)");
 		saved = savedRecord;
 	}
 	
