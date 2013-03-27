@@ -3,6 +3,7 @@ package ezxpns.GUI;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import ezxpns.data.NWSGenerator;
 import ezxpns.data.ReportGenerator;
 import ezxpns.data.SummaryGenerator;
 import ezxpns.data.TargetManager;
@@ -57,7 +58,8 @@ public class UIControl implements RecordListView.RecordEditor {
 			PaymentHandler payHandlerRef,
 			TargetManager targetMgrRef,
 			ReportGenerator rptGenRef,
-			SummaryGenerator sumGenRef) {
+			SummaryGenerator sumGenRef,
+			NWSGenerator nwsGen) {
 		
 		// Handlers for the various places
 		findHandler = searchHandlerRef;
@@ -70,7 +72,7 @@ public class UIControl implements RecordListView.RecordEditor {
 		sumGen = sumGenRef;
 		undoMgr = new UndoManager();
 		
-		homeScreen = new HomeScreen(this, recHandlerRef, targetMgr, undoMgr, sumGen);
+		homeScreen = new HomeScreen(this, recHandlerRef, targetMgr, undoMgr, sumGen, nwsGen);
 		
 		homeScreen.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent wEvent) {
