@@ -117,33 +117,18 @@ public class UIControl implements RecordListView.RecordEditor {
 	}
 	
 	/**
-	 * Display the record window - edit an ExpenseRecord record
-	 * @param record ExpenseRecord to be edited
+	 * Display the record window - in edit mode
+	 * @param record Record object to be edited
 	 */
-	public void showRecWin(ExpenseRecord record) {
-		recWin = new RecordFrame(homeScreen, recHandler, exCatHandler, payHandler, homeScreen, record);
-		recWin.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent wEvent) {
-				homeScreen.updateAll();
-			}
-		});
-		recWin.setVisible(true);
-	}
-	
-	/**
-	 * Display the record window - edit an IncomeRecord record
-	 * @param record IncomeRecord to be be edited
-	 */
-	public void showRecWin(IncomeRecord record) {
-		recWin = new RecordFrame(homeScreen, recHandler, inCatHandler, undoMgr, homeScreen, record);
-		recWin.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent wEvent) {
-				homeScreen.updateAll();
-			}
-		});
-		recWin.setVisible(true);
+	public void showRecWin(Record record) {
+		if(record instanceof ExpenseRecord) {
+			ExpenseRecord expense = (ExpenseRecord) record;
+			recWin = new RecordFrame(homeScreen, recHandler, exCatHandler, payHandler, homeScreen, expense);
+		}
+		else {
+			IncomeRecord income = (IncomeRecord) record;
+			recWin = new RecordFrame(homeScreen, recHandler, inCatHandler, homeScreen, income);
+		}		
 	}
 	
 	/**
@@ -158,19 +143,9 @@ public class UIControl implements RecordListView.RecordEditor {
 
 	@Override
 	public void edit(Record record, RecordListView display) {
-		
+		System.out.println("Attempting to edit");
 		final RecordListView displayer = display; 
-		
-		//TODO: Check if this can be integrated better - need further testing
-		if(record instanceof ExpenseRecord) {
-			ExpenseRecord expense = (ExpenseRecord) record;
-			this.showRecWin(expense);
-		}
-		else {
-			IncomeRecord income = (IncomeRecord) record;
-			this.showRecWin(income);
-		}
-		
+		showRecWin(record);
 		recWin.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent wEvent) {
@@ -178,10 +153,12 @@ public class UIControl implements RecordListView.RecordEditor {
 					//TODO: call the callback method in display
 					SuccessfulSaveEvent success = (SuccessfulSaveEvent) wEvent;
 					displayer.itemEdited(success.getRecord()); 
+					homeScreen.updateAll();
 					System.out.println("I was here");
 				}
 			}
 		});
+		recWin.setVisible(true);
 	}
 	
 	/** 
