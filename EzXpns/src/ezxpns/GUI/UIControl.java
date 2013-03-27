@@ -21,7 +21,7 @@ public class UIControl implements RecordListView.RecordEditor {
 	
 	// JComponents
 	private HomeScreen homeScreen;
-	private RecordFrame recWin;
+	private RecordDialog recWin;
 	private SearchFrame searchWin;	
 	private ReportFrame reportWin;
 	private CategoryFrame catWin;
@@ -103,7 +103,7 @@ public class UIControl implements RecordListView.RecordEditor {
 	 * @param recordType the type of new record Expense/Income 
 	 */
 	public void showRecWin(int recordType) {
-		recWin = new RecordFrame(homeScreen, recHandler, inCatHandler, exCatHandler, payHandler, homeScreen, recordType);
+		recWin = new RecordDialog(homeScreen, recHandler, inCatHandler, exCatHandler, payHandler, homeScreen, recordType);
 		recWin.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent wEvent) {
@@ -119,7 +119,7 @@ public class UIControl implements RecordListView.RecordEditor {
 	 * @param record ExpenseRecord to be edited
 	 */
 	public void showRecWin(ExpenseRecord record) {
-		recWin = new RecordFrame(homeScreen, recHandler, exCatHandler, payHandler, homeScreen, record);
+		recWin = new RecordDialog(homeScreen, recHandler, exCatHandler, payHandler, homeScreen, record);
 		recWin.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent wEvent) {
@@ -134,7 +134,7 @@ public class UIControl implements RecordListView.RecordEditor {
 	 * @param record IncomeRecord to be be edited
 	 */
 	public void showRecWin(IncomeRecord record) {
-		recWin = new RecordFrame(homeScreen, recHandler, inCatHandler, undoMgr, homeScreen, record);
+		recWin = new RecordDialog(homeScreen, recHandler, inCatHandler, undoMgr, homeScreen, record);
 		recWin.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent wEvent) {
@@ -203,6 +203,7 @@ public class UIControl implements RecordListView.RecordEditor {
 	 * Displays the Category Manager window
 	 */
 	public void showCatWin() {
+		/*
 		catWin = new CategoryFrame(exCatHandler, inCatHandler, targetMgr, homeScreen);
 		catWin.addWindowListener(new WindowAdapter() {
 			@Override
@@ -212,6 +213,7 @@ public class UIControl implements RecordListView.RecordEditor {
 			}
 		});
 		catWin.setVisible(true); 
+		*/
 	}
 	
 	/**
