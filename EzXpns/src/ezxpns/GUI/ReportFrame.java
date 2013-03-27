@@ -2,7 +2,6 @@ package ezxpns.GUI;
 
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GradientPaint;
@@ -26,7 +25,6 @@ import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -34,7 +32,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.SwingConstants;
 import javax.swing.table.AbstractTableModel;
 
 import net.miginfocom.swing.MigLayout;
@@ -359,11 +356,14 @@ public class ReportFrame extends JFrame implements ComponentListener {
 							dateFormat.parse(startDateField.getText()),
 							dateFormat.parse(endDateField.getText()));*/
 					myReportData = rptGen.generateReport(dateChooserStart.getDate(), dateChooserEnd.getDate());
-				} catch (ParseException e1) {
+				} catch (NullPointerException e1) {
 					// TODO Auto-generated catch block
 					lblErrorMsg
 							.setText("Please enter the date in the following format: dd/mm/yyyy");
 					e1.printStackTrace();
+				} catch (ParseException e1){
+					lblErrorMsg
+					.setText("Please enter the date in the following format: dd/mm/yyyy");
 				} catch (DateOrderException e1) {
 					// TODO Auto-generated catch block
 					lblErrorMsg
@@ -452,14 +452,14 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		cardGeneral
 				.setLayout(new MigLayout("",
 						"[262.00,grow,center][260.00,grow,right]",
-						"[280.00,grow]"));
+						"[280.00,grow, center]"));
 
 		JPanel generalSummary = new JPanel();
 		generalSummary.setBackground(new Color(255, 255, 255));
 		cardGeneral.add(generalSummary, "cell 1 0,alignx center,aligny center");
 		//generalSummary.setLayout(new BoxLayout(generalSummary,
 			//	BoxLayout.PAGE_AXIS));
-		generalSummary.setLayout(new MigLayout("","[100]","[20][20][20]"));
+		generalSummary.setLayout(new MigLayout("","[500, center]","[30][30][30]"));
 		
 		// Summary Details
 
@@ -467,14 +467,18 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		//lblIncome.setAlignmentX(0.4f);
 		//lblIncome.setAlignmentY(Component.TOP_ALIGNMENT);
 		//lblIncome.setHorizontalAlignment(SwingConstants.LEFT);
+		myBalance = new ColorSquare("Balance");
+		myBalance.setBackground(new Color(0,191,255));
+		generalSummary.add(myBalance, "wrap");
 		myIncome = new ColorSquare("Income");
+		myIncome.setBackground(new Color(50,205,50));
 		//generalSummary.add(Box.createVerticalGlue());
 		//generalSummary.add(lblIncome);
 		generalSummary.add(myIncome, "wrap");
 		myExpense = new ColorSquare("Expense");
+		myExpense.setBackground(new Color(255,122,122));
 		generalSummary.add(myExpense, "wrap");
-		myBalance = new ColorSquare("Balance");
-		generalSummary.add(myBalance, "wrap");
+		
 		//generalSummary.add(Box
 			//	.createRigidArea(new Dimension(0, PARAGRAPH_SPACE)));
 
@@ -784,7 +788,7 @@ private JFreeChart createChart(CategoryDataset dataset) {
 		private JLabel lblName = new JLabel("");
 		private JLabel lblAmount = new JLabel("");
 		private JLabel lblPercentage = new JLabel("");
-		private int WIDTH = 150;
+		private int WIDTH = 200;
 		private int HEIGHT = 20;
 		DecimalFormat formatter = new DecimalFormat("#,###.00");        
 		DecimalFormat df = new DecimalFormat("#.#");
