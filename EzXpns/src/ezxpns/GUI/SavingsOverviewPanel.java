@@ -1,5 +1,6 @@
 package ezxpns.GUI;
 
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -12,13 +13,10 @@ import java.awt.geom.Arc2D;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 
-import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import ezxpns.data.NWSGenerator;
-import ezxpns.data.NWSdata;
 import ezxpns.data.records.ExpenseType;
-import net.miginfocom.swing.MigLayout;
 
 /**
  * The Savings Panel for the home screen - to display the Needs-Wants-Savings
@@ -216,23 +214,31 @@ public class SavingsOverviewPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * A bar chart displaying Needs, Wants, and Savings information
+	 * @author tingzhe A0087091B
+	 *
+	 */
 	public class NWSBarPanel extends JPanel {
 
 		double[] value;
 		double[] target;
 		String[] type = { "Needs", "Wants", "Savings" };
+		ExpenseType[] exType = { ExpenseType.NEED,ExpenseType.WANT, ExpenseType.SAVE};
+		
 		NWSGenerator nwsGen;
 
 		public NWSBarPanel(NWSGenerator nwsGen) {
 			this.nwsGen = nwsGen;
-			value = new double[]{nwsGen.getNeeds(), nwsGen.getWants(), nwsGen.getSavings()};
-			target = new double[]{nwsGen.getMonthlyNeeds(), nwsGen.getMonthlyWants(), nwsGen.getMonthlySavings()};
+			value = new double[]{0.2*100, 0.7*100, 0.1*100}; // fake data
+			target = new double[]{0.5*100, 0.3*100, 0.2*100}; // fake data
 		}
 
 		
 
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
+			Graphics2D g2d = (Graphics2D) g;
 
 			if (value == null || value.length == 0)
 				return;
@@ -244,6 +250,12 @@ public class SavingsOverviewPanel extends JPanel {
 				if (maxValue < value[i])
 					maxValue = value[i];
 			}
+			for (int i = 0; i < target.length; i++) {
+				if (minValue > target[i])
+					minValue = target[i];
+				if (maxValue < target[i])
+					maxValue = target[i];
+			}
 			Dimension dim = getSize();
 			int clientWidth = dim.width;
 			int clientHeight = dim.height;
@@ -251,7 +263,7 @@ public class SavingsOverviewPanel extends JPanel {
 			int barWidth = 50;
 			// Font titleFont = new Font("Book Antiqua", Font.BOLD, 15);
 			// FontMetrics titleFontMetrics = g.getFontMetrics(titleFont);
-			Font labelFont = new Font("Book Antiqua", Font.PLAIN, 10);
+			Font labelFont = new Font("Book Antiqua", Font.BOLD, 15);
 			FontMetrics labelFontMetrics = g.getFontMetrics(labelFont);
 			Font ratioFont = new Font("Book Antiqua", Font.PLAIN, 10);
 			FontMetrics ratioFontMetrics = g.getFontMetrics(ratioFont);
@@ -271,6 +283,7 @@ public class SavingsOverviewPanel extends JPanel {
 			for (int j = 0; j < value.length; j++) {
 				int valueP = j * 2 * barWidth + (clientWidth/5);
 				int valueQ = 0;
+				int valueQT = 0;
 				int height = (int) (value[j] * scale);
 				int targetHeight = (int) (target[j] * scale);
 				if (value[j] >= 0)
@@ -279,18 +292,29 @@ public class SavingsOverviewPanel extends JPanel {
 					valueQ += (int) (maxValue * scale);
 					height = -height;
 				}
+				if (target[j] >= 0)
+					valueQT += (int) ((maxValue - target[j]) * scale);
+				else{
+					valueQT += (int) (maxValue * scale);
+					targetHeight = -targetHeight;
+				}
+				
+				System.out.println(value[j] +" "+ target[j] + " " + height + " " + targetHeight + " " + valueQ + " " + valueQT);
 
-				g.setColor(Color.blue);
+				g.setColor(exType[j].getNormalColor());
 				g.fillRect(valueP, valueQ, barWidth - 2, height);
-				g.setColor(Color.red);
-				g.drawRect(valueP, valueQ, barWidth - 2, targetHeight);
+				g2d.setColor(exType[j].getExceedColor());
+				g2d.setStroke(new BasicStroke(4));
+				g2d.drawRect(valueP, valueQT, barWidth - 2, targetHeight);
 				g.setColor(Color.black);
 				int labelWidth = labelFontMetrics.stringWidth(type[j]);
-				int ratioWidth = ratioFontMetrics.stringWidth("hey");
+				int ratioWidth = ratioFontMetrics.stringWidth(""+value[j]+"/"+target[j]);
 				int p = j * 2 * barWidth + (clientWidth/5) + (barWidth - labelWidth) / 2;
 				int pRatio = j * 2 * barWidth + (clientWidth/5) + (barWidth - ratioWidth) / 2;
+				g.setFont(labelFont);
 				g.drawString(type[j], p, q - ratioFontMetrics.getAscent());
-				g.drawString("hey", pRatio, clientHeight - ratioFontMetrics.getDescent());
+				g.setFont(ratioFont);
+				g.drawString(""+value[j]+"/"+target[j], pRatio, clientHeight - ratioFontMetrics.getDescent());
 			}
 		}
 	}
