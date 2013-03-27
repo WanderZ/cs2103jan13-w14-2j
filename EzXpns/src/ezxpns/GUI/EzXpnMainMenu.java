@@ -59,14 +59,14 @@ class MenuRecord extends JMenu {
 		itmExpense.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent mEvent) {
-				guiCtrl.showRecWin(RecordFrame.TAB_EXPENSE);
+				guiCtrl.showRecWin(RecordDialog.TAB_EXPENSE);
 			}
 		});
 		
 		itmIncome.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent mEvent) {
-				guiCtrl.showRecWin(RecordFrame.TAB_INCOME);
+				guiCtrl.showRecWin(RecordDialog.TAB_INCOME);
 			}
 			
 		});

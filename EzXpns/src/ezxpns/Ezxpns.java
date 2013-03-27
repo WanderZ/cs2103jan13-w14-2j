@@ -90,11 +90,14 @@ public class Ezxpns implements
 												data.expenses(),	// PaymentMethodHandler
 												targetManager, 		// Target Manager
 												reportGenerator, 	// Report Generator
-												summaryGenerator);	// Summary Generator  	
+												summaryGenerator);	// Summary Generator
+		final MainGUI gui = new MainGUI();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					main.showHomeScreen();
+					// main.showHomeScreen();
+					 gui.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

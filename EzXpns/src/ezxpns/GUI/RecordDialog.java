@@ -32,7 +32,7 @@ import javax.swing.JTextField;
  * This is a JFrame object (Window) that allows users to enter a new record (Expense/Income) into the EzXpns
  */
 @SuppressWarnings("serial")
-public class RecordFrame extends JDialog implements ActionListener {
+public class RecordDialog extends JDialog implements ActionListener {
 	
 	public static final int DEFAULT_WIDTH = 600;
 	public static final int DEFAULT_HEIGHT = 400; 
@@ -58,7 +58,7 @@ public class RecordFrame extends JDialog implements ActionListener {
 	 * @param payHandlerRef PayHandler reference to manage Payment Methods
 	 * @param undoMgrRef UndoManager reference for managing undo actions
 	 */
-	public RecordFrame(
+	public RecordDialog(
 			JFrame homeRef,
 			RecordHandler recHandlerRef, 
 			CategoryHandler<IncomeRecord> incomeHandlerRef, 
@@ -85,7 +85,7 @@ public class RecordFrame extends JDialog implements ActionListener {
 	 * @param undoMgrRef UndoManager reference for managing undo actions
 	 * @param initTab use either TAB_INCOME or TAB_EXPENSE to indicate which tab to choose
 	 */
-	public RecordFrame(
+	public RecordDialog(
 			JFrame homeRef,
 			RecordHandler recHandlerRef, 
 			CategoryHandler<IncomeRecord> incomeHandlerRef, 
@@ -120,7 +120,7 @@ public class RecordFrame extends JDialog implements ActionListener {
 	 * @param undoMgrRef UndoManager reference for managing undo actions
 	 * @param record existing ExpenseRecord to be edited
 	 */
-	public RecordFrame(
+	public RecordDialog(
 			JFrame homeRef,
 			RecordHandler recHandlerRef,
 			CategoryHandler<ExpenseRecord> expenseHandlerRef,
@@ -140,7 +140,7 @@ public class RecordFrame extends JDialog implements ActionListener {
 	 * @param undoMgrRef UndoManager reference for managing undo actions
 	 * @param record existing IncomeRecord to be edited
 	 */
-	public RecordFrame(
+	public RecordDialog(
 			JFrame homeRef,
 			RecordHandler recHandlerRef, 
 			CategoryHandler<IncomeRecord> incomeHandlerRef,
