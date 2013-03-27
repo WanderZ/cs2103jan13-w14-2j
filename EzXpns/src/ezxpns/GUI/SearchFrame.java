@@ -198,14 +198,14 @@ public class SearchFrame extends JFrame{
 		List<Record> results = handler.search(request);
 		list.show(results);
 		panInfo.setNumRec(results.size());
-		panInfo.setTotalAmt(Record.sumAmount(results));
+		panInfo.setTotalAmt(Record.sumBalance(results));
 	}
 	
 	private void search(String prefix){
 		List<Record> results = handler.search(prefix);
 		list.show(results);
 		panInfo.setNumRec(results.size());
-		panInfo.setTotalAmt(Record.sumAmount(results));
+		panInfo.setTotalAmt(Record.sumBalance(results));
 	}
 	
 	private void switchMode(){
@@ -466,6 +466,6 @@ class InfoPanel extends JPanel{
 	}
 	
 	public void setTotalAmt(double num){
-		lblTotalAmt.setText("Total Amount: " + df.format(num)); // 2 decimal place later
+		lblTotalAmt.setText("Balance: " + df.format(num)); // 2 decimal place later
 	}
 }

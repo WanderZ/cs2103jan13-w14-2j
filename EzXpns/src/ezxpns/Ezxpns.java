@@ -90,7 +90,8 @@ public class Ezxpns implements
 												data.expenses(),	// PaymentMethodHandler
 												targetManager, 		// Target Manager
 												reportGenerator, 	// Report Generator
-												summaryGenerator);	// Summary Generator  	
+												summaryGenerator,
+												data.nwsGen());	// Summary Generator  	
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
