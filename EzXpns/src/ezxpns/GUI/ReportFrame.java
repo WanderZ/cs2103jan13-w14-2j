@@ -554,9 +554,9 @@ public class ReportFrame extends JFrame implements ComponentListener {
 	
 	private CategoryDataset createDatasetGeneral() {
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-		dataset.addValue(myReportData.getBalance(), "Balance", "");
-		dataset.addValue(myReportData.getTotalIncome(), "Income", "");
-		dataset.addValue(myReportData.getTotalExpense(), "Expense", "");
+		dataset.addValue(myReportData.getBalancePercentage(), "Balance", "");
+		dataset.addValue(myReportData.getIncomePercentage(), "Income", "");
+		dataset.addValue(myReportData.getExpensePercentage(), "Expense", "");
 		
 		return dataset;
 	}
@@ -615,7 +615,7 @@ private JFreeChart createChart(CategoryDataset dataset) {
 
         // get a reference to the plot for further customisation...
         final CategoryPlot plot = chart.getCategoryPlot();
-        plot.setBackgroundPaint(Color.lightGray);
+        plot.setBackgroundPaint(Color.white);
         plot.setDomainGridlinePaint(Color.white);
         plot.setRangeGridlinePaint(Color.white);
 
@@ -625,24 +625,27 @@ private JFreeChart createChart(CategoryDataset dataset) {
 
         // disable bar outlines...
         final BarRenderer renderer = (BarRenderer) plot.getRenderer();
-        renderer.setDrawBarOutline(false);
+        renderer.setSeriesPaint(0,new Color(0,191,255));
+        renderer.setSeriesPaint(1, new Color(50,205,50));
+        renderer.setSeriesPaint(2, new Color(255,122,122));
+        /*renderer.setDrawBarOutline(false);
         
         // set up gradient paints for series...
         final GradientPaint gp0 = new GradientPaint(
-            0.0f, 0.0f, Color.blue, 
+            0.0f, 0.0f, new Color(0,191,255), 
             0.0f, 0.0f, Color.lightGray
         );
         final GradientPaint gp1 = new GradientPaint(
-            0.0f, 0.0f, Color.green, 
+            0.0f, 0.0f, new Color(50,205,50), 
             0.0f, 0.0f, Color.lightGray
         );
         final GradientPaint gp2 = new GradientPaint(
-            0.0f, 0.0f, Color.red, 
+            0.0f, 0.0f, new Color(255,122,122), 
             0.0f, 0.0f, Color.lightGray
         );
         renderer.setSeriesPaint(0, gp0);
         renderer.setSeriesPaint(1, gp1);
-        renderer.setSeriesPaint(2, gp2);
+        renderer.setSeriesPaint(2, gp2);*/
 
         final CategoryAxis domainAxis = plot.getDomainAxis();
         domainAxis.setCategoryLabelPositions(
@@ -709,12 +712,14 @@ private JFreeChart createChart(CategoryDataset dataset) {
 		//lblIncome.setText("Income:\t"
 			//	+ df.format(myReportData.getTotalIncome()));
 		myIncome.setLabelAmount(myReportData.getTotalIncome());
-		myIncome.setLabelPercentage(20);
+		myIncome.setLabelPercentage(myReportData.getIncomePercentage());
 		/*lblExpense.setText("Expense:\t"
 				+ df.format(myReportData.getTotalExpense()));
 		lblBalance.setText("Balance:\t" + df.format(myReportData.getBalance()));*/
 		myExpense.setLabelAmount(myReportData.getTotalExpense());
+		myExpense.setLabelPercentage(myReportData.getExpensePercentage());
 		myBalance.setLabelAmount(myReportData.getBalance());
+		myBalance.setLabelPercentage(myReportData.getBalancePercentage());
 	}
 
 	/**
@@ -808,14 +813,18 @@ private JFreeChart createChart(CategoryDataset dataset) {
 		
 		public void setLabelName(String name){
 			lblName.setText(name);
+			lblName.setForeground(Color.WHITE);
+			lblName.setFont(new Font("Lucida Grande", Font.BOLD, 14));
 		}
 		
 		public void setLabelAmount(double amount){
 			lblAmount.setText("$"+ formatter.format(amount));
+			lblAmount.setForeground(Color.WHITE);
 		}
 		
 		public void setLabelPercentage(double percent){
 			lblPercentage.setText(""+df.format(percent)+"%");
+			lblPercentage.setForeground(Color.WHITE);
 		}
 		
 		

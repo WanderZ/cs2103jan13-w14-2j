@@ -299,8 +299,6 @@ public class SavingsOverviewPanel extends JPanel {
 					targetHeight = -targetHeight;
 				}
 				
-				System.out.println(value[j] +" "+ target[j] + " " + height + " " + targetHeight + " " + valueQ + " " + valueQT);
-
 				g.setColor(exType[j].getNormalColor());
 				g.fillRect(valueP, valueQ, barWidth - 2, height);
 				g2d.setColor(exType[j].getExceedColor());
