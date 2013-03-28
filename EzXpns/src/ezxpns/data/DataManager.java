@@ -235,7 +235,7 @@ public class DataManager extends Storable
 	}
 
 	@Override
-	public double getPrevMonthIncome() {
+	public double getPrevMonthlyIncome() {
 		return 0;
 	}
 
