@@ -16,6 +16,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import ezxpns.data.NWSGenerator;
+import ezxpns.data.NWSdata;
 import ezxpns.data.records.ExpenseType;
 /**
  * The Savings Panel for the home screen - to display the Needs-Wants-Savings Ratio
@@ -27,8 +28,9 @@ public class SavingsOverviewPanel extends JPanel {
 	private NWSGenerator nwsGen;
 	private int DONUT_DIM = 250;
 	//NWSGenerator nwsGenRef // parameter
-	public SavingsOverviewPanel() {
+	public SavingsOverviewPanel(NWSGenerator dataGenerator) {
 		super();
+		nwsGen = dataGenerator;
 		setBackground(new Color(255, 255, 255));
 		//this.nwsGen = nwsGenRef; // reference
 		
@@ -38,23 +40,25 @@ public class SavingsOverviewPanel extends JPanel {
 		add(panelDonut, BorderLayout.CENTER);
 		panelDonut.setLayout(new BoxLayout(panelDonut, BoxLayout.X_AXIS));
 		
+		NWSdata data = nwsGen.getNWSdataCopy();
+		
 		// NEEDS
 		//DonutGraphics myNeeds = new DonutGraphics(nwsGen.getNeeds(), nwsGen.getMonthlyNeeds(), ExpenseType.NEED);
-		DonutGraphics myNeeds = new DonutGraphics(70, 50, ExpenseType.NEED);
+		DonutGraphics myNeeds = new DonutGraphics(70, data.getNeeds()* 100, ExpenseType.NEED);
 		myNeeds.setPreferredSize(new Dimension(DONUT_DIM,DONUT_DIM));
 		myNeeds.setBackground(new Color(255, 255, 255));
 		panelDonut.add(myNeeds);
 		
 		// WANTS
 		//DonutGraphics myWants = new DonutGraphics(nwsGen.getWants(), nwsGen.getMonthlyWants(), ExpenseType.WANT);
-		DonutGraphics myWants = new DonutGraphics(50, 40, ExpenseType.WANT);
+		DonutGraphics myWants = new DonutGraphics(50, data.getWants() * 100, ExpenseType.WANT);
 		myWants.setPreferredSize(new Dimension(DONUT_DIM,DONUT_DIM));
 		myWants.setBackground(new Color(255, 255, 255));
 		panelDonut.add(myWants);
 		
 		// SAVES
 		//DonutGraphics mySaves = new DonutGraphics(nwsGen.getSavings(), nwsGen.getMonthlySavings(), ExpenseType.SAVE);
-		DonutGraphics mySaves = new DonutGraphics(10, 20, ExpenseType.SAVE);
+		DonutGraphics mySaves = new DonutGraphics(10, data.getSavings() * 100, ExpenseType.SAVE);
 		mySaves.setPreferredSize(new Dimension(DONUT_DIM, DONUT_DIM));
 		mySaves.setBackground(new Color(255, 255, 255));
 		panelDonut.add(mySaves);
@@ -65,7 +69,7 @@ public class SavingsOverviewPanel extends JPanel {
 	 * This is the method to call to update this panel
 	 */
 	public void update() {
-		//TODO: Update This Panel
+		nwsGen.markDataUpdate();
 		this.validate();
 	}
 	

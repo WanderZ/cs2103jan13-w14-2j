@@ -203,8 +203,8 @@ public class RecordListView extends JTable {
 	 */
 	public void itemEdited(Record newItem){
 		if(newItem == null)return;
-//		model.fireTableRowsUpdated(rowSelected, rowSelected);
-		model.fireTableDataChanged();
+		records.set(rowSelected, newItem);
+		model.fireTableRowsUpdated(rowSelected, rowSelected);
 		notifyee.updateAll();
 		System.out.println("edited");
 	}

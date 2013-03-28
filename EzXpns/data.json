@@ -78,7 +78,7 @@
             "name": "Carelessness"
           },
           "amount": 20.2,
-          "name": "Losto",
+          "name": "yayx2",
           "remark": "111",
           "date": "Mar 26, 2013 12:49:04 PM",
           "id": 1363933184636
@@ -91,8 +91,8 @@
             "id": 1363857409977,
             "name": "Cash"
           },
-          "amount": 11.0,
-          "name": "Lunch",
+          "amount": 55.0,
+          "name": "Dinner",
           "remark": "111",
           "date": "Mar 26, 2013 12:34:18 PM",
           "id": 1363941833220
@@ -115,7 +115,7 @@
             "id": 1361694372893,
             "name": "NETS"
           },
-          "amount": 20.0,
+          "amount": 20.2,
           "name": "test",
           "remark": "test",
           "date": "Mar 18, 2013 12:00:00 AM",
@@ -129,8 +129,20 @@
             "id": 1363314106821,
             "name": "Gifts"
           },
+          "amount": 44.0,
+          "name": "testingzasdfaasdf",
+          "remark": "alright",
+          "date": "Mar 27, 2013 2:52:14 PM",
+          "id": 1364367139074
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1363314106821,
+            "name": "Gifts"
+          },
           "amount": 22.0,
-          "name": "fun",
+          "name": "fun?",
           "remark": "fund",
           "date": "Mar 22, 2013 7:42:36 PM",
           "id": 1363952568164
@@ -142,7 +154,7 @@
             "name": "Gifts"
           },
           "amount": 99.0,
-          "name": "Laptop",
+          "name": "Acer Laptop",
           "remark": "nil",
           "date": "Mar 22, 2013 7:14:33 PM",
           "id": 1363950898967
@@ -154,7 +166,7 @@
             "name": "NETS"
           },
           "amount": 20.0,
-          "name": "test",
+          "name": "testo",
           "remark": "test",
           "date": "Mar 22, 2013 12:00:00 AM",
           "id": 1363952649900
@@ -289,7 +301,7 @@
       "1362480320970": [
         {
           "amount": 20000.0,
-          "name": "test",
+          "name": "testing",
           "remark": "nil",
           "date": "Mar 22, 2013 7:41:10 PM",
           "id": 1363952483313
@@ -333,7 +345,7 @@
       "1364222095831": [
         {
           "amount": 20.2,
-          "name": "Blessings!",
+          "name": "Blessingz~",
           "remark": "Found this on the floor!",
           "date": "Mar 26, 2013 12:50:15 PM",
           "id": 1364223741192
@@ -387,6 +399,46 @@
       ]
     }
   },
+  "_nwsGen": {
+    "NEEDS": 0.5,
+    "WANTS": 0.3,
+    "SAVINGS": 0.2,
+    "BUFFER": 0.05,
+    "MAXNEEDS": 0.7,
+    "MINNEEDS": 0.1,
+    "MAXWANTS": 0.5,
+    "MINWANTS": 0.1,
+    "MAXSAVINGS": 0.7,
+    "MINSAVINGS": 0.2,
+    "pastMonthNWS": {
+      "date": {
+        "year": 2013,
+        "month": 2,
+        "dayOfMonth": 26,
+        "hourOfDay": 22,
+        "minute": 11,
+        "second": 12
+      },
+      "targetNeeds": 0.5,
+      "targetWants": 0.3,
+      "targetSavings": 0.2,
+      "isSet": true
+    },
+    "thisMonthNWS": {
+      "date": {
+        "year": 2013,
+        "month": 2,
+        "dayOfMonth": 26,
+        "hourOfDay": 22,
+        "minute": 11,
+        "second": 13
+      },
+      "targetNeeds": 0.5,
+      "targetWants": 0.3,
+      "targetSavings": 0.2,
+      "isSet": true
+    }
+  },
   "_targetManager": {
     "mapTarget": {
       "1363314106821": {
@@ -394,7 +446,7 @@
           "id": 1363314106821,
           "name": "Entertainment"
         },
-        "targetAmt": 100000.0
+        "targetAmt": 1000.0
       },
       "1363504544188": {
         "cat": {

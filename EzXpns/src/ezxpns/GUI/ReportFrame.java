@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GradientPaint;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -40,7 +41,15 @@ import net.miginfocom.swing.MigLayout;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.CategoryLabelPositions;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PiePlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.util.Rotation;
@@ -92,8 +101,8 @@ public class ReportFrame extends JFrame implements ComponentListener {
 	SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
 	private int PARAGRAPH_SPACE = 20;
-	public static final int DEFAULT_WIDTH = 600;
-	public static final int DEFAULT_HEIGHT = 400;
+	public static final int DEFAULT_WIDTH = 800;
+	public static final int DEFAULT_HEIGHT = 600;
 	public static final String[] columnNames = { "Category", "Frequency",
 			"Amount", "Percentage", "Amount/Frequency" };
 
@@ -128,6 +137,7 @@ public class ReportFrame extends JFrame implements ComponentListener {
 
 		// Button Panel
 		button = new JPanel();
+		button.setBackground(new Color(255, 255, 255));
 		button.setBounds(0, 0, WIDTH, 400);
 		button.setOpaque(false);
 		layeredPane.add(button);
@@ -180,10 +190,10 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		// Setting up the cards
 		cards.setLayout(new CardLayout(0, 0));
 		cardGeneral = new JPanel(); // General Card
-		cardGeneral.setBackground(Color.PINK);
+		cardGeneral.setBackground(new Color(255, 255, 255));
 		cardGeneral.setForeground(Color.RED);
 		cardExpense = new JPanel(); // Expense Card
-		cardExpense.setBackground(Color.ORANGE);
+		cardExpense.setBackground(new Color(255, 255, 255));
 		cardExpense.setForeground(Color.MAGENTA);
 		cards.add(cardGeneral, "GeneralCard");
 		cards.add(cardExpense, "ExpenseCard");
@@ -193,6 +203,7 @@ public class ReportFrame extends JFrame implements ComponentListener {
 						"[280.00,grow,fill]"));
 
 		expenseTable = new JPanel();
+		expenseTable.setBackground(new Color(255, 255, 255));
 		cardExpense.add(expenseTable, "cell 1 0,grow");
 
 		// ActionListener for General Button
@@ -440,6 +451,7 @@ public class ReportFrame extends JFrame implements ComponentListener {
 						"[280.00,grow,fill]"));
 
 		JPanel generalSummary = new JPanel();
+		generalSummary.setBackground(new Color(255, 255, 255));
 		cardGeneral.add(generalSummary, "cell 1 0,grow");
 		generalSummary.setLayout(new BoxLayout(generalSummary,
 				BoxLayout.PAGE_AXIS));
@@ -496,20 +508,6 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		Insets insets = this.getInsets();
 		int w = this.getWidth() - insets.left - insets.right;
 		int h = this.getHeight() - insets.top - insets.bottom;
-		/*
-		 * int widthDiff = getWidth() - DEFAULT_WIDTH; int heightDiff =
-		 * getHeight() - DEFAULT_HEIGHT;
-		 * cards.setBounds(cards.getX(),cards.getY(
-		 * ),getWidth()+widthDiff,getHeight()+heightDiff);
-		 * curtain.setBounds(0,0,getWidth(),getHeight());
-		 * generateReport.setBounds(0, 80, getWidth(), 120);
-		 * cardGeneral.setBounds
-		 * (cards.getX(),cards.getY(),cardGeneral.getWidth()
-		 * +widthDiff,cardGeneral.getHeight()+heightDiff);
-		 * cardExpense.setBounds(
-		 * cards.getX(),cards.getY(),cardExpense.getWidth()
-		 * +widthDiff,cardExpense.getHeight()+heightDiff);
-		 */
 		button.setSize(w, h);
 		curtain.setSize(w, h);
 		cards.setBounds(cards.getX(), cards.getY(), w, h);
@@ -537,7 +535,15 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		result.setValue("Expense", myReportData.getTotalExpense());
 		result.setValue("Income", myReportData.getTotalIncome());
 		return result;
-
+	}
+	
+	private CategoryDataset createDatasetGeneral() {
+		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+		dataset.addValue(myReportData.getBalance(), "Balance", "");
+		dataset.addValue(myReportData.getTotalExpense(), "Expense", "");
+		dataset.addValue(myReportData.getTotalIncome(), "Income", "");
+		
+		return dataset;
 	}
 
 	private PieDataset createDatasetExpense() {
@@ -572,6 +578,66 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		return chart;
 
 	}
+	
+private JFreeChart createChart(CategoryDataset dataset) {
+        
+        // create the chart...
+        final JFreeChart chart = ChartFactory.createBarChart(
+            "Bar Chart Demo",         // chart title
+            "Type",               // domain axis label
+            "Amount",                  // range axis label
+            dataset,                  // data
+            PlotOrientation.VERTICAL, // orientation
+            true,                     // include legend
+            true,                     // tooltips?
+            false                     // URLs?
+        );
+
+        // NOW DO SOME OPTIONAL CUSTOMISATION OF THE CHART...
+
+        // set the background color for the chart...
+        chart.setBackgroundPaint(Color.white);
+
+        // get a reference to the plot for further customisation...
+        final CategoryPlot plot = chart.getCategoryPlot();
+        plot.setBackgroundPaint(Color.lightGray);
+        plot.setDomainGridlinePaint(Color.white);
+        plot.setRangeGridlinePaint(Color.white);
+
+        // set the range axis to display integers only...
+        final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+        rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+
+        // disable bar outlines...
+        final BarRenderer renderer = (BarRenderer) plot.getRenderer();
+        renderer.setDrawBarOutline(false);
+        
+        // set up gradient paints for series...
+        final GradientPaint gp0 = new GradientPaint(
+            0.0f, 0.0f, Color.blue, 
+            0.0f, 0.0f, Color.lightGray
+        );
+        final GradientPaint gp1 = new GradientPaint(
+            0.0f, 0.0f, Color.green, 
+            0.0f, 0.0f, Color.lightGray
+        );
+        final GradientPaint gp2 = new GradientPaint(
+            0.0f, 0.0f, Color.red, 
+            0.0f, 0.0f, Color.lightGray
+        );
+        renderer.setSeriesPaint(0, gp0);
+        renderer.setSeriesPaint(1, gp1);
+        renderer.setSeriesPaint(2, gp2);
+
+        final CategoryAxis domainAxis = plot.getDomainAxis();
+        domainAxis.setCategoryLabelPositions(
+            CategoryLabelPositions.createUpRotationLabelPositions(Math.PI / 6.0)
+        );
+        // OPTIONAL CUSTOMISATION COMPLETED.
+        
+        return chart;
+        
+    }
 
 	private void initPieChart() {
 		// PIE CHART IN GENERAL
@@ -580,13 +646,15 @@ public class ReportFrame extends JFrame implements ComponentListener {
 			cardGeneral.remove(1);
 			cardExpense.remove(1);
 			}
-		PieDataset dataset = createDataset();
+		//PieDataset dataset = createDataset();
 		// based on the dataset we create the chart
-		JFreeChart chart = createChart(dataset, "MY SUMMARY");
-		ChartPanel chartPanel = new ChartPanel(chart);
-		chartPanel.setPreferredSize(new java.awt.Dimension(250, 130));
-
+		//JFreeChart chart = createChart(dataset, "MY SUMMARY");
+		//ChartPanel chartPanel = new ChartPanel(chart);
+		//chartPanel.setPreferredSize(new java.awt.Dimension(250, 130));
+		CategoryDataset dataset = createDatasetGeneral();
+		JFreeChart chart = createChart(dataset);
 		JPanel generalPieChart = new JPanel();
+		ChartPanel chartPanel = new ChartPanel(chart);
 		generalPieChart.add(chartPanel);
 		cardGeneral.add(generalPieChart, "cell 0 0,grow");
 		generalPieChart.setLayout(new BoxLayout(generalPieChart,
