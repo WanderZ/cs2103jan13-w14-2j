@@ -34,13 +34,10 @@ public class SavingsOverviewPanel extends JPanel {
 	public SavingsOverviewPanel(NWSGenerator dataGenerator) {
 		super();
 		nwsGen = dataGenerator;
+
 		setBackground(new Color(255, 255, 255));
 		
-		NWSBarPanel myBars = new NWSBarPanel(nwsGen);
-		myBars.setBackground(new Color(255, 255, 255));
-		setLayout(new BorderLayout());
-		this.add(myBars, BorderLayout.CENTER);
-
+		drawBars();
 
 		/*
 		 * JPanel panelDonut = new JPanel(); panelDonut.setBackground(new
@@ -74,12 +71,23 @@ public class SavingsOverviewPanel extends JPanel {
 		 */
 
 	}
+	
+	/**
+	 * Draw the bar chart for NWS
+	 */
+	private void drawBars(){
+		NWSBarPanel myBars = new NWSBarPanel(nwsGen);
+		myBars.setBackground(new Color(255, 255, 255));
+		setLayout(new BorderLayout());
+		this.add(myBars, BorderLayout.CENTER);
+	}
 
 	/**
 	 * This is the method to call to update this panel
 	 */
 	public void update() {
-		nwsGen.markDataUpdated();
+		drawBars();
+		//nwsGen.updateNWSdata(); // should I remove this?
 		this.validate();
 	}
 
@@ -231,7 +239,7 @@ public class SavingsOverviewPanel extends JPanel {
 
 		public NWSBarPanel(NWSGenerator nwsGen) {
 			this.nwsData = nwsGen.getNWSdataCopy();
-			value = new double[]{nwsData.getCurrentNeeds()*100, nwsData.getCurrentWants()*100, nwsData.getCurrentSavings()*100}; // fake data
+			value = new double[]{nwsData.getNeedsProgress()*100, nwsData.getWantsProgress()*100, nwsData.getCurrentSavings()*100}; // fake data
 			target = new double[]{nwsData.getTargetNeeds()*100, nwsData.getTargetWants()*100, nwsData.getTargetSavings()*100}; // fake data
 		}
 
