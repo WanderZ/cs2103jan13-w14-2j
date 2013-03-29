@@ -42,8 +42,6 @@
         "name": "mBank"
       }
     },
-    "needSum": 5400.4,
-    "lastNeedSum": 0.0,
     "categories": {
       "0": {
         "id": 0,
@@ -302,7 +300,7 @@
       ],
       "1362480320970": [
         {
-          "amount": 20000.0,
+          "amount": 20.0,
           "name": "testinge",
           "remark": "nil",
           "date": "Mar 22, 2013 7:41:10 PM",
@@ -424,20 +422,28 @@
       "targetNeeds": 0.5,
       "targetWants": 0.3,
       "targetSavings": 0.2,
+      "currentNeeds": 0.0,
+      "currentWants": 0.0,
+      "currentSavings": 0.0,
+      "income": 0.0,
       "isSet": true
     },
     "thisMonthNWS": {
       "date": {
         "year": 2013,
         "month": 2,
-        "dayOfMonth": 26,
-        "hourOfDay": 22,
-        "minute": 11,
-        "second": 13
+        "dayOfMonth": 29,
+        "hourOfDay": 21,
+        "minute": 17,
+        "second": 17
       },
-      "targetNeeds": 0.5,
+      "targetNeeds": 0.10000000000000007,
       "targetWants": 0.3,
       "targetSavings": 0.2,
+      "currentNeeds": 5400.4,
+      "currentWants": 44.0,
+      "currentSavings": 0.0,
+      "income": 2423.2799999999997,
       "isSet": true
     }
   },
