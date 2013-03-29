@@ -4,6 +4,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,13 +35,15 @@ public class EzNavigator extends JLayeredPane {
 	
 	private EzNavigator() {
 		super();
-		this.setBounds(new Rectangle (0, 0, 134, 600));
+		this.setBounds(new Rectangle (0, 0, 80, 600));
+		this.setDoubleBuffered(true);
 		// TODO: Incorporate Simple Search Field [?]
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.fill = GridBagConstraints.BOTH;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.insets = new Insets(5, 15, 5, 15);
 		// gbc.weighty = 1;
-		gbc.weightx = 1;
+		gbc.weightx = 0.5;
 		JButton btn = createMenuBtn(MenuOption.SEARCH);
 		gbc.gridx = 0;
 		gbc.gridy = 1;
@@ -118,7 +121,7 @@ public class EzNavigator extends JLayeredPane {
 		JButton btn = new JButton(card.toString());
 		btn.setContentAreaFilled(false);
 		btn.setBorder(BorderFactory.createRaisedBevelBorder());
-		
+		btn.setFocusPainted(false);
 		btn.setFont(Config.MENU_FONT);
 		btn.addActionListener(new ActionListener() {
 			@Override
@@ -130,7 +133,12 @@ public class EzNavigator extends JLayeredPane {
 			@Override
 			public void mouseEntered(MouseEvent mEvent) { // Hover start
 				JButton btn = (JButton) mEvent.getSource();
-				btn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLineBorder(Color.cyan)));
+				btn.setBorder(
+						BorderFactory.createCompoundBorder(
+								BorderFactory.createRaisedBevelBorder(), 
+								BorderFactory.createLineBorder(Color.cyan, 5)
+						)
+				);
 			}
 			
 			@Override
@@ -160,8 +168,8 @@ public class EzNavigator extends JLayeredPane {
 enum MenuOption {
 	
 	NEWRCD 	("New Record"), 			// Maybe this isn't an option
-	NEWINC 	("New Income Record"),		
-	NEWEXP 	("New Expense Record"),
+	NEWINC 	("New Income"),		
+	NEWEXP 	("New Expense"),
 	SEARCH 	("Search"),					// TODO: Advanced Search ?
 	CATMGR 	("Manage Category"),		
 	PAYMGR 	("Manage Payments"),		// TODO: Remove or keep?

@@ -27,13 +27,14 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.List;
 
 /**
  * Window for users to manage user-defined Categories as well as tagged Targets
  */
 @SuppressWarnings("serial")
-public class CategoryFrame extends JLayeredPane {
+public class CategoryFrame extends JPanel {
 	
 	private TargetManager targetMgr;
 	private CategoryHandler<ExpenseRecord> excats;
@@ -75,13 +76,26 @@ public class CategoryFrame extends JLayeredPane {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent arg0) {
+				
+			}
+		});
+		*/
+		
+		this.addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusGained(FocusEvent arg0) {
 				loadExList();
 				loadInList();
 				inlist.setSelectedIndex(0);
 				exlist.setSelectedIndex(0);
 			}
+
+			@Override
+			public void focusLost(FocusEvent arg0) {
+			}
+			
 		});
-		*/
 		
 		// this.setSize(500, 400);
 		// this.setLocationRelativeTo(null);

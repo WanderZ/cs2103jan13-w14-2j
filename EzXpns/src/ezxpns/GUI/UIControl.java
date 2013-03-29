@@ -20,7 +20,8 @@ import ezxpns.data.records.SearchHandler;
 public class UIControl implements RecordListView.RecordEditor {
 	
 	// JComponents
-	private HomeScreen homeScreen;
+	// private HomeScreen homeScreen;
+	private MainGUI home;
 	private RecordDialog recWin;
 	private SearchFrame searchWin;	
 	private ReportFrame reportWin;
@@ -70,21 +71,17 @@ public class UIControl implements RecordListView.RecordEditor {
 		sumGen = sumGenRef;
 		undoMgr = new UndoManager();
 		
-		homeScreen = new HomeScreen(this, recHandlerRef, targetMgr, undoMgr, sumGen);
-		
-		homeScreen.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent wEvent) {
-				System.exit(0);
-			}
-		});
+		// homeScreen = new HomeScreen(this, recHandlerRef, targetMgr, undoMgr, sumGen);
+		home = new MainGUI(sumGen, targetMgr, undoMgr);
+		home.loadCategoryPanel(expenseHandlerRef, incomeHandlerRef, targetMgrRef);
 	}
 	
 	/**
 	 * Display the main/home screen of EzXpns
 	 */
 	public void showHomeScreen() {
-		if(!homeScreen.isVisible()) {
-			homeScreen.setVisible(true);
+		if(!home.isVisible()) {
+			home.setVisible(true);
 		}
 	}
 	
@@ -92,8 +89,8 @@ public class UIControl implements RecordListView.RecordEditor {
 	 * Closes the main/home screen of EzXpns
 	 */
 	public void closeHomeScreen() {
-		if(homeScreen.isVisible()) {
-			homeScreen.setVisible(false);
+		if(home.isVisible()) {
+			home.setVisible(false);
 		}
 	}
 	
@@ -103,11 +100,11 @@ public class UIControl implements RecordListView.RecordEditor {
 	 * @param recordType the type of new record Expense/Income 
 	 */
 	public void showRecWin(int recordType) {
-		recWin = new RecordDialog(homeScreen, recHandler, inCatHandler, exCatHandler, payHandler, homeScreen, recordType);
+		recWin = new RecordDialog(home, recHandler, inCatHandler, exCatHandler, payHandler, home, recordType);
 		recWin.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent wEvent) {
-				homeScreen.updateAll();
+				home.updateAll();
 				System.out.println("RecordFrame exiting!");
 			}
 		});
@@ -119,11 +116,11 @@ public class UIControl implements RecordListView.RecordEditor {
 	 * @param record ExpenseRecord to be edited
 	 */
 	public void showRecWin(ExpenseRecord record) {
-		recWin = new RecordDialog(homeScreen, recHandler, exCatHandler, payHandler, homeScreen, record);
+		recWin = new RecordDialog(home, recHandler, exCatHandler, payHandler, home, record);
 		recWin.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent wEvent) {
-				homeScreen.updateAll();
+				home.updateAll();
 			}
 		});
 		recWin.setVisible(true);
@@ -134,11 +131,11 @@ public class UIControl implements RecordListView.RecordEditor {
 	 * @param record IncomeRecord to be be edited
 	 */
 	public void showRecWin(IncomeRecord record) {
-		recWin = new RecordDialog(homeScreen, recHandler, inCatHandler, undoMgr, homeScreen, record);
+		recWin = new RecordDialog(home, recHandler, inCatHandler, undoMgr, home, record);
 		recWin.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent wEvent) {
-				homeScreen.updateAll();
+				home.updateAll();
 			}
 		});
 		recWin.setVisible(true);
@@ -149,7 +146,7 @@ public class UIControl implements RecordListView.RecordEditor {
 	 */
 	public void showSearchWin() {
 		if(searchWin == null) {
-			searchWin = new SearchFrame(findHandler, new RecordListView(this, recHandler, homeScreen),inCatHandler,exCatHandler, payHandler);
+			searchWin = new SearchFrame(findHandler, new RecordListView(this, recHandler, home),inCatHandler,exCatHandler, payHandler);
 		}
 		searchWin.setVisible(true);
 	}
@@ -191,7 +188,7 @@ public class UIControl implements RecordListView.RecordEditor {
 			reportWin.addWindowListener(new WindowAdapter() {
 				@Override
 				public void windowClosing(WindowEvent wEvent) {
-					homeScreen.updateAll();
+					home.updateAll();
 					reportWin.dispose();
 				}
 			});
@@ -224,7 +221,7 @@ public class UIControl implements RecordListView.RecordEditor {
 		payWin.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent wEvent) {
-				homeScreen.updateAll();
+				home.updateAll();
 				payWin.dispose();
 			}
 		});
