@@ -86,9 +86,6 @@ public class TargetOverviewPanel extends JPanel {
 		columnPanel.setBackground(new Color(255, 255, 255));
 		smallBorderLayoutpanel.add(columnPanel, BorderLayout.NORTH);
 		columnPanel.setLayout(new GridLayout(0, 1));
-		// jSeparator
-		//separator = new JSeparator();
-		//columnPanel.add(separator);
 
 		targetScrollPane.setPreferredSize(new Dimension(50, 50));
 
@@ -104,6 +101,9 @@ public class TargetOverviewPanel extends JPanel {
 		columnPanel.removeAll();
 		smallBorderLayoutpanel.add(columnPanel, BorderLayout.NORTH);
 		columnPanel.setLayout(new GridLayout(0, 1, 0, 1));
+		
+		if (targetMgr.getOrderedBar().size() == 0)
+			columnPanel.add(new JLabel("You don't have a target this month. Why not add one today?"));
 		
 		for (int i = targetMgr.getOrderedBar().size() - 1; i >= 0; i--) {
 			Bar bar = targetMgr.getOrderedBar().get(i);
