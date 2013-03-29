@@ -16,6 +16,7 @@ import java.awt.geom.Ellipse2D;
 import javax.swing.JPanel;
 
 import ezxpns.data.NWSGenerator;
+import ezxpns.data.NWSdata;
 import ezxpns.data.records.ExpenseType;
 
 /**
@@ -78,7 +79,7 @@ public class SavingsOverviewPanel extends JPanel {
 	 * This is the method to call to update this panel
 	 */
 	public void update() {
-		nwsGen.markDataUpdate();
+		nwsGen.markDataUpdated();
 		this.validate();
 	}
 
@@ -226,12 +227,12 @@ public class SavingsOverviewPanel extends JPanel {
 		String[] type = { "Needs", "Wants", "Savings" };
 		ExpenseType[] exType = { ExpenseType.NEED,ExpenseType.WANT, ExpenseType.SAVE};
 		
-		NWSGenerator nwsGen;
+		NWSdata nwsData;
 
 		public NWSBarPanel(NWSGenerator nwsGen) {
-			this.nwsGen = nwsGen;
-			value = new double[]{0.2*100, 0.7*100, 0.1*100}; // fake data
-			target = new double[]{0.5*100, 0.3*100, 0.2*100}; // fake data
+			this.nwsData = nwsGen.getNWSdataCopy();
+			value = new double[]{nwsData.getCurrentNeeds()*100, nwsData.getCurrentWants()*100, nwsData.getCurrentSavings()*100}; // fake data
+			target = new double[]{nwsData.getTargetNeeds()*100, nwsData.getTargetWants()*100, nwsData.getTargetSavings()*100}; // fake data
 		}
 
 		
