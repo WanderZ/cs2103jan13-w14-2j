@@ -74,11 +74,23 @@
         {
           "expenseType": "NEED",
           "paymentMethod": {
+            "id": 1363857357505,
+            "name": "iNets"
+          },
+          "amount": 25.0,
+          "name": "Snacks for Lecture",
+          "remark": "impt stuff",
+          "date": "Mar 29, 2013 12:00:00 AM",
+          "id": 1364543812631
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
             "id": 1364273369381,
             "name": "Carelessness"
           },
           "amount": 20.2,
-          "name": "yayx2",
+          "name": "Dropped wallet",
           "remark": "111",
           "date": "Mar 26, 2013 12:49:04 PM",
           "id": 1363933184636
@@ -130,7 +142,7 @@
             "name": "Gifts"
           },
           "amount": 44.0,
-          "name": "testingzasdfaasdf",
+          "name": "testing",
           "remark": "alright",
           "date": "Mar 27, 2013 2:52:14 PM",
           "id": 1364367139074
