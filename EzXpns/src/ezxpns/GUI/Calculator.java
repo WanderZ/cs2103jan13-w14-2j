@@ -3,7 +3,6 @@
  */
 package ezxpns.GUI;
 
-import java.util.List;
 import java.util.regex.Pattern;
 
 import javax.script.ScriptEngine;
@@ -14,9 +13,9 @@ import javax.script.ScriptException;
  * A singleton class to evaluate equations using javascript
  * yeah man javascript yo yo yo
  * @author yyjhao
- *
  */
 public class Calculator {
+	@SuppressWarnings("serial")
 	static public class EvaluationException extends Exception{
 		public EvaluationException(){
 			super();
