@@ -1,11 +1,12 @@
 package ezxpns.GUI;
 
+import java.awt.CardLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 import javax.swing.AbstractAction;
-import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
 
 @SuppressWarnings("serial")
 public class MainGUI extends JFrame implements UpdateNotifyee {
@@ -21,24 +22,26 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 		// TODO: InstantiateContent
 		// TODO: Iterate through the list of JLayeredPane/JPanel to be displayed
 		
-		navi = new EzNavigator(null, null);
+		CardLayout contentMgr = new CardLayout();
+		JLayeredPane panContent = new JLayeredPane();
+		panContent.setLayout(contentMgr);
+		navi = new EzNavigator(contentMgr, panContent);
 		
 		GridBagConstraints gbc = new GridBagConstraints();
+		// Setup for Navigator
 		gbc.fill = GridBagConstraints.BOTH;
-		
-		JButton btn = new JButton("Menu Placeholder");
-		gbc.weightx = 0.15;
+		gbc.weightx = 0.10;
 		gbc.weighty = 1;
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		this.add(btn, gbc);
-		
-		btn = new JButton("Content Placeholder");
-		gbc.weightx = 0.85;
+		this.add(navi, gbc);
+		// Setup for Content 
+		gbc.weightx = 0.90;
 		gbc.weighty = 1;
 		gbc.gridx = 1;
 		gbc.gridy = 0;
-		this.add(btn, gbc);
+		
+		this.add(panContent, gbc);
 		this.setVisible(true);
 	}
 	
