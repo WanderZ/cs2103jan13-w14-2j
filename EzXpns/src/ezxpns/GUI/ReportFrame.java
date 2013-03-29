@@ -16,6 +16,7 @@ import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Vector;
@@ -59,6 +60,8 @@ import ezxpns.data.Report;
 import ezxpns.data.ReportCategory;
 import ezxpns.data.ReportGenerator;
 import ezxpns.data.ReportGenerator.DateOrderException;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * The window to handle all the extensive record analysis and report <br />
@@ -110,6 +113,7 @@ public class ReportFrame extends JFrame implements ComponentListener {
 
 	private ReportGenerator rptGen; // Place to store the reference
 	private JButton btnGenerateANew;
+	private JButton btnThisMonth;
 
 	public ReportFrame(ReportGenerator rptGenRef) { // Passing in the reference
 		super("EzXpns - Report");
@@ -352,44 +356,26 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		JButton btnGenerate = new JButton("Generate");
 		btnGenerate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					/*myReportData = rptGen.generateReport(
-							dateFormat.parse(startDateField.getText()),
-							dateFormat.parse(endDateField.getText()));*/
-					myReportData = rptGen.generateReport(dateChooserStart.getDate(), dateChooserEnd.getDate());
-				} catch (NullPointerException e1) {
-					// TODO Auto-generated catch block
-					lblErrorMsg
-							.setText("Please enter the date in the following format: dd/mm/yyyy");
-					e1.printStackTrace();
-				} catch (ParseException e1){
-					lblErrorMsg
-					.setText("Please enter the date in the following format: dd/mm/yyyy");
-				} catch (DateOrderException e1) {
-					// TODO Auto-generated catch block
-					lblErrorMsg
-							.setText("Please check the ordering of your start/end date");
-					e1.printStackTrace();
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-
-				// Disappear
-				initPieChart();
-				initTable();
-				initSummary();
-				generateReport.setVisible(false);
-				curtain.setVisible(false);
-
-				startDateDisplay.setText(dateFormat.format(dateChooserStart.getDate()));
-				endDateDisplay.setText(dateFormat.format(dateChooserEnd.getDate()));
+				generateAction();
 			}
-
 		});
+		
+		
 
-		lblErrorMsg = new JLabel("");
-		lblErrorMsg.setForeground(Color.RED);
+		lblErrorMsg = new JLabel("You can manually type date in this format: dd/mm/yyyy");
+		lblErrorMsg.setForeground(Color.WHITE);
+		
+		btnThisMonth = new JButton("This Month");
+		btnThisMonth.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(new Date());
+				calendar.set(Calendar.DAY_OF_MONTH, 1);
+				dateChooserStart.setDate(calendar.getTime());
+				dateChooserEnd.setDate(new Date());
+			}
+		});
 		
 		
 		
@@ -403,7 +389,7 @@ public class ReportFrame extends JFrame implements ComponentListener {
 							.addGroup(gl_generateReport.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblErrorMsg)
 								.addComponent(lblGenerateAReport))
-							.addPreferredGap(ComponentPlacement.RELATED, 174, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED, 245, Short.MAX_VALUE)
 							.addComponent(btnGenerate)
 							.addGap(49))
 						.addGroup(gl_generateReport.createSequentialGroup()
@@ -415,7 +401,9 @@ public class ReportFrame extends JFrame implements ComponentListener {
 							.addComponent(lblEndDate)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(dateChooserEnd, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap())))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnThisMonth)
+							.addGap(71))))
 		);
 		gl_generateReport.setVerticalGroup(
 			gl_generateReport.createParallelGroup(Alignment.LEADING)
@@ -426,15 +414,18 @@ public class ReportFrame extends JFrame implements ComponentListener {
 							.addComponent(lblGenerateAReport)
 							.addPreferredGap(ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
 							.addGroup(gl_generateReport.createParallelGroup(Alignment.LEADING)
+								.addComponent(dateChooserStart, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addGroup(gl_generateReport.createSequentialGroup()
-									.addGap(6)
-									.addComponent(lblStartDate)
-									.addPreferredGap(ComponentPlacement.RELATED)
+									.addGroup(gl_generateReport.createParallelGroup(Alignment.TRAILING)
+										.addGroup(gl_generateReport.createParallelGroup(Alignment.TRAILING)
+											.addGroup(gl_generateReport.createSequentialGroup()
+												.addComponent(lblStartDate)
+												.addPreferredGap(ComponentPlacement.RELATED))
+											.addComponent(btnThisMonth))
+										.addComponent(dateChooserEnd, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 									.addGroup(gl_generateReport.createParallelGroup(Alignment.BASELINE)
 										.addComponent(btnGenerate)
-										.addComponent(lblErrorMsg)))
-								.addComponent(dateChooserStart, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(dateChooserEnd, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+										.addComponent(lblErrorMsg))))
 							.addGap(22))
 						.addGroup(gl_generateReport.createSequentialGroup()
 							.addGap(12)
@@ -502,6 +493,41 @@ public class ReportFrame extends JFrame implements ComponentListener {
 
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
+	}
+	
+	private void generateAction(){
+		try {
+			/*myReportData = rptGen.generateReport(
+					dateFormat.parse(startDateField.getText()),
+					dateFormat.parse(endDateField.getText()));*/
+			myReportData = rptGen.generateReport(dateChooserStart.getDate(), dateChooserEnd.getDate());
+		} catch (NullPointerException e1) {
+			// TODO Auto-generated catch block
+			lblErrorMsg
+					.setText("Date Field is blank! Please enter the date in the following format: dd/mm/yyyy");
+			e1.printStackTrace();
+		} catch (ParseException e1){
+			lblErrorMsg
+			.setText("Please enter the date in the following format: dd/mm/yyyy");
+		} catch (DateOrderException e1) {
+			// TODO Auto-generated catch block
+			lblErrorMsg
+					.setText("Please check the ordering of your start/end date");
+			e1.printStackTrace();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		// Disappear
+		initPieChart();
+		initTable();
+		initSummary();
+		generateReport.setVisible(false);
+		curtain.setVisible(false);
+
+		startDateDisplay.setText(dateFormat.format(dateChooserStart.getDate()));
+		endDateDisplay.setText(dateFormat.format(dateChooserEnd.getDate()));
 	}
 
 	public void showScreen() {
@@ -712,7 +738,10 @@ private JFreeChart createChart(CategoryDataset dataset) {
 	}
 
 	private void initSummary() {
-		lblNumRecords.setText(""+myReportData.getNumRecords()+" were found");
+		String record = "record";
+		if (myReportData.getNumRecords() > 1)
+			record = "records";
+		lblNumRecords.setText(""+myReportData.getNumRecords()+ " "+record +" were found");
 		myIncome.setLabelAmount(myReportData.getTotalIncome());
 		myIncome.setLabelPercentage(myReportData.getIncomePercentage());
 		myExpense.setLabelAmount(myReportData.getTotalExpense());
