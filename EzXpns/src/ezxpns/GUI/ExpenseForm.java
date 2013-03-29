@@ -26,6 +26,7 @@ import javax.swing.SpringLayout;
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 
+import ezxpns.GUI.Calculator.EvaluationException;
 import ezxpns.data.records.Category;
 import ezxpns.data.records.CategoryHandler;
 import ezxpns.data.records.ExpenseRecord;
@@ -265,6 +266,40 @@ public class ExpenseForm extends JPanel{
 		loForm.putConstraint(SpringLayout.NORTH, lblAmt, TOP_PAD, SpringLayout.NORTH, rbtnNeed);
 		loForm.putConstraint(SpringLayout.NORTH, txtAmt, TOP_PAD, SpringLayout.NORTH, rbtnWant);
 		// TODO: Calculator
+		final Calculator cal = Calculator.getInstance();
+		txtAmt.addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusGained(FocusEvent e) {
+				try {
+					Double result = cal.evaluate(getAmt());
+					System.out.println("Focus gained: " + result);
+					if(result!=null) setAmt(result);
+				}
+				catch(EvaluationException evalErr) {
+					System.out.println(evalErr.getMessage());
+				}
+				catch(Exception err) {
+					System.out.println(err.getMessage());
+				}
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				try {
+					Double result = cal.evaluate(getAmt());
+					System.out.println("Focus lost: " + result);
+					if(result!=null) setAmt(result);
+				}
+				catch(EvaluationException evalErr) {
+					System.out.println(evalErr.getMessage());
+				}
+				catch(Exception err) {
+					System.out.println(err.getMessage());
+				}
+			}
+			
+		});
 
 		lblDate = this.createLabel("Date");
 		// JDateChooser stuff starts here (tingzhe)

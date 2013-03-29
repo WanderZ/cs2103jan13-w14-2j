@@ -23,13 +23,16 @@ import javax.swing.SpringLayout;
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 
+import ezxpns.GUI.Calculator.EvaluationException;
 import ezxpns.data.records.Category;
 import ezxpns.data.records.CategoryHandler;
 import ezxpns.data.records.IncomeRecord;
 import ezxpns.data.records.Record;
 import ezxpns.data.records.RecordHandler;
 
-/** GUI Form for Income records */
+/** 
+ * GUI Form for Income records
+ */
 @SuppressWarnings("serial")
 public class IncomeForm extends JPanel {
 	
@@ -62,8 +65,8 @@ public class IncomeForm extends JPanel {
 	
 	/**
 	 * Create a form for a new income record
-	 * @param recHandlerRef 
-	 * @param catHandlerRef
+	 * @param recHandlerRef RecordHandler reference to manage records
+	 * @param catHandlerRef CategoryHandler reference to manage categories
 	 */
 	public IncomeForm(
 			RecordHandler recHandlerRef, 
@@ -81,8 +84,8 @@ public class IncomeForm extends JPanel {
 	
 	/**
 	 * Create a form of the existing record
-	 * @param recHandlerRef 
-	 * @param catHandlerRef
+	 * @param recHandlerRef RecordHandler reference to manage records
+	 * @param catHandlerRef CategoryHandler reference to manage categories
 	 * @param record IncomeRecord object to be edit
 	 */
 	public IncomeForm(
@@ -184,7 +187,6 @@ public class IncomeForm extends JPanel {
 		loForm.putConstraint(SpringLayout.WEST, txtAmt, COL2_PAD, SpringLayout.WEST, this);
 		loForm.putConstraint(SpringLayout.NORTH, lblAmt, TOP_PAD, SpringLayout.NORTH, lblCat);
 		loForm.putConstraint(SpringLayout.NORTH, txtAmt, TOP_PAD, SpringLayout.NORTH, cboxCat);
-		// TODO: Calculator
 		
 		lblDate = this.createLabel("Date");
 		// JDateChooser stuff starts here (tingzhe)
