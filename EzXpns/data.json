@@ -42,6 +42,8 @@
         "name": "mBank"
       }
     },
+    "needSum": 5400.4,
+    "lastNeedSum": 0.0,
     "categories": {
       "0": {
         "id": 0,
@@ -124,13 +126,13 @@
       ],
       "1363314106821": [
         {
-          "expenseType": "NEED",
+          "expenseType": "WANT",
           "paymentMethod": {
             "id": 1363314106821,
             "name": "Gifts"
           },
           "amount": 44.0,
-          "name": "testingzasdfaasdf",
+          "name": "testingzasdfaasdfk",
           "remark": "alright",
           "date": "Mar 27, 2013 2:52:14 PM",
           "id": 1364367139074
@@ -391,7 +393,7 @@
       "1364222095831": [
         {
           "amount": 20.2,
-          "name": "Blessingz~",
+          "name": "Blessingz",
           "remark": "Found this on the floor!",
           "date": "Mar 26, 2013 12:50:15 PM",
           "id": 1364223741192

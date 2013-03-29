@@ -226,17 +226,25 @@ public class DataManager extends Storable
 
 	@Override
 	public double getMonthlyExpense(ExpenseType type) {
-		return _expenses.getMonthlySum();
+		if(type == ExpenseType.NEED){
+			return _expenses.getNeedSum();
+		}else{
+			return _expenses.getMonthlySum() - _expenses.getNeedSum();
+		}
 	}
 
 	@Override
 	public double getPrevMonthlyExpense(ExpenseType type) {
-		return 0;
+		if(type == ExpenseType.NEED){
+			return _expenses.getLastNeedSum();
+		}else{
+			return _expenses.getLastMonthSum() - _expenses.getLastNeedSum();
+		}
 	}
 
 	@Override
 	public double getPrevMonthIncome() {
-		return 0;
+		return _incomes.getLastMonthSum();
 	}
 
 	public NWSGenerator nwsGen() {
