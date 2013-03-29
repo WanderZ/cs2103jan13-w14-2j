@@ -13,9 +13,11 @@ import java.awt.geom.Arc2D;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import ezxpns.data.NWSGenerator;
+import ezxpns.data.NWSdata;
 import ezxpns.data.records.ExpenseType;
 
 /**
@@ -33,13 +35,13 @@ public class SavingsOverviewPanel extends JPanel {
 	public SavingsOverviewPanel(NWSGenerator dataGenerator) {
 		super();
 		nwsGen = dataGenerator;
+		setLayout(new BorderLayout());
+		JLabel lblNWS = new JLabel("Needs, Wants, Savings");
+		lblNWS.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		this.add(lblNWS, BorderLayout.NORTH);
 		setBackground(new Color(255, 255, 255));
 		
-		NWSBarPanel myBars = new NWSBarPanel(nwsGen);
-		myBars.setBackground(new Color(255, 255, 255));
-		setLayout(new BorderLayout());
-		this.add(myBars, BorderLayout.CENTER);
-
+		drawBars();
 
 		/*
 		 * JPanel panelDonut = new JPanel(); panelDonut.setBackground(new
@@ -73,12 +75,22 @@ public class SavingsOverviewPanel extends JPanel {
 		 */
 
 	}
+	
+	/**
+	 * Draw the bar chart for NWS
+	 */
+	private void drawBars(){
+		NWSBarPanel myBars = new NWSBarPanel(nwsGen);
+		myBars.setBackground(new Color(255, 255, 255));
+		this.add(myBars, BorderLayout.CENTER);
+	}
 
 	/**
 	 * This is the method to call to update this panel
 	 */
 	public void update() {
-		nwsGen.markDataUpdate();
+		drawBars();
+		//nwsGen.updateNWSdata(); // should I remove this?
 		this.validate();
 	}
 
@@ -226,12 +238,12 @@ public class SavingsOverviewPanel extends JPanel {
 		String[] type = { "Needs", "Wants", "Savings" };
 		ExpenseType[] exType = { ExpenseType.NEED,ExpenseType.WANT, ExpenseType.SAVE};
 		
-		NWSGenerator nwsGen;
+		NWSdata nwsData;
 
 		public NWSBarPanel(NWSGenerator nwsGen) {
-			this.nwsGen = nwsGen;
-			value = new double[]{0.2*100, 0.7*100, 0.1*100}; // fake data
-			target = new double[]{0.5*100, 0.3*100, 0.2*100}; // fake data
+			this.nwsData = nwsGen.getNWSdataCopy();
+			value = new double[]{nwsData.getNeedsProgress()*100, nwsData.getWantsProgress()*100, nwsData.getCurrentSavings()*100}; // fake data
+			target = new double[]{nwsData.getTargetNeeds()*100, nwsData.getTargetWants()*100, nwsData.getTargetSavings()*100}; // fake data
 		}
 
 		

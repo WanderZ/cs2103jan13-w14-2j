@@ -103,8 +103,6 @@ public class Ezxpns implements
 				}
 			}
 		});
-		
-		System.out.println(data.getMonthlyExpense(ExpenseType.WANT));
 	}
 	
 	@Override
