@@ -13,6 +13,7 @@ import java.awt.geom.Arc2D;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import ezxpns.data.NWSGenerator;
@@ -34,7 +35,10 @@ public class SavingsOverviewPanel extends JPanel {
 	public SavingsOverviewPanel(NWSGenerator dataGenerator) {
 		super();
 		nwsGen = dataGenerator;
-
+		setLayout(new BorderLayout());
+		JLabel lblNWS = new JLabel("Needs, Wants, Savings");
+		lblNWS.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		this.add(lblNWS, BorderLayout.NORTH);
 		setBackground(new Color(255, 255, 255));
 		
 		drawBars();
@@ -78,7 +82,6 @@ public class SavingsOverviewPanel extends JPanel {
 	private void drawBars(){
 		NWSBarPanel myBars = new NWSBarPanel(nwsGen);
 		myBars.setBackground(new Color(255, 255, 255));
-		setLayout(new BorderLayout());
 		this.add(myBars, BorderLayout.CENTER);
 	}
 
