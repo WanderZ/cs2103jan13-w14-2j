@@ -163,6 +163,7 @@ public class DataManager extends Storable
 		_combined = new CombinedRecordsQueryHandler(_incomes, _expenses);
 		_targetManager.setDataProvider(this);
 		_targetManager.afterDeserialize();
+		_nwsGen.setDataProvider(this);
 		_nwsGen.afterDeserialize();
 	}
 	
@@ -243,7 +244,7 @@ public class DataManager extends Storable
 	}
 
 	@Override
-	public double getPrevMonthIncome() {
+	public double getPrevMonthlyIncome() {
 		return _incomes.getLastMonthSum();
 	}
 
