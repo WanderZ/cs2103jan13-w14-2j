@@ -12,6 +12,7 @@ import java.util.Vector;
 public class Report {
 
 	// Heading
+	private int numRecords = 0;
 	private Date start;
 	private Date end;
 	private double totalIncome = 0;
@@ -45,11 +46,13 @@ public class Report {
 	 * @param income
 	 * @param expense
 	 * @param balance
+	 * @param numRecords 
 	 */
-	public void setHeading(double income, double expense, double balance) {
+	public void setHeading(double income, double expense, double balance, int numRecords) {
 		totalIncome = income;
 		totalExpense = expense;
 		this.balance = balance;
+		this.numRecords = numRecords;
 		double total = income + expense + balance;
 		if (total == 0){
 			incomePercentage = 0;
@@ -162,4 +165,13 @@ public class Report {
 	public double getBalancePercentage(){
 		return balancePercentage;
 	}
+	
+	/**
+	 * Get the number of records found
+	 * @return
+	 */
+	public int getNumRecords(){
+		return numRecords;
+	}
 }
+
