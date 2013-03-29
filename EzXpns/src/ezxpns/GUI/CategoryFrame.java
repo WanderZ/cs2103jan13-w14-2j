@@ -342,7 +342,7 @@ public class CategoryFrame extends JFrame{
 		double d;
 		try{
 			d = Double.parseDouble(targetString);
-			return d > 10;
+			return d > 10 || d == 0;
 		}catch(NumberFormatException e){
 			return false;
 		}
@@ -377,7 +377,12 @@ public class CategoryFrame extends JFrame{
 				}
 				Category cat = excats.updateCategory(curCat.getID(), new Category(exnameField.getText()));
 				if(validateTarget(targetAmountField.getText())){
-					targetMgr.setTarget(cat, Double.parseDouble(targetAmountField.getText()));
+					double d = Double.parseDouble(targetAmountField.getText());
+					if(d == 0){
+						targetMgr.removeCategoryTarget(cat.getID());
+					}else{
+						targetMgr.setTarget(cat, d);
+					}
 				}
 				notifyee.addUndoAction(getUndoModifyExCat(cat.getID(), original, targetAmt), "Modify category");
 				exmo.update();
