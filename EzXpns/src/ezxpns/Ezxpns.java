@@ -91,12 +91,11 @@ public class Ezxpns implements
 												targetManager, 		// Target Manager
 												reportGenerator, 	// Report Generator
 												summaryGenerator);	// Summary Generator
-		final MainGUI gui = new MainGUI();
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					// main.showHomeScreen();
-					 gui.setVisible(true);
+					main.showHomeScreen();
 					
 				} catch (Exception e) {
 					e.printStackTrace();
