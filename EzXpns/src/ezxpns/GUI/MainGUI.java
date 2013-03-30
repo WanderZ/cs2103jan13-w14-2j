@@ -14,6 +14,8 @@ import ezxpns.data.TargetManager;
 import ezxpns.data.records.CategoryHandler;
 import ezxpns.data.records.ExpenseRecord;
 import ezxpns.data.records.IncomeRecord;
+import ezxpns.data.records.PaymentHandler;
+import ezxpns.data.records.SearchHandler;
 
 @SuppressWarnings("serial")
 public class MainGUI extends JFrame implements UpdateNotifyee {
@@ -32,6 +34,8 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 	private SavingsOverviewPanel panSavings;
 	private OverviewPanel panOverview;
 	private TargetOverviewPanel panTarget;
+	
+	private SearchFrame panSearch;
 	
 	private CategoryFrame panCategory;
 	
@@ -108,10 +112,25 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 		// this.setUndecorated(true); // Remove Title Bar 
 	}
 	
-	public void loadCategoryPanel(CategoryHandler<ExpenseRecord> expenseHandler, CategoryHandler<IncomeRecord> incomeHandler, TargetManager targetMgr) {
+	public void loadCategoryPanel(
+			CategoryHandler<ExpenseRecord> expenseHandler, 
+			CategoryHandler<IncomeRecord> incomeHandler, 
+			TargetManager targetMgr) {
 		if(panCategory==null) {
 			panCategory = new CategoryFrame(expenseHandler, incomeHandler, targetMgr, this);
 			panContent.add(panCategory, MenuOption.CATMGR.toString());
+		}
+	}
+	
+	public void loadSearchPanel(
+			SearchHandler searchHandler, 
+			RecordListView display, 
+			CategoryHandler<IncomeRecord> incomeHandler, 
+			CategoryHandler<ExpenseRecord> expenseHandler, 
+			PaymentHandler payHandler) {
+		if(panSearch == null) {
+			panSearch = new SearchFrame(searchHandler, display, incomeHandler, expenseHandler, payHandler);
+			panContent.add(panSearch, MenuOption.SEARCH.toString());
 		}
 	}
 
