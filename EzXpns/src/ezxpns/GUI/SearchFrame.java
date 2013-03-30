@@ -70,8 +70,12 @@ public class SearchFrame extends JPanel {
 	private boolean isMoreOption = false;
 	
 	/**
-	 * To create a new Search Window
+	 * Constructs a new Search Window
 	 * @param handlerRef the reference to the SearchHandler object, catHandRef to CategoryHandler
+	 * @param li
+	 * @param inCatHandRef
+	 * @param exCatHandRef
+	 * @param payHandRef
 	 */
 	public SearchFrame(
 			SearchHandler handlerRef, 
