@@ -28,6 +28,8 @@ import com.toedter.calendar.JDateChooser;
 
 import ezxpns.data.records.Category;
 import ezxpns.data.records.CategoryHandler;
+import ezxpns.data.records.ExpenseRecord;
+import ezxpns.data.records.IncomeRecord;
 import ezxpns.data.records.PaymentHandler;
 import ezxpns.data.records.PaymentMethod;
 import ezxpns.data.records.Record;
@@ -39,7 +41,7 @@ import ezxpns.util.Pair;
  * The window to handle the searching and querying needs of the user
  */
 @SuppressWarnings("serial")
-public class SearchFrame extends JFrame{
+public class SearchFrame extends JPanel {
 	
 	public final int DEFAULT_WIDTH = 600;
 	public final int DEFAULT_HEIGHT = 400;
@@ -53,8 +55,8 @@ public class SearchFrame extends JFrame{
 	
 	/** The handler object that implemented SearchHandler & CategoryHandler interface */
 	private SearchHandler handler;
-	private CategoryHandler inCatHandRef;
-	private CategoryHandler exCatHandRef;
+	private CategoryHandler<IncomeRecord> inCatHandRef;
+	private CategoryHandler<ExpenseRecord> exCatHandRef;
 
 	
 	// 2 main panels, the top (querying time frame) and the bottom (results, content)
@@ -71,9 +73,14 @@ public class SearchFrame extends JFrame{
 	 * To create a new Search Window
 	 * @param handlerRef the reference to the SearchHandler object, catHandRef to CategoryHandler
 	 */
-	public SearchFrame(SearchHandler handlerRef, RecordListView li, CategoryHandler inCatHandRef, CategoryHandler exCatHandRef, PaymentHandler payHandRef) {
-		super();
-		this.init();
+	public SearchFrame(
+			SearchHandler handlerRef, 
+			RecordListView li, 
+			CategoryHandler<IncomeRecord> inCatHandRef, 
+			CategoryHandler<ExpenseRecord> exCatHandRef, 
+			PaymentHandler payHandRef) {
+		// super();
+/*		this.init();*/
 		this.setLayout(new BorderLayout(25, 25));
 		this.handler = handlerRef;
 		
@@ -129,14 +136,14 @@ public class SearchFrame extends JFrame{
 		this.add(this.panResult, BorderLayout.CENTER);
 	}
 	
-	/** to initialize the components of this frame */
-	private void init() {
-		this.setTitle("EzXpns - Search");
-		this.setBounds(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT); /*x coordinate, y coordinate, width, height*/
-		this.setLocationRelativeTo(null); // Set to start in the central area of the screen
-		this.setResizable(false);
-		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); 
-	}
+//	/** to initialize the components of this frame */
+//	private void init() {
+//		this.setTitle("EzXpns - Search");
+//		this.setBounds(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT); /*x coordinate, y coordinate, width, height*/
+//		this.setLocationRelativeTo(null); // Set to start in the central area of the screen
+//		this.setResizable(false);
+//		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); 
+//	}
 
 	public void performSearch(){
 		if(isMoreOption){
@@ -217,8 +224,8 @@ public class SearchFrame extends JFrame{
 class SearchFormPanel extends JPanel {
 	
 	// CategoryHandler Reference for Category JComboBox
-	private CategoryHandler inCatHandRef;
-	private CategoryHandler exCatHandRef;
+	private CategoryHandler<IncomeRecord> inCatHandRef;
+	private CategoryHandler<ExpenseRecord> exCatHandRef;
 	private PaymentHandler payHandRef;
 	
 	private JLabel lblName, lblTitle, lblCat, lblPay, lblDate, lblToDate;
@@ -252,7 +259,10 @@ class SearchFormPanel extends JPanel {
 		getNameField().addActionListener(listener);
 	}
 	
-	public SearchFormPanel(CategoryHandler inCatHandRef, CategoryHandler exCatHandRef, PaymentHandler payHandRef) {
+	public SearchFormPanel(
+			CategoryHandler<IncomeRecord> inCatHandRef, 
+			CategoryHandler<ExpenseRecord> exCatHandRef, 
+			PaymentHandler payHandRef) {
 		this.inCatHandRef = inCatHandRef; // reference
 		this.exCatHandRef = exCatHandRef; // reference
 		this.payHandRef = payHandRef; 	  // reference
