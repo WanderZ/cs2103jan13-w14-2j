@@ -19,6 +19,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
@@ -106,7 +108,7 @@ public class IncomeForm extends JPanel {
 	 */
 	private void populateFields() {
 		// Name
-		txtName.setText(record.getName());
+		if(isEdit) txtName.setText(record.getName());
 		
 		// Amount
 		this.setAmt(record.getAmount());
@@ -140,6 +142,32 @@ public class IncomeForm extends JPanel {
 		lblName = this.createLabel("Name");
 		txtName = new JTextField("");
 		txtName.setPreferredSize(new Dimension(200, 25));
+		txtName.getDocument().addDocumentListener(new DocumentListener(){
+
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+				fill();
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent arg0) {
+				fill();
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent arg0) {
+				fill();
+			}
+			
+			private void fill(){
+				IncomeRecord oldRecord = recHandler.lastIncomeRecord(txtName.getText()); 
+				if(oldRecord!=null) {
+					record = oldRecord;
+					populateFields();
+				}
+			}
+			
+		});
 		txtName.addFocusListener(new FocusListener() {
 
 			@Override
@@ -148,13 +176,8 @@ public class IncomeForm extends JPanel {
 			}
 
 			@Override
-			public void focusLost(FocusEvent arg0) {
-				// Auto Complete - one use only.
-				IncomeRecord oldRecord = recHandler.lastIncomeRecord(txtName.getText()); 
-				if(record==null & oldRecord!=null) {
-					record = oldRecord;
-					populateFields();
-				}
+			public void focusLost(FocusEvent e) {
+				// TODO Auto-generated method stub
 			}
 			
 		});
