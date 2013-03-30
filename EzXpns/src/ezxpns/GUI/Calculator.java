@@ -27,7 +27,7 @@ public class Calculator {
 	}
 	
 	private final ScriptEngine engine = new ScriptEngineManager().getEngineByName("JavaScript");
-	static public final Pattern p = Pattern.compile("[^0-9-+ \t*/()]");
+	static public final Pattern p = Pattern.compile("[^0-9-+ \t*/().]");
 	
 	private Calculator(){
 		// this is a singleton man
