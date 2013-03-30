@@ -59,7 +59,7 @@ public class UIControl implements RecordListView.RecordEditor {
 			TargetManager targetMgrRef,
 			ReportGenerator rptGenRef,
 			SummaryGenerator sumGenRef) {
-		
+		UINotify.createPopUp("Welcome! Please wait while we load your previous records");
 		// Handlers for the various places
 		findHandler = searchHandlerRef;
 		recHandler = recHandlerRef;
