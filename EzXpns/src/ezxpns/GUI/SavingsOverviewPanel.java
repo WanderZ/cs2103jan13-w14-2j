@@ -242,8 +242,9 @@ public class SavingsOverviewPanel extends JPanel {
 
 		public NWSBarPanel(NWSGenerator nwsGen) {
 			this.nwsData = nwsGen.getNWSdataCopy();
-			value = new double[]{nwsData.getNeedsProgress()*100, nwsData.getWantsProgress()*100, nwsData.getCurrentSavings()*100}; // fake data
-			target = new double[]{nwsData.getTargetNeeds()*100, nwsData.getTargetWants()*100, nwsData.getTargetSavings()*100}; // fake data
+			value = new double[]{nwsData.getCurrNeedsRatio()*100, nwsData.getCurrWantsRatio()*100, nwsData.getCurrSavingsRatio()*100}; 
+			target = new double[]{nwsData.getTargetNeedsRatio()*100, nwsData.getTargetWantsRatio()*100, nwsData.getTargetSavingsRatio()*100};
+			System.out.println(nwsData.getTargetNeedsRatio()*100);
 		}
 
 		
