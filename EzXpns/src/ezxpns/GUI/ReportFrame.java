@@ -2,9 +2,9 @@ package ezxpns.GUI;
 
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GradientPaint;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -16,6 +16,7 @@ import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Vector;
@@ -32,7 +33,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.SwingConstants;
 import javax.swing.table.AbstractTableModel;
 
 import net.miginfocom.swing.MigLayout;
@@ -40,7 +40,15 @@ import net.miginfocom.swing.MigLayout;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.CategoryLabelPositions;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PiePlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.util.Rotation;
@@ -52,6 +60,8 @@ import ezxpns.data.Report;
 import ezxpns.data.ReportCategory;
 import ezxpns.data.ReportGenerator;
 import ezxpns.data.ReportGenerator.DateOrderException;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * The window to handle all the extensive record analysis and report <br />
@@ -85,6 +95,10 @@ public class ReportFrame extends JFrame implements ComponentListener {
 	private int pieChartIndex = 0;
 	private JDateChooser dateChooserStart;
 	private JDateChooser dateChooserEnd;
+	private ColorSquare myIncome;
+	private ColorSquare myExpense;
+	private ColorSquare myBalance;
+	private JLabel lblNumRecords;
 	
 	DecimalFormat df = new DecimalFormat("#.##");
 
@@ -92,13 +106,14 @@ public class ReportFrame extends JFrame implements ComponentListener {
 	SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
 	private int PARAGRAPH_SPACE = 20;
-	public static final int DEFAULT_WIDTH = 600;
-	public static final int DEFAULT_HEIGHT = 400;
+	public static final int DEFAULT_WIDTH = 800;
+	public static final int DEFAULT_HEIGHT = 600;
 	public static final String[] columnNames = { "Category", "Frequency",
 			"Amount", "Percentage", "Amount/Frequency" };
 
 	private ReportGenerator rptGen; // Place to store the reference
 	private JButton btnGenerateANew;
+	private JButton btnThisMonth;
 
 	public ReportFrame(ReportGenerator rptGenRef) { // Passing in the reference
 		super("EzXpns - Report");
@@ -128,6 +143,7 @@ public class ReportFrame extends JFrame implements ComponentListener {
 
 		// Button Panel
 		button = new JPanel();
+		button.setBackground(new Color(255, 255, 255));
 		button.setBounds(0, 0, WIDTH, 400);
 		button.setOpaque(false);
 		layeredPane.add(button);
@@ -180,10 +196,10 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		// Setting up the cards
 		cards.setLayout(new CardLayout(0, 0));
 		cardGeneral = new JPanel(); // General Card
-		cardGeneral.setBackground(Color.PINK);
+		cardGeneral.setBackground(new Color(255, 255, 255));
 		cardGeneral.setForeground(Color.RED);
 		cardExpense = new JPanel(); // Expense Card
-		cardExpense.setBackground(Color.ORANGE);
+		cardExpense.setBackground(new Color(255, 255, 255));
 		cardExpense.setForeground(Color.MAGENTA);
 		cards.add(cardGeneral, "GeneralCard");
 		cards.add(cardExpense, "ExpenseCard");
@@ -193,6 +209,7 @@ public class ReportFrame extends JFrame implements ComponentListener {
 						"[280.00,grow,fill]"));
 
 		expenseTable = new JPanel();
+		expenseTable.setBackground(new Color(255, 255, 255));
 		cardExpense.add(expenseTable, "cell 1 0,grow");
 
 		// ActionListener for General Button
@@ -339,41 +356,26 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		JButton btnGenerate = new JButton("Generate");
 		btnGenerate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					/*myReportData = rptGen.generateReport(
-							dateFormat.parse(startDateField.getText()),
-							dateFormat.parse(endDateField.getText()));*/
-					myReportData = rptGen.generateReport(dateChooserStart.getDate(), dateChooserEnd.getDate());
-				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
-					lblErrorMsg
-							.setText("Please enter the date in the following format: dd/mm/yyyy");
-					e1.printStackTrace();
-				} catch (DateOrderException e1) {
-					// TODO Auto-generated catch block
-					lblErrorMsg
-							.setText("Please check the ordering of your start/end date");
-					e1.printStackTrace();
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-
-				// Disappear
-				initPieChart();
-				initTable();
-				initSummary();
-				generateReport.setVisible(false);
-				curtain.setVisible(false);
-
-				startDateDisplay.setText(dateFormat.format(dateChooserStart.getDate()));
-				endDateDisplay.setText(dateFormat.format(dateChooserEnd.getDate()));
+				generateAction();
 			}
-
 		});
+		
+		
 
-		lblErrorMsg = new JLabel("");
-		lblErrorMsg.setForeground(Color.RED);
+		lblErrorMsg = new JLabel("You can manually type date in this format: dd/mm/yyyy");
+		lblErrorMsg.setForeground(Color.WHITE);
+		
+		btnThisMonth = new JButton("This Month");
+		btnThisMonth.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(new Date());
+				calendar.set(Calendar.DAY_OF_MONTH, 1);
+				dateChooserStart.setDate(calendar.getTime());
+				dateChooserEnd.setDate(new Date());
+			}
+		});
 		
 		
 		
@@ -387,7 +389,7 @@ public class ReportFrame extends JFrame implements ComponentListener {
 							.addGroup(gl_generateReport.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblErrorMsg)
 								.addComponent(lblGenerateAReport))
-							.addPreferredGap(ComponentPlacement.RELATED, 174, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED, 245, Short.MAX_VALUE)
 							.addComponent(btnGenerate)
 							.addGap(49))
 						.addGroup(gl_generateReport.createSequentialGroup()
@@ -399,7 +401,9 @@ public class ReportFrame extends JFrame implements ComponentListener {
 							.addComponent(lblEndDate)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(dateChooserEnd, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap())))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnThisMonth)
+							.addGap(71))))
 		);
 		gl_generateReport.setVerticalGroup(
 			gl_generateReport.createParallelGroup(Alignment.LEADING)
@@ -410,15 +414,18 @@ public class ReportFrame extends JFrame implements ComponentListener {
 							.addComponent(lblGenerateAReport)
 							.addPreferredGap(ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
 							.addGroup(gl_generateReport.createParallelGroup(Alignment.LEADING)
+								.addComponent(dateChooserStart, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addGroup(gl_generateReport.createSequentialGroup()
-									.addGap(6)
-									.addComponent(lblStartDate)
-									.addPreferredGap(ComponentPlacement.RELATED)
+									.addGroup(gl_generateReport.createParallelGroup(Alignment.TRAILING)
+										.addGroup(gl_generateReport.createParallelGroup(Alignment.TRAILING)
+											.addGroup(gl_generateReport.createSequentialGroup()
+												.addComponent(lblStartDate)
+												.addPreferredGap(ComponentPlacement.RELATED))
+											.addComponent(btnThisMonth))
+										.addComponent(dateChooserEnd, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 									.addGroup(gl_generateReport.createParallelGroup(Alignment.BASELINE)
 										.addComponent(btnGenerate)
-										.addComponent(lblErrorMsg)))
-								.addComponent(dateChooserStart, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(dateChooserEnd, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+										.addComponent(lblErrorMsg))))
 							.addGap(22))
 						.addGroup(gl_generateReport.createSequentialGroup()
 							.addGap(12)
@@ -437,25 +444,39 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		cardGeneral
 				.setLayout(new MigLayout("",
 						"[262.00,grow,center][260.00,grow,right]",
-						"[280.00,grow,fill]"));
+						"[280.00,grow, center]"));
 
 		JPanel generalSummary = new JPanel();
-		cardGeneral.add(generalSummary, "cell 1 0,grow");
-		generalSummary.setLayout(new BoxLayout(generalSummary,
-				BoxLayout.PAGE_AXIS));
-
+		generalSummary.setBackground(new Color(255, 255, 255));
+		cardGeneral.add(generalSummary, "cell 1 0,alignx center,aligny center");
+		//generalSummary.setLayout(new BoxLayout(generalSummary,
+			//	BoxLayout.PAGE_AXIS));
+		generalSummary.setLayout(new MigLayout("","[500, center]","[][30][30][30]"));
+		
 		// Summary Details
 
-		lblIncome = new JLabel("Income:");
-		lblIncome.setAlignmentX(0.4f);
-		lblIncome.setAlignmentY(Component.TOP_ALIGNMENT);
-		lblIncome.setHorizontalAlignment(SwingConstants.LEFT);
-		generalSummary.add(Box.createVerticalGlue());
-		generalSummary.add(lblIncome);
-		generalSummary.add(Box
-				.createRigidArea(new Dimension(0, PARAGRAPH_SPACE)));
+		//lblIncome = new JLabel("Income:");
+		//lblIncome.setAlignmentX(0.4f);
+		//lblIncome.setAlignmentY(Component.TOP_ALIGNMENT);
+		//lblIncome.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNumRecords = new JLabel();
+		generalSummary.add(lblNumRecords, "wrap");
+		myBalance = new ColorSquare("Balance");
+		myBalance.setBackground(new Color(0,191,255));
+		generalSummary.add(myBalance, "wrap");
+		myIncome = new ColorSquare("Income");
+		myIncome.setBackground(new Color(50,205,50));
+		//generalSummary.add(Box.createVerticalGlue());
+		//generalSummary.add(lblIncome);
+		generalSummary.add(myIncome, "wrap");
+		myExpense = new ColorSquare("Expense");
+		myExpense.setBackground(new Color(255,122,122));
+		generalSummary.add(myExpense, "wrap");
+		
+		//generalSummary.add(Box
+			//	.createRigidArea(new Dimension(0, PARAGRAPH_SPACE)));
 
-		lblExpense = new JLabel("Expense:");
+		/*lblExpense = new JLabel("Expense:");
 		lblExpense.setAlignmentX(0.4f);
 		lblExpense.setAlignmentY(0.0f);
 		lblExpense.setHorizontalAlignment(SwingConstants.LEFT);
@@ -468,10 +489,45 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		lblBalance.setAlignmentY(0.0f);
 		lblBalance.setHorizontalAlignment(SwingConstants.LEFT);
 		generalSummary.add(lblBalance);
-		generalSummary.add(Box.createVerticalGlue());
+		generalSummary.add(Box.createVerticalGlue());*/
 
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
+	}
+	
+	private void generateAction(){
+		try {
+			/*myReportData = rptGen.generateReport(
+					dateFormat.parse(startDateField.getText()),
+					dateFormat.parse(endDateField.getText()));*/
+			myReportData = rptGen.generateReport(dateChooserStart.getDate(), dateChooserEnd.getDate());
+		} catch (NullPointerException e1) {
+			// TODO Auto-generated catch block
+			lblErrorMsg
+					.setText("Date Field is blank! Please enter the date in the following format: dd/mm/yyyy");
+			e1.printStackTrace();
+		} catch (ParseException e1){
+			lblErrorMsg
+			.setText("Please enter the date in the following format: dd/mm/yyyy");
+		} catch (DateOrderException e1) {
+			// TODO Auto-generated catch block
+			lblErrorMsg
+					.setText("Please check the ordering of your start/end date");
+			e1.printStackTrace();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		// Disappear
+		initPieChart();
+		initTable();
+		initSummary();
+		generateReport.setVisible(false);
+		curtain.setVisible(false);
+
+		startDateDisplay.setText(dateFormat.format(dateChooserStart.getDate()));
+		endDateDisplay.setText(dateFormat.format(dateChooserEnd.getDate()));
 	}
 
 	public void showScreen() {
@@ -496,20 +552,6 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		Insets insets = this.getInsets();
 		int w = this.getWidth() - insets.left - insets.right;
 		int h = this.getHeight() - insets.top - insets.bottom;
-		/*
-		 * int widthDiff = getWidth() - DEFAULT_WIDTH; int heightDiff =
-		 * getHeight() - DEFAULT_HEIGHT;
-		 * cards.setBounds(cards.getX(),cards.getY(
-		 * ),getWidth()+widthDiff,getHeight()+heightDiff);
-		 * curtain.setBounds(0,0,getWidth(),getHeight());
-		 * generateReport.setBounds(0, 80, getWidth(), 120);
-		 * cardGeneral.setBounds
-		 * (cards.getX(),cards.getY(),cardGeneral.getWidth()
-		 * +widthDiff,cardGeneral.getHeight()+heightDiff);
-		 * cardExpense.setBounds(
-		 * cards.getX(),cards.getY(),cardExpense.getWidth()
-		 * +widthDiff,cardExpense.getHeight()+heightDiff);
-		 */
 		button.setSize(w, h);
 		curtain.setSize(w, h);
 		cards.setBounds(cards.getX(), cards.getY(), w, h);
@@ -537,7 +579,15 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		result.setValue("Expense", myReportData.getTotalExpense());
 		result.setValue("Income", myReportData.getTotalIncome());
 		return result;
-
+	}
+	
+	private CategoryDataset createDatasetGeneral() {
+		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+		dataset.addValue(myReportData.getBalancePercentage(), "Balance", "");
+		dataset.addValue(myReportData.getIncomePercentage(), "Income", "");
+		dataset.addValue(myReportData.getExpensePercentage(), "Expense", "");
+		
+		return dataset;
 	}
 
 	private PieDataset createDatasetExpense() {
@@ -572,6 +622,69 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		return chart;
 
 	}
+	
+private JFreeChart createChart(CategoryDataset dataset) {
+        
+        // create the chart...
+        final JFreeChart chart = ChartFactory.createBarChart(
+            "My Summary",         // chart title
+            "Type",               // domain axis label
+            "Amount",                  // range axis label
+            dataset,                  // data
+            PlotOrientation.VERTICAL, // orientation
+            true,                     // include legend
+            true,                     // tooltips?
+            false                     // URLs?
+        );
+
+        // NOW DO SOME OPTIONAL CUSTOMISATION OF THE CHART...
+
+        // set the background color for the chart...
+        chart.setBackgroundPaint(Color.white);
+
+        // get a reference to the plot for further customisation...
+        final CategoryPlot plot = chart.getCategoryPlot();
+        plot.setBackgroundPaint(Color.white);
+        plot.setDomainGridlinePaint(Color.white);
+        plot.setRangeGridlinePaint(Color.white);
+
+        // set the range axis to display integers only...
+        final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+        rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+
+        // disable bar outlines...
+        final BarRenderer renderer = (BarRenderer) plot.getRenderer();
+        renderer.setSeriesPaint(0,new Color(0,191,255));
+        renderer.setSeriesPaint(1, new Color(50,205,50));
+        renderer.setSeriesPaint(2, new Color(255,122,122));
+        /*renderer.setDrawBarOutline(false);
+        
+        // set up gradient paints for series...
+        final GradientPaint gp0 = new GradientPaint(
+            0.0f, 0.0f, new Color(0,191,255), 
+            0.0f, 0.0f, Color.lightGray
+        );
+        final GradientPaint gp1 = new GradientPaint(
+            0.0f, 0.0f, new Color(50,205,50), 
+            0.0f, 0.0f, Color.lightGray
+        );
+        final GradientPaint gp2 = new GradientPaint(
+            0.0f, 0.0f, new Color(255,122,122), 
+            0.0f, 0.0f, Color.lightGray
+        );
+        renderer.setSeriesPaint(0, gp0);
+        renderer.setSeriesPaint(1, gp1);
+        renderer.setSeriesPaint(2, gp2);*/
+
+        final CategoryAxis domainAxis = plot.getDomainAxis();
+        domainAxis.setCategoryLabelPositions(
+            CategoryLabelPositions.createUpRotationLabelPositions(Math.PI / 6.0)
+        );
+        // OPTIONAL CUSTOMISATION COMPLETED.
+        
+        return chart;
+        
+    }
 
 	private void initPieChart() {
 		// PIE CHART IN GENERAL
@@ -580,13 +693,15 @@ public class ReportFrame extends JFrame implements ComponentListener {
 			cardGeneral.remove(1);
 			cardExpense.remove(1);
 			}
-		PieDataset dataset = createDataset();
+		//PieDataset dataset = createDataset();
 		// based on the dataset we create the chart
-		JFreeChart chart = createChart(dataset, "MY SUMMARY");
-		ChartPanel chartPanel = new ChartPanel(chart);
-		chartPanel.setPreferredSize(new java.awt.Dimension(250, 130));
-
+		//JFreeChart chart = createChart(dataset, "MY SUMMARY");
+		//ChartPanel chartPanel = new ChartPanel(chart);
+		//chartPanel.setPreferredSize(new java.awt.Dimension(250, 130));
+		CategoryDataset dataset = createDatasetGeneral();
+		JFreeChart chart = createChart(dataset);
 		JPanel generalPieChart = new JPanel();
+		ChartPanel chartPanel = new ChartPanel(chart);
 		generalPieChart.add(chartPanel);
 		cardGeneral.add(generalPieChart, "cell 0 0,grow");
 		generalPieChart.setLayout(new BoxLayout(generalPieChart,
@@ -623,12 +738,16 @@ public class ReportFrame extends JFrame implements ComponentListener {
 	}
 
 	private void initSummary() {
-		// TODO Auto-generated method stub
-		lblIncome.setText("Income:\t"
-				+ df.format(myReportData.getTotalIncome()));
-		lblExpense.setText("Expense:\t"
-				+ df.format(myReportData.getTotalExpense()));
-		lblBalance.setText("Balance:\t" + df.format(myReportData.getBalance()));
+		String record = "record";
+		if (myReportData.getNumRecords() > 1)
+			record = "records";
+		lblNumRecords.setText(""+myReportData.getNumRecords()+ " "+record +" were found");
+		myIncome.setLabelAmount(myReportData.getTotalIncome());
+		myIncome.setLabelPercentage(myReportData.getIncomePercentage());
+		myExpense.setLabelAmount(myReportData.getTotalExpense());
+		myExpense.setLabelPercentage(myReportData.getExpensePercentage());
+		myBalance.setLabelAmount(myReportData.getBalance());
+		myBalance.setLabelPercentage(myReportData.getBalancePercentage());
 	}
 
 	/**
@@ -695,5 +814,47 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		public int getColumnCount() {
 			return columnNames.length;
 		}
+	}
+	
+	public class ColorSquare extends JPanel{
+		
+		private JLabel lblName = new JLabel("");
+		private JLabel lblAmount = new JLabel("");
+		private JLabel lblPercentage = new JLabel("");
+		private int WIDTH = 200;
+		private int HEIGHT = 20;
+		DecimalFormat formatter = new DecimalFormat("#,###.00");        
+		DecimalFormat df = new DecimalFormat("#.#");
+		
+		public ColorSquare(String name){
+			this.setLabelName(name);
+			this.setLayout(new MigLayout("","[50][50][15]","[10][10]"));
+			this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+			this.add(lblName,"span 2");
+			this.add(lblPercentage, "wrap");
+			this.add(lblAmount, "span 3");
+		}
+		
+		public void changeBackground(Color myColor){
+			this.setBackground(myColor);
+		}
+		
+		public void setLabelName(String name){
+			lblName.setText(name);
+			lblName.setForeground(Color.WHITE);
+			lblName.setFont(new Font("Lucida Grande", Font.BOLD, 14));
+		}
+		
+		public void setLabelAmount(double amount){
+			lblAmount.setText("$"+ formatter.format(amount));
+			lblAmount.setForeground(Color.WHITE);
+		}
+		
+		public void setLabelPercentage(double percent){
+			lblPercentage.setText(""+df.format(percent)+"%");
+			lblPercentage.setForeground(Color.WHITE);
+		}
+		
+		
 	}
 }

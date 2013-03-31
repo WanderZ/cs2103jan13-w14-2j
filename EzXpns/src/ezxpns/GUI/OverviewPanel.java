@@ -53,7 +53,7 @@ public class OverviewPanel extends JPanel {
 		panelTime.setBackground(Color.WHITE); // set color for buttons and timeline
 		
 		JLabel lblSummary = new JLabel("Summary");
-		lblSummary.setForeground(new Color(192, 192, 192));
+		//lblSummary.setForeground(new Color(192, 192, 192));
 		lblSummary.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		
 		JPanel panelBigBalance = new JPanel();
@@ -92,15 +92,9 @@ public class OverviewPanel extends JPanel {
 		// ===============
 		panelBigBalance.setLayout(new MigLayout("", "0[125][300]", "0[70][40]0"));
 		
-		JLabel lblImage = new JLabel("image");
-		panelBigBalance.add(lblImage);
-		
 		lblBalance = new JLabel("Balance");
 		lblBalance.setFont(new Font("Lucida Grande", Font.PLAIN, 50));
-		panelBigBalance.add(lblBalance, "cell 1 0 1 2, align center");
-		
-		JLabel lblStatus = new JLabel("status");
-		panelBigBalance.add(lblStatus, "cell 0 1");
+		panelBigBalance.add(lblBalance, "cell 0 0 2 2,alignx center");
 		
 		// panelSub
 		// ========

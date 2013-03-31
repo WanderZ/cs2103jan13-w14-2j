@@ -12,11 +12,15 @@ import java.util.Vector;
 public class Report {
 
 	// Heading
+	private int numRecords = 0;
 	private Date start;
 	private Date end;
 	private double totalIncome = 0;
 	private double totalExpense = 0;
 	private double balance = 0;
+	private double incomePercentage = 0;
+	private double expensePercentage = 0;
+	private double balancePercentage = 0;
 
 	// 1. Expense
 	private Vector<ReportCategory> ExpenseCategory;
@@ -42,11 +46,24 @@ public class Report {
 	 * @param income
 	 * @param expense
 	 * @param balance
+	 * @param numRecords 
 	 */
-	public void setHeading(double income, double expense, double balance) {
+	public void setHeading(double income, double expense, double balance, int numRecords) {
 		totalIncome = income;
 		totalExpense = expense;
 		this.balance = balance;
+		this.numRecords = numRecords;
+		double total = income + expense + balance;
+		if (total == 0){
+			incomePercentage = 0;
+			expensePercentage = 0;
+			balancePercentage = 0;
+		}
+		else{
+		incomePercentage = income/total*100;
+		expensePercentage = expense/total*100;
+		balancePercentage = balance/total*100;
+		}
 	}
 
 	/**
@@ -124,4 +141,37 @@ public class Report {
 	public double getAveExpense() {
 		return aveExpense;
 	}
+	
+	/**
+	 * Get the percentage of income
+	 * @return
+	 */
+	public double getIncomePercentage(){
+		return incomePercentage;
+	}
+	
+	/**
+	 * Get the percentage of expense
+	 * @return
+	 */
+	public double getExpensePercentage(){
+		return expensePercentage;
+	}
+	
+	/**
+	 * Get the percentage of balance
+	 * @return
+	 */
+	public double getBalancePercentage(){
+		return balancePercentage;
+	}
+	
+	/**
+	 * Get the number of records found
+	 * @return
+	 */
+	public int getNumRecords(){
+		return numRecords;
+	}
 }
+
