@@ -95,7 +95,8 @@ public class ReportGenerator {
 		double totalIncome = calTotalIncome();
 		double totalExpense = calTotalExpense();
 		double balance = totalIncome - totalExpense;
-		myReport.setHeading(totalIncome, totalExpense, balance);
+		int numRecords = expenseRecord.size() + incomeRecord.size();
+		myReport.setHeading(totalIncome, totalExpense, balance, numRecords);
 	}
 
 	/** 

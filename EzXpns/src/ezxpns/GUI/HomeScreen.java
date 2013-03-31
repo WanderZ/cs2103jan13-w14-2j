@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
+import ezxpns.data.NWSGenerator;
 import ezxpns.data.TargetManager;
 import ezxpns.data.SummaryGenerator;
 import ezxpns.data.records.RecordHandler;
@@ -29,6 +30,7 @@ public class HomeScreen extends JFrame implements UpdateNotifyee {
 	private RecordHandler recHandler;
 	private TargetManager targetMgr;
 	private SummaryGenerator sumGen;
+	private NWSGenerator nwsGen;
 	
 	private UndoManager undoManager;
 	
@@ -39,9 +41,11 @@ public class HomeScreen extends JFrame implements UpdateNotifyee {
 			RecordHandler recHandlerRef,
 			TargetManager targetMgrRef,
 			UndoManager undomng,
-			SummaryGenerator sumGenRef){
+			SummaryGenerator sumGenRef,
+			NWSGenerator nwsGenRef){
 		super("EzXpns - Main Menu"); // Setting the title
 		this.setBackground(Color.WHITE);
+		nwsGen = nwsGenRef;
 		undoManager = undomng;
 		undoManager.setPostUndo(new AbstractAction(){
 
@@ -97,7 +101,7 @@ public class HomeScreen extends JFrame implements UpdateNotifyee {
 	 */
 	private JPanel getSavingsPanel() {
 		if(panSavings == null) {
-			panSavings = new SavingsOverviewPanel();
+			panSavings = new SavingsOverviewPanel(nwsGen);
 			panSavings.setBackground(Color.WHITE);
 		}
 		return panSavings;

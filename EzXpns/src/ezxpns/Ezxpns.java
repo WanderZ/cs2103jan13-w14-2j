@@ -4,6 +4,7 @@ import ezxpns.data.*;
 import ezxpns.data.records.Category;
 import ezxpns.data.records.CategoryHandler;
 import ezxpns.data.records.ExpenseRecord;
+import ezxpns.data.records.ExpenseType;
 import ezxpns.data.records.IncomeRecord;
 import ezxpns.data.records.PaymentMethod;
 import ezxpns.data.records.Record;
@@ -19,7 +20,7 @@ import ezxpns.GUI.Calculator.EvaluationException;
 import java.awt.EventQueue;
 import java.util.*;
 
-
+import java.util.concurrent.*;
 
 /**
  * Main class that links up various components
@@ -80,6 +81,7 @@ public class Ezxpns implements
 			System.out.println(e.toString());
 			System.exit(1);
 		}
+		
 		reportGenerator = new ReportGenerator(data);
 		summaryGenerator = new SummaryGenerator(data);
 		targetManager = data.targetManager();
@@ -90,8 +92,8 @@ public class Ezxpns implements
 												data.expenses(),	// PaymentMethodHandler
 												targetManager, 		// Target Manager
 												reportGenerator, 	// Report Generator
-												summaryGenerator);	// Summary Generator
-		
+												summaryGenerator,
+												data.nwsGen());	// Summary Generator  	
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -102,7 +104,6 @@ public class Ezxpns implements
 				}
 			}
 		});
-		
 	}
 	
 	@Override

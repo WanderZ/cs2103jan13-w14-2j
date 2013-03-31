@@ -19,17 +19,22 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 
+import ezxpns.GUI.Calculator.EvaluationException;
 import ezxpns.data.records.Category;
 import ezxpns.data.records.CategoryHandler;
 import ezxpns.data.records.IncomeRecord;
 import ezxpns.data.records.Record;
 import ezxpns.data.records.RecordHandler;
 
-/** GUI Form for Income records */
+/** 
+ * GUI Form for Income records
+ */
 @SuppressWarnings("serial")
 public class IncomeForm extends JPanel {
 	
@@ -62,8 +67,8 @@ public class IncomeForm extends JPanel {
 	
 	/**
 	 * Create a form for a new income record
-	 * @param recHandlerRef 
-	 * @param catHandlerRef
+	 * @param recHandlerRef RecordHandler reference to manage records
+	 * @param catHandlerRef CategoryHandler reference to manage categories
 	 */
 	public IncomeForm(
 			RecordHandler recHandlerRef, 
@@ -81,8 +86,8 @@ public class IncomeForm extends JPanel {
 	
 	/**
 	 * Create a form of the existing record
-	 * @param recHandlerRef 
-	 * @param catHandlerRef
+	 * @param recHandlerRef RecordHandler reference to manage records
+	 * @param catHandlerRef CategoryHandler reference to manage categories
 	 * @param record IncomeRecord object to be edit
 	 */
 	public IncomeForm(
@@ -103,7 +108,7 @@ public class IncomeForm extends JPanel {
 	 */
 	private void populateFields() {
 		// Name
-		txtName.setText(record.getName());
+		if(isEdit) txtName.setText(record.getName());
 		
 		// Amount
 		this.setAmt(record.getAmount());
@@ -137,6 +142,32 @@ public class IncomeForm extends JPanel {
 		lblName = this.createLabel("Name");
 		txtName = new JTextField("");
 		txtName.setPreferredSize(new Dimension(200, 25));
+		txtName.getDocument().addDocumentListener(new DocumentListener(){
+
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+				fill();
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent arg0) {
+				fill();
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent arg0) {
+				fill();
+			}
+			
+			private void fill(){
+				IncomeRecord oldRecord = recHandler.lastIncomeRecord(txtName.getText()); 
+				if(oldRecord!=null) {
+					record = oldRecord;
+					populateFields();
+				}
+			}
+			
+		});
 		txtName.addFocusListener(new FocusListener() {
 
 			@Override
@@ -145,13 +176,8 @@ public class IncomeForm extends JPanel {
 			}
 
 			@Override
-			public void focusLost(FocusEvent arg0) {
-				// Auto Complete - one use only.
-				IncomeRecord oldRecord = recHandler.lastIncomeRecord(txtName.getText()); 
-				if(record==null & oldRecord!=null) {
-					record = oldRecord;
-					populateFields();
-				}
+			public void focusLost(FocusEvent e) {
+				// TODO Auto-generated method stub
 			}
 			
 		});
@@ -184,7 +210,6 @@ public class IncomeForm extends JPanel {
 		loForm.putConstraint(SpringLayout.WEST, txtAmt, COL2_PAD, SpringLayout.WEST, this);
 		loForm.putConstraint(SpringLayout.NORTH, lblAmt, TOP_PAD, SpringLayout.NORTH, lblCat);
 		loForm.putConstraint(SpringLayout.NORTH, txtAmt, TOP_PAD, SpringLayout.NORTH, cboxCat);
-		// TODO: Calculator
 		
 		lblDate = this.createLabel("Date");
 		// JDateChooser stuff starts here (tingzhe)

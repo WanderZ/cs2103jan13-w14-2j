@@ -22,10 +22,13 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 
+import ezxpns.GUI.Calculator.EvaluationException;
 import ezxpns.data.records.Category;
 import ezxpns.data.records.CategoryHandler;
 import ezxpns.data.records.ExpenseRecord;
@@ -121,7 +124,7 @@ public class ExpenseForm extends JPanel{
 	 */
 	private void populateFields() {
 		// Name
-		txtName.setText(record.getName());
+		if(isEdit) txtName.setText(record.getName());
 		
 		// Amount
 		this.setAmt(record.getAmount());
@@ -208,6 +211,32 @@ public class ExpenseForm extends JPanel{
 		txtName = new JTextField("");
 		txtName.setPreferredSize(new Dimension(200, 25));
 		txtName.setBorder(BorderFactory.createLoweredBevelBorder());
+		txtName.getDocument().addDocumentListener(new DocumentListener(){
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				fill();
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				fill();
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				fill();
+			}
+			
+			private void fill(){
+				ExpenseRecord oldRecord = recHandler.lastExpenseRecord(txtName.getText());
+				if(oldRecord!=null) {
+					record = oldRecord;
+					populateFields();
+				}
+			}
+		
+		});
 		txtName.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent arg0) {
@@ -216,11 +245,7 @@ public class ExpenseForm extends JPanel{
 
 			@Override
 			public void focusLost(FocusEvent arg0) {
-				ExpenseRecord oldRecord = recHandler.lastExpenseRecord(txtName.getText());
-				if(record==null & oldRecord!=null) {
-					record = oldRecord;
-					populateFields();
-				}
+				
 			}
 		});
 		
@@ -265,6 +290,40 @@ public class ExpenseForm extends JPanel{
 		loForm.putConstraint(SpringLayout.NORTH, lblAmt, TOP_PAD, SpringLayout.NORTH, rbtnNeed);
 		loForm.putConstraint(SpringLayout.NORTH, txtAmt, TOP_PAD, SpringLayout.NORTH, rbtnWant);
 		// TODO: Calculator
+		final Calculator cal = Calculator.getInstance();
+		txtAmt.addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusGained(FocusEvent e) {
+				try {
+					Double result = cal.evaluate(getAmt());
+					System.out.println("Focus gained: " + result);
+					if(result!=null) setAmt(result);
+				}
+				catch(EvaluationException evalErr) {
+					System.out.println(evalErr.getMessage());
+				}
+				catch(Exception err) {
+					System.out.println(err.getMessage());
+				}
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				try {
+					Double result = cal.evaluate(getAmt());
+					System.out.println("Focus lost: " + result);
+					if(result!=null) setAmt(result);
+				}
+				catch(EvaluationException evalErr) {
+					System.out.println(evalErr.getMessage());
+				}
+				catch(Exception err) {
+					System.out.println(err.getMessage());
+				}
+			}
+			
+		});
 
 		lblDate = this.createLabel("Date");
 		// JDateChooser stuff starts here (tingzhe)
