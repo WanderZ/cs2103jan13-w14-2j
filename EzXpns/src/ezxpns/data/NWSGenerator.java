@@ -50,9 +50,8 @@ public class NWSGenerator extends Storable {
 	private NWSdata pastMonthNWS = new NWSdata();
 	private NWSdata thisMonthNWS = new NWSdata();
 
-	public NWSGenerator(DataProvider data) {
+	public void setDataProvider(DataProvider data) {
 		this.data = data;
-		dataUpdated = true;
 
 		// if there is no past month data or this month data, set the ratio as
 		// default.
@@ -76,10 +75,6 @@ public class NWSGenerator extends Storable {
 				generateRatios(); // this updates thisMonthNWS
 			}
 		}
-	}
-
-	public void setDataProvider(DataProvider data) {
-		this.data = data;
 		dataUpdated = true;
 	}
 
