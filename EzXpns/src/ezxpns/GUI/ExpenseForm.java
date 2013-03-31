@@ -72,6 +72,8 @@ public class ExpenseForm extends JPanel{
 	private List<PaymentMethod> methods;
 	private ExpenseRecord record;
 	
+	private boolean blockAutoFill = false;
+	
 	/**
 	 * Create a Form for new expense records
 	 * @param recHandlerRef RecordHandler reference to manage ExpenseRecords
@@ -123,8 +125,11 @@ public class ExpenseForm extends JPanel{
 	 * To populate all the fields with the given record's data
 	 */
 	private void populateFields() {
+		blockAutoFill = true;
 		// Name
-		if(isEdit) txtName.setText(record.getName());
+		if(isEdit){
+			if(!txtName.getText().equals(record.getName())) txtName.setText(record.getName());
+		}
 		
 		// Amount
 		this.setAmt(record.getAmount());
@@ -143,6 +148,8 @@ public class ExpenseForm extends JPanel{
 		
 		// Recurrence stuff...
 		// Not handled at the moment
+		
+		blockAutoFill = false;
 	}
 	
 	/** 
@@ -229,6 +236,7 @@ public class ExpenseForm extends JPanel{
 			}
 			
 			private void fill(){
+				if(blockAutoFill) return;
 				ExpenseRecord oldRecord = recHandler.lastExpenseRecord(txtName.getText());
 				if(oldRecord!=null) {
 					record = oldRecord;

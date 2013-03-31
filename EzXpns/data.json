@@ -432,10 +432,10 @@
       "date": {
         "year": 2013,
         "month": 2,
-        "dayOfMonth": 30,
-        "hourOfDay": 18,
-        "minute": 58,
-        "second": 28
+        "dayOfMonth": 31,
+        "hourOfDay": 14,
+        "minute": 0,
+        "second": 47
       },
       "targetNeeds": 0.10000000000000007,
       "targetWants": 0.3,

@@ -84,6 +84,8 @@ public class IncomeForm extends JPanel {
 		isEdit = false;
 	}
 	
+	private boolean blockAutoFill = false;
+	
 	/**
 	 * Create a form of the existing record
 	 * @param recHandlerRef RecordHandler reference to manage records
@@ -107,8 +109,11 @@ public class IncomeForm extends JPanel {
 	 * To populate all the fields with the given record's data
 	 */
 	private void populateFields() {
+		blockAutoFill = true;
 		// Name
-		if(isEdit) txtName.setText(record.getName());
+		if(isEdit && !txtName.getText().equals(record.getName())){
+			txtName.setText(record.getName());
+		}
 		
 		// Amount
 		this.setAmt(record.getAmount());
@@ -124,6 +129,8 @@ public class IncomeForm extends JPanel {
 		
 		// Recurrence stuff...
 		// Not handled at the moment
+		
+		blockAutoFill = false;
 	}
 	
 	/** Initialize the categories drop down field */
@@ -160,6 +167,7 @@ public class IncomeForm extends JPanel {
 			}
 			
 			private void fill(){
+				if(blockAutoFill)return;
 				IncomeRecord oldRecord = recHandler.lastIncomeRecord(txtName.getText()); 
 				if(oldRecord!=null) {
 					record = oldRecord;
