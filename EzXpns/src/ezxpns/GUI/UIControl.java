@@ -74,6 +74,7 @@ public class UIControl implements RecordListView.RecordEditor {
 		// homeScreen = new HomeScreen(this, recHandlerRef, targetMgr, undoMgr, sumGen);
 		home = new MainGUI(sumGen, targetMgr, undoMgr);
 		home.loadCategoryPanel(expenseHandlerRef, incomeHandlerRef, targetMgrRef);
+		home.loadSearchPanel(findHandler, new RecordListView(this, recHandler, home), inCatHandler, exCatHandler, payHandler);
 	}
 	
 	/**
