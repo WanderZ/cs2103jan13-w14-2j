@@ -144,7 +144,6 @@ public class RecordDialog extends JDialog implements ActionListener {
 			JFrame homeRef,
 			RecordHandler recHandlerRef, 
 			CategoryHandler<IncomeRecord> incomeHandlerRef,
-			UndoManager undoMgrRef,
 			UpdateNotifyee notifyeeRef,
 			IncomeRecord record) {
 		this(homeRef, recHandlerRef, incomeHandlerRef, null, null, notifyeeRef);
