@@ -87,7 +87,7 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 		homeContent.add(panTarget, gbContent);
 		
 		gbContent.gridx = 1;
-		panSavings = new SavingsOverviewPanel();
+		panSavings = new SavingsOverviewPanel(null);
 		homeContent.add(panSavings, gbContent);
 		
 		gbc.fill = GridBagConstraints.BOTH;

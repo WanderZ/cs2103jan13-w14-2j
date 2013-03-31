@@ -73,7 +73,7 @@ public class UIControl implements RecordListView.RecordEditor {
 		sumGen = sumGenRef;
 		undoMgr = new UndoManager();
 		
-		homeScreen = new HomeScreen(this, recHandlerRef, targetMgr, undoMgr, sumGen, nwsGen);
+		// homeScreen = new HomeScreen(this, recHandlerRef, targetMgr, undoMgr, sumGen, nwsGen);
 		home = new MainGUI(sumGen, targetMgr, undoMgr);
 		home.loadCategoryPanel(expenseHandlerRef, incomeHandlerRef, targetMgrRef);
 		home.loadSearchPanel(findHandler, new RecordListView(this, recHandler, home), inCatHandler, exCatHandler, payHandler);
@@ -119,15 +119,16 @@ public class UIControl implements RecordListView.RecordEditor {
 	 * @param record Record object to be edited
 	 */
 	public void showRecWin(Record record) {
-		recWin = new RecordDialog(home, recHandler, exCatHandler, payHandler, home, record);
+		
 		if(record instanceof ExpenseRecord) {
 			ExpenseRecord expense = (ExpenseRecord) record;
-			recWin = new RecordFrame(homeScreen, recHandler, exCatHandler, payHandler, homeScreen, expense);
+			// recWin = new RecordDialog(homeScreen, recHandler, exCatHandler, payHandler, homeScreen, expense);
+			recWin = new RecordDialog(home, recHandler, exCatHandler, payHandler, home, expense);
 		}
 		else {
 			IncomeRecord income = (IncomeRecord) record;
-			recWin = new RecordFrame(homeScreen, recHandler, inCatHandler, homeScreen, income);
-		recWin = new RecordDialog(home, recHandler, inCatHandler, undoMgr, home, record);
+			// recWin = new RecordFrame(homeScreen, recHandler, inCatHandler, homeScreen, income);
+			recWin = new RecordDialog(home, recHandler, inCatHandler, home, income);
 		}		
 	}
 	
@@ -153,7 +154,7 @@ public class UIControl implements RecordListView.RecordEditor {
 					//TODO: call the callback method in display
 					SuccessfulSaveEvent success = (SuccessfulSaveEvent) wEvent;
 					displayer.itemEdited(success.getRecord()); 
-					homeScreen.updateAll();
+					home.updateAll();
 					System.out.println("I was here");
 				}
 			}
