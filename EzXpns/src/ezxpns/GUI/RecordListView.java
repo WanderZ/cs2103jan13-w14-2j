@@ -15,7 +15,10 @@ import java.util.*;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import ezxpns.data.records.*;
 
@@ -58,6 +61,22 @@ public class RecordListView extends JTable {
 		public int getRowCount() {
 			return records.size();
 		}
+		
+		@Override
+        public Class<?> getColumnClass(int c) {
+			switch(c){
+			case 0:
+				return String.class;
+			case 1:
+				return Double.class;
+			case 2:
+				return String.class;
+			case 3:
+				return Date.class;
+			default:
+				return null;
+			}
+        }
 
 		@Override
 		public Object getValueAt(int r, int c) {
@@ -67,14 +86,14 @@ public class RecordListView extends JTable {
 				return re.getName();
 			case 1:
 				if(re instanceof ExpenseRecord){
-					return "-" + formatter.format(re.getAmount());
+					return -re.getAmount();
 				}else{
-					return " " + formatter.format(re.getAmount());
+					return re.getAmount();
 				}
 			case 2:
-				return re.getCategory();
+				return re.getCategory().toString();
 			case 3:
-				return dateFormatter.format(re.getDate());
+				return re.getDate();
 			default:
 				return null;
 			}
@@ -115,6 +134,30 @@ public class RecordListView extends JTable {
 		setShowVerticalLines(false);
 		setShowGrid(false);
 		setModel(model);
+		
+		this.setAutoCreateRowSorter(true);
+		
+		this.setDefaultRenderer(Date.class, new DefaultTableCellRenderer(){
+			@Override
+			public void setValue(Object value){
+				setText(dateFormatter.format(value));
+			}
+		});
+		
+		this.setDefaultRenderer(Double.class, new DefaultTableCellRenderer(){
+			@Override
+			public void setValue(Object value){
+				double dval = (Double)value;
+				String val;
+				if(dval > 0){
+					val = " " + formatter.format(dval);
+				}else{
+					val = "-" + formatter.format(-dval);
+				}
+				setText(val);
+			}
+		});
+
 		
 		setFont(new java.awt.Font("Segoe UI", 0, 14)); // #Font
 
