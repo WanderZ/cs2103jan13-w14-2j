@@ -1,0 +1,489 @@
+{
+  "_expenses": {
+    "payms": {
+      "0": {
+        "id": 0,
+        "name": "undefined"
+      },
+      "1361694372893": {
+        "id": 1361694372893,
+        "name": "NETS"
+      },
+      "1363314106821": {
+        "id": 1363314106821,
+        "name": "Gifts"
+      },
+      "1363857352962": {
+        "id": 1363857352962,
+        "name": "Chequeee"
+      },
+      "1363857357505": {
+        "id": 1363857357505,
+        "name": "iNets"
+      },
+      "1363857409977": {
+        "id": 1363857409977,
+        "name": "Cash"
+      },
+      "1363949455170": {
+        "id": 1363949455170,
+        "name": "iBank"
+      },
+      "1364054074479": {
+        "id": 1364054074479,
+        "name": "Cash"
+      },
+      "1364273369381": {
+        "id": 1364273369381,
+        "name": "Carelessness"
+      },
+      "1364521902224": {
+        "id": 1364521902224,
+        "name": "mBank"
+      }
+    },
+    "categories": {
+      "0": {
+        "id": 0,
+        "name": "undefined"
+      },
+      "1363504544188": {
+        "id": 1363504544188,
+        "name": "Misc"
+      },
+      "1363942776603": {
+        "id": 1363942776603,
+        "name": "Food"
+      },
+      "1363314106821": {
+        "id": 1363314106821,
+        "name": "Entertainment"
+      },
+      "1364704133024": {
+        "id": 1364704133024,
+        "name": "Transport"
+      },
+      "1364053692757": {
+        "id": 1364053692757,
+        "name": "Leisure"
+      }
+    },
+    "recordsByCategory": {
+      "0": [],
+      "1363504544188": [
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1364273369381,
+            "name": "Carelessness"
+          },
+          "amount": 20.2,
+          "name": "yayx2",
+          "remark": "111",
+          "date": "Mar 26, 2013 12:49:04 PM",
+          "id": 1363933184636
+        }
+      ],
+      "1363942776603": [
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1363857409977,
+            "name": "Cash"
+          },
+          "amount": 55.0,
+          "name": "Dinner",
+          "remark": "111",
+          "date": "Mar 26, 2013 12:34:18 PM",
+          "id": 1363941833220
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1361694372893,
+            "name": "NETS"
+          },
+          "amount": 100.0,
+          "name": "money",
+          "remark": "re",
+          "date": "Mar 22, 2013 12:00:00 AM",
+          "id": 1364222068344
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1361694372893,
+            "name": "NETS"
+          },
+          "amount": 20.2,
+          "name": "test",
+          "remark": "test",
+          "date": "Mar 18, 2013 12:00:00 AM",
+          "id": 1363950018778
+        }
+      ],
+      "1363314106821": [
+        {
+          "expenseType": "WANT",
+          "paymentMethod": {
+            "id": 1363314106821,
+            "name": "Gifts"
+          },
+          "amount": 44.0,
+          "name": "testingzasdfaasdfk",
+          "remark": "alright",
+          "date": "Mar 27, 2013 2:52:14 PM",
+          "id": 1364367139074
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1363314106821,
+            "name": "Gifts"
+          },
+          "amount": 22.0,
+          "name": "fun?",
+          "remark": "fund",
+          "date": "Mar 22, 2013 7:42:36 PM",
+          "id": 1363952568164
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1363314106821,
+            "name": "Gifts"
+          },
+          "amount": 99.0,
+          "name": "Acer Laptop",
+          "remark": "nil",
+          "date": "Mar 22, 2013 7:14:33 PM",
+          "id": 1363950898967
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1361694372893,
+            "name": "NETS"
+          },
+          "amount": 20.0,
+          "name": "testo",
+          "remark": "test",
+          "date": "Mar 22, 2013 12:00:00 AM",
+          "id": 1363952649900
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 0,
+            "name": "undefined"
+          },
+          "amount": 5000.0,
+          "name": "TVWatching",
+          "remark": "eh",
+          "date": "Mar 20, 2013 2:18:53 PM",
+          "id": 1363760333736
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1363314106821,
+            "name": "Gifts"
+          },
+          "amount": 44.0,
+          "name": "test",
+          "remark": "alright",
+          "date": "Mar 19, 2013 9:39:14 PM",
+          "id": 1363700354193
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1363314106821,
+            "name": "Gifts"
+          },
+          "amount": 165.81,
+          "name": "1jaa73uagt4w",
+          "remark": "nil",
+          "date": "Feb 27, 2012 9:59:13 PM",
+          "id": 1365249491970
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 0,
+            "name": "undefined"
+          },
+          "amount": 769.99,
+          "name": "1qrp6cycdfy8",
+          "remark": "nil",
+          "date": "Feb 27, 2012 5:45:00 PM",
+          "id": 1363314106823
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 0,
+            "name": "undefined"
+          },
+          "amount": 250.82,
+          "name": "3zubfq3gtsow",
+          "remark": "nil",
+          "date": "Nov 16, 2011 2:52:42 AM",
+          "id": 1361743350635
+        }
+      ],
+      "1364704133024": [
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 0,
+            "name": "undefined"
+          },
+          "amount": 20.0,
+          "name": "Car",
+          "remark": "eh",
+          "date": "Mar 20, 2013 2:19:45 PM",
+          "id": 1363760385546
+        }
+      ]
+    }
+  },
+  "_incomes": {
+    "categories": {
+      "0": {
+        "id": 0,
+        "name": "undefined"
+      },
+      "1364222011061": {
+        "id": 1364222011061,
+        "name": "Free"
+      },
+      "1364097417024": {
+        "id": 1364097417024,
+        "name": "Gifts"
+      },
+      "1362480320970": {
+        "id": 1362480320970,
+        "name": "Allowance"
+      },
+      "1363950844232": {
+        "id": 1363950844232,
+        "name": "Loot"
+      },
+      "1362122547530": {
+        "id": 1362122547530,
+        "name": "Salary"
+      },
+      "1364935492692": {
+        "id": 1364935492692,
+        "name": "Bursary"
+      },
+      "1364222095831": {
+        "id": 1364222095831,
+        "name": "Found"
+      },
+      "1363314106821": {
+        "id": 1363314106821,
+        "name": "Scholarship"
+      }
+    },
+    "recordsByCategory": {
+      "0": [],
+      "1364097417024": [
+        {
+          "amount": 225.97,
+          "name": "1srithadcsqo",
+          "remark": "nil",
+          "date": "Jul 4, 2011 5:55:31 PM",
+          "id": 1365440985060
+        }
+      ],
+      "1362480320970": [
+        {
+          "amount": 20.0,
+          "name": "testinge",
+          "remark": "nil",
+          "date": "Mar 22, 2013 7:41:10 PM",
+          "id": 1363952483313
+        },
+        {
+          "amount": 200.0,
+          "name": "Pocket Money",
+          "remark": ":\\",
+          "date": "Mar 22, 2013 12:36:07 PM",
+          "id": 1364133005448
+        },
+        {
+          "amount": 2000.0,
+          "name": "Pocket Money",
+          "remark": ":\\",
+          "date": "Mar 1, 2013 12:35:00 PM",
+          "id": 1364133061613
+        },
+        {
+          "amount": 85.81,
+          "name": "64ru2kmtvo8w",
+          "remark": "nil",
+          "date": "Sep 28, 2012 6:08:57 AM",
+          "id": 1362533861098
+        },
+        {
+          "amount": 532.88,
+          "name": "gu5qpqh6nwg",
+          "remark": "nil",
+          "date": "Dec 22, 2011 9:56:45 AM",
+          "id": 1362694204676
+        },
+        {
+          "amount": 540.91,
+          "name": "527nhkkx0mtc",
+          "remark": "nil",
+          "date": "Sep 10, 2011 2:32:50 AM",
+          "id": 1363715773749
+        }
+      ],
+      "1363314106821": [
+        {
+          "amount": 950.53,
+          "name": "5snrnsbymdj4",
+          "remark": "nil",
+          "date": "Apr 28, 2012 10:18:47 AM",
+          "id": 1364988487851
+        },
+        {
+          "amount": 66.8,
+          "name": "uwuasknxo8w",
+          "remark": "nil",
+          "date": "Mar 18, 2012 8:37:38 AM",
+          "id": 1363516385867
+        },
+        {
+          "amount": 586.76,
+          "name": "558zq4vninpc",
+          "remark": "nil",
+          "date": "Jan 14, 2012 10:00:49 PM",
+          "id": 1361850260409
+        },
+        {
+          "amount": 566.21,
+          "name": "7cpqnzzoo0ao",
+          "remark": "nil",
+          "date": "May 2, 2011 3:56:53 PM",
+          "id": 1365133895255
+        }
+      ],
+      "1364935492692": [
+        {
+          "amount": 183.08,
+          "name": "33iyf5s64rnk",
+          "remark": "nil",
+          "date": "Mar 2, 2013 5:16:57 AM",
+          "id": 1363314106822
+        },
+        {
+          "amount": 821.07,
+          "name": "5cccdpl4aha8",
+          "remark": "nil",
+          "date": "Dec 30, 2011 1:21:32 PM",
+          "id": 1363314106823
+        }
+      ],
+      "1364222095831": [
+        {
+          "amount": 20.2,
+          "name": "Blessingz",
+          "remark": "Found this on the floor!",
+          "date": "Mar 26, 2013 12:50:15 PM",
+          "id": 1364223741192
+        }
+      ]
+    }
+  },
+  "_nwsGen": {
+    "NEEDS": 0.5,
+    "WANTS": 0.3,
+    "SAVINGS": 0.2,
+    "BUFFER": 0.05,
+    "MAXNEEDS": 0.7,
+    "MINNEEDS": 0.1,
+    "MAXWANTS": 0.5,
+    "MINWANTS": 0.1,
+    "MAXSAVINGS": 0.7,
+    "MINSAVINGS": 0.2,
+    "pastMonthNWS": {
+      "date": {
+        "year": 2013,
+        "month": 2,
+        "dayOfMonth": 26,
+        "hourOfDay": 22,
+        "minute": 11,
+        "second": 12
+      },
+      "targetNeedsRatio": 0.0,
+      "targetWantsRatio": 0.0,
+      "targetSavingsRatio": 0.0,
+      "currentNeeds": 0.0,
+      "currentWants": 0.0,
+      "currentSavings": 0.0,
+      "income": 0.0,
+      "isSet": true
+    },
+    "thisMonthNWS": {
+      "date": {
+        "year": 2013,
+        "month": 3,
+        "dayOfMonth": 1,
+        "hourOfDay": 0,
+        "minute": 9,
+        "second": 24
+      },
+      "targetNeedsRatio": 0.0,
+      "targetWantsRatio": 0.0,
+      "targetSavingsRatio": 0.0,
+      "currentNeeds": 0.0,
+      "currentWants": 0.0,
+      "currentSavings": 0.0,
+      "income": 0.0,
+      "isSet": true
+    }
+  },
+  "_targetManager": {
+    "mapTarget": {
+      "1363314106821": {
+        "cat": {
+          "id": 1363314106821,
+          "name": "Entertainment"
+        },
+        "targetAmt": 1000.0
+      },
+      "1363504544188": {
+        "cat": {
+          "id": 1363504544188,
+          "name": "Misc"
+        },
+        "targetAmt": 11.0
+      },
+      "1363942776603": {
+        "cat": {
+          "id": 1363942776603,
+          "name": "Food"
+        },
+        "targetAmt": 1000.0
+      },
+      "1364053692757": {
+        "cat": {
+          "id": 1364053692757,
+          "name": "Leisure"
+        },
+        "targetAmt": 500.0
+      },
+      "1364704133024": {
+        "cat": {
+          "id": 1364704133024,
+          "name": "Transport"
+        },
+        "targetAmt": 80000.0
+      }
+    }
+  }
+}
