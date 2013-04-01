@@ -124,6 +124,18 @@
       ],
       "1363314106821": [
         {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1363314106821,
+            "name": "Gifts"
+          },
+          "amount": 1000.0,
+          "name": "test",
+          "remark": "alright",
+          "date": "Apr 1, 2013 12:19:48 AM",
+          "id": 1364746789972
+        },
+        {
           "expenseType": "WANT",
           "paymentMethod": {
             "id": 1363314106821,
@@ -390,6 +402,13 @@
       ],
       "1364222095831": [
         {
+          "amount": 200.0,
+          "name": "Blessingz",
+          "remark": "Found this on the floor!",
+          "date": "Apr 1, 2013 12:20:09 AM",
+          "id": 1364746811145
+        },
+        {
           "amount": 20.2,
           "name": "Blessingz",
           "remark": "Found this on the floor!",
@@ -411,14 +430,6 @@
     "MAXSAVINGS": 0.7,
     "MINSAVINGS": 0.2,
     "pastMonthNWS": {
-      "date": {
-        "year": 2013,
-        "month": 2,
-        "dayOfMonth": 26,
-        "hourOfDay": 22,
-        "minute": 11,
-        "second": 12
-      },
       "targetNeedsRatio": 0.0,
       "targetWantsRatio": 0.0,
       "targetSavingsRatio": 0.0,
@@ -426,24 +437,24 @@
       "currentWants": 0.0,
       "currentSavings": 0.0,
       "income": 0.0,
-      "isSet": true
+      "isSet": false
     },
     "thisMonthNWS": {
       "date": {
         "year": 2013,
         "month": 3,
         "dayOfMonth": 1,
-        "hourOfDay": 0,
-        "minute": 9,
-        "second": 24
+        "hourOfDay": 22,
+        "minute": 38,
+        "second": 51
       },
-      "targetNeedsRatio": 0.0,
-      "targetWantsRatio": 0.0,
-      "targetSavingsRatio": 0.0,
-      "currentNeeds": 0.0,
+      "targetNeedsRatio": 0.5,
+      "targetWantsRatio": 0.3,
+      "targetSavingsRatio": 0.2,
+      "currentNeeds": 1000.0,
       "currentWants": 0.0,
       "currentSavings": 0.0,
-      "income": 0.0,
+      "income": 200.0,
       "isSet": true
     }
   },

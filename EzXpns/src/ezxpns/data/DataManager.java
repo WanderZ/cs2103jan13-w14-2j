@@ -217,7 +217,7 @@ public class DataManager extends Storable
 
 	@Override
 	public double getYearlyIncome() {
-		return _expenses.getYearlySum();
+		return _incomes.getYearlySum();
 	}
 
 	@Override
