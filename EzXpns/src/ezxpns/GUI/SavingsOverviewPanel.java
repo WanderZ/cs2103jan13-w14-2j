@@ -12,6 +12,7 @@ import java.awt.Shape;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
+import java.text.DecimalFormat;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -30,6 +31,7 @@ import ezxpns.data.records.ExpenseType;
 public class SavingsOverviewPanel extends JPanel {
 
 	private NWSGenerator nwsGen;
+	private NWSBarPanel myBars;
 	private int DONUT_DIM = 250;
 
 	public SavingsOverviewPanel(NWSGenerator dataGenerator) {
@@ -80,7 +82,9 @@ public class SavingsOverviewPanel extends JPanel {
 	 * Draw the bar chart for NWS
 	 */
 	private void drawBars(){
-		NWSBarPanel myBars = new NWSBarPanel(nwsGen);
+		if (myBars != null)
+			this.remove(myBars);
+		myBars = new NWSBarPanel(nwsGen);
 		myBars.setBackground(new Color(255, 255, 255));
 		this.add(myBars, BorderLayout.CENTER);
 	}
@@ -89,8 +93,8 @@ public class SavingsOverviewPanel extends JPanel {
 	 * This is the method to call to update this panel
 	 */
 	public void update() {
+		nwsGen.updateNWSdata(); // should I remove this?
 		drawBars();
-		//nwsGen.updateNWSdata(); // should I remove this?
 		this.validate();
 	}
 
@@ -237,6 +241,8 @@ public class SavingsOverviewPanel extends JPanel {
 		double[] target;
 		String[] type = { "Needs", "Wants", "Savings" };
 		ExpenseType[] exType = { ExpenseType.NEED,ExpenseType.WANT, ExpenseType.SAVE};
+        DecimalFormat df = new DecimalFormat("#.##");
+
 		
 		NWSdata nwsData;
 
@@ -277,7 +283,7 @@ public class SavingsOverviewPanel extends JPanel {
 			// FontMetrics titleFontMetrics = g.getFontMetrics(titleFont);
 			Font labelFont = new Font("Book Antiqua", Font.BOLD, 15);
 			FontMetrics labelFontMetrics = g.getFontMetrics(labelFont);
-			Font ratioFont = new Font("Book Antiqua", Font.PLAIN, 10);
+			Font ratioFont = new Font("Book Antiqua", Font.PLAIN, 15);
 			FontMetrics ratioFontMetrics = g.getFontMetrics(ratioFont);
 			// int titleWidth = titleFontMetrics.stringWidth(title);
 			// int q = titleFontMetrics.getAscent();
@@ -318,13 +324,13 @@ public class SavingsOverviewPanel extends JPanel {
 				g2d.drawRect(valueP, valueQT, barWidth - 2, targetHeight);
 				g.setColor(Color.black);
 				int labelWidth = labelFontMetrics.stringWidth(type[j]);
-				int ratioWidth = ratioFontMetrics.stringWidth(""+value[j]+"/"+target[j]);
+				int ratioWidth = ratioFontMetrics.stringWidth(""+df.format(value[j])+"/"+df.format(target[j])+"%");
 				int p = j * 2 * barWidth + (clientWidth/5) + (barWidth - labelWidth) / 2;
 				int pRatio = j * 2 * barWidth + (clientWidth/5) + (barWidth - ratioWidth) / 2;
 				g.setFont(labelFont);
 				g.drawString(type[j], p, q - ratioFontMetrics.getAscent());
 				g.setFont(ratioFont);
-				g.drawString(""+value[j]+"/"+target[j], pRatio, clientHeight - ratioFontMetrics.getDescent());
+				g.drawString(""+df.format(value[j])+"/"+df.format(target[j])+"%", pRatio, clientHeight - ratioFontMetrics.getDescent());
 			}
 		}
 	}

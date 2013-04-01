@@ -14,6 +14,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 
@@ -21,7 +22,6 @@ import net.miginfocom.swing.MigLayout;
 import ezxpns.data.SummaryDetails;
 import ezxpns.data.SummaryGenerator;
 import ezxpns.data.SummaryGenerator.SummaryType;
-import javax.swing.JSeparator;
 
 /**
  * This is the overview a.k.a summary panel that display the user's balance, in
@@ -41,8 +41,8 @@ public class OverviewPanel extends JPanel {
 	private JLabel lblIncomeNumber;
 	private JLabel lblExpenseNumber;
 
-	DecimalFormat df = new DecimalFormat("#.##");
-
+	DecimalFormat df = new DecimalFormat("#.00");
+	
 	public OverviewPanel(SummaryGenerator sumGenRef) {
 		super();
 		setBackground(new Color(255, 255, 255));
