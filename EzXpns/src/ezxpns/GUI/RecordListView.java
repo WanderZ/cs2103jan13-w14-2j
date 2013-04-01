@@ -99,7 +99,9 @@ public class RecordListView extends JTable {
 	private ListModel model = new ListModel();
 	private JPopupMenu menu;
 	private Record itemSelected;
+	private Record itemsSelected;
 	private int rowSelected;
+	private int[] rowsSelected;
 	private UpdateNotifyee notifyee;
 	
 	public RecordListView(RecordEditor ed, RecordHandler rh, UpdateNotifyee notifyee){
@@ -107,7 +109,7 @@ public class RecordListView extends JTable {
 		editor = ed;
 		rhandler = rh;
 		this.notifyee = notifyee;
-		setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Single selection
+		setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		setIntercellSpacing(new Dimension(0, 0));
 		setShowHorizontalLines(false);
 		setShowVerticalLines(false);
@@ -134,7 +136,7 @@ public class RecordListView extends JTable {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				deleteItemAt(rowSelected);
+				deleteItemsAt(rowsSelected);
 			}
 			
 		});
@@ -163,7 +165,20 @@ public class RecordListView extends JTable {
 		    private void doPop(MouseEvent e){
 		    	int row = rowAtPoint(e.getPoint());
 		    	rowSelected = row;
-		    	setRowSelectionInterval(row, row);
+		    	int[] rows = getSelectedRows();
+		    	rowsSelected = rows;
+		    	boolean found = false;
+		    	for(int i = 0; i < rows.length; i++){
+		    		if(rows[i] == row){
+		    			found = true;
+		    			break;
+		    		}
+		    	}
+		    	if(!found){
+		    		setRowSelectionInterval(row, row);
+		    		rowsSelected = new int[1];
+		    		rowsSelected[0] = row;
+		    	}
 		    	itemSelected = records.get(row);
 				menu.show(e.getComponent(), e.getX(), e.getY());
 		    }
@@ -223,33 +238,43 @@ public class RecordListView extends JTable {
 	 * Removed the selected record
 	 * @param row the row Id of the Record that user has indicated for removal
 	 */
-	protected void deleteItemAt(int row){
-		String message = "Are you sure you want to remove this record?";
+	protected void deleteItemsAt(int[] rows){
+		String message = "Are you sure you want to remove these records?";
 		if(JOptionPane.showConfirmDialog(this, message, "what?!",
 				JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
-			Record original = records.get(row);
-			if(original instanceof IncomeRecord){
-				original = ((IncomeRecord)original).copy();
-			}else{
-				original = ((ExpenseRecord)original).copy();
+			Vector<Record> originals = new Vector<Record>();
+			Vector<Record> old = new Vector<Record>();
+			for(int i = 0; i < rows.length; i++){
+				Record original = records.get(rows[i]);
+				Record copy;
+				old.add(original);
+				if(original instanceof IncomeRecord){
+					copy = ((IncomeRecord)original).copy();
+				}else{
+					copy = ((ExpenseRecord)original).copy();
+				}
+				originals.add(copy);
+				rhandler.removeRecord(original.getId());
 			}
-			rhandler.removeRecord(records.get(row).getId());
-			records.remove(row);
-			model.fireTableRowsDeleted(row, row);
-			notifyee.addUndoAction(getUndoDeleteRecord(original), "Removing Record");
+			records.removeAll(old);
+			model.fireTableDataChanged();
+			
+			notifyee.addUndoAction(getUndoDeleteRecord(originals), "Removing Record");
 			notifyee.updateAll();
 		}
 	}
 	
-	private AbstractAction getUndoDeleteRecord(final Record original){
+	private AbstractAction getUndoDeleteRecord(final Vector<Record> originals){
 		return new AbstractAction(){
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(original instanceof IncomeRecord){
-					rhandler.createRecord((IncomeRecord)original, false);
-				}else{
-					rhandler.createRecord((ExpenseRecord)original, false, false);
+				for(Record original : originals){
+					if(original instanceof IncomeRecord){
+							rhandler.createRecord((IncomeRecord)original, false);
+					}else{
+						rhandler.createRecord((ExpenseRecord)original, false, false);
+					}
 				}
 			}
 			
