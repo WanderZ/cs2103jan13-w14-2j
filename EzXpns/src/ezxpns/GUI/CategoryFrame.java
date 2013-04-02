@@ -71,16 +71,6 @@ public class CategoryFrame extends JPanel {
 		inmo = new CategoryModel(incats, addNew);
 		this.notifyee = notifyee;
 		
-		// onLoad Listener
-		/*
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowOpened(WindowEvent arg0) {
-				
-			}
-		});
-		*/
-		
 		this.addFocusListener(new FocusListener() {
 
 			@Override
