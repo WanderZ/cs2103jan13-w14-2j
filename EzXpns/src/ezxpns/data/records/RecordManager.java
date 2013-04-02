@@ -117,10 +117,12 @@ public class RecordManager<T extends Record>
 		recordsByName = new TreeMap<String, TreeSet<T> >();
 		recordsById = new TreeMap<Long, T>();
 		monthlySumByCategory = new HashMap<Long, Double>();
+		cal.set(Calendar.AM_PM, Calendar.AM);
 		cal.set(Calendar.HOUR, 0);
 		cal.set(Calendar.MINUTE, 0);
 		cal.set(Calendar.SECOND, 0);
 		today = cal.getTime();
+		System.out.println(today);
 		cal.set(Calendar.DAY_OF_MONTH, 0);
 		startOfMonth = cal.getTime();
 		if(cal.get(Calendar.MONTH) == 0){
