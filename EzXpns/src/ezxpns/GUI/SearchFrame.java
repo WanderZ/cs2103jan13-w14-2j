@@ -125,7 +125,6 @@ public class SearchFrame extends JPanel {
 		
 		panBtns.add(btnAdvance);
 		
-		
 		btnSearch.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -186,18 +185,20 @@ public class SearchFrame extends JPanel {
 			
 			Date start = panForm.getStartDate(),
 				 end = panForm.getEndDate();
-			if(start != null && end != null){
+			if(start != null && end != null) {
 				Pair<Date, Date> dateRange = new Pair<Date, Date>(start, end);
-				if(req == null){
+				if(req == null) {
 					req = new SearchRequest(dateRange);
-				}else{
+				} 
+				else {
 					req.setDateRange(dateRange);
 				}
 				if(req != null) search(req);
 			}
 			
 			search(req);
-		}else{
+		}
+		else {
 			search(panForm.getSimpleQuery());
 		}
 	}
@@ -221,19 +222,26 @@ public class SearchFrame extends JPanel {
 	}
 	
 	private void switchMode(){
-		if(!isMoreOption){
+		if(!isMoreOption) {
 			panCtrls.setPreferredSize(new Dimension(DEFAULT_WIDTH, ADVANCE_HEIGHT));
 			panCtrls.revalidate();
 			btnAdvance.setText("Less options");
 			isMoreOption = true;
 			panForm.switchToAdvance();
-		}else{
+		}
+		else{
 			panCtrls.setPreferredSize(new Dimension(DEFAULT_WIDTH, SIMPLE_HEIGHT));
 			panCtrls.revalidate();
 			btnAdvance.setText("More options");
 			isMoreOption = false;
 			panForm.switchToSimple();
 		}
+	}
+	
+	/**
+	 * Reloads this panel to refresh the content.
+	 */
+	public void reload() {
 		
 	}
 }
@@ -426,12 +434,15 @@ class SearchFormPanel extends JPanel {
 	}
 	
 	/**
-	 * @return a String Object containg the query for Simple Search
+	 * @return a String Object containing the query for Simple Search
 	 */
 	public String getSimpleQuery(){
 		return this.txtSimpleField.getText();
 	}
 	
+	/**
+	 * @return a Date Object the starting date 
+	 */
 	public Date getStartDate() {
 		return (Date)txtStart.getDate();
 	}
@@ -459,8 +470,18 @@ class SearchFormPanel extends JPanel {
 		return txtEnd;
 	}
 	
+	/**
+	 * @return a Date Object containing the end of the time frame
+	 */
 	public Date getEndDate() {
 		return (Date) txtEnd.getDate();
+	}
+	
+	/**
+	 * Reloads the Form
+	 */
+	public void reload() {
+		// TODO: Reload category dropdown box
 	}
 }
 
