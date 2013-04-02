@@ -51,6 +51,10 @@
         "id": 1363504544188,
         "name": "Misc"
       },
+      "1364903455622": {
+        "id": 1364903455622,
+        "name": "Carelessness"
+      },
       "1363942776603": {
         "id": 1363942776603,
         "name": "Food"
@@ -63,17 +67,21 @@
         "id": 1363314106821,
         "name": "Entertainment"
       },
+      "1364904892178": {
+        "id": 1364904892178,
+        "name": "Accidents"
+      },
       "1364873683613": {
         "id": 1364873683613,
         "name": "Family"
       },
-      "1364704133024": {
-        "id": 1364704133024,
-        "name": "Transport"
-      },
       "1364053692757": {
         "id": 1364053692757,
         "name": "Leisure"
+      },
+      "1364704133024": {
+        "id": 1364704133024,
+        "name": "Transport"
       }
     },
     "recordsByCategory": {
@@ -90,6 +98,20 @@
           "remark": "111",
           "date": "Mar 26, 2013 12:49:04 PM",
           "id": 1363933184636
+        }
+      ],
+      "1364903455622": [
+        {
+          "expenseType": "WANT",
+          "paymentMethod": {
+            "id": 1364273369381,
+            "name": "Carelessness"
+          },
+          "amount": 900.0,
+          "name": "Lost my phone",
+          "remark": "My phone T_T",
+          "date": "Apr 2, 2013 12:00:00 AM",
+          "id": 1364903455622
         }
       ],
       "1363942776603": [
@@ -266,6 +288,20 @@
           "id": 1361743350635
         }
       ],
+      "1364904892178": [
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1363857409977,
+            "name": "Cash"
+          },
+          "amount": 500.0,
+          "name": "Repair Car",
+          "remark": "Buang dad\u0027s car",
+          "date": "Apr 2, 2013 12:00:00 AM",
+          "id": 1364904892178
+        }
+      ],
       "1364873683613": [
         {
           "expenseType": "NEED",
@@ -278,6 +314,20 @@
           "remark": "liang teh",
           "date": "Apr 1, 2013 12:00:00 AM",
           "id": 1364873683613
+        }
+      ],
+      "1364053692757": [
+        {
+          "expenseType": "WANT",
+          "paymentMethod": {
+            "id": 1363857357505,
+            "name": "iNets"
+          },
+          "amount": 175.0,
+          "name": "Night Cycling Event",
+          "remark": "Night cycling with hall peeps!",
+          "date": "Mar 30, 2013 12:00:00 AM",
+          "id": 1364903386340
         }
       ],
       "1364704133024": [
@@ -314,25 +364,29 @@
         "id": 1362480320970,
         "name": "Allowance"
       },
-      "1363950844232": {
-        "id": 1363950844232,
-        "name": "Loot"
-      },
       "1362122547530": {
         "id": 1362122547530,
         "name": "Salary"
       },
-      "1364935492692": {
-        "id": 1364935492692,
-        "name": "Bursary"
+      "1363950844232": {
+        "id": 1363950844232,
+        "name": "Loot"
+      },
+      "1363314106821": {
+        "id": 1363314106821,
+        "name": "Scholarship"
       },
       "1364222095831": {
         "id": 1364222095831,
         "name": "Found"
       },
-      "1363314106821": {
-        "id": 1363314106821,
-        "name": "Scholarship"
+      "1364935492692": {
+        "id": 1364935492692,
+        "name": "Bursary"
+      },
+      "1364904956472": {
+        "id": 1364904956472,
+        "name": "BirthdayPresents"
       }
     },
     "recordsByCategory": {
@@ -390,6 +444,38 @@
           "id": 1363715773749
         }
       ],
+      "1364222095831": [
+        {
+          "amount": 10000.0,
+          "name": "Blessingz",
+          "remark": "Found this on the floor!",
+          "date": "Apr 1, 2013 12:20:09 AM",
+          "id": 1364746811145
+        },
+        {
+          "amount": 20.2,
+          "name": "Blessingz",
+          "remark": "Found this on the floor!",
+          "date": "Mar 26, 2013 12:50:15 PM",
+          "id": 1364223741192
+        }
+      ],
+      "1364935492692": [
+        {
+          "amount": 183.08,
+          "name": "33iyf5s64rnk",
+          "remark": "nil",
+          "date": "Mar 2, 2013 5:16:57 AM",
+          "id": 1363314106822
+        },
+        {
+          "amount": 821.07,
+          "name": "5cccdpl4aha8",
+          "remark": "nil",
+          "date": "Dec 30, 2011 1:21:32 PM",
+          "id": 1363314106823
+        }
+      ],
       "1363314106821": [
         {
           "amount": 950.53,
@@ -420,36 +506,13 @@
           "id": 1365133895255
         }
       ],
-      "1364935492692": [
+      "1364904956472": [
         {
-          "amount": 183.08,
-          "name": "33iyf5s64rnk",
-          "remark": "nil",
-          "date": "Mar 2, 2013 5:16:57 AM",
-          "id": 1363314106822
-        },
-        {
-          "amount": 821.07,
-          "name": "5cccdpl4aha8",
-          "remark": "nil",
-          "date": "Dec 30, 2011 1:21:32 PM",
-          "id": 1363314106823
-        }
-      ],
-      "1364222095831": [
-        {
-          "amount": 10000.0,
-          "name": "Blessingz",
-          "remark": "Found this on the floor!",
-          "date": "Apr 1, 2013 12:20:09 AM",
-          "id": 1364746811145
-        },
-        {
-          "amount": 20.2,
-          "name": "Blessingz",
-          "remark": "Found this on the floor!",
-          "date": "Mar 26, 2013 12:50:15 PM",
-          "id": 1364223741192
+          "amount": 5000.0,
+          "name": "Alienware Laptop",
+          "remark": "Ownage!",
+          "date": "Apr 2, 2013 12:00:00 AM",
+          "id": 1364904956472
         }
       ]
     }
@@ -480,17 +543,17 @@
         "year": 2013,
         "month": 3,
         "dayOfMonth": 2,
-        "hourOfDay": 19,
-        "minute": 44,
-        "second": 32
+        "hourOfDay": 20,
+        "minute": 16,
+        "second": 30
       },
       "targetNeedsRatio": 0.5,
       "targetWantsRatio": 0.3,
       "targetSavingsRatio": 0.2,
-      "currentNeeds": 1104.0,
-      "currentWants": 0.0,
-      "currentSavings": 8896.0,
-      "income": 10000.0,
+      "currentNeeds": 1604.0,
+      "currentWants": 900.0,
+      "currentSavings": 12496.0,
+      "income": 15000.0,
       "isSet": true
     }
   },

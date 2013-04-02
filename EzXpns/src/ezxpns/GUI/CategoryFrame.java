@@ -77,7 +77,10 @@ public class CategoryFrame extends JPanel {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent arg0) {
-				
+				loadExList();
+				loadInList();
+				inlist.setSelectedIndex(0);
+				exlist.setSelectedIndex(0);
 			}
 		});
 		*/
@@ -86,11 +89,7 @@ public class CategoryFrame extends JPanel {
 
 			@Override
 			public void focusGained(FocusEvent arg0) {
-				System.out.println("entered reload code");
-				loadExList();
-				loadInList();
-				inlist.setSelectedIndex(0);
-				exlist.setSelectedIndex(0);
+				reload();
 			}
 
 			@Override
@@ -552,6 +551,16 @@ public class CategoryFrame extends JPanel {
 				}
 			}
 		};
+	}
+	
+	public void reload() {
+		// TODO: Check if this can reload, if required
+		System.out.println("entered reload code");
+		loadExList();
+		loadInList();
+		inlist.setSelectedIndex(0);
+		exlist.setSelectedIndex(0);
+		this.validate();
 	}
 }	
 
