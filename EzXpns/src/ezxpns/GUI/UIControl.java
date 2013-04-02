@@ -61,7 +61,7 @@ public class UIControl implements RecordListView.RecordEditor {
 			ReportGenerator rptGenRef,
 			SummaryGenerator sumGenRef,
 			NWSGenerator nwsGen) {
-		UINotify.createPopUp("Welcome! Please wait while we load your previous records");
+		// UINotify.createPopUp("Welcome! Please wait while we load your previous records");
 		// Handlers for the various places
 		findHandler = searchHandlerRef;
 		recHandler = recHandlerRef;
@@ -74,7 +74,7 @@ public class UIControl implements RecordListView.RecordEditor {
 		undoMgr = new UndoManager();
 		
 		// homeScreen = new HomeScreen(this, recHandlerRef, targetMgr, undoMgr, sumGen, nwsGen);
-		home = new MainGUI(sumGen, targetMgr, undoMgr);
+		home = new MainGUI(nwsGen, sumGen, targetMgr, undoMgr);
 		home.loadCategoryPanel(expenseHandlerRef, incomeHandlerRef, targetMgrRef);
 		home.loadSearchPanel(findHandler, new RecordListView(this, recHandler, home), inCatHandler, exCatHandler, payHandler);
 	}
@@ -119,7 +119,6 @@ public class UIControl implements RecordListView.RecordEditor {
 	 * @param record Record object to be edited
 	 */
 	public void showRecWin(Record record) {
-		
 		if(record instanceof ExpenseRecord) {
 			ExpenseRecord expense = (ExpenseRecord) record;
 			// recWin = new RecordDialog(homeScreen, recHandler, exCatHandler, payHandler, homeScreen, expense);
