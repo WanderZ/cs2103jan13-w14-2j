@@ -17,6 +17,10 @@ import javax.swing.JLayeredPane;
 /**
  * Navigator for the MainGUI
  */
+/**
+ * @author Andrew
+ *
+ */
 @SuppressWarnings("serial")
 public class EzNavigator extends JLayeredPane {
 
@@ -67,12 +71,12 @@ public class EzNavigator extends JLayeredPane {
 			}
 		}).start();
 		
-		btn = createMenuBtn(DialogMenuOpt.NEWEXP);
+		btn = createMenuBtn(new NewExpenseDialog(this.uiCtrl));
 		gbc.gridx = 0;
 		gbc.gridy = 3;
 		this.add(btn, gbc);
 		
-		btn = createMenuBtn(DialogMenuOpt.NEWINC);
+		btn = createMenuBtn(new NewIncomeDialog(this.uiCtrl));
 		gbc.gridx = 0;
 		gbc.gridy = 4;
 		this.add(btn, gbc);
@@ -88,7 +92,7 @@ public class EzNavigator extends JLayeredPane {
 		gbc.gridy = 6;
 		this.add(btn, gbc);
 		
-		btn = createMenuBtn(DialogMenuOpt.REPORT);
+		btn = createMenuBtn(new ReportDialog(this.uiCtrl));
 		gbc.gridx = 0;
 		gbc.gridy = 7;
 		this.add(btn, gbc);
@@ -131,11 +135,7 @@ public class EzNavigator extends JLayeredPane {
 	 * @param option
 	 */
 	public void navigate(DialogMenuOpt option) {
-		// TODO: generate the 3 different dialogs
-		System.out.println(option);
-		// TODO: Report Dialog
-		// TODO: Income Dialog
-		// TODO: Expense Dialog
+		option.openDialog();
 	}
 	
 	/**
@@ -250,10 +250,7 @@ public class EzNavigator extends JLayeredPane {
 /**
  * Generic Menu Options
  */
-interface MenuOption {
-	
-	public String toString();
-}
+interface MenuOption {}
 
 /**
  *
@@ -261,13 +258,12 @@ interface MenuOption {
 enum NormalMenuOpt implements MenuOption {
 	
 	NEWRCD 	("New Record"), 			// Maybe this isn't an option
-	
 	SEARCH 	("Search"),					// TODO: Advanced Search ?
 	CATMGR 	("Manage Category"),		
-	PAYMGR 	("Manage Payments"),		// TODO: Remove or keep?
+	PAYMGR 	("Manage Payments"),		// TODO: Remove @Yujian
 	TARGET 	("Manage Targets"),			// TODO: Is that the one to keep?
 	DASHBD 	("Dashboard"),
-	CONFIG	("Configurations"),
+	CONFIG	("Configurations"),			// Further implementation
 	REVERT	("Undo");
 	
 	
@@ -283,17 +279,65 @@ enum NormalMenuOpt implements MenuOption {
 /**
  * 
  */
-enum DialogMenuOpt implements MenuOption {
+abstract class DialogMenuOpt implements MenuOption {
 	
-	NEWINC 	("New Income"),		
-	NEWEXP 	("New Expense"),
-	REPORT 	("Generate Report");
+	protected String name;
+	protected UIControl uiCtrl;
 	
-	public final String name;
-	private DialogMenuOpt(String name) {this.name = name;}
+	public DialogMenuOpt(String name, UIControl uiCtrlRef) {
+		this.name = name;
+		this.uiCtrl = uiCtrlRef;
+	}
 	
-	@Override
 	public String toString() {
 		return this.name;
+	}
+	public abstract void openDialog();
+}
+
+
+/**
+ *
+ */
+class NewIncomeDialog extends DialogMenuOpt {
+	
+	public NewIncomeDialog(UIControl uiCtrl) {
+		super("New Income", uiCtrl);
+	}
+
+	@Override
+	public void openDialog() {
+		// TODO Auto-generated method stub
+		uiCtrl.showRecWin(RecordDialog.TAB_INCOME);
+	}	
+}
+
+/**
+ *
+ */
+class NewExpenseDialog extends DialogMenuOpt {
+	
+	public NewExpenseDialog(UIControl uiCtrl) {
+		super("New Expense", uiCtrl);
+	}
+
+	@Override
+	public void openDialog() {
+		uiCtrl.showRecWin(RecordDialog.TAB_EXPENSE);
+	}
+}
+
+/**
+ *
+ */
+class ReportDialog extends DialogMenuOpt {
+	
+	public ReportDialog(UIControl uiCtrl) {
+		super("Generate Report", uiCtrl);
+	}
+
+	@Override
+	public void openDialog() {
+		uiCtrl.showReportWin();
 	}
 }
