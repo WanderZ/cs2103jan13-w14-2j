@@ -98,6 +98,7 @@ public class Ezxpns implements
 			public void run() {
 				try {
 					main.showHomeScreen();
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
