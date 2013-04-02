@@ -137,15 +137,16 @@ public class SearchFrame extends JPanel {
 		
 		this.add(panCtrls, BorderLayout.NORTH);
 		
-		// InfoPanel
-		panInfo = new InfoPanel();
-		this.add(panInfo, BorderLayout.SOUTH);
 
 		// list
 		list = li;
-		list.setPreferredScrollableViewportSize(new Dimension(100, 200));
+		// list.setPreferredScrollableViewportSize(new Dimension(100, 200));
 		this.panResult = new JScrollPane(list);
 		this.add(this.panResult, BorderLayout.CENTER);
+
+		// InfoPanel
+		panInfo = new InfoPanel();
+		this.add(panInfo, BorderLayout.SOUTH);
 	}
 	
 //	/** to initialize the components of this frame */
