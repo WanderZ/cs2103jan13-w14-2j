@@ -295,7 +295,12 @@ public class SavingsOverviewPanel extends JPanel {
 			int bottom = labelFontMetrics.getHeight() * 2;
 			if (maxValue == minValue)
 				return;
+			System.out.println(maxValue);
+			if (maxValue > 100)
+				maxValue = Math.log(maxValue-100) + 100;
+			System.out.println(maxValue);
 			double scale = (clientHeight - bottom) / (maxValue - minValue);
+			System.out.println(scale);
 			int q = clientHeight - labelFontMetrics.getDescent();
 			g.setFont(labelFont);
 
@@ -325,13 +330,13 @@ public class SavingsOverviewPanel extends JPanel {
 				g2d.drawRect(valueP, valueQT, barWidth - 2, targetHeight);
 				g.setColor(Color.black);
 				int labelWidth = labelFontMetrics.stringWidth(type[j]);
-				int ratioWidth = ratioFontMetrics.stringWidth(""+df.format(value[j])+"/"+df.format(target[j])+"%");
+				int ratioWidth = ratioFontMetrics.stringWidth(""+df.format(value[j])+"%/"+df.format(target[j])+"%");
 				int p = j * 2 * barWidth + (clientWidth/5) + (barWidth - labelWidth) / 2;
 				int pRatio = j * 2 * barWidth + (clientWidth/5) + (barWidth - ratioWidth) / 2;
 				g.setFont(labelFont);
 				g.drawString(type[j], p, q - ratioFontMetrics.getAscent());
 				g.setFont(ratioFont);
-				g.drawString(""+df.format(value[j])+"/"+df.format(target[j])+"%", pRatio, clientHeight - ratioFontMetrics.getDescent());
+				g.drawString(""+df.format(value[j])+"%/"+df.format(target[j])+"%", pRatio, clientHeight - ratioFontMetrics.getDescent());
 			}
 		}
 	}
