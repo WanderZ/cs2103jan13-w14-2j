@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -87,7 +88,7 @@ public class SearchFrame extends JPanel {
 			CategoryHandler<IncomeRecord> inCatHandRef, 
 			CategoryHandler<ExpenseRecord> exCatHandRef, 
 			PaymentHandler payHandRef) {
-		// super();
+		super(new BorderLayout());
 /*		this.init();*/
 		this.handler = handlerRef;
 		
@@ -248,7 +249,7 @@ class SearchFormPanel extends JPanel {
 	private JLabel lblName, lblTitle, lblCat, lblPay, lblDate, lblToDate;
 	private JTextField txtName, txtSimpleField;
 	private JComboBox txtCat, txtPay;
-	private JButton btnAdvance;
+	// private JButton btnAdvance;
 	private JDateChooser txtStart, txtEnd;
 	private final Font FORM_FONT = new Font("Segoe UI", 0, 14); // #Font
 	
@@ -308,6 +309,9 @@ class SearchFormPanel extends JPanel {
 		this.add(this.getToDateField());
 	}
 	
+	/**
+	 * @return a JLabel Object to with Name 
+	 */
 	private JLabel getNameLabel() {
 		if(lblName == null) {
 			lblName = new JLabel("Name");
@@ -316,6 +320,9 @@ class SearchFormPanel extends JPanel {
 		return lblName;
 	}
 	
+	/**
+	 * @return a JTextField Object for name
+	 */
 	public JTextField getNameField() {
 		if(txtName == null) {
 			txtName = new JTextField("");
@@ -325,6 +332,9 @@ class SearchFormPanel extends JPanel {
 		return txtName;
 	}
 	
+	/**
+	 * @return a JLabel Object for category
+	 */
 	private JLabel getCatLabel() {
 		if(lblCat == null) {
 			lblCat = new JLabel("Category");
@@ -333,6 +343,9 @@ class SearchFormPanel extends JPanel {
 		return lblCat;
 	}
 	
+	/**
+	 * @return a JComboBox for category
+	 */
 	public JComboBox getCatField() {
 		if(txtCat == null) {
 			Object[] myInCatList = new Category[inCatHandRef.getAllCategories().size()];
@@ -351,7 +364,7 @@ class SearchFormPanel extends JPanel {
 		return txtCat;
 	}
 	
-	private JLabel getPayLabel(){
+	private JLabel getPayLabel(){ // TODO: Marked for removal?
 		if (lblPay == null){
 			lblPay = new JLabel("Payment");
 			lblPay.setFont(FORM_FONT);
@@ -359,7 +372,7 @@ class SearchFormPanel extends JPanel {
 		return lblPay;
 	}
 	
-	public JComboBox getPayField() {
+	public JComboBox getPayField() { // TODO: Marked for removal?
 		if(txtPay == null) {
 			Object[] myPayList = new PaymentMethod[payHandRef.getAllPaymentMethod().size()];
 			myPayList = payHandRef.getAllPaymentMethod().toArray();
@@ -412,6 +425,9 @@ class SearchFormPanel extends JPanel {
 		return txtStart;
 	}
 	
+	/**
+	 * @return a String Object containg the query for Simple Search
+	 */
 	public String getSimpleQuery(){
 		return this.txtSimpleField.getText();
 	}
@@ -448,19 +464,26 @@ class SearchFormPanel extends JPanel {
 	}
 }
 
+/**
+ * Pseudo Status Bar for Search
+ */
 @SuppressWarnings("serial")
-class InfoPanel extends JPanel{
+class InfoPanel extends JPanel {
 	private JLabel lblNumRec;
 	private JLabel lblTotalAmt;
-	private DecimalFormat df = new DecimalFormat("#.##");
+	private DecimalFormat df = new DecimalFormat("$###,###,##0.00");
 	
 	public InfoPanel(){
 		setLayout(new MigLayout("","1[]15[]","0[]0"));
 		setPreferredSize(new Dimension(600, 25));
+		this.setBorder(BorderFactory.createLoweredBevelBorder());
 		this.add(getNumRecLabel());
 		this.add(getTotalAmtLabel());
 	}
 	
+	/**
+	 * @return a JLabel object to label Sum of records
+	 */
 	private JLabel getNumRecLabel() {
 		if (lblNumRec == null){
 			lblNumRec = new JLabel("No. of Records: - ");
@@ -468,6 +491,9 @@ class InfoPanel extends JPanel{
 		return lblNumRec;
 	}
 
+	/**
+	 * @return a JLabel object to label Total Amount
+	 */
 	private JLabel getTotalAmtLabel() {
 		if (lblTotalAmt == null){
 			lblTotalAmt = new JLabel("Total Amount: - ");
@@ -475,10 +501,16 @@ class InfoPanel extends JPanel{
 		return lblTotalAmt;
 	}
 
+	/**
+	 * @param num Number to set as the sum of records
+	 */
 	public void setNumRec(int num){
 		lblNumRec.setText("No. of Records: " +  num);
 	}
 	
+	/**
+	 * @param num Number to set as the total amount
+	 */
 	public void setTotalAmt(double num){
 		lblTotalAmt.setText("Balance: " + df.format(num)); // 2 decimal place later
 	}
