@@ -190,7 +190,7 @@ public class RecordListView extends JTable {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				if(arg0.getClickCount() == 2 && arg0.getButton() == MouseEvent.BUTTON1){
-					editItemAt(rowAtPoint(arg0.getPoint()));
+					editItemAt(convertRowIndexToModel(rowAtPoint(arg0.getPoint())));
 				}
 			}
 			
@@ -207,9 +207,13 @@ public class RecordListView extends JTable {
 		    }
 
 		    private void doPop(MouseEvent e){
-		    	int row = rowAtPoint(e.getPoint());
-		    	rowSelected = row;
-		    	int[] rows = getSelectedRows();
+		    	int row = convertRowIndexToModel(rowAtPoint(e.getPoint()));
+		    	rowSelected = convertRowIndexToModel(row);
+		    	int[] orirows = getSelectedRows();
+		    	int[] rows = new int[orirows.length];
+		    	for(int i = 0; i< orirows.length; i++){
+		    		rows[i] = convertRowIndexToModel(orirows[i]);
+		    	}
 		    	rowsSelected = rows;
 		    	boolean found = false;
 		    	for(int i = 0; i < rows.length; i++){
