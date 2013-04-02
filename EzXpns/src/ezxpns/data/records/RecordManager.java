@@ -343,6 +343,7 @@ public class RecordManager<T extends Record>
 	@Override
 	public Category addNewCategory(Category toAdd){
 		String err = validateCategoryName(toAdd.name);
+		System.out.println(err);
 		if(err != null)return null;
 		Category category = toAdd.copy();
 		while(categories.containsKey(category.getID())){

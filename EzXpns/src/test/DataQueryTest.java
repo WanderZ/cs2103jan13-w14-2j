@@ -41,9 +41,9 @@ public class DataQueryTest {
 
 	@Test
 	public void testUpdateRecords() throws RecordUpdateException {
-		Category cat = new Category(11, "update_recordCategory");
+		Category cat = new Category(11, "update_recordCat");
+		cat = m.addNewCategory(cat);
 		IncomeRecord r = new IncomeRecord(10,"test_updateName", "nil", new Date(), cat);
-		m.addNewCategory(cat);
 		r = m.addNewRecord(r);
 		if(m.getRecordsBy(r.getName(), 1).size() == 0){
 			fail("Adding record failed!");
@@ -100,13 +100,13 @@ public class DataQueryTest {
 		IncomeRecord r = new IncomeRecord(10, "category_test", "nil", new Date(), m.getCategory((long)100));
 		r = m.addNewRecord(r);
 		try {
-			m.updateCategory((long)100, "second");
+			m.updateCategory((long)100, "third");
 		} catch (CategoryUpdateException e) {
 			e.printStackTrace();
 			fail("Updating category results in an error.");
 		}
 		
-		if(!m.getRecordsBy(r.getName(), 1).get(0).getCategory().getName().equals("second")){
+		if(!m.getRecordsBy(r.getName(), 1).get(0).getCategory().getName().equals("third")){
 			fail("Updating category failes to have effect on the record.");
 		}
 	}
