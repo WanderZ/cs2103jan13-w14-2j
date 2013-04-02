@@ -206,7 +206,7 @@ public class RecordDialog extends JDialog implements ActionListener {
 			System.out.println("Saved invoked!");
 			if(panMain.validateForm()) { // Invoke validation
 				System.out.println("Validate Success!");
-				// panMain.save(); //TODO: to return all that is added, Category, Payment method, new Record (Pair in Pair)
+				//TODO: to return all that is added, Category, Payment method, new Record (Pair in Pair)
 				this.closeWin(panMain.save());
 				return;
 			}
@@ -596,7 +596,7 @@ class PanelOption extends JPanel {
 
 /** Panel to store all the options pertaining to recurrence of a record */
 @SuppressWarnings("serial")
-class PanelRecur extends JPanel implements ActionListener{
+class PanelRecur extends JPanel implements ActionListener {
 	
 	private JCheckBox chkRecur;
 	private JComboBox cboxFrequency;

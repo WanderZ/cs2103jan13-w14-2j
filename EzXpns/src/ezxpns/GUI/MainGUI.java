@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
+import ezxpns.data.NWSGenerator;
 import ezxpns.data.SummaryGenerator;
 import ezxpns.data.TargetManager;
 import ezxpns.data.records.CategoryHandler;
@@ -40,7 +41,11 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 	private CategoryFrame panCategory;
 	
 	
-	public MainGUI(SummaryGenerator sumGen, TargetManager targetMgr, UndoManager undoMgr) {
+	public MainGUI(
+			NWSGenerator nwsGen,
+			SummaryGenerator sumGen, 
+			TargetManager targetMgr, 
+			UndoManager undoMgr) {
 		super();
 		this.instantiateUI();
 		
@@ -87,7 +92,7 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 		homeContent.add(panTarget, gbContent);
 		
 		gbContent.gridx = 1;
-		panSavings = new SavingsOverviewPanel(null);
+		panSavings = new SavingsOverviewPanel(nwsGen);
 		homeContent.add(panSavings, gbContent);
 		
 		gbc.fill = GridBagConstraints.BOTH;
