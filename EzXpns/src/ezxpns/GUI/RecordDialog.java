@@ -32,7 +32,7 @@ import javax.swing.JTextField;
  * This is a JFrame object (Window) that allows users to enter a new record (Expense/Income) into the EzXpns
  */
 @SuppressWarnings("serial")
-public class RecordFrame extends JDialog implements ActionListener {
+public class RecordDialog extends JDialog implements ActionListener {
 	
 	public static final int DEFAULT_WIDTH = 600;
 	public static final int DEFAULT_HEIGHT = 400; 
@@ -58,22 +58,22 @@ public class RecordFrame extends JDialog implements ActionListener {
 	 * @param payHandlerRef PayHandler reference to manage Payment Methods
 	 * @param undoMgrRef UndoManager reference for managing undo actions
 	 */
-	public RecordFrame(
+	public RecordDialog(
 			JFrame homeRef,
 			RecordHandler recHandlerRef, 
 			CategoryHandler<IncomeRecord> incomeHandlerRef, 
 			CategoryHandler<ExpenseRecord> expenseHandlerRef,
 			PaymentHandler payHandlerRef,
 			UpdateNotifyee notifyeeRef) {
-		super(homeRef, true);
+		super(homeRef, "EzXpns", true); /* Owner, Title, Modularity */
 		recHandler = recHandlerRef;
 		incomeHandler = incomeHandlerRef;
 		expenseHandler = expenseHandlerRef;
 		payHandler = payHandlerRef;
 		notifyee = notifyeeRef;
-		
-		this.initFrame();
 		isEditing = false;
+		this.initFrame();
+		
 	}
 	
 	/**
@@ -85,7 +85,7 @@ public class RecordFrame extends JDialog implements ActionListener {
 	 * @param undoMgrRef UndoManager reference for managing undo actions
 	 * @param initTab use either TAB_INCOME or TAB_EXPENSE to indicate which tab to choose
 	 */
-	public RecordFrame(
+	public RecordDialog(
 			JFrame homeRef,
 			RecordHandler recHandlerRef, 
 			CategoryHandler<IncomeRecord> incomeHandlerRef, 
@@ -120,7 +120,7 @@ public class RecordFrame extends JDialog implements ActionListener {
 	 * @param undoMgrRef UndoManager reference for managing undo actions
 	 * @param record existing ExpenseRecord to be edited
 	 */
-	public RecordFrame(
+	public RecordDialog(
 			JFrame homeRef,
 			RecordHandler recHandlerRef,
 			CategoryHandler<ExpenseRecord> expenseHandlerRef,
@@ -128,8 +128,9 @@ public class RecordFrame extends JDialog implements ActionListener {
 			UpdateNotifyee notifyeeRef,
 			ExpenseRecord record) {
 		this(homeRef, recHandlerRef, null, expenseHandlerRef, payHandlerRef, notifyeeRef);
-		this.initComponent(record);
 		isEditing = true;
+		this.initComponent(record);
+		
 	}
 	
 	/**
@@ -139,22 +140,23 @@ public class RecordFrame extends JDialog implements ActionListener {
 	 * @param undoMgrRef UndoManager reference for managing undo actions
 	 * @param record existing IncomeRecord to be edited
 	 */
-	public RecordFrame(
+	public RecordDialog(
 			JFrame homeRef,
 			RecordHandler recHandlerRef, 
 			CategoryHandler<IncomeRecord> incomeHandlerRef,
 			UpdateNotifyee notifyeeRef,
 			IncomeRecord record) {
 		this(homeRef, recHandlerRef, incomeHandlerRef, null, null, notifyeeRef);
-		this.initComponent(record);
 		isEditing = true;
+		this.initComponent(record);
+		
 	}
 	
 	/**
 	 * Initialize this frame with its properties
 	 */
 	private void initFrame() {
-		this.setTitle("EzXpns - New Record");
+		
 		getContentPane().setLayout(new BorderLayout(5, 5));
 		this.setBounds(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		this.setLocationRelativeTo(null);
@@ -166,6 +168,7 @@ public class RecordFrame extends JDialog implements ActionListener {
 	 * Initialize this frame with its components
 	 */
 	private void initComponent() {
+		this.setTitle(isEditing? "EzXpns - Edit Record" : "EzXpns - New Record");
 		panMain = new PanelMain(recHandler, incomeHandler, expenseHandler, payHandler, notifyee);
 		getContentPane().add(panMain, BorderLayout.CENTER);
 		
@@ -203,7 +206,7 @@ public class RecordFrame extends JDialog implements ActionListener {
 			System.out.println("Saved invoked!");
 			if(panMain.validateForm()) { // Invoke validation
 				System.out.println("Validate Success!");
-				// panMain.save(); //TODO: to return all that is added, Category, Payment method, new Record (Pair in Pair)
+				//TODO: to return all that is added, Category, Payment method, new Record (Pair in Pair)
 				this.closeWin(panMain.save());
 				return;
 			}
@@ -220,11 +223,8 @@ public class RecordFrame extends JDialog implements ActionListener {
 	 * Closing the window - without editing
 	 */
 	public void closeWin() {
-		System.out.println("Closing Normally");
-		notifyee.updateAll();
 		WindowEvent wev = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
         this.dispatchEvent(wev); // "Throw" Event
-        this.setVisible(false);
         this.dispose();
 	}
 	
@@ -232,10 +232,9 @@ public class RecordFrame extends JDialog implements ActionListener {
 	 * To close this window safely - in edit mode
 	 */
 	public void closeWin(Record record) {
-		System.out.println("Closing Successfully :)");
 		SuccessfulSaveEvent success = new SuccessfulSaveEvent(this, WindowEvent.WINDOW_CLOSING, record);
-		this.dispatchEvent(success); // "Throw" Event
-        this.setVisible(false);
+        // WindowEvent wev = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
+        this.dispatchEvent(success); // "Throw" Event
         this.dispose();
         // java.awt.Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(wev); // Don't seem to work
 	}
@@ -243,6 +242,7 @@ public class RecordFrame extends JDialog implements ActionListener {
 
 /**
  * Modified WindowEvent to return the edited record
+ *
  */
 @SuppressWarnings("serial")
 class SuccessfulSaveEvent extends WindowEvent {
@@ -251,7 +251,6 @@ class SuccessfulSaveEvent extends WindowEvent {
 	
 	public SuccessfulSaveEvent(Window source, int id, Record savedRecord) {
 		super(source, id);
-		System.out.println("I'm created :)");
 		saved = savedRecord;
 	}
 	
@@ -597,7 +596,7 @@ class PanelOption extends JPanel {
 
 /** Panel to store all the options pertaining to recurrence of a record */
 @SuppressWarnings("serial")
-class PanelRecur extends JPanel implements ActionListener{
+class PanelRecur extends JPanel implements ActionListener {
 	
 	private JCheckBox chkRecur;
 	private JComboBox cboxFrequency;

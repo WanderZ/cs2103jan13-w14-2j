@@ -21,8 +21,9 @@ import ezxpns.data.records.SearchHandler;
 public class UIControl implements RecordListView.RecordEditor {
 	
 	// JComponents
-	private HomeScreen homeScreen;
-	private RecordFrame recWin;
+	// private HomeScreen homeScreen;
+	private MainGUI home;
+	private RecordDialog recWin;
 	private SearchFrame searchWin;	
 	private ReportFrame reportWin;
 	private CategoryFrame catWin;
@@ -60,7 +61,7 @@ public class UIControl implements RecordListView.RecordEditor {
 			ReportGenerator rptGenRef,
 			SummaryGenerator sumGenRef,
 			NWSGenerator nwsGen) {
-		
+		// UINotify.createPopUp("Welcome! Please wait while we load your previous records");
 		// Handlers for the various places
 		findHandler = searchHandlerRef;
 		recHandler = recHandlerRef;
@@ -72,21 +73,18 @@ public class UIControl implements RecordListView.RecordEditor {
 		sumGen = sumGenRef;
 		undoMgr = new UndoManager();
 		
-		homeScreen = new HomeScreen(this, recHandlerRef, targetMgr, undoMgr, sumGen, nwsGen);
-		
-		homeScreen.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent wEvent) {
-				System.exit(0);
-			}
-		});
+		// homeScreen = new HomeScreen(this, recHandlerRef, targetMgr, undoMgr, sumGen, nwsGen);
+		home = new MainGUI(nwsGen, sumGen, targetMgr, this, undoMgr);
+		home.loadCategoryPanel(expenseHandlerRef, incomeHandlerRef, targetMgrRef);
+		home.loadSearchPanel(findHandler, new RecordListView(this, recHandler, home), inCatHandler, exCatHandler, payHandler);
 	}
 	
 	/**
 	 * Display the main/home screen of EzXpns
 	 */
 	public void showHomeScreen() {
-		if(!homeScreen.isVisible()) {
-			homeScreen.setVisible(true);
+		if(!home.isVisible()) {
+			home.setVisible(true);
 		}
 	}
 	
@@ -94,8 +92,8 @@ public class UIControl implements RecordListView.RecordEditor {
 	 * Closes the main/home screen of EzXpns
 	 */
 	public void closeHomeScreen() {
-		if(homeScreen.isVisible()) {
-			homeScreen.setVisible(false);
+		if(home.isVisible()) {
+			home.setVisible(false);
 		}
 	}
 	
@@ -105,11 +103,11 @@ public class UIControl implements RecordListView.RecordEditor {
 	 * @param recordType the type of new record Expense/Income 
 	 */
 	public void showRecWin(int recordType) {
-		recWin = new RecordFrame(homeScreen, recHandler, inCatHandler, exCatHandler, payHandler, homeScreen, recordType);
+		recWin = new RecordDialog(home, recHandler, inCatHandler, exCatHandler, payHandler, home, recordType);
 		recWin.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent wEvent) {
-				homeScreen.updateAll();
+				home.updateAll();
 				System.out.println("RecordFrame exiting!");
 			}
 		});
@@ -123,11 +121,13 @@ public class UIControl implements RecordListView.RecordEditor {
 	public void showRecWin(Record record) {
 		if(record instanceof ExpenseRecord) {
 			ExpenseRecord expense = (ExpenseRecord) record;
-			recWin = new RecordFrame(homeScreen, recHandler, exCatHandler, payHandler, homeScreen, expense);
+			// recWin = new RecordDialog(homeScreen, recHandler, exCatHandler, payHandler, homeScreen, expense);
+			recWin = new RecordDialog(home, recHandler, exCatHandler, payHandler, home, expense);
 		}
 		else {
 			IncomeRecord income = (IncomeRecord) record;
-			recWin = new RecordFrame(homeScreen, recHandler, inCatHandler, homeScreen, income);
+			// recWin = new RecordFrame(homeScreen, recHandler, inCatHandler, homeScreen, income);
+			recWin = new RecordDialog(home, recHandler, inCatHandler, home, income);
 		}		
 	}
 	
@@ -136,7 +136,7 @@ public class UIControl implements RecordListView.RecordEditor {
 	 */
 	public void showSearchWin() {
 		if(searchWin == null) {
-			searchWin = new SearchFrame(findHandler, new RecordListView(this, recHandler, homeScreen),inCatHandler,exCatHandler, payHandler);
+			searchWin = new SearchFrame(findHandler, new RecordListView(this, recHandler, home),inCatHandler,exCatHandler, payHandler);
 		}
 		searchWin.setVisible(true);
 	}
@@ -153,7 +153,7 @@ public class UIControl implements RecordListView.RecordEditor {
 					//TODO: call the callback method in display
 					SuccessfulSaveEvent success = (SuccessfulSaveEvent) wEvent;
 					displayer.itemEdited(success.getRecord()); 
-					homeScreen.updateAll();
+					home.updateAll();
 					System.out.println("I was here");
 				}
 			}
@@ -170,7 +170,7 @@ public class UIControl implements RecordListView.RecordEditor {
 			reportWin.addWindowListener(new WindowAdapter() {
 				@Override
 				public void windowClosing(WindowEvent wEvent) {
-					homeScreen.updateAll();
+					home.updateAll();
 					reportWin.dispose();
 				}
 			});
@@ -182,6 +182,7 @@ public class UIControl implements RecordListView.RecordEditor {
 	 * Displays the Category Manager window
 	 */
 	public void showCatWin() {
+		/*
 		catWin = new CategoryFrame(exCatHandler, inCatHandler, targetMgr, homeScreen);
 		catWin.addWindowListener(new WindowAdapter() {
 			@Override
@@ -191,6 +192,7 @@ public class UIControl implements RecordListView.RecordEditor {
 			}
 		});
 		catWin.setVisible(true); 
+		*/
 	}
 	
 	/**
@@ -201,7 +203,7 @@ public class UIControl implements RecordListView.RecordEditor {
 		payWin.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent wEvent) {
-				homeScreen.updateAll();
+				home.updateAll();
 				payWin.dispose();
 			}
 		});
