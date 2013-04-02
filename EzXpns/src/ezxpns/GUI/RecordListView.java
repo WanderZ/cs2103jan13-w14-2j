@@ -140,13 +140,14 @@ public class RecordListView extends JTable {
 		this.setDefaultRenderer(Date.class, new DefaultTableCellRenderer(){
 			@Override
 			public void setValue(Object value){
-				setText(dateFormatter.format(value));
+				if(value != null) setText(dateFormatter.format(value));
 			}
 		});
 		
 		this.setDefaultRenderer(Double.class, new DefaultTableCellRenderer(){
 			@Override
 			public void setValue(Object value){
+				if(value == null)return;
 				double dval = (Double)value;
 				String val;
 				if(dval > 0){
