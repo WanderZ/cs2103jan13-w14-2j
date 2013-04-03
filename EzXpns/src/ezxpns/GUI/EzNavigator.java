@@ -197,13 +197,23 @@ public class EzNavigator extends JLayeredPane {
 			}
 			
 			@Override
-			public void mouseReleased(MouseEvent mEvent) {
+			public void mouseClicked(MouseEvent mEvent) {
 				JButton btn = (JButton) mEvent.getSource();
 				// TODO: Mouse not over, ignore.
 				if(btn != selected) {
 					selected.setBorder(BorderFactory.createRaisedBevelBorder());
 					selected = btn;
 				}
+			}
+			
+			@Override
+			public void mouseReleased(MouseEvent mEvent) {
+//				JButton btn = (JButton) mEvent.getSource();
+				// TODO: Mouse not over, ignore.
+//				if(btn != selected) {
+//					selected.setBorder(BorderFactory.createRaisedBevelBorder());
+//					selected = btn;
+//				}
 			}
 			
 			public void mouseExited(MouseEvent mEvent) { // Hover end

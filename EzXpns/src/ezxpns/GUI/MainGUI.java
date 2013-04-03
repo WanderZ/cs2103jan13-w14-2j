@@ -65,20 +65,18 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 		// Setup for Navigator
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx = 0.1;
-		gbc.weighty = 1;
+		gbc.weighty = 0.5;
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		this.add(navi, gbc);
-		// Setup for Content
 		
 		JPanel homeContent = new JPanel(new GridBagLayout());
 		GridBagConstraints gbContent = new GridBagConstraints();
 		
 		gbContent.gridx = 0;
 		gbContent.gridy = 0;
-		gbContent.fill = GridBagConstraints.HORIZONTAL;
 		gbContent.weightx = 1;
-		gbContent.weighty = 0.0;
+		gbContent.weighty = 0.5;
 		gbContent.gridwidth = 2;
 		gbContent.gridheight = 1;
 		panOverview = new OverviewPanel(sumGen);
@@ -90,9 +88,11 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 		gbContent.weightx = 0.5;
 		gbContent.weighty = 1;
 		gbContent.gridy = 1;
+//		gbContent.gridx = 0;
 		panTarget = new TargetOverviewPanel(targetMgr);
 		homeContent.add(panTarget, gbContent);
 		
+//		gbContent.gridy = 1;
 		gbContent.gridx = 1;
 		panSavings = new SavingsOverviewPanel(nwsGen);
 		homeContent.add(panSavings, gbContent);
