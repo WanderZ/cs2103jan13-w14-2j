@@ -150,6 +150,7 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 		panOverview.updateOverview();
 		panOverview.validate();
 		panCategory.reload();
+		panSearch.reload();
 		this.validate();
 	}
 
