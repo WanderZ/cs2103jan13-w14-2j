@@ -210,6 +210,7 @@ public class IncomeForm extends JPanel {
 		lblAmt = this.createLabel("Amount");
 		txtAmt = new JTextField("");
 		txtAmt.setPreferredSize(new Dimension(200, 25));
+		txtAmt.setToolTipText("Enter Amount Here!");
 		this.add(lblAmt);
 		this.add(txtAmt);
 		loForm.putConstraint(SpringLayout.WEST, lblAmt, COL1_PAD, SpringLayout.WEST, this);
@@ -437,7 +438,7 @@ public class IncomeForm extends JPanel {
 	 */
 	private JLabel createLabel(String lblTxt) {
 		JLabel label = new JLabel(lblTxt);
-		label.setFont(new Font("Segoe UI", 0, 18)); // #Font
+		label.setFont(Config.TEXT_FONT); // #Font
 		return label;
 	}
 }

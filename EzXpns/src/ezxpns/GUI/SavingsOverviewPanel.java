@@ -41,7 +41,7 @@ public class SavingsOverviewPanel extends JPanel {
 		JLabel lblNWS = new JLabel("Needs, Wants, Savings");
 		lblNWS.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		this.add(lblNWS, BorderLayout.NORTH);
-		setBackground(new Color(255, 255, 255));
+//		setBackground(new Color(255, 255, 255));
 		
 		drawBars();
 
@@ -85,7 +85,7 @@ public class SavingsOverviewPanel extends JPanel {
 		if (myBars != null)
 			this.remove(myBars);
 		myBars = new NWSBarPanel(nwsGen);
-		myBars.setBackground(new Color(255, 255, 255));
+//		myBars.setBackground(new Color(255, 255, 255));
 		this.add(myBars, BorderLayout.CENTER);
 	}
 

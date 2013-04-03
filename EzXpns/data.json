@@ -296,6 +296,30 @@
         {
           "expenseType": "NEED",
           "paymentMethod": {
+            "id": 1361694372893,
+            "name": "NETS"
+          },
+          "amount": 50.0,
+          "name": "Concession",
+          "remark": "Train concession",
+          "date": "Apr 3, 2013 12:00:00 AM",
+          "id": 1364984673667
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1361694372893,
+            "name": "NETS"
+          },
+          "amount": 50.0,
+          "name": "Concession",
+          "remark": "Bus concession",
+          "date": "Apr 3, 2013 12:00:00 AM",
+          "id": 1364984716788
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
             "id": 0,
             "name": "undefined"
           },
@@ -493,15 +517,15 @@
         "month": 3,
         "dayOfMonth": 3,
         "hourOfDay": 18,
-        "minute": 13,
-        "second": 17
+        "minute": 58,
+        "second": 45
       },
       "targetNeedsRatio": 0.5,
       "targetWantsRatio": 0.3,
       "targetSavingsRatio": 0.2,
-      "currentNeeds": 1137.0,
+      "currentNeeds": 1237.0,
       "currentWants": 0.0,
-      "currentSavings": 8863.0,
+      "currentSavings": 8763.0,
       "income": 10000.0,
       "isSet": true
     }
@@ -515,13 +539,6 @@
         },
         "targetAmt": 1000.0
       },
-      "1363504544188": {
-        "cat": {
-          "id": 1363504544188,
-          "name": "Misc"
-        },
-        "targetAmt": 11.0
-      },
       "1363942776603": {
         "cat": {
           "id": 1363942776603,
@@ -529,19 +546,12 @@
         },
         "targetAmt": 1000.0
       },
-      "1364053692757": {
-        "cat": {
-          "id": 1364053692757,
-          "name": "Leisure"
-        },
-        "targetAmt": 500.0
-      },
       "1364704133024": {
         "cat": {
           "id": 1364704133024,
           "name": "Transport"
         },
-        "targetAmt": 80000.0
+        "targetAmt": 500.0
       }
     }
   }
