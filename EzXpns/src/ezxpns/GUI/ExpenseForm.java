@@ -305,7 +305,6 @@ public class ExpenseForm extends JPanel{
 			public void focusGained(FocusEvent e) {
 				try {
 					Double result = cal.evaluate(getAmt());
-					System.out.println("Focus gained: " + result);
 					if(result!=null) setAmt(result);
 				}
 				catch(EvaluationException evalErr) {
@@ -320,7 +319,6 @@ public class ExpenseForm extends JPanel{
 			public void focusLost(FocusEvent e) {
 				try {
 					Double result = cal.evaluate(getAmt());
-					System.out.println("Focus lost: " + result);
 					if(result!=null) setAmt(result);
 				}
 				catch(EvaluationException evalErr) {
@@ -481,13 +479,13 @@ public class ExpenseForm extends JPanel{
 		// TODO: Validate Payment Method Name
 		// TODO: Validate Description?
 		
-		System.out.println("Name: " + getName());
-		System.out.println("Amt: " + getAmt());
-		System.out.println("Date: " + getDate());
-		System.out.println("Desc: " + getDesc());
-		System.out.println("Cat: " + getCat());
-		System.out.println("Mode: " + getMode());
-		System.out.println("Type: " + getType());
+//		System.out.println("Name: " + getName());
+//		System.out.println("Amt: " + getAmt());
+//		System.out.println("Date: " + getDate());
+//		System.out.println("Desc: " + getDesc());
+//		System.out.println("Cat: " + getCat());
+//		System.out.println("Mode: " + getMode());
+//		System.out.println("Type: " + getType());
 		
 		return validateSuccess;
 	}
