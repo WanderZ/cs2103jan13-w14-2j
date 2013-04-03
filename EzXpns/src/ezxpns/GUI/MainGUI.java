@@ -56,8 +56,6 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 		// TODO: InstantiateContent
 		// TODO: Iterate through the list of JLayeredPane/JPanel to be displayed
 		
-		
-		
 		CardLayout contentMgr = new CardLayout();
 		panContent = new JLayeredPane();
 		panContent.setLayout(contentMgr);
@@ -80,7 +78,7 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 		gbContent.gridy = 0;
 		gbContent.fill = GridBagConstraints.HORIZONTAL;
 		gbContent.weightx = 1;
-		gbContent.weighty = 0.5;
+		gbContent.weighty = 0.0;
 		gbContent.gridwidth = 2;
 		gbContent.gridheight = 1;
 		panOverview = new OverviewPanel(sumGen);
@@ -111,6 +109,9 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 		this.setVisible(true);
 	}
 	
+	/**
+	 * Instantiates the User Interface
+	 */
 	private void instantiateUI() {
 		this.setBounds(0, 0, Config.DEFAULT_UI_WIDTH, Config.DEFAULT_UI_HEIGHT);
 		this.setLocationRelativeTo(null);
@@ -121,6 +122,12 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 		// this.setUndecorated(true); // Remove Title Bar 
 	}
 	
+	/**
+	 * Loads the Category Panel
+	 * @param expenseHandler
+	 * @param incomeHandler
+	 * @param targetMgr
+	 */
 	public void loadCategoryPanel(
 			CategoryHandler<ExpenseRecord> expenseHandler, 
 			CategoryHandler<IncomeRecord> incomeHandler, 
@@ -131,6 +138,14 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 		}
 	}
 	
+	/**
+	 * Loads the Search Panel
+	 * @param searchHandler
+	 * @param display
+	 * @param incomeHandler
+	 * @param expenseHandler
+	 * @param payHandler
+	 */
 	public void loadSearchPanel(
 			SearchHandler searchHandler, 
 			RecordListView display, 
