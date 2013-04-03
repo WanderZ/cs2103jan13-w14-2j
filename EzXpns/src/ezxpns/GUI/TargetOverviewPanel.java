@@ -174,9 +174,9 @@ public class TargetOverviewPanel extends JPanel {
         Calendar cal = Calendar.getInstance();
         String target;
         if (targetMgr.getOrderedBar().size() == 1)
-        	target = "Target";
+        	target = "Budget";
         else 
-        	target = "Targets";
+        	target = "Budgets";
 		lblTargets.setText("<html><b><font size=\"26\">"+targetMgr.getOrderedBar().size()+"</font></b>"+" "+target+" in "+monthName[cal.get(Calendar.MONTH)]+"</html>");
 		tagsPane.add(lblTargets, "cell 0 0,alignx left,aligny top");
 		
