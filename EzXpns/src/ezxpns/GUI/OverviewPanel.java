@@ -41,7 +41,7 @@ public class OverviewPanel extends JPanel {
 	private JLabel lblIncomeNumber;
 	private JLabel lblExpenseNumber;
 
-	DecimalFormat df = new DecimalFormat("#.00");
+	DecimalFormat df = new DecimalFormat("$###,###,##0.00");
 	
 	public OverviewPanel(SummaryGenerator sumGenRef) {
 		super();
