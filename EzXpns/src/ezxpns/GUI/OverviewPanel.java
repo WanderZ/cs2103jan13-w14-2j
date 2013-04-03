@@ -42,7 +42,7 @@ public class OverviewPanel extends JPanel {
 	private JLabel lblExpenseNumber;
 	
 	private JButton buttonToday;
-	DecimalFormat df = new DecimalFormat("$###,###,##0.00");
+	private DecimalFormat df = new DecimalFormat("$###,###,##0.00");
 	private JButton buttonMonth;
 	private JButton buttonYear;
 	private JButton buttonAllTime;
@@ -52,7 +52,6 @@ public class OverviewPanel extends JPanel {
             "March", "April", "May", "June", "July",
             "August", "September", "October", "November",
             "December"};
-	DecimalFormat df = new DecimalFormat("0.00");
 	
 	public OverviewPanel(SummaryGenerator sumGenRef) {
 		super();
