@@ -13,6 +13,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -242,7 +243,14 @@ public class SearchFrame extends JPanel {
 	 * Reloads this panel to refresh the content.
 	 */
 	public void reload() {
-		
+		if(!this.isVisible()){
+			this.list.show(new Vector<Record>());
+			panForm.clear();
+		}else{
+			this.list.show(new Vector<Record>());
+			performSearch();
+		}
+		panForm.reload();
 	}
 }
 
@@ -314,6 +322,14 @@ class SearchFormPanel extends JPanel {
 		this.add(this.getToDateField());
 	}
 	
+	public void clear(){
+		this.getNameField().setText("");
+		this.getCatField().setSelectedIndex(0);
+		this.getDateField().setDate(null);
+		this.getToDateField().setDate(null);
+		txtSimpleField.setText("");
+	}
+	
 	/**
 	 * @return a JLabel Object to with Name 
 	 */
@@ -353,42 +369,24 @@ class SearchFormPanel extends JPanel {
 	 */
 	public JComboBox getCatField() {
 		if(txtCat == null) {
-			Object[] myInCatList = new Category[inCatHandRef.getAllCategories().size()];
-			myInCatList = inCatHandRef.getAllCategories().toArray();
 			txtCat = new JComboBox();
-			txtCat.insertItemAt("", 0); // insert empty item;
-			for (int i = 0; i < inCatHandRef.getAllCategories().size(); i++)
-				txtCat.addItem(myInCatList[i]);
-			Object[] myExCatList = new Category[exCatHandRef.getAllCategories().size()];
-			myExCatList = exCatHandRef.getAllCategories().toArray();
-			for (int i = 0; i < exCatHandRef.getAllCategories().size(); i++)
-				txtCat.addItem(myExCatList[i]);
 			txtCat.setFont(FORM_FONT); // #Font
 			txtCat.setPreferredSize(new Dimension(230, 32));
+			updateCats();
 		}
 		return txtCat;
 	}
 	
-	private JLabel getPayLabel(){ // TODO: Marked for removal?
-		if (lblPay == null){
-			lblPay = new JLabel("Payment");
-			lblPay.setFont(FORM_FONT);
-		}
-		return lblPay;
-	}
-	
-	public JComboBox getPayField() { // TODO: Marked for removal?
-		if(txtPay == null) {
-			Object[] myPayList = new PaymentMethod[payHandRef.getAllPaymentMethod().size()];
-			myPayList = payHandRef.getAllPaymentMethod().toArray();
-			txtPay = new JComboBox();
-			txtPay.insertItemAt("", 0); // insert empty item;
-			for (int i = 0; i < payHandRef.getAllPaymentMethod().size(); i++)
-				txtPay.addItem(myPayList[i]);
-			txtPay.setFont(FORM_FONT); // #Font
-			txtPay.setPreferredSize(new Dimension(230, 32));
-		}
-		return txtPay;
+	private void updateCats(){
+		txtCat.removeAllItems();
+		Object[] myInCatList = inCatHandRef.getAllCategories().toArray();
+		txtCat.insertItemAt("", 0); // insert empty item;
+		for (int i = 0; i < inCatHandRef.getAllCategories().size(); i++)
+			txtCat.addItem(myInCatList[i]);
+		Object[] myExCatList = new Category[exCatHandRef.getAllCategories().size()];
+		myExCatList = exCatHandRef.getAllCategories().toArray();
+		for (int i = 0; i < exCatHandRef.getAllCategories().size(); i++)
+			txtCat.addItem(myExCatList[i]);
 	}
 	
 	private JLabel getDateLabel() {
@@ -410,11 +408,6 @@ class SearchFormPanel extends JPanel {
 	
 	private JDateChooser getDateField() {
 		if(txtStart == null) {
-			//txtStart = new JFormattedTextField(DATE_FORMAT);
-			//txtStart.setFont(FORM_FONT); // #Font
-			//txtStart.setValue(new Date());
-			//txtStart.setPreferredSize(new Dimension(100, 32));
-			//txtStart.setHorizontalAlignment(JTextField.CENTER);
 			txtStart = new JDateChooser();
 			txtStart.getJCalendar().setTodayButtonVisible(true);
 			txtStart.setDateFormatString("dd/MM/yyyy");
@@ -478,7 +471,7 @@ class SearchFormPanel extends JPanel {
 	 * Reloads the Form
 	 */
 	public void reload() {
-		// TODO: Reload category dropdown box
+		updateCats();
 	}
 }
 
