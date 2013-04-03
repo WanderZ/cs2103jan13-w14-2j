@@ -25,7 +25,6 @@ import javax.swing.event.DocumentListener;
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 
-import ezxpns.GUI.Calculator.EvaluationException;
 import ezxpns.data.records.Category;
 import ezxpns.data.records.CategoryHandler;
 import ezxpns.data.records.IncomeRecord;
@@ -102,7 +101,6 @@ public class IncomeForm extends JPanel {
 		this.record = record;
 		isEdit = true;
 		this.populateFields();
-		
 	}
 	
 	/**
@@ -185,7 +183,7 @@ public class IncomeForm extends JPanel {
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				// TODO Auto-generated method stub
+				// TODO Auto complete?
 			}
 			
 		});
