@@ -523,10 +523,8 @@ class PanelOption extends JPanel {
 	public PanelOption(ActionListener listener) {
 		// Automated layout - new FlowLayout()
 		btnSave = new JButton("Save");
-		btnSave.setFont(new Font("Segoe UI", 0, 18)); // #Font
 		
 		btnCancel = new JButton("Discard");
-		btnCancel.setFont(new Font("Segoe UI", 0, 18)); // #Font
 		
 		btnSave.addActionListener(listener);
 		btnCancel.addActionListener(listener);
