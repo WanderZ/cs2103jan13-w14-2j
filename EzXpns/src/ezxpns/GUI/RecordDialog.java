@@ -34,9 +34,6 @@ import javax.swing.JTextField;
 @SuppressWarnings("serial")
 public class RecordDialog extends JDialog implements ActionListener {
 	
-	public static final int DEFAULT_WIDTH = 600;
-	public static final int DEFAULT_HEIGHT = 400; 
-	
 	public static final int TAB_INCOME = 0011;
 	public static final int TAB_EXPENSE = 1100;
 	
@@ -158,7 +155,7 @@ public class RecordDialog extends JDialog implements ActionListener {
 	private void initFrame() {
 		
 		getContentPane().setLayout(new BorderLayout(5, 5));
-		this.setBounds(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+		this.setBounds(0, 0, Config.DEFAULT_DIALOG_WIDTH, Config.DEFAULT_DIALOG_HEIGHT);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -299,7 +296,6 @@ class PanelMain extends JPanel {
 		panExpense = new ExpenseForm(recHandlerRef, expenseHandlerRef, payHandlerRef, notifyeeRef);
 		panIncome = new IncomeForm(recHandlerRef, incomeHandlerRef, notifyeeRef);
 		this.initTabs();
-		
 		
 		// Create Recurring options panel
 		// panRecurOpt = new PanelRecur();

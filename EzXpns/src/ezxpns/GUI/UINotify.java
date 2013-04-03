@@ -49,6 +49,7 @@ class PopMsg extends JWindow implements Runnable {
 		this.setLocationRelativeTo(null);
 		
 		lblMsg = new JLabel("     " + msg);
+		lblMsg.setFont(Config.TEXT_FONT);
 		lblMsg.setBounds(5, 5, WIDTH-50, HEIGHT);
 		this.add(lblMsg, BorderLayout.CENTER);
 		

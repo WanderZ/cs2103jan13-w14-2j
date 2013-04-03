@@ -72,7 +72,6 @@ public class CategoryFrame extends JPanel {
 		inmo = new CategoryModel(incats, addNew);
 		this.notifyee = notifyee;
 		
-		
 		// this.setSize(500, 400);
 		// this.setLocationRelativeTo(null);
 		this.excats = excats;
@@ -82,28 +81,38 @@ public class CategoryFrame extends JPanel {
 		// getContentPane().add(tabbedPane, BorderLayout.CENTER);
 		this.add(tabbedPane, BorderLayout.CENTER);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.addComponentListener(new ComponentAdapter() {
+		JPanel panExCats = new JPanel();
+		panExCats.addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentShown(ComponentEvent arg0) {
-				exlist.setSelectedIndex(0);
+				if(exlist!=null) // TODO: Mask the error
+					exlist.setSelectedIndex(0);
+				else 
+					System.out.println("exlist is null");
 			}
 		});
-		tabbedPane.addTab("Expense", null, panel_1, null);
-		panel_1.setLayout(new BorderLayout(0, 0));
+		tabbedPane.setFont(Config.TITLE_FONT);
+		tabbedPane.addTab(
+				"<html><body leftmargin=5 topmargin=5 marginwidth=100 marginheight=5>Expense</body></html>", 
+				null, 
+				panExCats, 
+				null);
+		
+		panExCats.setLayout(new BorderLayout(0, 0));
 		
 		exlist = new JList();
+		exlist.setFont(Config.TEXT_FONT);
 		exlist.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent arg0) {
 				updateExDisplay((Category) exlist.getSelectedValue());
 			}
 		});
-		panel_1.add(exlist, BorderLayout.CENTER);
+		panExCats.add(exlist, BorderLayout.CENTER);
 		exlist.setMinimumSize(new Dimension(150, 500));
 		exlist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		JPanel panel = new JPanel();
-		panel_1.add(panel, BorderLayout.EAST);
+		panExCats.add(panel, BorderLayout.EAST);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{34, 0, 98, 0};
 		gbl_panel.rowHeights = new int[]{29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -183,17 +192,22 @@ public class CategoryFrame extends JPanel {
 		gbc_removeExBtn.gridy = 4;
 		panel.add(removeExBtn, gbc_removeExBtn);
 		
-		JPanel panel_2 = new JPanel();
-		panel_2.addComponentListener(new ComponentAdapter() {
+		JPanel panInCats = new JPanel();
+		panInCats.addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentShown(ComponentEvent e) {
 				inlist.setSelectedIndex(0);
 			}
 		});
-		tabbedPane.addTab("Income", null, panel_2, null);
-		panel_2.setLayout(new BorderLayout(0, 0));
+		tabbedPane.addTab(
+				"<html><body leftmargin=5 topmargin=5 marginwidth=100 marginheight=5>Income</body></html>", 
+				null, 
+				panInCats, 
+				null);
+		panInCats.setLayout(new BorderLayout(0, 0));
 		
 		inlist = new JList();
+		inlist.setFont(Config.TEXT_FONT);
 		inlist.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent arg0) {
 				updateInDisplay((Category) inlist.getSelectedValue());
@@ -201,16 +215,16 @@ public class CategoryFrame extends JPanel {
 		});
 		inlist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		inlist.setMinimumSize(new Dimension(150, 500));
-		panel_2.add(inlist);
+		panInCats.add(inlist);
 		
-		JPanel panel_3 = new JPanel();
-		panel_2.add(panel_3, BorderLayout.EAST);
+		JPanel panOptions = new JPanel();
+		panInCats.add(panOptions, BorderLayout.EAST);
 		GridBagLayout gbl_panel_3 = new GridBagLayout();
 		gbl_panel_3.columnWidths = new int[]{40, 0, 134, 0};
 		gbl_panel_3.rowHeights = new int[]{29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_panel_3.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_panel_3.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		panel_3.setLayout(gbl_panel_3);
+		panOptions.setLayout(gbl_panel_3);
 		
 		JLabel lblName_1 = new JLabel("Name:");
 		GridBagConstraints gbc_lblName_1 = new GridBagConstraints();
@@ -218,7 +232,7 @@ public class CategoryFrame extends JPanel {
 		gbc_lblName_1.insets = new Insets(0, 0, 5, 5);
 		gbc_lblName_1.gridx = 1;
 		gbc_lblName_1.gridy = 3;
-		panel_3.add(lblName_1, gbc_lblName_1);
+		panOptions.add(lblName_1, gbc_lblName_1);
 		
 		inNameField = new JTextField();
 		inNameField.addFocusListener(new FocusAdapter() {
@@ -232,7 +246,7 @@ public class CategoryFrame extends JPanel {
 		gbc_inNameField.insets = new Insets(0, 0, 5, 0);
 		gbc_inNameField.gridx = 2;
 		gbc_inNameField.gridy = 3;
-		panel_3.add(inNameField, gbc_inNameField);
+		panOptions.add(inNameField, gbc_inNameField);
 		inNameField.setColumns(10);
 		
 		changeInBtn = new JButton("Change");
@@ -246,7 +260,7 @@ public class CategoryFrame extends JPanel {
 		gbc_changeInBtn.anchor = GridBagConstraints.NORTHWEST;
 		gbc_changeInBtn.gridx = 1;
 		gbc_changeInBtn.gridy = 4;
-		panel_3.add(changeInBtn, gbc_changeInBtn);
+		panOptions.add(changeInBtn, gbc_changeInBtn);
 		
 		removeInBtn = new JButton("Remove");
 		removeInBtn.addActionListener(new ActionListener() {
@@ -258,11 +272,12 @@ public class CategoryFrame extends JPanel {
 		gbc_removeInBtn.insets = new Insets(0, 0, 5, 0);
 		gbc_removeInBtn.gridx = 2;
 		gbc_removeInBtn.gridy = 4;
-		panel_3.add(removeInBtn, gbc_removeInBtn);
+		panOptions.add(removeInBtn, gbc_removeInBtn);
 		targetMgr = targetMgrRef;
 		
 		exlist.setModel(exmo);
 		inlist.setModel(inmo);
+		
 		reload();
 	}
 	
