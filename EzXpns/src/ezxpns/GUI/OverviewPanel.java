@@ -41,7 +41,7 @@ public class OverviewPanel extends JPanel {
 	private JLabel lblIncomeNumber;
 	private JLabel lblExpenseNumber;
 
-	DecimalFormat df = new DecimalFormat("#.00");
+	DecimalFormat df = new DecimalFormat("0.00");
 	
 	public OverviewPanel(SummaryGenerator sumGenRef) {
 		super();
@@ -52,7 +52,7 @@ public class OverviewPanel extends JPanel {
 		JPanel panelTime = new JPanel();
 		panelTime.setBackground(Color.WHITE); // set color for buttons and timeline
 		
-		JLabel lblSummary = new JLabel("Summary");
+		JLabel lblSummary = new JLabel("Balance");
 		//lblSummary.setForeground(new Color(192, 192, 192));
 		lblSummary.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		
