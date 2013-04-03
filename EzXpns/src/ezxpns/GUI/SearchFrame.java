@@ -308,9 +308,6 @@ class SearchFormPanel extends JPanel {
 		this.add(this.getCatLabel(), "span 2");
 		this.add(this.getCatField(), "span, wrap");
 		
-		this.add(this.getPayLabel(), "span 2");
-		this.add(this.getPayField(), "span, wrap");
-		
 		this.add(this.getDateLabel(), "span 2");
 		this.add(this.getDateField(), "split 3");
 		this.add(this.getToDateLabel());
