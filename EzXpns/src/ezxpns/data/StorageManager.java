@@ -97,7 +97,7 @@ public class StorageManager {
 	/**
 	 * Attempt to save the data. First check if there's update, if yes, writeToFile();
 	 */
-	public void save(){
+	private void save(){
 		if(manager.isUpdated()){
 			writeToFile();
 			System.out.println("stored");

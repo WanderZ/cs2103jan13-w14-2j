@@ -363,7 +363,7 @@ class PanelMain extends JPanel {
 		metroTabBtns.add(getExpenseTab());
 		metroTabBtns.add(getIncomeTab());
 		
-		metroTabs.add(metroTabBtns, BorderLayout.NORTH);
+//		metroTabs.add(metroTabBtns, BorderLayout.NORTH); // no need to show the tabs now
 		
 		metroTabContent = new JPanel();
 		
@@ -522,68 +522,12 @@ class PanelOption extends JPanel {
 	
 	public PanelOption(ActionListener listener) {
 		// Automated layout - new FlowLayout()
-		btnSave = new JButton("   Save   ");
-		btnSave.setFont(new Font("Segoe UI", 0, 18)); // #Font
-		btnSave.setContentAreaFilled(false);
-		btnSave.setBorder(BorderFactory.createRaisedBevelBorder());
+		btnSave = new JButton("Save");
 		
-		btnSave.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent mEvent) {
-				JButton btn = (JButton) mEvent.getSource();
-				btn.setBorder(BorderFactory.createLoweredBevelBorder());
-			}
-			
-			@Override
-			public void mouseReleased(MouseEvent mEvent) {
-				JButton btn = (JButton) mEvent.getSource();
-				btn.setBorder(BorderFactory.createEmptyBorder());
-				// btn.setEnabled(false);
-			}			
-		});
-		
-		btnCancel = new JButton("  Discard  ");
-		btnCancel.setFont(new Font("Segoe UI", 0, 18)); // #Font
-		btnCancel.setBorder(BorderFactory.createRaisedBevelBorder());
-		btnCancel.setContentAreaFilled(false);
-// 		btnCancel.setForeground(Color.DARK_GRAY);
+		btnCancel = new JButton("Discard");
 		
 		btnSave.addActionListener(listener);
 		btnCancel.addActionListener(listener);
-		
-		btnCancel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent mEvent) { // Hover start
-				JButton btn = (JButton) mEvent.getSource();
-				btn.setBorder(BorderFactory.createLineBorder(Color.CYAN));
-//				btn.setForeground(Color.BLUE);
-				
-				/* Underlining the word for "hover*/
-//				Font btnFont = btn.getFont();
-//				Map attribute = btnFont.getAttributes();
-//				attribute.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
-//				btn.setFont(btnFont.deriveFont(attribute));
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent mEvent) {
-				JButton btn = (JButton) mEvent.getSource();
-				btn.setBorder(BorderFactory.createLoweredBevelBorder());
-			}
-			
-			@Override
-			public void mouseReleased(MouseEvent mEvent) {
-				JButton btn = (JButton) mEvent.getSource();
-				btn.setBorder(BorderFactory.createRaisedBevelBorder());
-			}
-			
-			public void mouseExited(MouseEvent mEvent) { // Hover end
-				JButton btn = (JButton) mEvent.getSource();
-				btn.setBorder(BorderFactory.createRaisedBevelBorder());
-//				btn.setForeground(Color.DARK_GRAY);
-//				btn.setFont(new Font("Segoe UI", 0, 18)); // #Font
-			}
-		});		
 		
 		this.add(btnSave);
 		this.add(btnCancel);

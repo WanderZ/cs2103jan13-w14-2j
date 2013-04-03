@@ -51,10 +51,6 @@
         "id": 1363504544188,
         "name": "Misc"
       },
-      "1364903455622": {
-        "id": 1364903455622,
-        "name": "Carelessness"
-      },
       "1363942776603": {
         "id": 1363942776603,
         "name": "Food"
@@ -66,10 +62,6 @@
       "1363314106821": {
         "id": 1363314106821,
         "name": "Entertainment"
-      },
-      "1364904892178": {
-        "id": 1364904892178,
-        "name": "Accidents"
       },
       "1364873683613": {
         "id": 1364873683613,
@@ -98,20 +90,6 @@
           "remark": "111",
           "date": "Mar 26, 2013 12:49:04 PM",
           "id": 1363933184636
-        }
-      ],
-      "1364903455622": [
-        {
-          "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 1364273369381,
-            "name": "Carelessness"
-          },
-          "amount": 900.0,
-          "name": "Lost my phone",
-          "remark": "My phone T_T",
-          "date": "Apr 2, 2013 12:00:00 AM",
-          "id": 1364903455622
         }
       ],
       "1363942776603": [
@@ -180,13 +158,13 @@
           "id": 1364746789972
         },
         {
-          "expenseType": "NEED",
+          "expenseType": "WANT",
           "paymentMethod": {
             "id": 1363314106821,
             "name": "Gifts"
           },
           "amount": 44.0,
-          "name": "testingz",
+          "name": "testingzasdfaasdfk",
           "remark": "alright",
           "date": "Mar 27, 2013 2:52:14 PM",
           "id": 1364367139074
@@ -288,20 +266,6 @@
           "id": 1361743350635
         }
       ],
-      "1364904892178": [
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1363857409977,
-            "name": "Cash"
-          },
-          "amount": 500.0,
-          "name": "Repair Car",
-          "remark": "Buang dad\u0027s car",
-          "date": "Apr 2, 2013 12:00:00 AM",
-          "id": 1364904892178
-        }
-      ],
       "1364873683613": [
         {
           "expenseType": "NEED",
@@ -314,20 +278,6 @@
           "remark": "liang teh",
           "date": "Apr 1, 2013 12:00:00 AM",
           "id": 1364873683613
-        }
-      ],
-      "1364053692757": [
-        {
-          "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 1363857357505,
-            "name": "iNets"
-          },
-          "amount": 175.0,
-          "name": "Night Cycling Event",
-          "remark": "Night cycling with hall peeps!",
-          "date": "Mar 30, 2013 12:00:00 AM",
-          "id": 1364903386340
         }
       ],
       "1364704133024": [
@@ -383,10 +333,6 @@
       "1364935492692": {
         "id": 1364935492692,
         "name": "Bursary"
-      },
-      "1364904956472": {
-        "id": 1364904956472,
-        "name": "BirthdayPresents"
       }
     },
     "recordsByCategory": {
@@ -505,15 +451,6 @@
           "date": "May 2, 2011 3:56:53 PM",
           "id": 1365133895255
         }
-      ],
-      "1364904956472": [
-        {
-          "amount": 5000.0,
-          "name": "Alienware Laptop",
-          "remark": "Ownage!",
-          "date": "Apr 2, 2013 12:00:00 AM",
-          "id": 1364904956472
-        }
       ]
     }
   },
@@ -542,18 +479,18 @@
       "date": {
         "year": 2013,
         "month": 3,
-        "dayOfMonth": 2,
-        "hourOfDay": 21,
-        "minute": 31,
-        "second": 28
+        "dayOfMonth": 3,
+        "hourOfDay": 13,
+        "minute": 8,
+        "second": 56
       },
       "targetNeedsRatio": 0.5,
       "targetWantsRatio": 0.3,
       "targetSavingsRatio": 0.2,
-      "currentNeeds": 1604.0,
-      "currentWants": 900.0,
-      "currentSavings": 12496.0,
-      "income": 15000.0,
+      "currentNeeds": 1104.0,
+      "currentWants": 0.0,
+      "currentSavings": 8896.0,
+      "income": 10000.0,
       "isSet": true
     }
   },
