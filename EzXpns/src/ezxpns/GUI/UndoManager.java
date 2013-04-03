@@ -60,7 +60,7 @@ public class UndoManager {
 			action.setEnabled(false);
 			action.putValue(Action.NAME, "Undo");
 		}else{
-			action.putValue(Action.NAME, stack.peek().getRight());
+			action.putValue(Action.NAME, "Undo " + stack.peek().getRight());
 		}
 		if(postUndo != null){
 			postUndo.actionPerformed(null);

@@ -236,7 +236,7 @@ public class ExpenseForm extends JPanel{
 			}
 			
 			private void fill(){
-				if(blockAutoFill) return;
+				if(blockAutoFill || isEdit) return;
 				ExpenseRecord oldRecord = recHandler.lastExpenseRecord(txtName.getText());
 				if(oldRecord!=null) {
 					record = oldRecord;

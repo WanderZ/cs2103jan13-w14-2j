@@ -72,19 +72,6 @@ public class CategoryFrame extends JPanel {
 		inmo = new CategoryModel(incats, addNew);
 		this.notifyee = notifyee;
 		
-		// onLoad Listener
-		/*
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowOpened(WindowEvent arg0) {
-				loadExList();
-				loadInList();
-				inlist.setSelectedIndex(0);
-				exlist.setSelectedIndex(0);
-			}
-		});
-		*/
-		
 		this.addFocusListener(new FocusListener() {// TODO: Check if this will reload the thing on refocus
 
 			@Override
@@ -554,8 +541,6 @@ public class CategoryFrame extends JPanel {
 	}
 	
 	public void reload() {
-		// TODO: Check if this can reload, if required
-		System.out.println("entered reload code");
 		loadExList();
 		loadInList();
 		inlist.setSelectedIndex(0);
