@@ -1,6 +1,7 @@
 package ezxpns.GUI;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -16,6 +17,7 @@ import ezxpns.data.records.CategoryHandler;
 import ezxpns.data.records.ExpenseRecord;
 import ezxpns.data.records.IncomeRecord;
 import ezxpns.data.records.PaymentHandler;
+import ezxpns.data.records.RecordHandler;
 import ezxpns.data.records.SearchHandler;
 
 @SuppressWarnings("serial")
@@ -39,9 +41,11 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 	
 	private SearchFrame panSearch;
 	private CategoryFrame panCategory;
+	private RecordsDisplayPanel panRecords;
 	
 	public MainGUI(
 			NWSGenerator nwsGen,
+			RecordHandler recHandler,
 			SummaryGenerator sumGen, 
 			TargetManager targetMgr, 
 			UIControl uiCtrl,
@@ -72,26 +76,32 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 		
 		JPanel homeContent = new JPanel(new GridBagLayout());
 		GridBagConstraints gbContent = new GridBagConstraints();
-		
+		gbContent.fill = GridBagConstraints.BOTH;
+		// Overview Panel
 		gbContent.gridx = 0;
-		gbContent.gridy = 0;
-		gbContent.weightx = 1;
-		gbContent.weighty = 0.5;
-		gbContent.gridwidth = 2;
+		gbContent.gridy = 0; // 0, 0
+//		gbContent.weightx = 0.3;
+//		gbContent.weighty = 0.3;
 		gbContent.gridheight = 1;
 		panOverview = new OverviewPanel(sumGen);
 		homeContent.add(panOverview, gbContent);
 		
-		gbContent.fill = GridBagConstraints.BOTH;
-		gbContent.gridwidth = 1;
-		gbContent.gridheight = 3;
-		gbContent.weightx = 0.5;
-		gbContent.weighty = 1;
-		gbContent.gridy = 1;
-//		gbContent.gridx = 0;
+		// Records Display Panel
+		gbContent.gridx = 1;
+		panRecords = new RecordsDisplayPanel(recHandler, uiCtrl, this);
+		homeContent.add(panRecords, gbContent);
+		
+		// Targets Panel
+		
+		gbContent.gridheight = 2;
+		gbContent.weightx = 0.1;
+		gbContent.weighty = 0.1;
+		gbContent.gridy = 2;
+		gbContent.gridx = 0;
 		panTarget = new TargetOverviewPanel(targetMgr);
 		homeContent.add(panTarget, gbContent);
 		
+		// Savings Panel
 //		gbContent.gridy = 1;
 		gbContent.gridx = 1;
 		panSavings = new SavingsOverviewPanel(nwsGen);

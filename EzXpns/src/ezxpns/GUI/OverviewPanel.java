@@ -45,22 +45,26 @@ public class OverviewPanel extends JPanel {
 	
 	public OverviewPanel(SummaryGenerator sumGenRef) {
 		super();
-		setBackground(new Color(255, 255, 255));
+		this.setOpaque(false);
+//		setBackground(new Color(255, 255, 255));
 
 		this.sumGen = sumGenRef;
 
 		JPanel panelTime = new JPanel();
-		panelTime.setBackground(Color.WHITE); // set color for buttons and timeline
+		panelTime.setOpaque(false);
+//		panelTime.setBackground(Color.WHITE); // set color for buttons and timeline
 		
 		JLabel lblSummary = new JLabel("Summary");
 		//lblSummary.setForeground(new Color(192, 192, 192));
 		lblSummary.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		
 		JPanel panelBigBalance = new JPanel();
-		panelBigBalance.setBackground(new Color(255, 255, 255));
+		panelBigBalance.setOpaque(false);
+//		panelBigBalance.setBackground(new Color(255, 255, 255));
 		
 		JPanel panelSub = new JPanel();
-		panelSub.setBackground(new Color(255, 255, 255));
+		panelSub.setOpaque(false);
+//		panelSub.setBackground(new Color(255, 255, 255));
 		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(

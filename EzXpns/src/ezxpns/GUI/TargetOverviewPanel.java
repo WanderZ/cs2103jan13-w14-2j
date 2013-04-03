@@ -33,8 +33,7 @@ import javax.swing.JSeparator;
 public class TargetOverviewPanel extends JPanel {
 
 	private TargetManager targetMgr;
-	private final DecimalFormat MONEY_FORMAT = new DecimalFormat(
-			"$###,###,##0.00");
+	private final DecimalFormat MONEY_FORMAT = new DecimalFormat("$###,###,##0.00");
 	private final DecimalFormat TWO_DP = new DecimalFormat("#.##");
 	private JPanel largeBorderLayoutPanel;
 	private JPanel tagsPane;
@@ -64,7 +63,8 @@ public class TargetOverviewPanel extends JPanel {
 		largeBorderLayoutPanel.setLayout(new BorderLayout(0, 0));
 
 		tagsPane = new JPanel();
-		tagsPane.setBackground(new Color(255, 255, 255));
+//		tagsPane.setBackground(new Color(255, 255, 255));
+		tagsPane.setOpaque(false);
 		largeBorderLayoutPanel.add(tagsPane, BorderLayout.NORTH);
 
 		targetScrollPane = new JScrollPane();
@@ -77,13 +77,15 @@ public class TargetOverviewPanel extends JPanel {
 		largeBorderLayoutPanel.add(targetScrollPane, BorderLayout.CENTER);
 
 		smallBorderLayoutpanel = new JPanel();
-		smallBorderLayoutpanel.setBackground(new Color(255, 255, 255));
+//		smallBorderLayoutpanel.setBackground(new Color(255, 255, 255));
+		smallBorderLayoutpanel.setOpaque(false);
 		smallBorderLayoutpanel.setForeground(new Color(255, 102, 204));
 		targetScrollPane.setViewportView(smallBorderLayoutpanel);
 		smallBorderLayoutpanel.setLayout(new BorderLayout(0, 0));
 
 		columnPanel = new JPanel();
-		columnPanel.setBackground(new Color(255, 255, 255));
+//		columnPanel.setBackground(new Color(255, 255, 255));
+		columnPanel.setOpaque(false);
 		smallBorderLayoutpanel.add(columnPanel, BorderLayout.NORTH);
 		columnPanel.setLayout(new GridLayout(0, 1));
 
@@ -115,7 +117,8 @@ public class TargetOverviewPanel extends JPanel {
 																// scroll to
 																// appear),
 																// height
-			rowPanel.setBackground(new Color(255, 255, 255));
+//			rowPanel.setBackground(new Color(255, 255, 255));
+			rowPanel.setOpaque(false);
 			columnPanel.add(rowPanel);
 			//rowPanel.setLayout(new BorderLayout());
 			rowPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -129,7 +132,8 @@ public class TargetOverviewPanel extends JPanel {
 			// BAR GRAPHICS
 			BarGraphic myBarGraphics = new BarGraphic(bar);
 			myBarGraphics.setPreferredSize(new Dimension(150,50));
-			myBarGraphics.setBackground(new Color(255,255,255));
+//			myBarGraphics.setBackground(new Color(255,255,255));
+			myBarGraphics.setOpaque(false);
 			//rowPanel.add(myBarGraphics, BorderLayout.CENTER);
 			rowPanel.add(myBarGraphics);
 			
@@ -137,7 +141,8 @@ public class TargetOverviewPanel extends JPanel {
 			JPanel subPanel = new JPanel();
 			//subPanel.setPreferredSize(new Dimension (200,60));
 			subPanel.setLayout(new BoxLayout(subPanel, BoxLayout.Y_AXIS));
-			subPanel.setBackground(new Color(255, 255, 255));
+//			subPanel.setBackground(new Color(255, 255, 255));
+			subPanel.setOpaque(false);
 
 			//rowPanel.add(subPanel, BorderLayout.EAST);
 			rowPanel.add(subPanel);

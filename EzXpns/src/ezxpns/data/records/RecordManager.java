@@ -530,6 +530,8 @@ public class RecordManager<T extends Record>
 	}
 	@Override
 	public Vector<T> getRecordsWithNamePrefix(String prefix) {
+		// TODO: Bug fix here?
+		// TODO: IndexOutOfBoundsException Thrown HERE!!
 		String end = prefix.substring(0, prefix.length() - 1) + (char)(prefix.charAt(prefix.length() - 1) + 1);
 		Vector<T> allRecs = new Vector<T>();
 		for(TreeSet<T> rs : recordsByName.subMap(prefix, end).values()){

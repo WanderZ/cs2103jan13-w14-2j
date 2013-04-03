@@ -27,10 +27,10 @@ public class UIControl implements RecordListView.RecordEditor {
 	// private HomeScreen homeScreen;
 	private MainGUI home;
 	private RecordDialog recWin;
-	private SearchFrame searchWin;	
+//	private SearchFrame searchWin;
 	private ReportFrame reportWin;
-	private CategoryFrame catWin;
-	private PaymentMethodFrame payWin;
+//	private CategoryFrame catWin;
+//	private PaymentMethodFrame payWin;
 	
 	// Logical Components
 	private SearchHandler findHandler;
@@ -79,7 +79,7 @@ public class UIControl implements RecordListView.RecordEditor {
 		
 		
 		// homeScreen = new HomeScreen(this, recHandlerRef, targetMgr, undoMgr, sumGen, nwsGen);
-		home = new MainGUI(nwsGen, sumGen, targetMgr, this, undoMgr);
+		home = new MainGUI(nwsGen, recHandler, sumGen, targetMgr, this, undoMgr);
 		
 		undoMgr.setPostUndo(new AbstractAction(){
 
@@ -124,7 +124,6 @@ public class UIControl implements RecordListView.RecordEditor {
 			public void windowClosing(WindowEvent wEvent) {
 				try {
 					home.updateAll();
-					System.out.println("RecordFrame exiting!");
 				}
 				catch(Exception e) {
 					e.printStackTrace();
@@ -151,21 +150,21 @@ public class UIControl implements RecordListView.RecordEditor {
 		}		
 	}
 	
-	/**
-	 * Displays the search handler window
-	 */
-	public void showSearchWin() {
-		if(searchWin == null) {
-			searchWin = new SearchFrame(
-						findHandler, 
-						new RecordListView(this, recHandler, home),
-						inCatHandler,
-						exCatHandler, 
-						payHandler
-					);
-		}
-		searchWin.setVisible(true);
-	}
+//	/**
+//	 * Displays the search handler window
+//	 */
+//	public void showSearchWin() {
+//		if(searchWin == null) {
+//			searchWin = new SearchFrame(
+//						findHandler, 
+//						new RecordListView(this, recHandler, home),
+//						inCatHandler,
+//						exCatHandler, 
+//						payHandler
+//					);
+//		}
+//		searchWin.setVisible(true);
+//	}
 
 	@Override
 	public void edit(Record record, RecordListView display) {
@@ -202,20 +201,20 @@ public class UIControl implements RecordListView.RecordEditor {
 		reportWin.setVisible(true);
 	}
 	
-	/**
-	 * Displays the Payment Method Manager Window
-	 */
-	public void showPayWin() {
-		payWin = new PaymentMethodFrame(payHandler);
-		payWin.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent wEvent) {
-				home.updateAll();
-				payWin.dispose();
-			}
-		});
-		payWin.setVisible(true);
-	}
+//	/**
+//	 * Displays the Payment Method Manager Window
+//	 */
+//	public void showPayWin() {
+//		payWin = new PaymentMethodFrame(payHandler);
+//		payWin.addWindowListener(new WindowAdapter() {
+//			@Override
+//			public void windowClosing(WindowEvent wEvent) {
+//				home.updateAll();
+//				payWin.dispose();
+//			}
+//		});
+//		payWin.setVisible(true);
+//	}
 	
 	public UndoManager getUndoMgr() {
 		return undoMgr;
