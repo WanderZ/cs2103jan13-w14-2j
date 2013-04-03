@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -87,7 +88,7 @@ public class SearchFrame extends JPanel {
 			CategoryHandler<IncomeRecord> inCatHandRef, 
 			CategoryHandler<ExpenseRecord> exCatHandRef, 
 			PaymentHandler payHandRef) {
-		// super();
+		super(new BorderLayout());
 /*		this.init();*/
 		this.handler = handlerRef;
 		
@@ -124,7 +125,6 @@ public class SearchFrame extends JPanel {
 		
 		panBtns.add(btnAdvance);
 		
-		
 		btnSearch.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -137,15 +137,16 @@ public class SearchFrame extends JPanel {
 		
 		this.add(panCtrls, BorderLayout.NORTH);
 		
-		// InfoPanel
-		panInfo = new InfoPanel();
-		this.add(panInfo, BorderLayout.SOUTH);
 
 		// list
 		list = li;
-		list.setPreferredScrollableViewportSize(new Dimension(100, 200));
+		// list.setPreferredScrollableViewportSize(new Dimension(100, 200));
 		this.panResult = new JScrollPane(list);
 		this.add(this.panResult, BorderLayout.CENTER);
+
+		// InfoPanel
+		panInfo = new InfoPanel();
+		this.add(panInfo, BorderLayout.SOUTH);
 	}
 	
 //	/** to initialize the components of this frame */
@@ -184,18 +185,20 @@ public class SearchFrame extends JPanel {
 			
 			Date start = panForm.getStartDate(),
 				 end = panForm.getEndDate();
-			if(start != null && end != null){
+			if(start != null && end != null) {
 				Pair<Date, Date> dateRange = new Pair<Date, Date>(start, end);
-				if(req == null){
+				if(req == null) {
 					req = new SearchRequest(dateRange);
-				}else{
+				} 
+				else {
 					req.setDateRange(dateRange);
 				}
 				if(req != null) search(req);
 			}
 			
 			search(req);
-		}else{
+		}
+		else {
 			search(panForm.getSimpleQuery());
 		}
 	}
@@ -219,19 +222,26 @@ public class SearchFrame extends JPanel {
 	}
 	
 	private void switchMode(){
-		if(!isMoreOption){
+		if(!isMoreOption) {
 			panCtrls.setPreferredSize(new Dimension(DEFAULT_WIDTH, ADVANCE_HEIGHT));
 			panCtrls.revalidate();
 			btnAdvance.setText("Less options");
 			isMoreOption = true;
 			panForm.switchToAdvance();
-		}else{
+		}
+		else{
 			panCtrls.setPreferredSize(new Dimension(DEFAULT_WIDTH, SIMPLE_HEIGHT));
 			panCtrls.revalidate();
 			btnAdvance.setText("More options");
 			isMoreOption = false;
 			panForm.switchToSimple();
 		}
+	}
+	
+	/**
+	 * Reloads this panel to refresh the content.
+	 */
+	public void reload() {
 		
 	}
 }
@@ -247,7 +257,7 @@ class SearchFormPanel extends JPanel {
 	private JLabel lblName, lblTitle, lblCat, lblPay, lblDate, lblToDate;
 	private JTextField txtName, txtSimpleField;
 	private JComboBox txtCat, txtPay;
-	private JButton btnAdvance;
+	// private JButton btnAdvance;
 	private JDateChooser txtStart, txtEnd;
 	private final Font FORM_FONT = new Font("Segoe UI", 0, 14); // #Font
 	
@@ -307,6 +317,9 @@ class SearchFormPanel extends JPanel {
 		this.add(this.getToDateField());
 	}
 	
+	/**
+	 * @return a JLabel Object to with Name 
+	 */
 	private JLabel getNameLabel() {
 		if(lblName == null) {
 			lblName = new JLabel("Name");
@@ -315,6 +328,9 @@ class SearchFormPanel extends JPanel {
 		return lblName;
 	}
 	
+	/**
+	 * @return a JTextField Object for name
+	 */
 	public JTextField getNameField() {
 		if(txtName == null) {
 			txtName = new JTextField("");
@@ -324,6 +340,9 @@ class SearchFormPanel extends JPanel {
 		return txtName;
 	}
 	
+	/**
+	 * @return a JLabel Object for category
+	 */
 	private JLabel getCatLabel() {
 		if(lblCat == null) {
 			lblCat = new JLabel("Category");
@@ -332,6 +351,9 @@ class SearchFormPanel extends JPanel {
 		return lblCat;
 	}
 	
+	/**
+	 * @return a JComboBox for category
+	 */
 	public JComboBox getCatField() {
 		if(txtCat == null) {
 			Object[] myInCatList = new Category[inCatHandRef.getAllCategories().size()];
@@ -350,7 +372,7 @@ class SearchFormPanel extends JPanel {
 		return txtCat;
 	}
 	
-	private JLabel getPayLabel(){
+	private JLabel getPayLabel(){ // TODO: Marked for removal?
 		if (lblPay == null){
 			lblPay = new JLabel("Payment");
 			lblPay.setFont(FORM_FONT);
@@ -358,7 +380,7 @@ class SearchFormPanel extends JPanel {
 		return lblPay;
 	}
 	
-	public JComboBox getPayField() {
+	public JComboBox getPayField() { // TODO: Marked for removal?
 		if(txtPay == null) {
 			Object[] myPayList = new PaymentMethod[payHandRef.getAllPaymentMethod().size()];
 			myPayList = payHandRef.getAllPaymentMethod().toArray();
@@ -411,10 +433,16 @@ class SearchFormPanel extends JPanel {
 		return txtStart;
 	}
 	
+	/**
+	 * @return a String Object containing the query for Simple Search
+	 */
 	public String getSimpleQuery(){
 		return this.txtSimpleField.getText();
 	}
 	
+	/**
+	 * @return a Date Object the starting date 
+	 */
 	public Date getStartDate() {
 		return (Date)txtStart.getDate();
 	}
@@ -442,24 +470,41 @@ class SearchFormPanel extends JPanel {
 		return txtEnd;
 	}
 	
+	/**
+	 * @return a Date Object containing the end of the time frame
+	 */
 	public Date getEndDate() {
 		return (Date) txtEnd.getDate();
 	}
+	
+	/**
+	 * Reloads the Form
+	 */
+	public void reload() {
+		// TODO: Reload category dropdown box
+	}
 }
 
+/**
+ * Pseudo Status Bar for Search
+ */
 @SuppressWarnings("serial")
-class InfoPanel extends JPanel{
+class InfoPanel extends JPanel {
 	private JLabel lblNumRec;
 	private JLabel lblTotalAmt;
-	private DecimalFormat df = new DecimalFormat("#.##");
+	private DecimalFormat df = new DecimalFormat("$###,###,##0.00");
 	
 	public InfoPanel(){
 		setLayout(new MigLayout("","1[]15[]","0[]0"));
 		setPreferredSize(new Dimension(600, 25));
+		this.setBorder(BorderFactory.createLoweredBevelBorder());
 		this.add(getNumRecLabel());
 		this.add(getTotalAmtLabel());
 	}
 	
+	/**
+	 * @return a JLabel object to label Sum of records
+	 */
 	private JLabel getNumRecLabel() {
 		if (lblNumRec == null){
 			lblNumRec = new JLabel("No. of Records: - ");
@@ -467,6 +512,9 @@ class InfoPanel extends JPanel{
 		return lblNumRec;
 	}
 
+	/**
+	 * @return a JLabel object to label Total Amount
+	 */
 	private JLabel getTotalAmtLabel() {
 		if (lblTotalAmt == null){
 			lblTotalAmt = new JLabel("Total Amount: - ");
@@ -474,10 +522,16 @@ class InfoPanel extends JPanel{
 		return lblTotalAmt;
 	}
 
+	/**
+	 * @param num Number to set as the sum of records
+	 */
 	public void setNumRec(int num){
 		lblNumRec.setText("No. of Records: " +  num);
 	}
 	
+	/**
+	 * @param num Number to set as the total amount
+	 */
 	public void setTotalAmt(double num){
 		lblTotalAmt.setText("Balance: " + df.format(num)); // 2 decimal place later
 	}

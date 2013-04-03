@@ -17,10 +17,6 @@ import javax.swing.JLayeredPane;
 /**
  * Navigator for the MainGUI
  */
-/**
- * @author Andrew
- *
- */
 @SuppressWarnings("serial")
 public class EzNavigator extends JLayeredPane {
 
