@@ -20,6 +20,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -187,6 +188,11 @@ public class SearchFrame extends JPanel {
 			Date start = panForm.getStartDate(),
 				 end = panForm.getEndDate();
 			if(start != null && end != null) {
+				if(!start.before(end)) {
+					// TODO: Error Handling for Date Range
+					UINotify.createErrMsg("Start is after End Date");
+					return;
+				}
 				Pair<Date, Date> dateRange = new Pair<Date, Date>(start, end);
 				if(req == null) {
 					req = new SearchRequest(dateRange);
