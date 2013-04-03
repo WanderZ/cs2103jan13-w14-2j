@@ -2,12 +2,14 @@ package ezxpns.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
+import java.util.Calendar;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -34,14 +36,23 @@ public class OverviewPanel extends JPanel {
 	private int index = 1;
 
 	private SummaryGenerator sumGen;
-	private JLabel lblTimeFrame;
-	private JButton buttonBack;
-	private JButton buttonNext;
+	private JLabel lblSummary;
 	private JLabel lblBalance;
 	private JLabel lblIncomeNumber;
 	private JLabel lblExpenseNumber;
-
+	
+	private JButton buttonToday;
 	DecimalFormat df = new DecimalFormat("$###,###,##0.00");
+	private JButton buttonMonth;
+	private JButton buttonYear;
+	private JButton buttonAllTime;
+    Calendar cal = Calendar.getInstance();
+
+	String[] monthName = {"January", "February",
+            "March", "April", "May", "June", "July",
+            "August", "September", "October", "November",
+            "December"};
+	DecimalFormat df = new DecimalFormat("0.00");
 	
 	public OverviewPanel(SummaryGenerator sumGenRef) {
 		super();
@@ -54,8 +65,7 @@ public class OverviewPanel extends JPanel {
 		panelTime.setOpaque(false);
 //		panelTime.setBackground(Color.WHITE); // set color for buttons and timeline
 		
-		JLabel lblSummary = new JLabel("Summary");
-		//lblSummary.setForeground(new Color(192, 192, 192));
+		lblSummary = new JLabel("Balance: This" + monthName[cal.get(Calendar.MONTH)]);
 		lblSummary.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		
 		JPanel panelBigBalance = new JPanel();
@@ -124,9 +134,53 @@ public class OverviewPanel extends JPanel {
 		
 		// TIME PANEL
 		// ===========
-		panelTime.setLayout(new BorderLayout(0, 0));
+		panelTime.setLayout(new FlowLayout());
+		
+		buttonToday = new JButton("Today");
+		buttonToday.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e){
+				lblSummary.setText("Balance: Today");
+				index = 0;
+				getSummaryData();
+			}
+		});
+		panelTime.add(buttonToday);
+		
+		buttonMonth = new JButton("This Month");
+		buttonMonth.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e){
+				lblSummary.setText("Balance: This" + monthName[cal.get(Calendar.MONTH)]);
+				index = 1;
+				getSummaryData();
+			}
+		});
+		panelTime.add(buttonMonth);
+		
+		buttonYear = new JButton("This Year");
+		buttonYear.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e){
+				lblSummary.setText("Balance: This Year");
+				index = 2;
+				getSummaryData();
+			}
+		});
+		panelTime.add(buttonYear);
+		
+		buttonAllTime = new JButton("All Time");
+		buttonAllTime.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e){
+				lblSummary.setText("Balance: All Time");
+				index = 3;
+				getSummaryData();
+			}
+		});
+		panelTime.add(buttonAllTime);
 
-		// Back Button
+		/*// Back Button
 		buttonBack = new JButton("<");
 		buttonBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -159,7 +213,7 @@ public class OverviewPanel extends JPanel {
 		// Time Frame
 		lblTimeFrame = new JLabel("");
 		lblTimeFrame.setHorizontalAlignment(SwingConstants.CENTER);
-		panelTime.add(lblTimeFrame, BorderLayout.CENTER);
+		panelTime.add(lblTimeFrame, BorderLayout.CENTER);*/
 		
 		// Get Data
 		// =========
@@ -173,10 +227,8 @@ public class OverviewPanel extends JPanel {
 		SummaryDetails mySummaryDetails = sumGen
 				.getSummaryDetails(summaryTab[index]);
 
-		//lblBalance.setText("Balance:\t" + df.format(mySummaryDetails.getBalance()));
 		lblIncomeNumber.setText(df.format(mySummaryDetails.getIncome()));
 		lblExpenseNumber.setText(df.format(mySummaryDetails.getExpense()));
-		lblTimeFrame.setText(mySummaryDetails.getSummaryType().getName());
 		lblBalance.setText(df.format(mySummaryDetails.getBalance()));
 		
 		if (mySummaryDetails.getBalance() > 0)
