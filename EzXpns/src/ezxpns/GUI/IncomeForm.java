@@ -167,7 +167,7 @@ public class IncomeForm extends JPanel {
 			}
 			
 			private void fill(){
-				if(blockAutoFill)return;
+				if(blockAutoFill || isEdit)return;
 				IncomeRecord oldRecord = recHandler.lastIncomeRecord(txtName.getText()); 
 				if(oldRecord!=null) {
 					record = oldRecord;
