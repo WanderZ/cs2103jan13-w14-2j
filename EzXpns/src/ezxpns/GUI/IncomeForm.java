@@ -19,11 +19,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 
-import ezxpns.GUI.Calculator.EvaluationException;
 import ezxpns.data.records.Category;
 import ezxpns.data.records.CategoryHandler;
 import ezxpns.data.records.IncomeRecord;
@@ -82,6 +83,8 @@ public class IncomeForm extends JPanel {
 		isEdit = false;
 	}
 	
+	private boolean blockAutoFill = false;
+	
 	/**
 	 * Create a form of the existing record
 	 * @param recHandlerRef RecordHandler reference to manage records
@@ -98,15 +101,17 @@ public class IncomeForm extends JPanel {
 		this.record = record;
 		isEdit = true;
 		this.populateFields();
-		
 	}
 	
 	/**
 	 * To populate all the fields with the given record's data
 	 */
 	private void populateFields() {
+		blockAutoFill = true;
 		// Name
-		txtName.setText(record.getName());
+		if(isEdit && !txtName.getText().equals(record.getName())){
+			txtName.setText(record.getName());
+		}
 		
 		// Amount
 		this.setAmt(record.getAmount());
@@ -122,6 +127,8 @@ public class IncomeForm extends JPanel {
 		
 		// Recurrence stuff...
 		// Not handled at the moment
+		
+		blockAutoFill = false;
 	}
 	
 	/** Initialize the categories drop down field */
@@ -140,6 +147,33 @@ public class IncomeForm extends JPanel {
 		lblName = this.createLabel("Name");
 		txtName = new JTextField("");
 		txtName.setPreferredSize(new Dimension(200, 25));
+		txtName.getDocument().addDocumentListener(new DocumentListener(){
+
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+				fill();
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent arg0) {
+				fill();
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent arg0) {
+				fill();
+			}
+			
+			private void fill(){
+				if(blockAutoFill || isEdit)return;
+				IncomeRecord oldRecord = recHandler.lastIncomeRecord(txtName.getText()); 
+				if(oldRecord!=null) {
+					record = oldRecord;
+					populateFields();
+				}
+			}
+			
+		});
 		txtName.addFocusListener(new FocusListener() {
 
 			@Override
@@ -148,13 +182,8 @@ public class IncomeForm extends JPanel {
 			}
 
 			@Override
-			public void focusLost(FocusEvent arg0) {
-				// Auto Complete - one use only.
-				IncomeRecord oldRecord = recHandler.lastIncomeRecord(txtName.getText()); 
-				if(record==null & oldRecord!=null) {
-					record = oldRecord;
-					populateFields();
-				}
+			public void focusLost(FocusEvent e) {
+				// TODO Auto complete?
 			}
 			
 		});
@@ -181,6 +210,7 @@ public class IncomeForm extends JPanel {
 		lblAmt = this.createLabel("Amount");
 		txtAmt = new JTextField("");
 		txtAmt.setPreferredSize(new Dimension(200, 25));
+		txtAmt.setToolTipText("Enter Amount Here!");
 		this.add(lblAmt);
 		this.add(txtAmt);
 		loForm.putConstraint(SpringLayout.WEST, lblAmt, COL1_PAD, SpringLayout.WEST, this);
@@ -408,7 +438,7 @@ public class IncomeForm extends JPanel {
 	 */
 	private JLabel createLabel(String lblTxt) {
 		JLabel label = new JLabel(lblTxt);
-		label.setFont(new Font("Segoe UI", 0, 18)); // #Font
+		label.setFont(Config.TEXT_FONT); // #Font
 		return label;
 	}
 }

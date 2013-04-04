@@ -1,5 +1,14 @@
 package ezxpns.GUI;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JWindow;
+
 /** 
  * Utility to do Minor Notification Messages
  * <br />To display responses to users when they perform an action,
@@ -7,6 +16,74 @@ package ezxpns.GUI;
  */
 public class UINotify {
 
+	private UINotify() {}
+	
+	public static void createPopUp(String msg) {
+		PopMsg popup = new PopMsg(msg);
+		new Thread(popup).start();
+	}
+	
+	public static void createErrMsg(String msg) {
+		PopMsg popup = new PopMsg(msg, PopMsg.ERR_MSG);
+		new Thread(popup).start();
+	}
+}
+
+/**
+ * Pop Up Message that disappear after 5 seconds 
+ */
+@SuppressWarnings("serial")
+class PopMsg extends JWindow implements Runnable {
+		
+	private final int TIMEOUT = 5000;
+	private final int WIDTH = 250;
+	private final int HEIGHT = 21;
+	
+	private JLabel lblMsg;
+	
+	public static final int ERR_MSG = 01;
+	
+	public PopMsg(String msg) {
+		this.setSize(WIDTH, HEIGHT);
+		this.setLayout(new BorderLayout());
+		this.setLocationRelativeTo(null);
+		
+		lblMsg = new JLabel("     " + msg);
+		lblMsg.setFont(Config.TEXT_FONT);
+		lblMsg.setBounds(5, 5, WIDTH-50, HEIGHT);
+		this.add(lblMsg, BorderLayout.CENTER);
+		
+		JButton btnClose = new JButton("[X]");
+		btnClose.addActionListener(new ActionListener() {
+	        @Override
+	        public void actionPerformed(final ActionEvent e) {
+	               dispose();
+	        }
+		});
+		btnClose.setContentAreaFilled(false);
+		btnClose.setMargin(new Insets(1, 4, 1, 4));
+		btnClose.setFocusable(false);
+		
+		this.add(btnClose, BorderLayout.EAST);
+	}
+	
+	public PopMsg(String msg, int errType) {
+		this(msg);
+		lblMsg.setForeground(Color.RED);
+	}
+
+	@Override
+	public void run() {
+		try {
+			this.setAlwaysOnTop(true);
+			this.setVisible(true);
+			Thread.sleep(TIMEOUT); // time after which pop up will be disappeared.
+			this.dispose();
+		} 
+		catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 }
 
 /* 	

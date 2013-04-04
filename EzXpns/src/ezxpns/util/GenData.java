@@ -62,7 +62,6 @@ public class GenData {
 					inCat.get(r.nextInt(inCatl))), false);
 		}
 		
-		eh.getStore().save();
 		System.exit(0);
 
 	}

@@ -57,13 +57,14 @@ public class RecordManager<T extends Record>
 	 * aggregate info
 	 */
 	private transient double allTimeSum = 0,
+							 lastMonthSum = 0,
 							 monthlySum = 0,
 							 dailySum = 0,
 							 yearlySum = 0;
 	private transient HashMap<Long, Double> monthlySumByCategory;
 	
 	private transient Calendar cal = Calendar.getInstance();
-	private transient Date today, startOfYear, startOfMonth;
+	protected transient Date today, startOfYear, startOfMonth, startOfLastMonth;
 
 	/**
 	 * @return sum of amount of all time
@@ -77,6 +78,13 @@ public class RecordManager<T extends Record>
 	public double getMonthlySum() {
 		return monthlySum;
 	}
+	/**
+	 * @return sum of amount of last month
+	 */
+	public double getLastMonthSum() {
+		return lastMonthSum;
+	}
+	
 	/**
 	 * @return sum of amount of today
 	 * Assume the user do not use this app overnight <br />
@@ -109,12 +117,24 @@ public class RecordManager<T extends Record>
 		recordsByName = new TreeMap<String, TreeSet<T> >();
 		recordsById = new TreeMap<Long, T>();
 		monthlySumByCategory = new HashMap<Long, Double>();
+		cal.set(Calendar.AM_PM, Calendar.AM);
 		cal.set(Calendar.HOUR, 0);
 		cal.set(Calendar.MINUTE, 0);
 		cal.set(Calendar.SECOND, 0);
 		today = cal.getTime();
+		System.out.println(today);
 		cal.set(Calendar.DAY_OF_MONTH, 0);
 		startOfMonth = cal.getTime();
+		if(cal.get(Calendar.MONTH) == 0){
+			cal.set(Calendar.MONTH, 11);
+			cal.set(Calendar.YEAR, cal.get(Calendar.YEAR) - 1);
+			startOfLastMonth = cal.getTime();
+			cal.set(Calendar.MONTH, 0);
+			cal.set(Calendar.YEAR, cal.get(Calendar.YEAR) + 1);
+		}else{
+			cal.set(Calendar.MONTH, cal.get(Calendar.MONTH) - 1);
+			startOfLastMonth = cal.getTime();
+		}
 		cal.set(Calendar.MONTH, 0);
 		startOfYear = cal.getTime();
 	}
@@ -160,14 +180,16 @@ public class RecordManager<T extends Record>
 	 * amount accordingly
 	 * @param record the record added
 	 */
-	private void addSums(Record record){
-		if(record.date.after(today)){
+	protected void addSums(T record){
+		if(!record.date.before(today)){
 			dailySum += record.amount;
 		}
-		if(record.date.after(startOfMonth)){
+		if(!record.date.before(startOfMonth)){
 			monthlySum += record.amount;
 			monthlySumByCategory.put(record.category.getID(),
 					monthlySumByCategory.get(record.category.getID()) + record.amount);
+		}else if (!record.date.before(startOfLastMonth)){
+			lastMonthSum += record.amount;
 		}
 		if(record.date.after(startOfYear)){
 			yearlySum += record.amount;
@@ -180,14 +202,16 @@ public class RecordManager<T extends Record>
 	 * the amount accordingly
 	 * @param record record removed
 	 */
-	private void removeSums(Record record){
-		if(record.date.after(today)){
+	protected void removeSums(T record){
+		if(!record.date.before(today)){
 			dailySum -= record.amount;
 		}
-		if(record.date.after(startOfMonth)){
+		if(!record.date.before(startOfMonth)){
 			monthlySum -= record.amount;
 			monthlySumByCategory.put(record.category.getID(),
 					monthlySumByCategory.get(record.category.getID()) - record.amount);
+		}else if (!record.date.before(startOfLastMonth)){
+			lastMonthSum -= record.amount;
 		}
 		if(record.date.after(startOfYear)){
 			yearlySum -= record.amount;
@@ -319,6 +343,7 @@ public class RecordManager<T extends Record>
 	@Override
 	public Category addNewCategory(Category toAdd){
 		String err = validateCategoryName(toAdd.name);
+		System.out.println(err);
 		if(err != null)return null;
 		Category category = toAdd.copy();
 		while(categories.containsKey(category.getID())){
@@ -505,6 +530,7 @@ public class RecordManager<T extends Record>
 	}
 	@Override
 	public Vector<T> getRecordsWithNamePrefix(String prefix) {
+		if(prefix.length() == 0)return new Vector<T>();
 		String end = prefix.substring(0, prefix.length() - 1) + (char)(prefix.charAt(prefix.length() - 1) + 1);
 		Vector<T> allRecs = new Vector<T>();
 		for(TreeSet<T> rs : recordsByName.subMap(prefix, end).values()){
@@ -514,6 +540,7 @@ public class RecordManager<T extends Record>
 	}
 	@Override
 	public Vector<Category> getCategoryWithNamePrefix(String prefix) {
+		if(prefix.length() == 0)return new Vector<Category>();
 		Vector<Category> cats = new Vector<Category>();
 		for(Category cat : categories.values()){
 			if(cat.getName().startsWith(prefix)){

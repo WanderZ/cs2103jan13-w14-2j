@@ -16,12 +16,14 @@ import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
@@ -69,6 +71,8 @@ public class ExpenseForm extends JPanel{
 	private List<Category> categories;
 	private List<PaymentMethod> methods;
 	private ExpenseRecord record;
+	
+	private boolean blockAutoFill = false;
 	
 	/**
 	 * Create a Form for new expense records
@@ -121,8 +125,11 @@ public class ExpenseForm extends JPanel{
 	 * To populate all the fields with the given record's data
 	 */
 	private void populateFields() {
+		blockAutoFill = true;
 		// Name
-		txtName.setText(record.getName());
+		if(isEdit){
+			if(!txtName.getText().equals(record.getName())) txtName.setText(record.getName());
+		}
 		
 		// Amount
 		this.setAmt(record.getAmount());
@@ -141,6 +148,8 @@ public class ExpenseForm extends JPanel{
 		
 		// Recurrence stuff...
 		// Not handled at the moment
+		
+		blockAutoFill = false;
 	}
 	
 	/** 
@@ -209,6 +218,33 @@ public class ExpenseForm extends JPanel{
 		txtName = new JTextField("");
 		txtName.setPreferredSize(new Dimension(200, 25));
 		txtName.setBorder(BorderFactory.createLoweredBevelBorder());
+		txtName.getDocument().addDocumentListener(new DocumentListener(){
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				fill();
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				fill();
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				fill();
+			}
+			
+			private void fill(){
+				if(blockAutoFill || isEdit) return;
+				ExpenseRecord oldRecord = recHandler.lastExpenseRecord(txtName.getText());
+				if(oldRecord!=null) {
+					record = oldRecord;
+					populateFields();
+				}
+			}
+		
+		});
 		txtName.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent arg0) {
@@ -217,11 +253,7 @@ public class ExpenseForm extends JPanel{
 
 			@Override
 			public void focusLost(FocusEvent arg0) {
-				ExpenseRecord oldRecord = recHandler.lastExpenseRecord(txtName.getText());
-				if(record==null & oldRecord!=null) {
-					record = oldRecord;
-					populateFields();
-				}
+				
 			}
 		});
 		
@@ -266,6 +298,10 @@ public class ExpenseForm extends JPanel{
 		loForm.putConstraint(SpringLayout.NORTH, lblAmt, TOP_PAD, SpringLayout.NORTH, rbtnNeed);
 		loForm.putConstraint(SpringLayout.NORTH, txtAmt, TOP_PAD, SpringLayout.NORTH, rbtnWant);
 		// TODO: Calculator
+		final JLabel lblResult = this.createLabel("");
+		this.add(lblResult);
+		loForm.putConstraint(SpringLayout.WEST, lblResult, COL2_PAD, SpringLayout.WEST, txtAmt);
+		loForm.putConstraint(SpringLayout.NORTH, lblResult, TOP_PAD, SpringLayout.NORTH, rbtnWant);
 		final Calculator cal = Calculator.getInstance();
 		txtAmt.addFocusListener(new FocusListener() {
 
@@ -273,8 +309,7 @@ public class ExpenseForm extends JPanel{
 			public void focusGained(FocusEvent e) {
 				try {
 					Double result = cal.evaluate(getAmt());
-					System.out.println("Focus gained: " + result);
-					if(result!=null) setAmt(result);
+					if(result!=null) setAmt(lblResult, result);
 				}
 				catch(EvaluationException evalErr) {
 					System.out.println(evalErr.getMessage());
@@ -286,10 +321,13 @@ public class ExpenseForm extends JPanel{
 
 			@Override
 			public void focusLost(FocusEvent e) {
+				if(!validateAmt()) {
+					markErr(txtAmt);
+					return;
+				}
 				try {
 					Double result = cal.evaluate(getAmt());
-					System.out.println("Focus lost: " + result);
-					if(result!=null) setAmt(result);
+					if(result!=null) setAmt(lblResult, result);
 				}
 				catch(EvaluationException evalErr) {
 					System.out.println(evalErr.getMessage());
@@ -449,13 +487,13 @@ public class ExpenseForm extends JPanel{
 		// TODO: Validate Payment Method Name
 		// TODO: Validate Description?
 		
-		System.out.println("Name: " + getName());
-		System.out.println("Amt: " + getAmt());
-		System.out.println("Date: " + getDate());
-		System.out.println("Desc: " + getDesc());
-		System.out.println("Cat: " + getCat());
-		System.out.println("Mode: " + getMode());
-		System.out.println("Type: " + getType());
+//		System.out.println("Name: " + getName());
+//		System.out.println("Amt: " + getAmt());
+//		System.out.println("Date: " + getDate());
+//		System.out.println("Desc: " + getDesc());
+//		System.out.println("Cat: " + getCat());
+//		System.out.println("Mode: " + getMode());
+//		System.out.println("Type: " + getType());
 		
 		return validateSuccess;
 	}
@@ -477,10 +515,11 @@ public class ExpenseForm extends JPanel{
 		double result;
 		try {
 			result = Double.parseDouble(getAmt()); // To be updated to the inbuilt calculator
-			this.setAmt(result);
+//			this.setAmt(result);
 			return result >= 0.01; // Minimum value
 		}
 		catch(Exception err) {
+			UINotify.createErrMsg("Invalid amount Entered");
 			return false;
 		}
 	}
@@ -495,18 +534,10 @@ public class ExpenseForm extends JPanel{
 	
 	/**
 	 * Method to mark fields with a red border to indicate to user that it has error
-	 * @param txtField JTextField to be marked for error
+	 * @param component JTextField to be marked for error
 	 */
-	private void markErr(JTextField txtField) {
-		txtField.setBorder(BorderFactory.createLineBorder(Color.RED));
-	}
-	
-	/**
-	 * Method to mark fields with a red border to indicate to user that it has error
-	 * @param myTxtDateChooser JDateChooser to be marked for error
-	 */
-	private void markErr(JDateChooser myTxtDateChooser) {
-		myTxtDateChooser.setBorder(BorderFactory.createLineBorder(Color.RED));
+	private void markErr(JComponent component) {
+		component.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
 	}
 	
 	/**
@@ -515,6 +546,10 @@ public class ExpenseForm extends JPanel{
 	 */
 	private void setAmt(double amt) {
 		this.txtAmt.setText(new DecimalFormat("##0.00").format(amt));
+	}
+	
+	private void setAmt(JLabel lblResult, double amt) {
+		lblResult.setText(new DecimalFormat("=$###,###,##0.00").format(amt));
 	}
 	
 	/** 
@@ -538,7 +573,7 @@ public class ExpenseForm extends JPanel{
 		else {
 			eRecord = this.recHandler.createRecord(eRecord, isNewCategory(), isNewMethod());
 		}
-		notifyee.addUndoAction(createUndoAction(eRecord, isNewCategory(), isNewMethod()), isEdit ? " Edit Expense" : " New Expense");
+		notifyee.addUndoAction(createUndoAction(eRecord, isNewCategory(), isNewMethod()), isEdit ? "Edit Expense" : "New Expense");
 		return eRecord;
 	}
 	
