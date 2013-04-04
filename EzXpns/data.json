@@ -178,6 +178,18 @@
           "amount": 1000.0,
           "name": "test",
           "remark": "alright",
+          "date": "Apr 4, 2013 3:19:40 PM",
+          "id": 1365059981353
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1363314106821,
+            "name": "Gifts"
+          },
+          "amount": 1000.0,
+          "name": "test",
+          "remark": "alright",
           "date": "Apr 3, 2013 2:31:53 PM",
           "id": 1364970714556
         },
@@ -518,25 +530,25 @@
         "id": 1362480320970,
         "name": "Allowance"
       },
-      "1363950844232": {
-        "id": 1363950844232,
-        "name": "Loot"
-      },
       "1362122547530": {
         "id": 1362122547530,
         "name": "Salary"
       },
-      "1364935492692": {
-        "id": 1364935492692,
-        "name": "Bursary"
+      "1363950844232": {
+        "id": 1363950844232,
+        "name": "Loot"
+      },
+      "1363314106821": {
+        "id": 1363314106821,
+        "name": "Scholarship"
       },
       "1364222095831": {
         "id": 1364222095831,
         "name": "Found"
       },
-      "1363314106821": {
-        "id": 1363314106821,
-        "name": "Scholarship"
+      "1364935492692": {
+        "id": 1364935492692,
+        "name": "Bursary"
       }
     },
     "recordsByCategory": {
@@ -594,6 +606,38 @@
           "id": 1363715773749
         }
       ],
+      "1364222095831": [
+        {
+          "amount": 10000.0,
+          "name": "Blessingz",
+          "remark": "Found this on the floor!",
+          "date": "Apr 1, 2013 12:20:09 AM",
+          "id": 1364746811145
+        },
+        {
+          "amount": 20.2,
+          "name": "Blessingz",
+          "remark": "Found this on the floor!",
+          "date": "Mar 26, 2013 12:50:15 PM",
+          "id": 1364223741192
+        }
+      ],
+      "1364935492692": [
+        {
+          "amount": 183.08,
+          "name": "33iyf5s64rnk",
+          "remark": "nil",
+          "date": "Mar 2, 2013 5:16:57 AM",
+          "id": 1363314106822
+        },
+        {
+          "amount": 821.07,
+          "name": "5cccdpl4aha8",
+          "remark": "nil",
+          "date": "Dec 30, 2011 1:21:32 PM",
+          "id": 1363314106823
+        }
+      ],
       "1363314106821": [
         {
           "amount": 950.53,
@@ -622,38 +666,6 @@
           "remark": "nil",
           "date": "May 2, 2011 3:56:53 PM",
           "id": 1365133895255
-        }
-      ],
-      "1364935492692": [
-        {
-          "amount": 183.08,
-          "name": "33iyf5s64rnk",
-          "remark": "nil",
-          "date": "Mar 2, 2013 5:16:57 AM",
-          "id": 1363314106822
-        },
-        {
-          "amount": 821.07,
-          "name": "5cccdpl4aha8",
-          "remark": "nil",
-          "date": "Dec 30, 2011 1:21:32 PM",
-          "id": 1363314106823
-        }
-      ],
-      "1364222095831": [
-        {
-          "amount": 10000.0,
-          "name": "Blessingz",
-          "remark": "Found this on the floor!",
-          "date": "Apr 1, 2013 12:20:09 AM",
-          "id": 1364746811145
-        },
-        {
-          "amount": 20.2,
-          "name": "Blessingz",
-          "remark": "Found this on the floor!",
-          "date": "Mar 26, 2013 12:50:15 PM",
-          "id": 1364223741192
         }
       ]
     }
@@ -685,13 +697,13 @@
         "month": 3,
         "dayOfMonth": 4,
         "hourOfDay": 15,
-        "minute": 11,
-        "second": 32
+        "minute": 20,
+        "second": 47
       },
       "targetNeedsRatio": 0.5,
       "targetWantsRatio": 0.3,
       "targetSavingsRatio": 0.2,
-      "currentNeeds": 13144.0,
+      "currentNeeds": 14144.0,
       "currentWants": 0.0,
       "currentSavings": 0.0,
       "income": 10000.0,

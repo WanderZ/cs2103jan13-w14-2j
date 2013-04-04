@@ -43,10 +43,6 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 		this.undoMgr = undoMgr;
 		
 		this.uiCtrl = uiCtrl;
-		// TODO: InstantiateNavi
-		// TODO: CardLayout
-		// TODO: InstantiateContent
-		// TODO: Iterate through the list of JLayeredPane/JPanel to be displayed
 		
 		CardLayout contentMgr = new CardLayout();
 		panContent = new JLayeredPane();
@@ -64,7 +60,7 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 		
 		JPanel homeContent = new JPanel();
 		homeContent.setBorder(new EmptyBorder(15, 15, 15, 15));
-		homeContent.setLayout(new GridLayout(2, 2, 0, 0));
+		homeContent.setLayout(new GridLayout(2, 2, 15, 15));
 		panOverview = new OverviewPanel(sumGen);
 		homeContent.add(panOverview);
 		
@@ -101,9 +97,9 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 		this.setLocationRelativeTo(null);
 		this.setLayout(new GridBagLayout());
 		this.setLocationRelativeTo(null);
-		this.setResizable(false);
+		this.setMinimumSize(new Dimension(Config.MIN_UI_WIDTH, Config.MIN_UI_HEIGHT));
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		// this.setUndecorated(true); // Remove Title Bar 
+		this.setTitle("EzXpnz - the revolutionary next genration game changer-ish luxury classy high-end expense manager");
 	}
 	
 	/**
