@@ -1,5 +1,5 @@
 package ezxpns.GUI;
-import java.awt.BorderLayout;
+import java.awt.*;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -54,16 +54,7 @@ public class SearchFrame extends JPanel {
 	public final int SIMPLE_HEIGHT = 47;
 	public final int ADVANCE_HEIGHT = 170;
 	
-	/** Whether Advance Options is open or not*/
-	public final int OPEN = 1;
-	public final int CLOSE = 0;
-	private int Option_Status = 0;
-	
-	/** The handler object that implemented SearchHandler & CategoryHandler interface */
 	private SearchHandler handler;
-	private CategoryHandler<IncomeRecord> inCatHandRef;
-	private CategoryHandler<ExpenseRecord> exCatHandRef;
-
 	
 	// 2 main panels, the top (querying time frame) and the bottom (results, content)
 	private SearchFormPanel panForm;
@@ -91,7 +82,6 @@ public class SearchFrame extends JPanel {
 			CategoryHandler<ExpenseRecord> exCatHandRef, 
 			PaymentHandler payHandRef) {
 		super(new BorderLayout());
-/*		this.init();*/
 		this.handler = handlerRef;
 		
 		panCtrls = new JPanel();
@@ -140,9 +130,7 @@ public class SearchFrame extends JPanel {
 		this.add(panCtrls, BorderLayout.NORTH);
 		
 
-		// list
 		list = li;
-		// list.setPreferredScrollableViewportSize(new Dimension(100, 200));
 		this.panResult = new JScrollPane(list);
 		this.add(this.panResult, BorderLayout.CENTER);
 
@@ -151,15 +139,6 @@ public class SearchFrame extends JPanel {
 		this.add(panInfo, BorderLayout.SOUTH);
 	}
 	
-//	/** to initialize the components of this frame */
-//	private void init() {
-//		this.setTitle("EzXpns - Search");
-//		this.setBounds(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT); /*x coordinate, y coordinate, width, height*/
-//		this.setLocationRelativeTo(null); // Set to start in the central area of the screen
-//		this.setResizable(false);
-//		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); 
-//	}
-
 	public void performSearch(){
 		if(isMoreOption){
 		
@@ -267,14 +246,13 @@ class SearchFormPanel extends JPanel {
 	// CategoryHandler Reference for Category JComboBox
 	private CategoryHandler<IncomeRecord> inCatHandRef;
 	private CategoryHandler<ExpenseRecord> exCatHandRef;
-	private PaymentHandler payHandRef;
 	
-	private JLabel lblName, lblTitle, lblCat, lblPay, lblDate, lblToDate;
+	private JLabel lblName, lblTitle, lblCat, lblDate, lblToDate;
 	private JTextField txtName, txtSimpleField;
-	private JComboBox txtCat, txtPay;
-	// private JButton btnAdvance;
+	private JComboBox txtCat;
 	private JDateChooser txtStart, txtEnd;
 	private final Font FORM_FONT = new Font("Segoe UI", 0, 14); // #Font
+	private JPanel advancePane, normalPane;
 	
 	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yy");
 	
@@ -283,6 +261,7 @@ class SearchFormPanel extends JPanel {
 		txtSimpleField.setText("");
 		txtSimpleField.setBackground(this.getBackground());
 		lblTitle.setForeground(Color.GRAY);
+		advancePane.setVisible(true);
 		this.getNameField().requestFocusInWindow();
 		this.revalidate();
 	}
@@ -291,6 +270,7 @@ class SearchFormPanel extends JPanel {
 		txtSimpleField.setEditable(true);
 		lblTitle.setForeground(Color.BLACK);
 		txtSimpleField.requestFocusInWindow();
+		advancePane.setVisible(false);
 		this.revalidate();
 	}
 	
@@ -303,30 +283,39 @@ class SearchFormPanel extends JPanel {
 			CategoryHandler<IncomeRecord> inCatHandRef, 
 			CategoryHandler<ExpenseRecord> exCatHandRef, 
 			PaymentHandler payHandRef) {
-		this.inCatHandRef = inCatHandRef; // reference
-		this.exCatHandRef = exCatHandRef; // reference
-		this.payHandRef = payHandRef; 	  // reference
+		this.inCatHandRef = inCatHandRef;
+		this.exCatHandRef = exCatHandRef;
 		
-		this.setLayout(new MigLayout("insets 15", "[left]10%[]", ""));
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		
+		JPanel normalPane = new JPanel();
+		normalPane.setLayout(new MigLayout("insets 5", "[left]10%[]", ""));
+		
 		lblTitle = new JLabel("Search");
-		this.add(lblTitle,"span 2");
+		normalPane.add(lblTitle,"span 2");
 		
 		txtSimpleField = new JTextField("");
 		txtSimpleField.setFont(FORM_FONT);
 		txtSimpleField.setPreferredSize(new Dimension(230,32));
-		this.add(txtSimpleField, "span 1, wrap");
+		normalPane.add(txtSimpleField, "span 1, wrap");
+		this.add(normalPane);
 		
+		advancePane = new JPanel();
+		advancePane.setLayout(new MigLayout("insets 5", "[left]10%[]", ""));
+		advancePane.add(this.getNameLabel(), "span 2");
+		advancePane.add(this.getNameField(), "span, wrap");
 		
-		this.add(this.getNameLabel(), "span 2");
-		this.add(this.getNameField(), "span, wrap");
+		advancePane.add(this.getCatLabel(), "span 2");
+		advancePane.add(this.getCatField(), "span, wrap");
 		
-		this.add(this.getCatLabel(), "span 2");
-		this.add(this.getCatField(), "span, wrap");
+		advancePane.add(this.getDateLabel(), "span 2");
+		advancePane.add(this.getDateField(), "split 3");
+		advancePane.add(this.getToDateLabel());
+		advancePane.add(this.getToDateField());
 		
-		this.add(this.getDateLabel(), "span 2");
-		this.add(this.getDateField(), "split 3");
-		this.add(this.getToDateLabel());
-		this.add(this.getToDateField());
+		this.add(advancePane);
+		
+		advancePane.setVisible(false);
 	}
 	
 	public void clear(){
