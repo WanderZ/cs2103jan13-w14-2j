@@ -72,13 +72,10 @@ public class CategoryFrame extends JPanel {
 		inmo = new CategoryModel(incats, addNew);
 		this.notifyee = notifyee;
 		
-		// this.setSize(500, 400);
-		// this.setLocationRelativeTo(null);
 		this.excats = excats;
 		this.incats = incats;
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		// getContentPane().add(tabbedPane, BorderLayout.CENTER);
 		this.add(tabbedPane, BorderLayout.CENTER);
 		
 		JPanel panExCats = new JPanel();
@@ -91,9 +88,8 @@ public class CategoryFrame extends JPanel {
 					System.out.println("exlist is null");
 			}
 		});
-		tabbedPane.setFont(Config.TITLE_FONT);
 		tabbedPane.addTab(
-				"<html><body leftmargin=5 topmargin=5 marginwidth=100 marginheight=5>Expense</body></html>", 
+				"Expense", 
 				null, 
 				panExCats, 
 				null);
@@ -200,7 +196,7 @@ public class CategoryFrame extends JPanel {
 			}
 		});
 		tabbedPane.addTab(
-				"<html><body leftmargin=5 topmargin=5 marginwidth=100 marginheight=5>Income</body></html>", 
+				"Income", 
 				null, 
 				panInCats, 
 				null);
