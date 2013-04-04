@@ -4,6 +4,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import test.NWSGeneratorTest;
+
 import ezxpns.data.TargetManager.DataProvider;
 import ezxpns.data.records.ExpenseType;
 
@@ -16,6 +18,7 @@ import ezxpns.data.records.ExpenseType;
 
 public class NWSGenerator extends Storable {
 
+
 	public static interface DataProvider {
 		double getMonthlyExpense(ExpenseType type);
 
@@ -26,6 +29,8 @@ public class NWSGenerator extends Storable {
 
 		double getPrevMonthlyIncome(); // get previous month's income
 	}
+	
+	
 
 	private transient DataProvider data;
 	private transient boolean dataUpdated = true;
@@ -51,9 +56,11 @@ public class NWSGenerator extends Storable {
 	private NWSdata thisMonthNWS = new NWSdata();
 
 	public NWSGenerator(DataProvider data) {
+
 		this.data = data;
 		dataUpdated = true;
-
+		
+		
 		// if there is no past month data or this month data, set the ratio as
 		// default.
 		if ((!thisMonthNWS.isSet()) && (!pastMonthNWS.isSet())) {
@@ -61,28 +68,34 @@ public class NWSGenerator extends Storable {
 					data.getMonthlyExpense(ExpenseType.NEED),
 					data.getMonthlyExpense(ExpenseType.WANT),
 					getMonthlySavings(), data.getMonthlyIncome());
+			//thisMonthNWS is set
+			//pastMonthNWS is not set
 		}
-
-		if (thisMonthNWS.isSet()) {
-			if (isNewMonth(thisMonthNWS.getDate())) {
-				pastMonthNWS.setAll(thisMonthNWS.getDate(),
-						thisMonthNWS.getTargetNeeds(),
-						thisMonthNWS.getTargetWants(),
-						thisMonthNWS.getTargetSavings(),
-						thisMonthNWS.getCurrentNeeds(),
-						thisMonthNWS.getCurrentWants(),
-						thisMonthNWS.getCurrentSavings(),
-						thisMonthNWS.getIncome());
-				generateRatios(); // this updates thisMonthNWS
+		//has this month's data
+		else if (thisMonthNWS.isSet()) {
+			if (isExpired(thisMonthNWS.getDate())) { 
+				setToPastMonth(thisMonthNWS);
+			}
+				generateRatios(); 
+		}
+		
+		//
+		else if(pastMonthNWS.isSet()){
+			//check if it is from the month immediately before
+			if (hasSkippedAMonth(pastMonthNWS.getDate())){
+				
 			}
 		}
 	}
-
+	
+	
 	public void setDataProvider(DataProvider data) {
+	 
 		this.data = data;
 		dataUpdated = true;
 	}
 
+	 
 	public void markDataUpdated() {
 		dataUpdated = true;
 	}
@@ -94,12 +107,14 @@ public class NWSGenerator extends Storable {
 
 	public void updateNWSdata() {
 		if (pastMonthNWS.isSet()) {
+			if(!hasSkippedAMonth(pastMonthNWS.getDate())){
 			pastMonthNWS.setCurrentNeeds(data
 					.getPrevMonthlyExpense(ExpenseType.NEED));
 			pastMonthNWS.setCurrentWants(data
 					.getPrevMonthlyExpense(ExpenseType.WANT));
 			pastMonthNWS.setCurrentSavings(getPrevMonthlySavings());
 			pastMonthNWS.setIncome(data.getPrevMonthlyIncome());
+			}
 		}
 		generateRatios();
 	}
@@ -131,7 +146,6 @@ public class NWSGenerator extends Storable {
 			return savings;
 		else
 			return 0;
-
 	}
 
 	/**
@@ -142,13 +156,7 @@ public class NWSGenerator extends Storable {
 	public NWSdata getNWSdataCopy() {
 		if (dataUpdated) {
 			generateRatios();
-			dataUpdated = false; // i just add this cos it is similar to
-									// targetManager.
-			// the point is I need to call generateRatio when
-			// 1. someone changes last month's records. Recalculate ratio for
-			// this month since it is based on last month's data
-			// 2. Transit to new month so i need the calculate the new ratios
-			// for this month
+			dataUpdated = false; 
 		}
 
 		return thisMonthNWS.copy();
@@ -160,7 +168,7 @@ public class NWSGenerator extends Storable {
 	 * @return
 	 */
 	public void generateRatios() {
-
+System.out.println("genRatio");
 		if (!pastMonthNWS.isSet()) {
 			thisMonthNWS.setAll(new GregorianCalendar(), NEEDS, WANTS, SAVINGS,
 					data.getMonthlyExpense(ExpenseType.NEED),
@@ -195,15 +203,15 @@ public class NWSGenerator extends Storable {
 		 * Needs and Wants did not meet the target, while Savings has met the
 		 * target (<5% diff)
 		 */
-		if (Math.abs(diffFromNT) >= BUFFER) {
+		if (Math.abs(diffFromNT) > BUFFER) {
 			i += 4;
 		}
 
-		if (Math.abs(diffFromWT) >= BUFFER) {
+		if (Math.abs(diffFromWT) > BUFFER) {
 			i += 2;
 		}
 
-		if (Math.abs(diffFromST) >= BUFFER) {
+		if (Math.abs(diffFromST) > BUFFER) {
 			i += 1;
 		}
 
@@ -298,7 +306,8 @@ public class NWSGenerator extends Storable {
 			break;
 
 		case 3:// 011
-			if (!hasExceededTarget(diffFromWT) && hasExceededTarget(diffFromST)) {
+			if (!hasExceededTarget(diffFromWT) 
+					&& hasExceededTarget(diffFromST)) {
 				if (canIncrease(MAXSAVINGS, targetSavings)
 						&& canReduce(MINWANTS, targetWants)) {
 					targetSavings += BUFFER;
@@ -494,7 +503,7 @@ public class NWSGenerator extends Storable {
 	 * @return true if date's Month and Year is different from the date in
 	 *         thisMonthNWS
 	 */
-	private boolean isNewMonth(Calendar date) {
+	private boolean isExpired(Calendar date) {
 		Calendar today = new GregorianCalendar();
 		if (date.get(Calendar.MONTH) == today.get(Calendar.MONTH)) {
 			if (date.get(Calendar.YEAR) == today.get(Calendar.YEAR)) {
@@ -503,12 +512,40 @@ public class NWSGenerator extends Storable {
 		}
 		return true;
 	}
+	
+	private boolean hasSkippedAMonth(Calendar date){
+		Calendar today = new GregorianCalendar();	
+		if(today.get(Calendar.YEAR)==date.get(Calendar.YEAR)){ //is same year
+			if(today.get(Calendar.MONTH)-date.get(Calendar.MONTH)==1){//has a difference of 1 month
+				return false;
+			}
+		}
+		else if(today.get(Calendar.YEAR)-date.get(Calendar.YEAR)==1){//one year difference
+			if(today.get(Calendar.MONTH)==Calendar.JANUARY && date.get(Calendar.MONTH)==Calendar.DECEMBER){//december to january
+				return false;
+			}
+		}
+
+		return true;
+	}
 
 	private boolean hasExceededTarget(double diff) {
 		if (diff < 0)
 			return true;
 		else
 			return false;
+	}
+	
+	private void setToPastMonth(NWSdata thisMonthNWS){
+		pastMonthNWS.setAll(
+				thisMonthNWS.getDate(),
+				thisMonthNWS.getTargetNeeds(),
+				thisMonthNWS.getTargetWants(),
+				thisMonthNWS.getTargetSavings(),
+				thisMonthNWS.getCurrentNeeds(),
+				thisMonthNWS.getCurrentWants(),
+				thisMonthNWS.getCurrentSavings(),
+				thisMonthNWS.getIncome());
 	}
 
 }
