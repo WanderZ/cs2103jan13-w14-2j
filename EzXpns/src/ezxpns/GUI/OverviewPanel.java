@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 
+import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
@@ -24,6 +25,7 @@ import net.miginfocom.swing.MigLayout;
 import ezxpns.data.SummaryDetails;
 import ezxpns.data.SummaryGenerator;
 import ezxpns.data.SummaryGenerator.SummaryType;
+import javax.swing.JToggleButton;
 
 /**
  * This is the overview a.k.a summary panel that display the user's balance, in
@@ -41,11 +43,11 @@ public class OverviewPanel extends JPanel {
 	private JLabel lblIncomeNumber;
 	private JLabel lblExpenseNumber;
 	
-	private JButton buttonToday;
+	private JToggleButton buttonToday;
 	private DecimalFormat df = new DecimalFormat("$###,###,##0.00");
-	private JButton buttonMonth;
-	private JButton buttonYear;
-	private JButton buttonAllTime;
+	private JToggleButton buttonMonth;
+	private JToggleButton buttonYear;
+	private JToggleButton buttonAllTime;
     Calendar cal = Calendar.getInstance();
 
 	String[] monthName = {"January", "February",
@@ -64,7 +66,7 @@ public class OverviewPanel extends JPanel {
 		panelTime.setOpaque(false);
 //		panelTime.setBackground(Color.WHITE); // set color for buttons and timeline
 		
-		lblSummary = new JLabel("Balance: This" + monthName[cal.get(Calendar.MONTH)]);
+		lblSummary = new JLabel("Balance");
 		lblSummary.setHorizontalAlignment(SwingConstants.CENTER);
 		lblSummary.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		
@@ -136,49 +138,53 @@ public class OverviewPanel extends JPanel {
 		// ===========
 		panelTime.setLayout(new FlowLayout());
 		
-		buttonToday = new JButton("Today");
+		buttonToday = new JToggleButton("Today");
+		panelTime.add(buttonToday);
 		buttonToday.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e){
-				lblSummary.setText("Balance: Today");
 				index = 0;
 				getSummaryData();
 			}
 		});
-		panelTime.add(buttonToday);
 		
-		buttonMonth = new JButton("This Month");
+		buttonMonth = new JToggleButton("This Month");
+		panelTime.add(buttonMonth);
 		buttonMonth.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e){
-				lblSummary.setText("Balance: This" + monthName[cal.get(Calendar.MONTH)]);
 				index = 1;
 				getSummaryData();
 			}
 		});
-		panelTime.add(buttonMonth);
 		
-		buttonYear = new JButton("This Year");
+		buttonYear = new JToggleButton("This Year");
+		panelTime.add(buttonYear);
 		buttonYear.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e){
-				lblSummary.setText("Balance: This Year");
 				index = 2;
 				getSummaryData();
 			}
 		});
-		panelTime.add(buttonYear);
 		
-		buttonAllTime = new JButton("All Time");
+		buttonAllTime = new JToggleButton("All Time");
+		panelTime.add(buttonAllTime);
 		buttonAllTime.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e){
-				lblSummary.setText("Balance: All Time");
 				index = 3;
 				getSummaryData();
 			}
 		});
-		panelTime.add(buttonAllTime);
+		
+		ButtonGroup grp = new ButtonGroup();
+		grp.add(buttonToday);
+		grp.add(buttonMonth);
+		grp.add(buttonYear);
+		grp.add(buttonAllTime);
+		
+		buttonMonth.setSelected(true);
 
 		/*// Back Button
 		buttonBack = new JButton("<");
