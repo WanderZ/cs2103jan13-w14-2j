@@ -215,6 +215,7 @@ public class SearchFrame extends JPanel {
 	 * @param request SearchRequest object containing the query
 	 */
 	private void search(SearchRequest request) {
+		if(request == null)return;
 		List<Record> results = handler.search(request);
 		list.show(results);
 		panInfo.setNumRec(results.size());
