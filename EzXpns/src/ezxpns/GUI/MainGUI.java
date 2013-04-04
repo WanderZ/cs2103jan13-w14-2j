@@ -1,30 +1,12 @@
 package ezxpns.GUI;
 
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
+import java.awt.*;
 
-import javax.swing.AbstractAction;
-import javax.swing.JFrame;
-import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
+import javax.swing.*;
+import javax.swing.border.*;
 
-import com.jgoodies.forms.factories.FormFactory;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.RowSpec;
-
-import ezxpns.data.NWSGenerator;
-import ezxpns.data.SummaryGenerator;
-import ezxpns.data.TargetManager;
-import ezxpns.data.records.CategoryHandler;
-import ezxpns.data.records.ExpenseRecord;
-import ezxpns.data.records.IncomeRecord;
-import ezxpns.data.records.PaymentHandler;
-import ezxpns.data.records.RecordHandler;
-import ezxpns.data.records.SearchHandler;
+import ezxpns.data.*;
+import ezxpns.data.records.*;
 
 @SuppressWarnings("serial")
 public class MainGUI extends JFrame implements UpdateNotifyee {
@@ -81,7 +63,8 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 		this.add(navi, gbc);
 		
 		JPanel homeContent = new JPanel();
-		homeContent.setLayout(new GridLayout(0, 2, 0, 0));
+		homeContent.setBorder(new EmptyBorder(15, 15, 15, 15));
+		homeContent.setLayout(new GridLayout(2, 2, 0, 0));
 		panOverview = new OverviewPanel(sumGen);
 		homeContent.add(panOverview);
 		
