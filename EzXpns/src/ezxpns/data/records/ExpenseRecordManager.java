@@ -15,6 +15,18 @@ public class ExpenseRecordManager extends RecordManager<ExpenseRecord>
 	private TreeMap<Long, PaymentMethod> payms = new TreeMap<Long, PaymentMethod>();
 	private transient TreeMap<Long, TreeSet<ExpenseRecord>> recordsByPaym;
 	
+	// note that since needsum + wantsum = sum, we do not need to record want sum,
+	// simply get it by subtraction
+	private transient double needSum = 0, lastNeedSum = 0;
+	
+	public double getNeedSum(){
+		return needSum;
+	}
+	
+	public double getLastNeedSum(){
+		return lastNeedSum;
+	}
+	
 	public ExpenseRecordManager(){
 		super();
 		recordsByPaym = new TreeMap<Long, TreeSet<ExpenseRecord>>();
@@ -52,6 +64,30 @@ public class ExpenseRecordManager extends RecordManager<ExpenseRecord>
 	protected void recordRemoved(ExpenseRecord r){
 		super.recordRemoved(r);
 		recordsByPaym.get(r.paymentMethod.id).remove(r);
+	}
+	
+	@Override
+	protected void addSums(ExpenseRecord r){
+		super.addSums(r);
+		if(r.expenseType == ExpenseType.NEED){
+			if(!r.date.before(startOfMonth)){
+				needSum += r.amount;
+			}else if (!r.date.before(startOfLastMonth)){
+				lastNeedSum += r.amount;
+			}
+		}
+	}
+	
+	@Override
+	protected void removeSums(ExpenseRecord r){
+		super.removeSums(r);
+		if(r.expenseType == ExpenseType.NEED){
+			if(!r.date.before(startOfMonth)){
+				needSum -= r.amount;
+			}else if (!r.date.before(startOfLastMonth)){
+				lastNeedSum -= r.amount;
+			}
+		}
 	}
 	
 	@Override

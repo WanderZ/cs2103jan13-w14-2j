@@ -1,5 +1,5 @@
 package ezxpns.GUI;
-import java.awt.BorderLayout;
+import java.awt.*;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -13,11 +13,14 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Vector;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -31,6 +34,8 @@ import com.toedter.calendar.JDateChooser;
 
 import ezxpns.data.records.Category;
 import ezxpns.data.records.CategoryHandler;
+import ezxpns.data.records.ExpenseRecord;
+import ezxpns.data.records.IncomeRecord;
 import ezxpns.data.records.PaymentHandler;
 import ezxpns.data.records.PaymentMethod;
 import ezxpns.data.records.Record;
@@ -42,23 +47,14 @@ import ezxpns.util.Pair;
  * The window to handle the searching and querying needs of the user
  */
 @SuppressWarnings("serial")
-public class SearchFrame extends JFrame{
+public class SearchFrame extends JPanel {
 	
 	public final int DEFAULT_WIDTH = 600;
 	public final int DEFAULT_HEIGHT = 400;
 	public final int SIMPLE_HEIGHT = 47;
 	public final int ADVANCE_HEIGHT = 170;
 	
-	/** Whether Advance Options is open or not*/
-	public final int OPEN = 1;
-	public final int CLOSE = 0;
-	private int Option_Status = 0;
-	
-	/** The handler object that implemented SearchHandler & CategoryHandler interface */
 	private SearchHandler handler;
-	private CategoryHandler inCatHandRef;
-	private CategoryHandler exCatHandRef;
-
 	
 	// 2 main panels, the top (querying time frame) and the bottom (results, content)
 	private SearchFormPanel panForm;
@@ -72,13 +68,20 @@ public class SearchFrame extends JFrame{
 	private boolean isMoreOption = false;
 	
 	/**
-	 * To create a new Search Window
+	 * Constructs a new Search Window
 	 * @param handlerRef the reference to the SearchHandler object, catHandRef to CategoryHandler
+	 * @param li
+	 * @param inCatHandRef
+	 * @param exCatHandRef
+	 * @param payHandRef
 	 */
-	public SearchFrame(SearchHandler handlerRef, RecordListView li, CategoryHandler inCatHandRef, CategoryHandler exCatHandRef, PaymentHandler payHandRef) {
-		super();
-		this.init();
-		this.setLayout(new BorderLayout(25, 5)); // org: 25, 25
+	public SearchFrame(
+			SearchHandler handlerRef, 
+			RecordListView li, 
+			CategoryHandler<IncomeRecord> inCatHandRef, 
+			CategoryHandler<ExpenseRecord> exCatHandRef, 
+			PaymentHandler payHandRef) {
+		super(new BorderLayout());
 		this.handler = handlerRef;
 		
 		panCtrls = new JPanel();
@@ -114,7 +117,6 @@ public class SearchFrame extends JFrame{
 		
 		panBtns.add(btnAdvance);
 		
-		
 		btnSearch.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -127,26 +129,16 @@ public class SearchFrame extends JFrame{
 		
 		this.add(panCtrls, BorderLayout.NORTH);
 		
+
+		list = li;
+		this.panResult = new JScrollPane(list);
+		this.add(this.panResult, BorderLayout.CENTER);
+
 		// InfoPanel
 		panInfo = new InfoPanel();
 		this.add(panInfo, BorderLayout.SOUTH);
-
-		// list
-		list = li;
-		list.setPreferredScrollableViewportSize(new Dimension(100, 200));
-		this.panResult = new JScrollPane(list);
-		this.add(this.panResult, BorderLayout.CENTER);
 	}
 	
-	/** to initialize the components of this frame */
-	private void init() {
-		this.setTitle("EzXpns - Search");
-		this.setBounds(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT); /*x coordinate, y coordinate, width, height*/
-		this.setLocationRelativeTo(null); // Set to start in the central area of the screen
-		this.setResizable(false);
-		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); 
-	}
-
 	public void performSearch(){
 		if(isMoreOption){
 		
@@ -174,18 +166,25 @@ public class SearchFrame extends JFrame{
 			
 			Date start = panForm.getStartDate(),
 				 end = panForm.getEndDate();
-			if(start != null && end != null){
+			if(start != null && end != null) {
+				if(!start.before(end)) {
+					// TODO: Error Handling for Date Range
+					UINotify.createErrMsg("Start is after End Date");
+					return;
+				}
 				Pair<Date, Date> dateRange = new Pair<Date, Date>(start, end);
-				if(req == null){
+				if(req == null) {
 					req = new SearchRequest(dateRange);
-				}else{
+				} 
+				else {
 					req.setDateRange(dateRange);
 				}
 				if(req != null) search(req);
 			}
 			
 			search(req);
-		}else{
+		}
+		else {
 			search(panForm.getSimpleQuery());
 		}
 	}
@@ -195,6 +194,7 @@ public class SearchFrame extends JFrame{
 	 * @param request SearchRequest object containing the query
 	 */
 	private void search(SearchRequest request) {
+		if(request == null)return;
 		List<Record> results = handler.search(request);
 		list.show(results);
 		panInfo.setNumRec(results.size());
@@ -209,20 +209,34 @@ public class SearchFrame extends JFrame{
 	}
 	
 	private void switchMode(){
-		if(!isMoreOption){
+		if(!isMoreOption) {
 			panCtrls.setPreferredSize(new Dimension(DEFAULT_WIDTH, ADVANCE_HEIGHT));
 			panCtrls.revalidate();
 			btnAdvance.setText("Less options");
 			isMoreOption = true;
 			panForm.switchToAdvance();
-		}else{
+		}
+		else{
 			panCtrls.setPreferredSize(new Dimension(DEFAULT_WIDTH, SIMPLE_HEIGHT));
 			panCtrls.revalidate();
 			btnAdvance.setText("More options");
 			isMoreOption = false;
 			panForm.switchToSimple();
 		}
-		
+	}
+	
+	/**
+	 * Reloads this panel to refresh the content.
+	 */
+	public void reload() {
+		if(!this.isVisible()){
+			this.list.show(new Vector<Record>());
+			panForm.clear();
+		}else{
+			this.list.show(new Vector<Record>());
+			performSearch();
+		}
+		panForm.reload();
 	}
 }
 
@@ -230,16 +244,15 @@ public class SearchFrame extends JFrame{
 class SearchFormPanel extends JPanel {
 	
 	// CategoryHandler Reference for Category JComboBox
-	private CategoryHandler inCatHandRef;
-	private CategoryHandler exCatHandRef;
-	private PaymentHandler payHandRef;
+	private CategoryHandler<IncomeRecord> inCatHandRef;
+	private CategoryHandler<ExpenseRecord> exCatHandRef;
 	
-	private JLabel lblName, lblTitle, lblCat, lblPay, lblDate, lblToDate;
+	private JLabel lblName, lblTitle, lblCat, lblDate, lblToDate;
 	private JTextField txtName, txtSimpleField;
-	private JComboBox txtCat, txtPay;
-	private JButton btnAdvance;
+	private JComboBox txtCat;
 	private JDateChooser txtStart, txtEnd;
 	private final Font FORM_FONT = new Font("Segoe UI", 0, 14); // #Font
+	private JPanel advancePane, normalPane;
 	
 	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yy");
 	
@@ -248,6 +261,7 @@ class SearchFormPanel extends JPanel {
 		txtSimpleField.setText("");
 		txtSimpleField.setBackground(this.getBackground());
 		lblTitle.setForeground(Color.GRAY);
+		advancePane.setVisible(true);
 		this.getNameField().requestFocusInWindow();
 		this.revalidate();
 	}
@@ -256,6 +270,7 @@ class SearchFormPanel extends JPanel {
 		txtSimpleField.setEditable(true);
 		lblTitle.setForeground(Color.BLACK);
 		txtSimpleField.requestFocusInWindow();
+		advancePane.setVisible(false);
 		this.revalidate();
 	}
 	
@@ -264,36 +279,56 @@ class SearchFormPanel extends JPanel {
 		getNameField().addActionListener(listener);
 	}
 	
-	public SearchFormPanel(CategoryHandler inCatHandRef, CategoryHandler exCatHandRef, PaymentHandler payHandRef) {
-		this.inCatHandRef = inCatHandRef; // reference
-		this.exCatHandRef = exCatHandRef; // reference
-		this.payHandRef = payHandRef; 	  // reference
+	public SearchFormPanel(
+			CategoryHandler<IncomeRecord> inCatHandRef, 
+			CategoryHandler<ExpenseRecord> exCatHandRef, 
+			PaymentHandler payHandRef) {
+		this.inCatHandRef = inCatHandRef;
+		this.exCatHandRef = exCatHandRef;
 		
-		this.setLayout(new MigLayout("insets 15", "[left]10%[]", ""));
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		
+		JPanel normalPane = new JPanel();
+		normalPane.setLayout(new MigLayout("insets 5", "[left]10%[]", ""));
+		
 		lblTitle = new JLabel("Search");
-		this.add(lblTitle,"span 2");
+		normalPane.add(lblTitle,"span 2");
 		
 		txtSimpleField = new JTextField("");
 		txtSimpleField.setFont(FORM_FONT);
 		txtSimpleField.setPreferredSize(new Dimension(230,32));
-		this.add(txtSimpleField, "span 1, wrap");
+		normalPane.add(txtSimpleField, "span 1, wrap");
+		this.add(normalPane);
 		
+		advancePane = new JPanel();
+		advancePane.setLayout(new MigLayout("insets 5", "[left]10%[]", ""));
+		advancePane.add(this.getNameLabel(), "span 2");
+		advancePane.add(this.getNameField(), "span, wrap");
 		
-		this.add(this.getNameLabel(), "span 2");
-		this.add(this.getNameField(), "span, wrap");
+		advancePane.add(this.getCatLabel(), "span 2");
+		advancePane.add(this.getCatField(), "span, wrap");
 		
-		this.add(this.getCatLabel(), "span 2");
-		this.add(this.getCatField(), "span, wrap");
+		advancePane.add(this.getDateLabel(), "span 2");
+		advancePane.add(this.getDateField(), "split 3");
+		advancePane.add(this.getToDateLabel());
+		advancePane.add(this.getToDateField());
 		
-		this.add(this.getPayLabel(), "span 2");
-		this.add(this.getPayField(), "span, wrap");
+		this.add(advancePane);
 		
-		this.add(this.getDateLabel(), "span 2");
-		this.add(this.getDateField(), "split 3");
-		this.add(this.getToDateLabel());
-		this.add(this.getToDateField());
+		advancePane.setVisible(false);
 	}
 	
+	public void clear(){
+		this.getNameField().setText("");
+		this.getCatField().setSelectedIndex(0);
+		this.getDateField().setDate(null);
+		this.getToDateField().setDate(null);
+		txtSimpleField.setText("");
+	}
+	
+	/**
+	 * @return a JLabel Object to with Name 
+	 */
 	private JLabel getNameLabel() {
 		if(lblName == null) {
 			lblName = new JLabel("Name");
@@ -302,6 +337,9 @@ class SearchFormPanel extends JPanel {
 		return lblName;
 	}
 	
+	/**
+	 * @return a JTextField Object for name
+	 */
 	public JTextField getNameField() {
 		if(txtName == null) {
 			txtName = new JTextField("");
@@ -311,6 +349,9 @@ class SearchFormPanel extends JPanel {
 		return txtName;
 	}
 	
+	/**
+	 * @return a JLabel Object for category
+	 */
 	private JLabel getCatLabel() {
 		if(lblCat == null) {
 			lblCat = new JLabel("Category");
@@ -319,44 +360,29 @@ class SearchFormPanel extends JPanel {
 		return lblCat;
 	}
 	
+	/**
+	 * @return a JComboBox for category
+	 */
 	public JComboBox getCatField() {
 		if(txtCat == null) {
-			Object[] myInCatList = new Category[inCatHandRef.getAllCategories().size()];
-			myInCatList = inCatHandRef.getAllCategories().toArray();
 			txtCat = new JComboBox();
-			txtCat.insertItemAt("", 0); // insert empty item;
-			for (int i = 0; i < inCatHandRef.getAllCategories().size(); i++)
-				txtCat.addItem(myInCatList[i]);
-			Object[] myExCatList = new Category[exCatHandRef.getAllCategories().size()];
-			myExCatList = exCatHandRef.getAllCategories().toArray();
-			for (int i = 0; i < exCatHandRef.getAllCategories().size(); i++)
-				txtCat.addItem(myExCatList[i]);
 			txtCat.setFont(FORM_FONT); // #Font
 			txtCat.setPreferredSize(new Dimension(230, 32));
+			updateCats();
 		}
 		return txtCat;
 	}
 	
-	private JLabel getPayLabel(){
-		if (lblPay == null){
-			lblPay = new JLabel("Payment");
-			lblPay.setFont(FORM_FONT);
-		}
-		return lblPay;
-	}
-	
-	public JComboBox getPayField() {
-		if(txtPay == null) {
-			Object[] myPayList = new PaymentMethod[payHandRef.getAllPaymentMethod().size()];
-			myPayList = payHandRef.getAllPaymentMethod().toArray();
-			txtPay = new JComboBox();
-			txtPay.insertItemAt("", 0); // insert empty item;
-			for (int i = 0; i < payHandRef.getAllPaymentMethod().size(); i++)
-				txtPay.addItem(myPayList[i]);
-			txtPay.setFont(FORM_FONT); // #Font
-			txtPay.setPreferredSize(new Dimension(230, 32));
-		}
-		return txtPay;
+	private void updateCats(){
+		txtCat.removeAllItems();
+		Object[] myInCatList = inCatHandRef.getAllCategories().toArray();
+		txtCat.insertItemAt("", 0); // insert empty item;
+		for (int i = 0; i < inCatHandRef.getAllCategories().size(); i++)
+			txtCat.addItem(myInCatList[i]);
+		Object[] myExCatList = new Category[exCatHandRef.getAllCategories().size()];
+		myExCatList = exCatHandRef.getAllCategories().toArray();
+		for (int i = 0; i < exCatHandRef.getAllCategories().size(); i++)
+			txtCat.addItem(myExCatList[i]);
 	}
 	
 	private JLabel getDateLabel() {
@@ -378,11 +404,6 @@ class SearchFormPanel extends JPanel {
 	
 	private JDateChooser getDateField() {
 		if(txtStart == null) {
-			//txtStart = new JFormattedTextField(DATE_FORMAT);
-			//txtStart.setFont(FORM_FONT); // #Font
-			//txtStart.setValue(new Date());
-			//txtStart.setPreferredSize(new Dimension(100, 32));
-			//txtStart.setHorizontalAlignment(JTextField.CENTER);
 			txtStart = new JDateChooser();
 			txtStart.getJCalendar().setTodayButtonVisible(true);
 			txtStart.setDateFormatString("dd/MM/yyyy");
@@ -398,10 +419,16 @@ class SearchFormPanel extends JPanel {
 		return txtStart;
 	}
 	
+	/**
+	 * @return a String Object containing the query for Simple Search
+	 */
 	public String getSimpleQuery(){
 		return this.txtSimpleField.getText();
 	}
 	
+	/**
+	 * @return a Date Object the starting date 
+	 */
 	public Date getStartDate() {
 		return (Date)txtStart.getDate();
 	}
@@ -429,24 +456,41 @@ class SearchFormPanel extends JPanel {
 		return txtEnd;
 	}
 	
+	/**
+	 * @return a Date Object containing the end of the time frame
+	 */
 	public Date getEndDate() {
 		return (Date) txtEnd.getDate();
 	}
+	
+	/**
+	 * Reloads the Form
+	 */
+	public void reload() {
+		updateCats();
+	}
 }
 
+/**
+ * Pseudo Status Bar for Search
+ */
 @SuppressWarnings("serial")
-class InfoPanel extends JPanel{
+class InfoPanel extends JPanel {
 	private JLabel lblNumRec;
 	private JLabel lblTotalAmt;
-	private DecimalFormat df = new DecimalFormat("#.##");
+	private DecimalFormat df = new DecimalFormat("$###,###,##0.00");
 	
 	public InfoPanel(){
 		setLayout(new MigLayout("","1[]15[]","0[]0"));
 		setPreferredSize(new Dimension(600, 25));
+		this.setBorder(BorderFactory.createLoweredBevelBorder());
 		this.add(getNumRecLabel());
 		this.add(getTotalAmtLabel());
 	}
 	
+	/**
+	 * @return a JLabel object to label Sum of records
+	 */
 	private JLabel getNumRecLabel() {
 		if (lblNumRec == null){
 			lblNumRec = new JLabel("No. of Records: - ");
@@ -454,6 +498,9 @@ class InfoPanel extends JPanel{
 		return lblNumRec;
 	}
 
+	/**
+	 * @return a JLabel object to label Total Amount
+	 */
 	private JLabel getTotalAmtLabel() {
 		if (lblTotalAmt == null){
 			lblTotalAmt = new JLabel("Total Amount: - ");
@@ -461,10 +508,16 @@ class InfoPanel extends JPanel{
 		return lblTotalAmt;
 	}
 
+	/**
+	 * @param num Number to set as the sum of records
+	 */
 	public void setNumRec(int num){
 		lblNumRec.setText("No. of Records: " +  num);
 	}
 	
+	/**
+	 * @param num Number to set as the total amount
+	 */
 	public void setTotalAmt(double num){
 		lblTotalAmt.setText("Balance: " + df.format(num)); // 2 decimal place later
 	}

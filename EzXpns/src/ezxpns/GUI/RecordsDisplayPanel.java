@@ -25,8 +25,7 @@ import javax.swing.JScrollPane;
 @SuppressWarnings("serial")
 public class RecordsDisplayPanel extends JPanel{
 	
-	public static final int DEFAULT_MAX_ONSCREEN = 12;
-	public static final Font btnFont = new Font("Segoe UI", 0, 30); // Font name, Font Style, Font Size
+	public static final int DEFAULT_MAX_ONSCREEN = 20;
 		
 	private RecordsListerPanel panContent;
 	private RecordHandler recHandler;
@@ -103,7 +102,8 @@ class RecordsListerPanel extends JPanel {
 	private JLabel getTitleLabel(String txt) {
 		if(lblTitle == null) {
 			lblTitle = new JLabel(txt);
-			lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 20));
+			lblTitle.setHorizontalAlignment(JLabel.CENTER);
+			lblTitle.setFont(new Font("Segoe UI", 0, 20));
 		}
 		return lblTitle;
 	}

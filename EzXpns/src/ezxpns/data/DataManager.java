@@ -103,7 +103,7 @@ public class DataManager extends Storable
 	
 	private ExpenseRecordManager _expenses = new ExpenseRecordManager();
 	private RecordManager<IncomeRecord> _incomes = new RecordManager<IncomeRecord>();
-	private NWSGenerator _nwsGen = new NWSGenerator(this);
+	private NWSGenerator _nwsGen = new NWSGenerator();
 	/**
 	 * Note that this is a combination of both income and expense record manager, <br />
 	 * so it need not be persistent, since all its data is from the two manager
@@ -163,6 +163,7 @@ public class DataManager extends Storable
 		_combined = new CombinedRecordsQueryHandler(_incomes, _expenses);
 		_targetManager.setDataProvider(this);
 		_targetManager.afterDeserialize();
+		_nwsGen.setDataProvider(this);
 		_nwsGen.afterDeserialize();
 	}
 	
@@ -216,7 +217,7 @@ public class DataManager extends Storable
 
 	@Override
 	public double getYearlyIncome() {
-		return _expenses.getYearlySum();
+		return _incomes.getYearlySum();
 	}
 
 	@Override
@@ -226,17 +227,25 @@ public class DataManager extends Storable
 
 	@Override
 	public double getMonthlyExpense(ExpenseType type) {
-		return _expenses.getMonthlySum();
+		if(type == ExpenseType.NEED){
+			return _expenses.getNeedSum();
+		}else{
+			return _expenses.getMonthlySum() - _expenses.getNeedSum();
+		}
 	}
 
 	@Override
 	public double getPrevMonthlyExpense(ExpenseType type) {
-		return 0;
+		if(type == ExpenseType.NEED){
+			return _expenses.getLastNeedSum();
+		}else{
+			return _expenses.getLastMonthSum() - _expenses.getLastNeedSum();
+		}
 	}
 
 	@Override
 	public double getPrevMonthlyIncome() {
-		return 0;
+		return _incomes.getLastMonthSum();
 	}
 
 	public NWSGenerator nwsGen() {

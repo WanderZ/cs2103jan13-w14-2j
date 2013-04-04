@@ -1,7 +1,10 @@
 package ezxpns.GUI;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
+import javax.swing.AbstractAction;
 
 import ezxpns.data.NWSGenerator;
 import ezxpns.data.ReportGenerator;
@@ -21,12 +24,13 @@ import ezxpns.data.records.SearchHandler;
 public class UIControl implements RecordListView.RecordEditor {
 	
 	// JComponents
-	private HomeScreen homeScreen;
-	private RecordFrame recWin;
-	private SearchFrame searchWin;	
+	// private HomeScreen homeScreen;
+	private MainGUI home;
+	private RecordDialog recWin;
+//	private SearchFrame searchWin;
 	private ReportFrame reportWin;
-	private CategoryFrame catWin;
-	private PaymentMethodFrame payWin;
+//	private CategoryFrame catWin;
+//	private PaymentMethodFrame payWin;
 	
 	// Logical Components
 	private SearchHandler findHandler;
@@ -50,6 +54,7 @@ public class UIControl implements RecordListView.RecordEditor {
 	 * @param rptGenRef the reference to the report generator logic component
 	 * @param sumGenRef the reference to the summary generator logic component
 	 */
+	@SuppressWarnings("serial")
 	public UIControl(
 			SearchHandler searchHandlerRef, 
 			RecordHandler recHandlerRef, 
@@ -60,7 +65,7 @@ public class UIControl implements RecordListView.RecordEditor {
 			ReportGenerator rptGenRef,
 			SummaryGenerator sumGenRef,
 			NWSGenerator nwsGen) {
-		
+		// UINotify.createPopUp("Welcome! Please wait while we load your previous records");
 		// Handlers for the various places
 		findHandler = searchHandlerRef;
 		recHandler = recHandlerRef;
@@ -72,21 +77,29 @@ public class UIControl implements RecordListView.RecordEditor {
 		sumGen = sumGenRef;
 		undoMgr = new UndoManager();
 		
-		homeScreen = new HomeScreen(this, recHandlerRef, targetMgr, undoMgr, sumGen, nwsGen);
 		
-		homeScreen.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent wEvent) {
-				System.exit(0);
+		// homeScreen = new HomeScreen(this, recHandlerRef, targetMgr, undoMgr, sumGen, nwsGen);
+		home = new MainGUI(nwsGen, recHandler, sumGen, targetMgr, this, undoMgr);
+		
+		undoMgr.setPostUndo(new AbstractAction(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				home.updateAll();
 			}
+			
 		});
+		
+		home.loadCategoryPanel(expenseHandlerRef, incomeHandlerRef, targetMgrRef);
+		home.loadSearchPanel(findHandler, new RecordListView(this, recHandler, home), inCatHandler, exCatHandler, payHandler);
 	}
 	
 	/**
 	 * Display the main/home screen of EzXpns
 	 */
 	public void showHomeScreen() {
-		if(!homeScreen.isVisible()) {
-			homeScreen.setVisible(true);
+		if(!home.isVisible()) {
+			home.setVisible(true);
 		}
 	}
 	
@@ -94,8 +107,8 @@ public class UIControl implements RecordListView.RecordEditor {
 	 * Closes the main/home screen of EzXpns
 	 */
 	public void closeHomeScreen() {
-		if(homeScreen.isVisible()) {
-			homeScreen.setVisible(false);
+		if(home.isVisible()) {
+			home.setVisible(false);
 		}
 	}
 	
@@ -105,12 +118,16 @@ public class UIControl implements RecordListView.RecordEditor {
 	 * @param recordType the type of new record Expense/Income 
 	 */
 	public void showRecWin(int recordType) {
-		recWin = new RecordFrame(homeScreen, recHandler, inCatHandler, exCatHandler, payHandler, homeScreen, recordType);
+		recWin = new RecordDialog(home, recHandler, inCatHandler, exCatHandler, payHandler, home, recordType);
 		recWin.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent wEvent) {
-				homeScreen.updateAll();
-				System.out.println("RecordFrame exiting!");
+				try {
+					home.updateAll();
+				}
+				catch(Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		recWin.setVisible(true);
@@ -123,38 +140,44 @@ public class UIControl implements RecordListView.RecordEditor {
 	public void showRecWin(Record record) {
 		if(record instanceof ExpenseRecord) {
 			ExpenseRecord expense = (ExpenseRecord) record;
-			recWin = new RecordFrame(homeScreen, recHandler, exCatHandler, payHandler, homeScreen, expense);
+			// recWin = new RecordDialog(homeScreen, recHandler, exCatHandler, payHandler, homeScreen, expense);
+			recWin = new RecordDialog(home, recHandler, exCatHandler, payHandler, home, expense);
 		}
 		else {
 			IncomeRecord income = (IncomeRecord) record;
-			recWin = new RecordFrame(homeScreen, recHandler, inCatHandler, homeScreen, income);
+			// recWin = new RecordFrame(homeScreen, recHandler, inCatHandler, homeScreen, income);
+			recWin = new RecordDialog(home, recHandler, inCatHandler, home, income);
 		}		
 	}
 	
-	/**
-	 * Displays the search handler window
-	 */
-	public void showSearchWin() {
-		if(searchWin == null) {
-			searchWin = new SearchFrame(findHandler, new RecordListView(this, recHandler, homeScreen),inCatHandler,exCatHandler, payHandler);
-		}
-		searchWin.setVisible(true);
-	}
+//	/**
+//	 * Displays the search handler window
+//	 */
+//	public void showSearchWin() {
+//		if(searchWin == null) {
+//			searchWin = new SearchFrame(
+//						findHandler, 
+//						new RecordListView(this, recHandler, home),
+//						inCatHandler,
+//						exCatHandler, 
+//						payHandler
+//					);
+//		}
+//		searchWin.setVisible(true);
+//	}
 
 	@Override
 	public void edit(Record record, RecordListView display) {
-		System.out.println("Attempting to edit");
 		final RecordListView displayer = display; 
 		showRecWin(record);
 		recWin.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent wEvent) {
 				if(wEvent instanceof SuccessfulSaveEvent) {
-					//TODO: call the callback method in display
+					// TODO: call the callback method in display
 					SuccessfulSaveEvent success = (SuccessfulSaveEvent) wEvent;
 					displayer.itemEdited(success.getRecord()); 
-					homeScreen.updateAll();
-					System.out.println("I was here");
+					home.updateAll();
 				}
 			}
 		});
@@ -170,7 +193,7 @@ public class UIControl implements RecordListView.RecordEditor {
 			reportWin.addWindowListener(new WindowAdapter() {
 				@Override
 				public void windowClosing(WindowEvent wEvent) {
-					homeScreen.updateAll();
+					home.updateAll();
 					reportWin.dispose();
 				}
 			});
@@ -178,35 +201,20 @@ public class UIControl implements RecordListView.RecordEditor {
 		reportWin.setVisible(true);
 	}
 	
-	/**
-	 * Displays the Category Manager window
-	 */
-	public void showCatWin() {
-		catWin = new CategoryFrame(exCatHandler, inCatHandler, targetMgr, homeScreen);
-		catWin.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent wEvent) {
-				homeScreen.updateAll();
-				catWin.dispose();
-			}
-		});
-		catWin.setVisible(true); 
-	}
-	
-	/**
-	 * Displays the Payment Method Manager Window
-	 */
-	public void showPayWin() {
-		payWin = new PaymentMethodFrame(payHandler);
-		payWin.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent wEvent) {
-				homeScreen.updateAll();
-				payWin.dispose();
-			}
-		});
-		payWin.setVisible(true);
-	}
+//	/**
+//	 * Displays the Payment Method Manager Window
+//	 */
+//	public void showPayWin() {
+//		payWin = new PaymentMethodFrame(payHandler);
+//		payWin.addWindowListener(new WindowAdapter() {
+//			@Override
+//			public void windowClosing(WindowEvent wEvent) {
+//				home.updateAll();
+//				payWin.dispose();
+//			}
+//		});
+//		payWin.setVisible(true);
+//	}
 	
 	public UndoManager getUndoMgr() {
 		return undoMgr;

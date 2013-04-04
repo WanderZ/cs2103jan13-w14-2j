@@ -14,7 +14,7 @@ public interface UpdateNotifyee {
 	
 	/**
 	 * Invoke upon user action
-	 * <br />To alert all the other components 
+	 * <br />To alert & update all the other components 
 	 */
 	public void updateAll();
 	

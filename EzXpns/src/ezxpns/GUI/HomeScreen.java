@@ -14,13 +14,14 @@ import ezxpns.data.TargetManager;
 import ezxpns.data.SummaryGenerator;
 import ezxpns.data.records.RecordHandler;
 
+/** Marked for removal */
 @SuppressWarnings("serial")
 public class HomeScreen extends JFrame implements UpdateNotifyee {
 	
 	public final int DEFAULT_HEIGHT = 860;
 	public final int DEFAULT_WEIGHT = 680;
 	
-	private JMenuBar menu;
+//	private JMenuBar menu;
 	// private JPanel panTips;
 	private OverviewPanel panOverview;
 	private SavingsOverviewPanel panSavings;
@@ -63,7 +64,7 @@ public class HomeScreen extends JFrame implements UpdateNotifyee {
 		// this.setVisible(true);
 		
 		this.guiCtrl = guiControlRef;
-		this.setJMenuBar(getMenu());
+//		this.setJMenuBar(getMenu());
 		
 		this.getContentPane().setBackground(Color.WHITE);
 		
@@ -88,12 +89,12 @@ public class HomeScreen extends JFrame implements UpdateNotifyee {
 	 * Retrieve the main menu
 	 * @return an Initialized EzXpnsMainMenu Object
 	 */
-	private JMenuBar getMenu() {
-		if(this.menu==null) {
-			this.menu = new EzXpnMainMenu(guiCtrl);
-		}
-		return this.menu;
-	}
+//	private JMenuBar getMenu() {
+//		if(this.menu==null) {
+//			this.menu = new EzXpnMainMenu(guiCtrl);
+//		}
+//		return this.menu;
+//	}
 	
 	/**
 	 * Retrieve the Savings Panel

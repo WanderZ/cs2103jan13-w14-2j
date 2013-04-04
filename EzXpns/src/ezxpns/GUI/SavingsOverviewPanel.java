@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import ezxpns.data.NWSGenerator;
 import ezxpns.data.NWSdata;
 import ezxpns.data.records.ExpenseType;
+import javax.swing.SwingConstants;
 
 /**
  * The Savings Panel for the home screen - to display the Needs-Wants-Savings
@@ -39,9 +40,10 @@ public class SavingsOverviewPanel extends JPanel {
 		nwsGen = dataGenerator;
 		setLayout(new BorderLayout());
 		JLabel lblNWS = new JLabel("Needs, Wants, Savings");
+		lblNWS.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNWS.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		this.add(lblNWS, BorderLayout.NORTH);
-		setBackground(new Color(255, 255, 255));
+//		setBackground(new Color(255, 255, 255));
 		
 		drawBars();
 
@@ -85,7 +87,7 @@ public class SavingsOverviewPanel extends JPanel {
 		if (myBars != null)
 			this.remove(myBars);
 		myBars = new NWSBarPanel(nwsGen);
-		myBars.setBackground(new Color(255, 255, 255));
+//		myBars.setBackground(new Color(255, 255, 255));
 		this.add(myBars, BorderLayout.CENTER);
 	}
 
@@ -248,8 +250,9 @@ public class SavingsOverviewPanel extends JPanel {
 
 		public NWSBarPanel(NWSGenerator nwsGen) {
 			this.nwsData = nwsGen.getNWSdataCopy();
-			value = new double[]{nwsData.getNeedsProgress()*100, nwsData.getWantsProgress()*100, nwsData.getCurrentSavings()*100}; // fake data
-			target = new double[]{nwsData.getTargetNeeds()*100, nwsData.getTargetWants()*100, nwsData.getTargetSavings()*100}; // fake data
+			value = new double[]{nwsData.getCurrNeedsRatio()*100, nwsData.getCurrWantsRatio()*100, nwsData.getCurrSavingsRatio()*100}; 
+			target = new double[]{nwsData.getTargetNeedsRatio()*100, nwsData.getTargetWantsRatio()*100, nwsData.getTargetSavingsRatio()*100};
+			System.out.println(nwsData.getTargetNeedsRatio()*100);
 		}
 
 		
@@ -294,7 +297,12 @@ public class SavingsOverviewPanel extends JPanel {
 			int bottom = labelFontMetrics.getHeight() * 2;
 			if (maxValue == minValue)
 				return;
+			System.out.println(maxValue);
+			if (maxValue > 100)
+				maxValue = Math.log(maxValue-100) + 100;
+			System.out.println(maxValue);
 			double scale = (clientHeight - bottom) / (maxValue - minValue);
+			System.out.println(scale);
 			int q = clientHeight - labelFontMetrics.getDescent();
 			g.setFont(labelFont);
 
@@ -324,13 +332,13 @@ public class SavingsOverviewPanel extends JPanel {
 				g2d.drawRect(valueP, valueQT, barWidth - 2, targetHeight);
 				g.setColor(Color.black);
 				int labelWidth = labelFontMetrics.stringWidth(type[j]);
-				int ratioWidth = ratioFontMetrics.stringWidth(""+df.format(value[j])+"/"+df.format(target[j])+"%");
+				int ratioWidth = ratioFontMetrics.stringWidth(""+df.format(value[j])+"%/"+df.format(target[j])+"%");
 				int p = j * 2 * barWidth + (clientWidth/5) + (barWidth - labelWidth) / 2;
 				int pRatio = j * 2 * barWidth + (clientWidth/5) + (barWidth - ratioWidth) / 2;
 				g.setFont(labelFont);
 				g.drawString(type[j], p, q - ratioFontMetrics.getAscent());
 				g.setFont(ratioFont);
-				g.drawString(""+df.format(value[j])+"/"+df.format(target[j])+"%", pRatio, clientHeight - ratioFontMetrics.getDescent());
+				g.drawString(""+df.format(value[j])+"%/"+df.format(target[j])+"%", pRatio, clientHeight - ratioFontMetrics.getDescent());
 			}
 		}
 	}

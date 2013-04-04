@@ -16,6 +16,7 @@ import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Vector;
@@ -59,6 +60,8 @@ import ezxpns.data.Report;
 import ezxpns.data.ReportCategory;
 import ezxpns.data.ReportGenerator;
 import ezxpns.data.ReportGenerator.DateOrderException;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * The window to handle all the extensive record analysis and report <br />
@@ -95,20 +98,21 @@ public class ReportFrame extends JFrame implements ComponentListener {
 	private ColorSquare myIncome;
 	private ColorSquare myExpense;
 	private ColorSquare myBalance;
+	private JLabel lblNumRecords;
 	
 	DecimalFormat df = new DecimalFormat("#.##");
 
 	// Date Format
 	SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-	private int PARAGRAPH_SPACE = 20;
-	public static final int DEFAULT_WIDTH = 800;
+	public static final int DEFAULT_WIDTH = 1000;
 	public static final int DEFAULT_HEIGHT = 600;
 	public static final String[] columnNames = { "Category", "Frequency",
 			"Amount", "Percentage", "Amount/Frequency" };
 
 	private ReportGenerator rptGen; // Place to store the reference
 	private JButton btnGenerateANew;
+	private JButton btnThisMonth;
 
 	public ReportFrame(ReportGenerator rptGenRef) { // Passing in the reference
 		super("EzXpns - Report");
@@ -351,44 +355,26 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		JButton btnGenerate = new JButton("Generate");
 		btnGenerate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					/*myReportData = rptGen.generateReport(
-							dateFormat.parse(startDateField.getText()),
-							dateFormat.parse(endDateField.getText()));*/
-					myReportData = rptGen.generateReport(dateChooserStart.getDate(), dateChooserEnd.getDate());
-				} catch (NullPointerException e1) {
-					// TODO Auto-generated catch block
-					lblErrorMsg
-							.setText("Please enter the date in the following format: dd/mm/yyyy");
-					e1.printStackTrace();
-				} catch (ParseException e1){
-					lblErrorMsg
-					.setText("Please enter the date in the following format: dd/mm/yyyy");
-				} catch (DateOrderException e1) {
-					// TODO Auto-generated catch block
-					lblErrorMsg
-							.setText("Please check the ordering of your start/end date");
-					e1.printStackTrace();
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-
-				// Disappear
-				initPieChart();
-				initTable();
-				initSummary();
-				generateReport.setVisible(false);
-				curtain.setVisible(false);
-
-				startDateDisplay.setText(dateFormat.format(dateChooserStart.getDate()));
-				endDateDisplay.setText(dateFormat.format(dateChooserEnd.getDate()));
+				generateAction();
 			}
-
 		});
+		
+		
 
-		lblErrorMsg = new JLabel("");
-		lblErrorMsg.setForeground(Color.RED);
+		lblErrorMsg = new JLabel("You can manually type date in this format: dd/mm/yyyy");
+		lblErrorMsg.setForeground(Color.WHITE);
+		
+		btnThisMonth = new JButton("This Month");
+		btnThisMonth.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(new Date());
+				calendar.set(Calendar.DAY_OF_MONTH, 1);
+				dateChooserStart.setDate(calendar.getTime());
+				dateChooserEnd.setDate(new Date());
+			}
+		});
 		
 		
 		
@@ -402,7 +388,7 @@ public class ReportFrame extends JFrame implements ComponentListener {
 							.addGroup(gl_generateReport.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblErrorMsg)
 								.addComponent(lblGenerateAReport))
-							.addPreferredGap(ComponentPlacement.RELATED, 174, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED, 245, Short.MAX_VALUE)
 							.addComponent(btnGenerate)
 							.addGap(49))
 						.addGroup(gl_generateReport.createSequentialGroup()
@@ -414,7 +400,9 @@ public class ReportFrame extends JFrame implements ComponentListener {
 							.addComponent(lblEndDate)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(dateChooserEnd, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap())))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnThisMonth)
+							.addGap(71))))
 		);
 		gl_generateReport.setVerticalGroup(
 			gl_generateReport.createParallelGroup(Alignment.LEADING)
@@ -425,15 +413,18 @@ public class ReportFrame extends JFrame implements ComponentListener {
 							.addComponent(lblGenerateAReport)
 							.addPreferredGap(ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
 							.addGroup(gl_generateReport.createParallelGroup(Alignment.LEADING)
+								.addComponent(dateChooserStart, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addGroup(gl_generateReport.createSequentialGroup()
-									.addGap(6)
-									.addComponent(lblStartDate)
-									.addPreferredGap(ComponentPlacement.RELATED)
+									.addGroup(gl_generateReport.createParallelGroup(Alignment.TRAILING)
+										.addGroup(gl_generateReport.createParallelGroup(Alignment.TRAILING)
+											.addGroup(gl_generateReport.createSequentialGroup()
+												.addComponent(lblStartDate)
+												.addPreferredGap(ComponentPlacement.RELATED))
+											.addComponent(btnThisMonth))
+										.addComponent(dateChooserEnd, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 									.addGroup(gl_generateReport.createParallelGroup(Alignment.BASELINE)
 										.addComponent(btnGenerate)
-										.addComponent(lblErrorMsg)))
-								.addComponent(dateChooserStart, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(dateChooserEnd, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+										.addComponent(lblErrorMsg))))
 							.addGap(22))
 						.addGroup(gl_generateReport.createSequentialGroup()
 							.addGap(12)
@@ -459,7 +450,7 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		cardGeneral.add(generalSummary, "cell 1 0,alignx center,aligny center");
 		//generalSummary.setLayout(new BoxLayout(generalSummary,
 			//	BoxLayout.PAGE_AXIS));
-		generalSummary.setLayout(new MigLayout("","[500, center]","[30][30][30]"));
+		generalSummary.setLayout(new MigLayout("","[500, center]","[][30][30][30]"));
 		
 		// Summary Details
 
@@ -467,6 +458,8 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		//lblIncome.setAlignmentX(0.4f);
 		//lblIncome.setAlignmentY(Component.TOP_ALIGNMENT);
 		//lblIncome.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNumRecords = new JLabel();
+		generalSummary.add(lblNumRecords, "wrap");
 		myBalance = new ColorSquare("Balance");
 		myBalance.setBackground(new Color(0,191,255));
 		generalSummary.add(myBalance, "wrap");
@@ -499,6 +492,36 @@ public class ReportFrame extends JFrame implements ComponentListener {
 
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
+	}
+	
+	private void generateAction(){
+		try {
+			myReportData = rptGen.generateReport(dateChooserStart.getDate(), dateChooserEnd.getDate());
+			// Disappear
+			initPieChart();
+			initTable();
+			initSummary();
+			generateReport.setVisible(false);
+			curtain.setVisible(false);
+
+			startDateDisplay.setText(dateFormat.format(dateChooserStart.getDate()));
+			endDateDisplay.setText(dateFormat.format(dateChooserEnd.getDate()));
+		} catch (NullPointerException e1) {
+			lblErrorMsg
+					.setText("Date Field is blank! Please enter the date in the following format: dd/mm/yyyy");
+		} catch (ParseException e1){
+			lblErrorMsg
+			.setText("Please enter the date in the following format: dd/mm/yyyy");
+		} catch (DateOrderException e1) {
+			// TODO Auto-generated catch block
+			lblErrorMsg
+					.setText("Please check the ordering of your start/end date");
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		
 	}
 
 	public void showScreen() {
@@ -554,7 +577,6 @@ public class ReportFrame extends JFrame implements ComponentListener {
 	
 	private CategoryDataset createDatasetGeneral() {
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-		dataset.addValue(myReportData.getBalancePercentage(), "Balance", "");
 		dataset.addValue(myReportData.getIncomePercentage(), "Income", "");
 		dataset.addValue(myReportData.getExpensePercentage(), "Expense", "");
 		
@@ -625,9 +647,9 @@ private JFreeChart createChart(CategoryDataset dataset) {
 
         // disable bar outlines...
         final BarRenderer renderer = (BarRenderer) plot.getRenderer();
-        renderer.setSeriesPaint(0,new Color(0,191,255));
-        renderer.setSeriesPaint(1, new Color(50,205,50));
-        renderer.setSeriesPaint(2, new Color(255,122,122));
+        //renderer.setSeriesPaint(0,new Color(0,191,255));
+        renderer.setSeriesPaint(0, new Color(50,205,50));
+        renderer.setSeriesPaint(1, new Color(255,122,122));
         /*renderer.setDrawBarOutline(false);
         
         // set up gradient paints for series...
@@ -700,6 +722,7 @@ private JFreeChart createChart(CategoryDataset dataset) {
 		expenseTable.setLayout(new BoxLayout(expenseTable, BoxLayout.Y_AXIS));
 		table = new JTable();
 		table.setModel(tableModel);
+		table.setAutoCreateRowSorter(true);
 		table.setPreferredScrollableViewportSize(new Dimension(20, 10));
 		JScrollPane scrollPane = new JScrollPane(table);
 		// table.setFillsViewportHeight(true);
@@ -709,17 +732,15 @@ private JFreeChart createChart(CategoryDataset dataset) {
 	}
 
 	private void initSummary() {
-		//lblIncome.setText("Income:\t"
-			//	+ df.format(myReportData.getTotalIncome()));
+		String record = "record";
+		if (myReportData.getNumRecords() > 1)
+			record = "records";
+		lblNumRecords.setText(""+myReportData.getNumRecords()+ " "+record +" were found");
 		myIncome.setLabelAmount(myReportData.getTotalIncome());
 		myIncome.setLabelPercentage(myReportData.getIncomePercentage());
-		/*lblExpense.setText("Expense:\t"
-				+ df.format(myReportData.getTotalExpense()));
-		lblBalance.setText("Balance:\t" + df.format(myReportData.getBalance()));*/
 		myExpense.setLabelAmount(myReportData.getTotalExpense());
 		myExpense.setLabelPercentage(myReportData.getExpensePercentage());
 		myBalance.setLabelAmount(myReportData.getBalance());
-		myBalance.setLabelPercentage(myReportData.getBalancePercentage());
 	}
 
 	/**
@@ -737,6 +758,9 @@ private JFreeChart createChart(CategoryDataset dataset) {
 
 		protected String[] columnNames;
 		protected Vector<ReportCategory> dataVector;
+		
+		DecimalFormat money = new DecimalFormat("#,##0.00");        
+		DecimalFormat percent = new DecimalFormat("0.0");
 
 		public InteractiveTableModel(String[] columnNames) {
 			this.columnNames = columnNames;
@@ -751,13 +775,17 @@ private JFreeChart createChart(CategoryDataset dataset) {
 		public Class<?> getColumnClass(int column) {
 			switch (column) {
 			case CATEGORY_INDEX:
-			case FREQUENCY_INDEX:
-			case AMOUNT_INDEX:
-			case PERCENTAGE_INDEX:
-			case AMTFEQ_INDEX:
 				return String.class;
+			case FREQUENCY_INDEX:
+				return Integer.class;
+			case AMOUNT_INDEX:
+				return Double.class;
+			case PERCENTAGE_INDEX:
+				return Double.class;
+			case AMTFEQ_INDEX:
+				return Double.class;
 			default:
-				return Object.class;
+				return String.class;
 			}
 		}
 
@@ -769,8 +797,10 @@ private JFreeChart createChart(CategoryDataset dataset) {
 			case FREQUENCY_INDEX:
 				return report.getFrequency();
 			case AMOUNT_INDEX:
+				//return money.format(report.getAmount());
 				return report.getAmount();
 			case PERCENTAGE_INDEX:
+				//return percent.format(report.getPercentage());
 				return report.getPercentage();
 			case AMTFEQ_INDEX:
 				return report.getAmtPerFreq();
@@ -795,7 +825,7 @@ private JFreeChart createChart(CategoryDataset dataset) {
 		private JLabel lblPercentage = new JLabel("");
 		private int WIDTH = 200;
 		private int HEIGHT = 20;
-		DecimalFormat formatter = new DecimalFormat("#,###.00");        
+		DecimalFormat formatter = new DecimalFormat("#,##0.00");        
 		DecimalFormat df = new DecimalFormat("#.#");
 		
 		public ColorSquare(String name){

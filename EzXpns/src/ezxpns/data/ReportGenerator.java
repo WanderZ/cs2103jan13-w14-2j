@@ -50,6 +50,9 @@ public class ReportGenerator {
 	 * @throws Exception
 	 */
 	public Report generateReport(Date start, Date end) throws Exception {
+		// Exception when start or end are empty
+		if (start == null || end == null)
+			throw(new NullPointerException());
 		// Exception to handle cases where end > start
 		if (dateError(start, end))
 			throw (new DateOrderException());
@@ -95,7 +98,8 @@ public class ReportGenerator {
 		double totalIncome = calTotalIncome();
 		double totalExpense = calTotalExpense();
 		double balance = totalIncome - totalExpense;
-		myReport.setHeading(totalIncome, totalExpense, balance);
+		int numRecords = expenseRecord.size() + incomeRecord.size();
+		myReport.setHeading(totalIncome, totalExpense, balance, numRecords);
 	}
 
 	/** 
