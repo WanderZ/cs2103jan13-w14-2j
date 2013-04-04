@@ -25,7 +25,7 @@ import javax.swing.JScrollPane;
 @SuppressWarnings("serial")
 public class RecordsDisplayPanel extends JPanel{
 	
-	public static final int DEFAULT_MAX_ONSCREEN = 12;
+	public static final int DEFAULT_MAX_ONSCREEN = 20;
 	public static final Font btnFont = new Font("Segoe UI", 0, 30); // Font name, Font Style, Font Size
 		
 	private RecordsListerPanel panContent;
