@@ -105,14 +105,12 @@ public class OverviewPanel extends JPanel {
 					.addComponent(panelTime, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(13, Short.MAX_VALUE))
 		);
-		
-		// panelBigBalance
-		// ===============
-		panelBigBalance.setLayout(new MigLayout("", "0[125][300]", "0[70][40]0"));
+		panelBigBalance.setLayout(new BorderLayout(0, 0));
 		
 		lblBalance = new JLabel("Balance");
+		lblBalance.setHorizontalAlignment(SwingConstants.CENTER);
 		lblBalance.setFont(new Font("Lucida Grande", Font.PLAIN, 50));
-		panelBigBalance.add(lblBalance, "cell 0 0 2 2,alignx center");
+		panelBigBalance.add(lblBalance);
 		
 		// panelSub
 		// ========
