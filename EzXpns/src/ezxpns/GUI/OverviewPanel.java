@@ -65,6 +65,7 @@ public class OverviewPanel extends JPanel {
 //		panelTime.setBackground(Color.WHITE); // set color for buttons and timeline
 		
 		lblSummary = new JLabel("Balance: This" + monthName[cal.get(Calendar.MONTH)]);
+		lblSummary.setHorizontalAlignment(SwingConstants.CENTER);
 		lblSummary.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		
 		JPanel panelBigBalance = new JPanel();
@@ -81,11 +82,11 @@ public class OverviewPanel extends JPanel {
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(panelTime, GroupLayout.PREFERRED_SIZE, 423, GroupLayout.PREFERRED_SIZE)
-						.addComponent(panelSub, GroupLayout.PREFERRED_SIZE, 424, GroupLayout.PREFERRED_SIZE)
-						.addComponent(panelBigBalance, GroupLayout.PREFERRED_SIZE, 428, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblSummary))
-					.addContainerGap(16, Short.MAX_VALUE))
+						.addComponent(panelTime, GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE)
+						.addComponent(panelBigBalance, GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
+						.addComponent(lblSummary, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(panelSub, GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE))
+					.addGap(15))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -98,7 +99,7 @@ public class OverviewPanel extends JPanel {
 					.addComponent(panelSub, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(panelTime, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(28, Short.MAX_VALUE))
+					.addContainerGap(13, Short.MAX_VALUE))
 		);
 		
 		// panelBigBalance
@@ -111,23 +112,23 @@ public class OverviewPanel extends JPanel {
 		
 		// panelSub
 		// ========
-		panelSub.setLayout(new MigLayout("", "[80][10][80]", "0[20][20]0"));
+		panelSub.setLayout(new MigLayout("", "[grow][80][10][80][grow]", "[20,grow][20]"));
 		
 		JLabel lblIncome = new JLabel("Income");
-		panelSub.add(lblIncome, "cell 0 0, align center");
+		panelSub.add(lblIncome, "cell 1 0,alignx center");
 		
 		JLabel lblExpense = new JLabel("Expense");
-		panelSub.add(lblExpense, "cell 2 0,alignx center");
+		panelSub.add(lblExpense, "cell 3 0,alignx center");
 		
 		JSeparator separator = new JSeparator();
 		separator.setOrientation(SwingConstants.VERTICAL);
-		panelSub.add(separator, "cell 1 0 1 2, growy");
+		panelSub.add(separator, "cell 2 0 1 2,growy");
 		
 		lblIncomeNumber = new JLabel("income number");
-		panelSub.add(lblIncomeNumber, "cell 0 1, align center");
+		panelSub.add(lblIncomeNumber, "cell 1 1,alignx center");
 		
 		lblExpenseNumber = new JLabel("expense number");
-		panelSub.add(lblExpenseNumber, "cell 2 1,alignx center");
+		panelSub.add(lblExpenseNumber, "cell 3 1,alignx center");
 
 		
 		
