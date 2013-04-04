@@ -11,9 +11,11 @@ import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 
+import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -138,41 +140,41 @@ public class OverviewPanel extends JPanel {
 		// ===========
 		panelTime.setLayout(new FlowLayout());
 		
-		buttonToday = new JToggleButton("Today");
+		buttonToday = new JToggleButton();
 		panelTime.add(buttonToday);
-		buttonToday.addMouseListener(new MouseAdapter() {
+		buttonToday.setAction(new AbstractAction("Today"){
 			@Override
-			public void mouseClicked(MouseEvent e){
+			public void actionPerformed(ActionEvent arg0) {
 				index = 0;
 				getSummaryData();
 			}
 		});
 		
-		buttonMonth = new JToggleButton("This Month");
+		buttonMonth = new JToggleButton();
 		panelTime.add(buttonMonth);
-		buttonMonth.addMouseListener(new MouseAdapter() {
+		buttonMonth.setAction(new AbstractAction("This Month"){
 			@Override
-			public void mouseClicked(MouseEvent e){
+			public void actionPerformed(ActionEvent arg0) {
 				index = 1;
 				getSummaryData();
 			}
 		});
 		
-		buttonYear = new JToggleButton("This Year");
+		buttonYear = new JToggleButton();
 		panelTime.add(buttonYear);
-		buttonYear.addMouseListener(new MouseAdapter() {
+		buttonYear.setAction(new AbstractAction("This Year"){
 			@Override
-			public void mouseClicked(MouseEvent e){
+			public void actionPerformed(ActionEvent arg0) {
 				index = 2;
 				getSummaryData();
 			}
 		});
 		
-		buttonAllTime = new JToggleButton("All Time");
+		buttonAllTime = new JToggleButton();
 		panelTime.add(buttonAllTime);
-		buttonAllTime.addMouseListener(new MouseAdapter() {
+		buttonAllTime.setAction(new AbstractAction("All Time"){
 			@Override
-			public void mouseClicked(MouseEvent e){
+			public void actionPerformed(ActionEvent arg0) {
 				index = 3;
 				getSummaryData();
 			}
