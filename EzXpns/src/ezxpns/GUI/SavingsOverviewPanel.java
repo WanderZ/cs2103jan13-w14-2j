@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import ezxpns.data.NWSGenerator;
 import ezxpns.data.NWSdata;
 import ezxpns.data.records.ExpenseType;
+import javax.swing.SwingConstants;
 
 /**
  * The Savings Panel for the home screen - to display the Needs-Wants-Savings
@@ -39,6 +40,7 @@ public class SavingsOverviewPanel extends JPanel {
 		nwsGen = dataGenerator;
 		setLayout(new BorderLayout());
 		JLabel lblNWS = new JLabel("Needs, Wants, Savings");
+		lblNWS.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNWS.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		this.add(lblNWS, BorderLayout.NORTH);
 //		setBackground(new Color(255, 255, 255));

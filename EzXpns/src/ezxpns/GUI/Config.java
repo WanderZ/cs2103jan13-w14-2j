@@ -29,6 +29,10 @@ public class Config {
 	 */
 	public static final int DEFAULT_UI_HEIGHT = 720;
 	
+	public static final int MIN_UI_WIDTH = 1100;
+	
+	public static final int MIN_UI_HEIGHT = 650;
+	
 	/**
 	 * The default width for the dialog window 
 	 */
