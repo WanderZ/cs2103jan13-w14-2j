@@ -4,11 +4,17 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 
 import javax.swing.AbstractAction;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
+
+import com.jgoodies.forms.factories.FormFactory;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.RowSpec;
 
 import ezxpns.data.NWSGenerator;
 import ezxpns.data.SummaryGenerator;
@@ -74,38 +80,23 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 		gbc.gridy = 0;
 		this.add(navi, gbc);
 		
-		JPanel homeContent = new JPanel(new GridBagLayout());
-		GridBagConstraints gbContent = new GridBagConstraints();
-		gbContent.fill = GridBagConstraints.BOTH;
-		// Overview Panel
-		gbContent.gridx = 0;
-		gbContent.gridy = 0; // 0, 0
-//		gbContent.weightx = 0.3;
-//		gbContent.weighty = 0.3;
-		gbContent.gridheight = 1;
+		JPanel homeContent = new JPanel();
+		homeContent.setLayout(new GridLayout(0, 2, 0, 0));
 		panOverview = new OverviewPanel(sumGen);
-		homeContent.add(panOverview, gbContent);
+		homeContent.add(panOverview);
 		
-		// Records Display Panel
-		gbContent.gridx = 1;
-		panRecords = new RecordsDisplayPanel(recHandler, uiCtrl, this);
-		homeContent.add(panRecords, gbContent);
 		
 		// Targets Panel
-		
-		gbContent.gridheight = 2;
-		gbContent.weightx = 0.1;
-		gbContent.weighty = 0.1;
-		gbContent.gridy = 2;
-		gbContent.gridx = 0;
 		panTarget = new TargetOverviewPanel(targetMgr);
-		homeContent.add(panTarget, gbContent);
+		homeContent.add(panTarget);
 		
 		// Savings Panel
-//		gbContent.gridy = 1;
-		gbContent.gridx = 1;
 		panSavings = new SavingsOverviewPanel(nwsGen);
-		homeContent.add(panSavings, gbContent);
+		homeContent.add(panSavings);
+		
+		// Records Display Panel
+		panRecords = new RecordsDisplayPanel(recHandler, uiCtrl, this);
+		homeContent.add(panRecords);
 		
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx = 0.9;
