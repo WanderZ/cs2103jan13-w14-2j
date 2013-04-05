@@ -361,18 +361,6 @@
         {
           "expenseType": "NEED",
           "paymentMethod": {
-            "id": 1363857409977,
-            "name": "Cash"
-          },
-          "amount": 1000.0,
-          "name": "test",
-          "remark": "alright",
-          "date": "Apr 5, 2013 12:00:33 PM",
-          "id": 1365134438536
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
             "id": 1361694372893,
             "name": "NETS"
           },
@@ -533,18 +521,6 @@
       ],
       "1364704133024": [
         {
-          "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 1363857409977,
-            "name": "Cash"
-          },
-          "amount": 12.5,
-          "name": "Cabbing home after clubbing",
-          "remark": "Wasted",
-          "date": "Apr 5, 2013 12:00:00 AM",
-          "id": 1365152312614
-        },
-        {
           "expenseType": "NEED",
           "paymentMethod": {
             "id": 0,
@@ -571,7 +547,20 @@
           "id": 1364969751316
         }
       ],
-      "1365134438535": [],
+      "1365134438535": [
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1365134400063,
+            "name": "Giftsssss"
+          },
+          "amount": 1000.0,
+          "name": "test",
+          "remark": "alright",
+          "date": "Apr 5, 2013 12:00:33 PM",
+          "id": 1365134438536
+        }
+      ],
       "1364969813631": [
         {
           "expenseType": "NEED",
@@ -593,6 +582,10 @@
       "0": {
         "id": 0,
         "name": "undefined"
+      },
+      "1364969657548": {
+        "id": 1364969657548,
+        "name": "Entertainmento"
       },
       "1364222011061": {
         "id": 1364222011061,
@@ -788,16 +781,16 @@
         "year": 2013,
         "month": 3,
         "dayOfMonth": 5,
-        "hourOfDay": 16,
-        "minute": 58,
-        "second": 32
+        "hourOfDay": 17,
+        "minute": 8,
+        "second": 23
       },
       "targetNeedsRatio": 0.5,
       "targetWantsRatio": 0.3,
       "targetSavingsRatio": 0.2,
       "currentNeeds": 16156.0,
-      "currentWants": 101012.5,
-      "currentSavings": 92831.5,
+      "currentWants": 101000.0,
+      "currentSavings": 92844.0,
       "income": 210000.0,
       "isSet": true
     }
