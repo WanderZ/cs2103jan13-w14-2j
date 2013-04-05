@@ -6,7 +6,9 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JWindow;
 
 /** 
@@ -18,14 +20,23 @@ public class UINotify {
 
 	private UINotify() {}
 	
-	public static void createPopUp(String msg) {
-		PopMsg popup = new PopMsg(msg);
-		new Thread(popup).start();
-	}
+//	public static void createPopUp(String msg) {
+//		PopMsg popup = new PopMsg(msg);
+//		new Thread(popup).start();
+//	}
 	
-	public static void createErrMsg(String msg) {
-		PopMsg popup = new PopMsg(msg, PopMsg.ERR_MSG);
-		new Thread(popup).start();
+//	public static void createErrMsg(String msg) {
+//		PopMsg popup = new PopMsg(msg, PopMsg.ERR_MSG);
+//		new Thread(popup).start();
+//	}
+	
+	/**
+	 * Invoke a JDialog to display error message
+	 * @param parent The parent component that will host (be locked down) when this dialog appears
+	 * @param msg Error message to be displayed
+	 */
+	public static void createErrMsg(JComponent parent, String msg) {
+		JOptionPane.showMessageDialog(parent, msg, "Error", JOptionPane.ERROR_MESSAGE);
 	}
 }
 
