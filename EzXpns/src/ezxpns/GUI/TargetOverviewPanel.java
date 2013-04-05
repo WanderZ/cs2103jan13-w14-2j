@@ -23,6 +23,7 @@ import net.miginfocom.swing.MigLayout;
 import ezxpns.data.Bar;
 import ezxpns.data.TargetManager;
 import javax.swing.JSeparator;
+import javax.swing.border.EtchedBorder;
 
 /**
  * This is the panel in which will be slotted into the MainGUI (the main
@@ -63,7 +64,6 @@ public class TargetOverviewPanel extends JPanel {
 		largeBorderLayoutPanel.setLayout(new BorderLayout(0, 0));
 
 		tagsPane = new JPanel();
-//		tagsPane.setBackground(new Color(255, 255, 255));
 		tagsPane.setOpaque(false);
 		largeBorderLayoutPanel.add(tagsPane, BorderLayout.NORTH);
 
@@ -77,14 +77,12 @@ public class TargetOverviewPanel extends JPanel {
 		largeBorderLayoutPanel.add(targetScrollPane, BorderLayout.CENTER);
 
 		smallBorderLayoutpanel = new JPanel();
-//		smallBorderLayoutpanel.setBackground(new Color(255, 255, 255));
-		smallBorderLayoutpanel.setOpaque(false);
-		smallBorderLayoutpanel.setForeground(new Color(255, 102, 204));
+		smallBorderLayoutpanel.setBackground(new Color(238,238,238));
 		targetScrollPane.setViewportView(smallBorderLayoutpanel);
 		smallBorderLayoutpanel.setLayout(new BorderLayout(0, 0));
 
 		columnPanel = new JPanel();
-//		columnPanel.setBackground(new Color(255, 255, 255));
+		columnPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		columnPanel.setOpaque(false);
 		smallBorderLayoutpanel.add(columnPanel, BorderLayout.NORTH);
 		columnPanel.setLayout(new GridLayout(0, 1));
@@ -207,36 +205,6 @@ public class TargetOverviewPanel extends JPanel {
 			tagsPane.add(lblAlert, "cell 2 0");
 
 		}
-		
-		/*// lblCountdown
-		JLabel lblCountdown = new JLabel("Countdown");
-		lblCountdown.setForeground(new Color(255, 153, 0));
-		lblCountdown.setFont(new Font("Lucida Grande", Font.BOLD, 48));
-		tagsPane.add(lblCountdown, "cell 1 0 1 2");
-		int remainingDay = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH) - cal.get(Calendar.DAY_OF_MONTH);
-		lblCountdown.setText(""+remainingDay);
-		
-		// lblDaysTill
-		lblDaysTill = new JLabel("days till " + monthName[(cal.get(Calendar.MONTH)+1)%12]);
-		lblDaysTill.setForeground(new Color(255, 153, 0));
-		tagsPane.add(lblDaysTill, "cell 2 0,aligny bottom");
-		
-		// lblStatus
-		int numAlert = targetMgr.getAlerts().size();
-		String status;
-		if (numAlert == 0)
-			status = "You're ontrack! Good job!";
-		else
-			status = ""+ numAlert + " targets in danger!";
-		JLabel lblStatus = new JLabel("status");
-		lblStatus.setText(status);
-		tagsPane.add(lblStatus, "cell 0 1,alignx left,aligny top");
-		
-		// lblMonth
-		lblMonth = new JLabel("month");
-		lblMonth.setForeground(new Color(255, 153, 0));
-		tagsPane.add(lblMonth, "cell 2 1");
-		lblMonth.setText(monthName[(cal.get(Calendar.MONTH)+1)%12]);*/
 
 	}
 	public void update() {
