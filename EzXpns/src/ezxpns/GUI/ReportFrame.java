@@ -132,12 +132,12 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		generateReport = new JPanel();
 		layeredPane.add(generateReport);
 		generateReport.setBackground(Color.CYAN.darker());
-		generateReport.setBounds(0, 80, 600, 120); // x, y, width, height
+		generateReport.setBounds(0, 80, 667, 121); // x, y, width, height
 
 		// White Curtain
 		curtain = new JPanel();
 		curtain.setBackground(new Color(255, 255, 255, 230));
-		curtain.setBounds(0, 0, 600, 400);
+		curtain.setBounds(0, 0, 667, 425);
 		layeredPane.add(curtain);
 
 		// Button Panel
@@ -244,6 +244,11 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		endDateDisplay = new JLabel("test end");
 
 		btnGenerateANew = new JButton("Generate a new Report");
+		
+		// Disable Buttons 
+		btnGeneral.setEnabled(false);
+		btnExpense.setEnabled(false);
+		btnGenerateANew.setEnabled(false);
 
 		// ActionListener for Generate new Report Button
 		btnGenerateANew.addActionListener(new ActionListener() {
@@ -251,6 +256,9 @@ public class ReportFrame extends JFrame implements ComponentListener {
 				curtain.setVisible(true);
 				generateReport.setVisible(true);
 				pieChartIndex = 1;
+				btnGeneral.setEnabled(false);
+				btnExpense.setEnabled(false);
+				btnGenerateANew.setEnabled(false);
 			}
 		});
 
@@ -503,6 +511,11 @@ public class ReportFrame extends JFrame implements ComponentListener {
 			initSummary();
 			generateReport.setVisible(false);
 			curtain.setVisible(false);
+			
+			// enable buttons
+			btnGeneral.setEnabled(true);
+			btnExpense.setEnabled(true);
+			btnGenerateANew.setEnabled(true);
 
 			startDateDisplay.setText(dateFormat.format(dateChooserStart.getDate()));
 			endDateDisplay.setText(dateFormat.format(dateChooserEnd.getDate()));
