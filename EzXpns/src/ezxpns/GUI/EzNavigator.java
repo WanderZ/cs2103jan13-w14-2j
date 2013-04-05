@@ -39,7 +39,6 @@ public class EzNavigator extends JLayeredPane {
 		super();
 		this.uiCtrl = uiCtrl;
 		this.setDoubleBuffered(true);
-		// TODO: Incorporate Simple Search Field [?]
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.HORIZONTAL;

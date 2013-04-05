@@ -5,6 +5,11 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
+import com.jgoodies.forms.factories.FormFactory;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.RowSpec;
+
 import ezxpns.data.*;
 import ezxpns.data.records.*;
 
@@ -47,19 +52,20 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 		CardLayout contentMgr = new CardLayout();
 		panContent = new JLayeredPane();
 		panContent.setLayout(contentMgr);
-		navi = new EzNavigator(uiCtrl, contentMgr, panContent);
 		
-		GridBagConstraints gbc = new GridBagConstraints();
-		// Setup for Navigator
-		gbc.fill = GridBagConstraints.BOTH;
-		gbc.weightx = 0.1;
-		gbc.weighty = 0.5;
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		this.add(navi, gbc);
+		setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.PREF_COLSPEC,
+				ColumnSpec.decode("pref:grow"),},
+			new RowSpec[] {
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),}));
+		navi = new EzNavigator(uiCtrl, contentMgr, panContent);
+		navi.setPreferredSize(new Dimension(250, 400));
+		
+		this.add(navi, "1, 2, fill, fill");
 		
 		JPanel homeContent = new JPanel();
-		homeContent.setBorder(new EmptyBorder(15, 15, 15, 15));
+		homeContent.setBorder(new EmptyBorder(15, 0, 15, 15));
 		homeContent.setLayout(new GridLayout(2, 2, 15, 15));
 		panOverview = new OverviewPanel(sumGen);
 		homeContent.add(panOverview);
@@ -76,15 +82,9 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 		panRecords = new RecordsDisplayPanel(recHandler, uiCtrl, this);
 		homeContent.add(panRecords);
 		
-		gbc.fill = GridBagConstraints.BOTH;
-		gbc.weightx = 0.9;
-		gbc.weighty = 1;
-		gbc.gridx = 1;
-		gbc.gridy = 0;
-		
 		panContent.add(homeContent, NormalMenuOpt.DASHBD.toString());
 		
-		this.add(panContent, gbc);
+		this.add(panContent, "2, 2, fill, fill");
 		this.setVisible(true);
 	}
 	
