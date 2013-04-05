@@ -594,8 +594,9 @@ public class ExpenseForm extends JPanel{
 	 * @return Record object containing the user input
 	 */
 	public Record save() {
+		try {
 		ExpenseRecord eRecord = new ExpenseRecord(
-				Double.parseDouble(this.getAmt()), 					// the amount - double might not suffice
+				evaluate(), 					// the amount - double might not suffice
 				this.getName(),										// the name reference of the record
 				this.getDesc(),										// the description/remarks for this record, if any
 				this.getDate(),										// Date of this record (in user's context, not system time)
@@ -603,15 +604,20 @@ public class ExpenseForm extends JPanel{
 				this.getType(), 									// The ExpenseType of the record (need/want)
 				this.getMode()										// Payment method/mode of this record
 			);
-		
-		if(isEdit) {
-			this.recHandler.modifyRecord(record.getId(), eRecord, isNewCategory(), isNewMethod());
+			if(isEdit) {
+				this.recHandler.modifyRecord(record.getId(), eRecord, isNewCategory(), isNewMethod());
+			}
+			else {
+				eRecord = this.recHandler.createRecord(eRecord, isNewCategory(), isNewMethod());
+			}
+			notifyee.addUndoAction(createUndoAction(eRecord, isNewCategory(), isNewMethod()), isEdit ? "Edit Expense" : "New Expense");
+			return eRecord;
 		}
-		else {
-			eRecord = this.recHandler.createRecord(eRecord, isNewCategory(), isNewMethod());
+		catch(Exception e) {
+			// Something went wrong
+			System.out.println("error in creating record");
 		}
-		notifyee.addUndoAction(createUndoAction(eRecord, isNewCategory(), isNewMethod()), isEdit ? "Edit Expense" : "New Expense");
-		return eRecord;
+		return null;
 	}
 	
 	/**

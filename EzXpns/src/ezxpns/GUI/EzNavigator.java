@@ -243,6 +243,12 @@ public class EzNavigator extends JLayeredPane {
 			}
 			
 			@Override
+			public void mouseClicked(MouseEvent mEvent) {
+				JButton btn = (JButton) mEvent.getSource();
+				btn.setBorder(BorderFactory.createRaisedBevelBorder());
+			}
+			
+			@Override
 			public void mouseReleased(MouseEvent mEvent) {
 				JButton btn = (JButton) mEvent.getSource();
 				btn.setBorder(BorderFactory.createRaisedBevelBorder());
