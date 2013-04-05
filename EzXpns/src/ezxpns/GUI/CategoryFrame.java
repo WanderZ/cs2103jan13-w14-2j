@@ -82,10 +82,8 @@ public class CategoryFrame extends JPanel {
 		panExCats.addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentShown(ComponentEvent arg0) {
-				if(exlist!=null) // TODO: Mask the error
+				if(exlist!=null)
 					exlist.setSelectedIndex(0);
-				else 
-					System.out.println("exlist is null");
 			}
 		});
 		tabbedPane.addTab(
@@ -299,22 +297,34 @@ public class CategoryFrame extends JPanel {
 	private void updateExDisplay(Category cat){
 		curCat = cat;
 		if(cat == null){
+			exnameField.setText("");
+			targetAmountField.setText("");
+			exnameField.setEnabled(false);
+			targetAmountField.setEnabled(false);
+			removeExBtn.setEnabled(false);
+			changeExBtn.setEnabled(false);
 			return;
 		}
 		if(cat != addNew){
 			exnameField.setText(cat.getName());
 			curTar = targetMgr.getTarget(cat);
+			exnameField.setEnabled(true);
+			targetAmountField.setEnabled(true);
 			if(curTar == null){
 				targetAmountField.setText("No target set");
 			}else{
 				targetAmountField.setText("" + curTar.getTargetAmt());
 			}
 			changeExBtn.setText("Change");
+			changeExBtn.setEnabled(true);
 			removeExBtn.setEnabled(true);
 		}else{
 			exnameField.setText("Pick a name");
 			targetAmountField.setText("Set a target");
 			changeExBtn.setText("Add");
+			exnameField.setEnabled(true);
+			targetAmountField.setEnabled(true);
+			changeExBtn.setEnabled(true);
 			removeExBtn.setEnabled(false);
 		}
 	}
@@ -326,16 +336,27 @@ public class CategoryFrame extends JPanel {
 	private void updateInDisplay(Category cat){
 		curCat = cat;
 		if(cat == null){
+			inNameField.setText("");
+			inNameField.setEnabled(false);
+			removeInBtn.setEnabled(false);
+			changeInBtn.setEnabled(false);
 			return;
 		}
 		if(cat != addNew){
 			inNameField.setText(cat.getName());
+			inNameField.setEnabled(true);
+			removeInBtn.setEnabled(true);
 			changeInBtn.setText("Change");
 			removeInBtn.setEnabled(true);
+			changeInBtn.setEnabled(true);
 		}else{
 			inNameField.setText("Pick a name");
 			changeInBtn.setText("Add");
+			inNameField.setEnabled(true);
+			removeInBtn.setEnabled(true);
+			changeInBtn.setText("Change");
 			removeInBtn.setEnabled(false);
+			changeInBtn.setEnabled(true);
 		}
 	}
 	
