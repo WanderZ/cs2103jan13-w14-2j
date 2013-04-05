@@ -574,6 +574,32 @@
           "date": "Apr 3, 2013 2:16:51 PM",
           "id": 1364969813631
         }
+      ],
+      "1364053692757": [
+        {
+          "expenseType": "WANT",
+          "paymentMethod": {
+            "id": 1361694372893,
+            "name": "NETS"
+          },
+          "amount": 100.0,
+          "name": "KBox @ NTU Alumni Building",
+          "remark": "",
+          "date": "Apr 5, 2013 12:00:00 AM",
+          "id": 1365154651824
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1361694372893,
+            "name": "NETS"
+          },
+          "amount": 10.0,
+          "name": "KBox @ Scarlet City",
+          "remark": "Wsee",
+          "date": "Apr 5, 2013 12:00:00 AM",
+          "id": 1365154974652
+        }
       ]
     }
   },
@@ -782,15 +808,15 @@
         "month": 3,
         "dayOfMonth": 5,
         "hourOfDay": 17,
-        "minute": 8,
-        "second": 23
+        "minute": 42,
+        "second": 54
       },
       "targetNeedsRatio": 0.5,
       "targetWantsRatio": 0.3,
       "targetSavingsRatio": 0.2,
-      "currentNeeds": 16156.0,
-      "currentWants": 101000.0,
-      "currentSavings": 92844.0,
+      "currentNeeds": 16166.0,
+      "currentWants": 101100.0,
+      "currentSavings": 92734.0,
       "income": 210000.0,
       "isSet": true
     }
