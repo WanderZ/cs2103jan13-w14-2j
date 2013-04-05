@@ -65,6 +65,7 @@ public class ExpenseForm extends JPanel{
 	private CategoryHandler<ExpenseRecord> catHandler;
 	private PaymentHandler payHandler;
 	private UpdateNotifyee notifyee;
+	private final Calculator cal; 
 	private boolean isEdit;
 	
 	// #Data Components
@@ -86,7 +87,7 @@ public class ExpenseForm extends JPanel{
 			CategoryHandler<ExpenseRecord> catHandlerRef, 
 			PaymentHandler payHandlerRef,
 			UpdateNotifyee notifyeeRef) {
-		
+		cal = Calculator.getInstance();
 		recHandler = recHandlerRef; 
 		catHandler = catHandlerRef;
 		payHandler = payHandlerRef;
@@ -317,25 +318,24 @@ public class ExpenseForm extends JPanel{
 		this.add(lblResult);
 		loForm.putConstraint(SpringLayout.WEST, lblResult, COL2_PAD, SpringLayout.WEST, txtAmt);
 		loForm.putConstraint(SpringLayout.NORTH, lblResult, TOP_PAD, SpringLayout.NORTH, rbtnWant);
-		final Calculator cal = Calculator.getInstance();
 		txtAmt.getDocument().addDocumentListener(new DocumentListener() {
 
 			@Override
 			public void changedUpdate(DocumentEvent arg0) {
 				// TODO Auto-generated method stub
-				evaluate(cal, lblResult);
+				evaluate(lblResult);
 			}
 
 			@Override
 			public void insertUpdate(DocumentEvent arg0) {
 				// TODO Auto-generated method stub
-				evaluate(cal, lblResult);
+				evaluate(lblResult);
 			}
 
 			@Override
 			public void removeUpdate(DocumentEvent arg0) {
 				// TODO Auto-generated method stub
-				evaluate(cal, lblResult);
+				evaluate(lblResult);
 			}			
 		});
 		
@@ -343,13 +343,13 @@ public class ExpenseForm extends JPanel{
 
 			@Override
 			public void focusGained(FocusEvent e) {
-				evaluate(cal, lblResult);
+				evaluate(lblResult);
 				txtAmt.selectAll();
 			}
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				evaluate(cal, lblResult);
+				evaluate(lblResult);
 			}
 			
 		});
@@ -533,9 +533,13 @@ public class ExpenseForm extends JPanel{
 	private boolean validateAmt() {
 		double result;
 		try {
-			result = Double.parseDouble(getAmt()); // To be updated to the inbuilt calculator
+			result = evaluate();// To be updated to the inbuilt calculator
 //			this.setAmt(result);
 			// TODO: Max amount
+			if(result >= 1000000000) {
+				// Thats some big ticket item
+				return false;
+			}
 			return result >= 0.01; // Minimum value
 		}
 		catch(Exception err) {
@@ -638,9 +642,13 @@ public class ExpenseForm extends JPanel{
 		};
 	}
 	
-	private void evaluate(Calculator cal, JLabel lblResult) {
+	/**
+	 * Evaluates the amount field
+	 * @param lblResult JLabel to populate result
+	 */
+	private void evaluate(JLabel lblResult) {
 		try {
-			Double result = cal.evaluate(getAmt());
+			Double result = evaluate();
 			if(result!=null) setAmt(lblResult, result);
 		}
 		catch(EvaluationException evalErr) {
@@ -649,5 +657,9 @@ public class ExpenseForm extends JPanel{
 		catch(Exception err) {
 			System.out.println(err.getMessage());
 		}
+	}
+	
+	private double evaluate() throws EvaluationException {
+		return cal.evaluate(getAmt());
 	}
 }
