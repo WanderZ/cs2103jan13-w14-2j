@@ -60,6 +60,7 @@ public class IncomeForm extends JPanel {
 	private IncomeRecord record;
 	private UpdateNotifyee notifyee;
 	private boolean isEdit;
+	private boolean blockAutoFill = false;
 	
 	// #Data Components
 	private List<Category> categories;
@@ -82,8 +83,6 @@ public class IncomeForm extends JPanel {
 		this.initFields();
 		isEdit = false;
 	}
-	
-	private boolean blockAutoFill = false;
 	
 	/**
 	 * Create a form of the existing record
@@ -253,6 +252,15 @@ public class IncomeForm extends JPanel {
 		loForm.putConstraint(SpringLayout.WEST, txtDesc, COL2_PAD, SpringLayout.WEST, this);
 		loForm.putConstraint(SpringLayout.NORTH, lblDesc, TOP_PAD, SpringLayout.NORTH, lblDate);
 		loForm.putConstraint(SpringLayout.NORTH, txtDesc, TOP_PAD, SpringLayout.NORTH, txtDateChooser);
+		
+		manageFocus();
+	}
+	
+	private void manageFocus() {
+		// Request focus in txtName
+		txtName.requestFocusInWindow();
+		// TODO: Bind Enter to change focus to the next field
+		// TODO: Validate on "Enter"
 	}
 	
 	/**

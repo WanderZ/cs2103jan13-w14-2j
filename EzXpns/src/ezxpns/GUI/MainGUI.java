@@ -64,7 +64,6 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 		panOverview = new OverviewPanel(sumGen);
 		homeContent.add(panOverview);
 		
-		
 		// Targets Panel
 		panTarget = new TargetOverviewPanel(targetMgr);
 		homeContent.add(panTarget);
