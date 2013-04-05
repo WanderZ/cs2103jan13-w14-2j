@@ -321,16 +321,16 @@ public class ExpenseForm extends JPanel{
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				if(!validateAmt()) {
-					markErr(txtAmt);
-					return;
-				}
 				try {
 					Double result = cal.evaluate(getAmt());
 					if(result!=null) setAmt(lblResult, result);
 				}
 				catch(EvaluationException evalErr) {
 					System.out.println(evalErr.getMessage());
+					if(!validateAmt()) {
+						markErr(txtAmt);
+						return;
+					}
 				}
 				catch(Exception err) {
 					System.out.println(err.getMessage());
@@ -516,10 +516,11 @@ public class ExpenseForm extends JPanel{
 		try {
 			result = Double.parseDouble(getAmt()); // To be updated to the inbuilt calculator
 //			this.setAmt(result);
+			// TODO: Max amount
 			return result >= 0.01; // Minimum value
 		}
 		catch(Exception err) {
-			UINotify.createErrMsg("Invalid amount Entered");
+			displayErr("Unable to calculate input\n Please try again.");
 			return false;
 		}
 	}
@@ -530,6 +531,14 @@ public class ExpenseForm extends JPanel{
 	 */
 	private boolean validateName() {
 		return !getName().equals("");
+	}
+	
+	/**
+	 * Displays an error dialog
+	 * @param msg Message to be displayed
+	 */
+	private void displayErr(String msg) {
+		UINotify.createErrMsg(this, msg);
 	}
 	
 	/**
@@ -548,8 +557,13 @@ public class ExpenseForm extends JPanel{
 		this.txtAmt.setText(new DecimalFormat("##0.00").format(amt));
 	}
 	
+	/**
+	 * Sets the calculated amount next to the amount field
+	 * @param lblResult the label to display calculated amount
+	 * @param amt the calculated amount to be displayed
+	 */
 	private void setAmt(JLabel lblResult, double amt) {
-		lblResult.setText(new DecimalFormat("=$###,###,##0.00").format(amt));
+		lblResult.setText("=" + new DecimalFormat("$###,###,##0.00").format(amt));
 	}
 	
 	/** 
