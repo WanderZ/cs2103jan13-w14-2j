@@ -5,7 +5,6 @@ import java.text.DecimalFormat;
 
 /**
  * Default Configurations for GUI Component
- *
  */
 public class Config {
 	
@@ -29,8 +28,14 @@ public class Config {
 	 */
 	public static final int DEFAULT_UI_HEIGHT = 720;
 	
+	/**
+	 * The minimum width for the GUI window
+	 */
 	public static final int MIN_UI_WIDTH = 1100;
 	
+	/**
+	 * The minimum height for the GUI window
+	 */
 	public static final int MIN_UI_HEIGHT = 650;
 	
 	/**
@@ -51,7 +56,7 @@ public class Config {
 	/**
 	 * The preset font for menu buttons - size set at 20
 	 */
-	public static final Font MENU_FONT = new Font("Segoe UI", 0, 20);
+	public static final Font MENU_FONT = new Font("Segoe UI", 0, 16);
 	
 	/**
 	 * The preset font for normal text - size set at 14
