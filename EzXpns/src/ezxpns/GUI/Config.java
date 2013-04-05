@@ -68,5 +68,10 @@ public class Config {
 	 */
 	public static final DecimalFormat MONEY_FORMAT = new DecimalFormat("$###,###,##0.00");
 	
+	/**
+	 * The preset maximum amount for each record - One million
+	 */
+	public static final int DEFAULT_MAX_PER_RECORD = 1000000000; // One million
+	
 	private Config(){}
 }
