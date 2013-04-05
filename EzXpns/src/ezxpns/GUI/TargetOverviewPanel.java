@@ -35,7 +35,7 @@ public class TargetOverviewPanel extends JPanel {
 
 	private TargetManager targetMgr;
 	private final DecimalFormat MONEY_FORMAT = new DecimalFormat("$###,###,##0.00");
-	private final DecimalFormat TWO_DP = new DecimalFormat("#.##");
+	private final DecimalFormat TWO_DP = new DecimalFormat("0.00");
 	private JPanel largeBorderLayoutPanel;
 	private JPanel tagsPane;
 	private JScrollPane targetScrollPane;
@@ -115,34 +115,26 @@ public class TargetOverviewPanel extends JPanel {
 																// scroll to
 																// appear),
 																// height
-//			rowPanel.setBackground(new Color(255, 255, 255));
 			rowPanel.setOpaque(false);
 			columnPanel.add(rowPanel);
-			//rowPanel.setLayout(new BorderLayout());
 			rowPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
 			// CATEGORY LABEL
 			JLabel lblBar = new JLabel(bar.getTarget().getCategory().getName());
-			//rowPanel.add(lblBar, BorderLayout.WEST);
 			rowPanel.add(lblBar);
 			lblBar.setPreferredSize(new Dimension(100, 50));
 
 			// BAR GRAPHICS
 			BarGraphic myBarGraphics = new BarGraphic(bar);
 			myBarGraphics.setPreferredSize(new Dimension(150,50));
-//			myBarGraphics.setBackground(new Color(255,255,255));
 			myBarGraphics.setOpaque(false);
-			//rowPanel.add(myBarGraphics, BorderLayout.CENTER);
 			rowPanel.add(myBarGraphics);
 			
 			// SUB LAYOUT FOR AMOUNT
 			JPanel subPanel = new JPanel();
-			//subPanel.setPreferredSize(new Dimension (200,60));
 			subPanel.setLayout(new BoxLayout(subPanel, BoxLayout.Y_AXIS));
-//			subPanel.setBackground(new Color(255, 255, 255));
 			subPanel.setOpaque(false);
-
-			//rowPanel.add(subPanel, BorderLayout.EAST);
+			subPanel.setPreferredSize(new Dimension(90, 26));
 			rowPanel.add(subPanel);
 			
 			// CURRENT AMOUNT/TARGET AMOUNT
@@ -154,6 +146,9 @@ public class TargetOverviewPanel extends JPanel {
 			lblRemainingAmt.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
 			lblRemainingAmt.setHorizontalAlignment(SwingConstants.LEFT);
 			subPanel.add(lblRemainingAmt);
+			
+			// Budget
+			rowPanel.add(new JLabel("<html><b>Budget:  "+TWO_DP.format(bar.getTargetAmt())+"</b></html>"));
 		}
 
 	}
