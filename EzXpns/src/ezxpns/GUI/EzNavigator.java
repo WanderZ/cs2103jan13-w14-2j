@@ -48,7 +48,6 @@ public class EzNavigator extends JLayeredPane {
 		gbc.weightx = 0.5;
 		JButton btn;
 		
-		
 		gbc.gridx = 0;
 		gbc.gridy = 1;
 		/* Insert First Button here */

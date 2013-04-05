@@ -5,7 +5,6 @@ import java.text.DecimalFormat;
 
 /**
  * Default Configurations for GUI Component
- *
  */
 public class Config {
 	

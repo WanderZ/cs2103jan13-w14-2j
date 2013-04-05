@@ -143,6 +143,21 @@ public class ExpenseForm extends JPanel{
 		// Date - populated only if editing
 		txtDateChooser.setDate(isEdit ? record.getDate() : new Date()); 
 		
+		// Need or Want
+		switch(record.getExpenseType()) {
+			case NEED:
+				rbtnNeed.setSelected(true);
+				break;
+			case WANT:
+				rbtnWant.setSelected(true);
+				break;
+			case SAVE:
+				// Something went wrong somewhere?
+			default:
+				break;
+		
+		}
+		
 		// Description
 		txtDesc.setText(record.getRemark());
 		
@@ -218,7 +233,7 @@ public class ExpenseForm extends JPanel{
 		txtName = new JTextField("");
 		txtName.setPreferredSize(new Dimension(200, 25));
 		txtName.setBorder(BorderFactory.createLoweredBevelBorder());
-		txtName.getDocument().addDocumentListener(new DocumentListener(){
+		txtName.getDocument().addDocumentListener(new DocumentListener() {
 
 			@Override
 			public void changedUpdate(DocumentEvent e) {
@@ -236,7 +251,7 @@ public class ExpenseForm extends JPanel{
 			}
 			
 			private void fill(){
-				if(blockAutoFill || isEdit) return;
+				if(blockAutoFill || isEdit) return; 
 				ExpenseRecord oldRecord = recHandler.lastExpenseRecord(txtName.getText());
 				if(oldRecord!=null) {
 					record = oldRecord;
@@ -303,38 +318,38 @@ public class ExpenseForm extends JPanel{
 		loForm.putConstraint(SpringLayout.WEST, lblResult, COL2_PAD, SpringLayout.WEST, txtAmt);
 		loForm.putConstraint(SpringLayout.NORTH, lblResult, TOP_PAD, SpringLayout.NORTH, rbtnWant);
 		final Calculator cal = Calculator.getInstance();
+		txtAmt.getDocument().addDocumentListener(new DocumentListener() {
+
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+				// TODO Auto-generated method stub
+				evaluate(cal, lblResult);
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent arg0) {
+				// TODO Auto-generated method stub
+				evaluate(cal, lblResult);
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent arg0) {
+				// TODO Auto-generated method stub
+				evaluate(cal, lblResult);
+			}			
+		});
+		
 		txtAmt.addFocusListener(new FocusListener() {
 
 			@Override
 			public void focusGained(FocusEvent e) {
-				try {
-					Double result = cal.evaluate(getAmt());
-					if(result!=null) setAmt(lblResult, result);
-				}
-				catch(EvaluationException evalErr) {
-					System.out.println(evalErr.getMessage());
-				}
-				catch(Exception err) {
-					System.out.println(err.getMessage());
-				}
+				evaluate(cal, lblResult);
+				txtAmt.selectAll();
 			}
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				try {
-					Double result = cal.evaluate(getAmt());
-					if(result!=null) setAmt(lblResult, result);
-				}
-				catch(EvaluationException evalErr) {
-					System.out.println(evalErr.getMessage());
-					if(!validateAmt()) {
-						markErr(txtAmt);
-						return;
-					}
-				}
-				catch(Exception err) {
-					System.out.println(err.getMessage());
-				}
+				evaluate(cal, lblResult);
 			}
 			
 		});
@@ -373,6 +388,10 @@ public class ExpenseForm extends JPanel{
 		loForm.putConstraint(SpringLayout.WEST, txtDesc, COL2_PAD, SpringLayout.WEST, this);
 		loForm.putConstraint(SpringLayout.NORTH, lblDesc, TOP_PAD, SpringLayout.NORTH, lblDate);
 		loForm.putConstraint(SpringLayout.NORTH, txtDesc, TOP_PAD, SpringLayout.NORTH, txtDateChooser);
+		
+		
+		// Request focus in txtName
+		txtName.requestFocusInWindow();
 	}
 	
 	/**
@@ -617,5 +636,18 @@ public class ExpenseForm extends JPanel{
 				}
 			}
 		};
+	}
+	
+	private void evaluate(Calculator cal, JLabel lblResult) {
+		try {
+			Double result = cal.evaluate(getAmt());
+			if(result!=null) setAmt(lblResult, result);
+		}
+		catch(EvaluationException evalErr) {
+			System.out.println(evalErr.getMessage());
+		}
+		catch(Exception err) {
+			System.out.println(err.getMessage());
+		}
 	}
 }
