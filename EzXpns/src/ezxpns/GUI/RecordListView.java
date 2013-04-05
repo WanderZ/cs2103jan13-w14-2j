@@ -255,7 +255,6 @@ public class RecordListView extends JTable {
 	 */
 	public void show(List<Record> records){
 		this.records = records;
-		System.out.println(records.size());
 		model.fireTableDataChanged();
 	}
 
