@@ -178,13 +178,13 @@ System.out.println("genRatio");
 			return;
 		}
 
-		double targetNeeds = pastMonthNWS.getTargetNeeds();
-		double targetWants = pastMonthNWS.getTargetWants();
-		double targetSavings = pastMonthNWS.getTargetSavings();
+		double targetNeeds = pastMonthNWS.getTargetNeedsRatio();
+		double targetWants = pastMonthNWS.getTargetWantsRatio();
+		double targetSavings = pastMonthNWS.getTargetSavingsRatio();
 
-		double prevMonthNeedsExp = pastMonthNWS.getNeedsProgress(); // ratio
-		double prevMonthWantsExp = pastMonthNWS.getWantsProgress(); // ratio
-		double prevMonthSavings = pastMonthNWS.getSavingsProgress(); // ratio
+		double prevMonthNeedsExp = pastMonthNWS.getCurrNeedsRatio(); // ratio
+		double prevMonthWantsExp = pastMonthNWS.getCurrWantsRatio(); // ratio
+		double prevMonthSavings = pastMonthNWS.getCurrSavingsRatio(); // ratio
 
 		// difference from ____ Targets = Target ratio - Actual ratio
 		// diff>0 => did not meet target
@@ -539,9 +539,9 @@ System.out.println("genRatio");
 	private void setToPastMonth(NWSdata thisMonthNWS){
 		pastMonthNWS.setAll(
 				thisMonthNWS.getDate(),
-				thisMonthNWS.getTargetNeeds(),
-				thisMonthNWS.getTargetWants(),
-				thisMonthNWS.getTargetSavings(),
+				thisMonthNWS.getTargetNeedsRatio(),
+				thisMonthNWS.getTargetWantsRatio(),
+				thisMonthNWS.getTargetSavingsRatio(),
 				thisMonthNWS.getCurrentNeeds(),
 				thisMonthNWS.getCurrentWants(),
 				thisMonthNWS.getCurrentSavings(),
