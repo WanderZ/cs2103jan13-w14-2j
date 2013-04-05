@@ -68,8 +68,8 @@ public class TargetOverviewPanel extends JPanel {
 		largeBorderLayoutPanel.add(tagsPane, BorderLayout.NORTH);
 
 		targetScrollPane = new JScrollPane();
-		targetScrollPane.setBorder(BorderFactory.createEmptyBorder());
-		tagsPane.setLayout(new MigLayout("", "[222.00]50[30][100]", "[25][16px]0[][1]0"));
+		targetScrollPane.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+		tagsPane.setLayout(new MigLayout("", "[222.00]50[30][100]", "[0][16px]0[][1]0"));
 
 
 		targetScrollPane
@@ -78,11 +78,11 @@ public class TargetOverviewPanel extends JPanel {
 
 		smallBorderLayoutpanel = new JPanel();
 		smallBorderLayoutpanel.setBackground(new Color(238,238,238));
+		smallBorderLayoutpanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
 		targetScrollPane.setViewportView(smallBorderLayoutpanel);
 		smallBorderLayoutpanel.setLayout(new BorderLayout(0, 0));
 
 		columnPanel = new JPanel();
-		columnPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		columnPanel.setOpaque(false);
 		smallBorderLayoutpanel.add(columnPanel, BorderLayout.NORTH);
 		columnPanel.setLayout(new GridLayout(0, 1));

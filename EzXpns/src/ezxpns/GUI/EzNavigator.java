@@ -42,7 +42,7 @@ public class EzNavigator extends JLayeredPane {
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.insets = new Insets(5, 15, 5, 15);
+		gbc.insets = new Insets(5, 5, 5, 5);
 		// gbc.weighty = 1;
 		gbc.weightx = 0.5;
 		JButton btn;

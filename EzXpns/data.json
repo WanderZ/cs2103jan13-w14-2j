@@ -135,6 +135,18 @@
         {
           "expenseType": "NEED",
           "paymentMethod": {
+            "id": 1361694372893,
+            "name": "NETS"
+          },
+          "amount": 12.0,
+          "name": "abc efg",
+          "remark": "2",
+          "date": "Apr 5, 2013 12:00:00 AM",
+          "id": 1365165945575
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
             "id": 1363314106821,
             "name": "Gifts"
           },
@@ -583,13 +595,13 @@
         "id": 0,
         "name": "undefined"
       },
-      "1364969657548": {
-        "id": 1364969657548,
-        "name": "Entertainmento"
-      },
       "1364222011061": {
         "id": 1364222011061,
         "name": "Free"
+      },
+      "1364969657548": {
+        "id": 1364969657548,
+        "name": "Entertainmento"
       },
       "1364097417024": {
         "id": 1364097417024,
@@ -599,25 +611,25 @@
         "id": 1362480320970,
         "name": "Allowance"
       },
-      "1362122547530": {
-        "id": 1362122547530,
-        "name": "Salary"
-      },
       "1363950844232": {
         "id": 1363950844232,
         "name": "Loot"
       },
-      "1363314106821": {
-        "id": 1363314106821,
-        "name": "Scholarship"
+      "1362122547530": {
+        "id": 1362122547530,
+        "name": "Salary"
+      },
+      "1364935492692": {
+        "id": 1364935492692,
+        "name": "Bursary"
       },
       "1364222095831": {
         "id": 1364222095831,
         "name": "Found"
       },
-      "1364935492692": {
-        "id": 1364935492692,
-        "name": "Bursary"
+      "1363314106821": {
+        "id": 1363314106821,
+        "name": "Scholarship"
       }
     },
     "recordsByCategory": {
@@ -691,38 +703,6 @@
           "id": 1363715773749
         }
       ],
-      "1364222095831": [
-        {
-          "amount": 10000.0,
-          "name": "Blessingz",
-          "remark": "Found this on the floor!",
-          "date": "Apr 1, 2013 12:20:09 AM",
-          "id": 1364746811145
-        },
-        {
-          "amount": 20.2,
-          "name": "Blessingz",
-          "remark": "Found this on the floor!",
-          "date": "Mar 26, 2013 12:50:15 PM",
-          "id": 1364223741192
-        }
-      ],
-      "1364935492692": [
-        {
-          "amount": 183.08,
-          "name": "33iyf5s64rnk",
-          "remark": "nil",
-          "date": "Mar 2, 2013 5:16:57 AM",
-          "id": 1363314106822
-        },
-        {
-          "amount": 821.07,
-          "name": "5cccdpl4aha8",
-          "remark": "nil",
-          "date": "Dec 30, 2011 1:21:32 PM",
-          "id": 1363314106823
-        }
-      ],
       "1363314106821": [
         {
           "amount": 950.53,
@@ -752,6 +732,38 @@
           "date": "May 2, 2011 3:56:53 PM",
           "id": 1365133895255
         }
+      ],
+      "1364935492692": [
+        {
+          "amount": 183.08,
+          "name": "33iyf5s64rnk",
+          "remark": "nil",
+          "date": "Mar 2, 2013 5:16:57 AM",
+          "id": 1363314106822
+        },
+        {
+          "amount": 821.07,
+          "name": "5cccdpl4aha8",
+          "remark": "nil",
+          "date": "Dec 30, 2011 1:21:32 PM",
+          "id": 1363314106823
+        }
+      ],
+      "1364222095831": [
+        {
+          "amount": 10000.0,
+          "name": "Blessingz",
+          "remark": "Found this on the floor!",
+          "date": "Apr 1, 2013 12:20:09 AM",
+          "id": 1364746811145
+        },
+        {
+          "amount": 20.2,
+          "name": "Blessingz",
+          "remark": "Found this on the floor!",
+          "date": "Mar 26, 2013 12:50:15 PM",
+          "id": 1364223741192
+        }
       ]
     }
   },
@@ -780,17 +792,17 @@
       "date": {
         "year": 2013,
         "month": 3,
-        "dayOfMonth": 5,
-        "hourOfDay": 17,
-        "minute": 8,
-        "second": 23
+        "dayOfMonth": 6,
+        "hourOfDay": 0,
+        "minute": 27,
+        "second": 2
       },
       "targetNeedsRatio": 0.5,
       "targetWantsRatio": 0.3,
       "targetSavingsRatio": 0.2,
-      "currentNeeds": 16156.0,
+      "currentNeeds": 16168.0,
       "currentWants": 101000.0,
-      "currentSavings": 92844.0,
+      "currentSavings": 92832.0,
       "income": 210000.0,
       "isSet": true
     }
