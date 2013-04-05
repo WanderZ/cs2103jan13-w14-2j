@@ -132,12 +132,12 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		generateReport = new JPanel();
 		layeredPane.add(generateReport);
 		generateReport.setBackground(Color.CYAN.darker());
-		generateReport.setBounds(0, 80, 667, 121); // x, y, width, height
+		generateReport.setBounds(0, 80, 783, 126); // x, y, width, height
 
 		// White Curtain
 		curtain = new JPanel();
 		curtain.setBackground(new Color(255, 255, 255, 230));
-		curtain.setBounds(0, 0, 667, 425);
+		curtain.setBounds(0, 0, 783, 424);
 		layeredPane.add(curtain);
 
 		// Button Panel
@@ -384,19 +384,47 @@ public class ReportFrame extends JFrame implements ComponentListener {
 			}
 		});
 		
+		JButton btnLastMonth = new JButton("Last Month");
+		btnLastMonth.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(new Date());
+				calendar.set(Calendar.DAY_OF_MONTH, 1);
+				calendar.set(Calendar.MONTH, (Calendar.MONTH)%12);
+				dateChooserStart.setDate(calendar.getTime());
+				calendar.set(Calendar.DAY_OF_MONTH, Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH)+1);
+				dateChooserEnd.setDate(calendar.getTime());
+			}
+		});
+		
+		JButton btnThisYear = new JButton("This Year");
+		btnThisYear.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(new Date());
+				calendar.set(Calendar.DAY_OF_MONTH, 1);
+				calendar.set(Calendar.MONTH, 0);
+				dateChooserStart.setDate(calendar.getTime());
+				dateChooserEnd.setDate(new Date());
+			}
+		});
+		
+	
 		
 		
 		GroupLayout gl_generateReport = new GroupLayout(generateReport);
 		gl_generateReport.setHorizontalGroup(
 			gl_generateReport.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_generateReport.createSequentialGroup()
-					.addGap(20)
+					.addGap(10)
 					.addGroup(gl_generateReport.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_generateReport.createSequentialGroup()
 							.addGroup(gl_generateReport.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblErrorMsg)
 								.addComponent(lblGenerateAReport))
-							.addPreferredGap(ComponentPlacement.RELATED, 245, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED, 249, Short.MAX_VALUE)
 							.addComponent(btnGenerate)
 							.addGap(49))
 						.addGroup(gl_generateReport.createSequentialGroup()
@@ -409,8 +437,12 @@ public class ReportFrame extends JFrame implements ComponentListener {
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(dateChooserEnd, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnLastMonth)
+							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(btnThisMonth)
-							.addGap(71))))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnThisYear)))
+					.addGap(23))
 		);
 		gl_generateReport.setVerticalGroup(
 			gl_generateReport.createParallelGroup(Alignment.LEADING)
@@ -419,17 +451,19 @@ public class ReportFrame extends JFrame implements ComponentListener {
 					.addGroup(gl_generateReport.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_generateReport.createSequentialGroup()
 							.addComponent(lblGenerateAReport)
-							.addPreferredGap(ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
 							.addGroup(gl_generateReport.createParallelGroup(Alignment.LEADING)
 								.addComponent(dateChooserStart, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addGroup(gl_generateReport.createSequentialGroup()
 									.addGroup(gl_generateReport.createParallelGroup(Alignment.TRAILING)
-										.addGroup(gl_generateReport.createParallelGroup(Alignment.TRAILING)
-											.addGroup(gl_generateReport.createSequentialGroup()
-												.addComponent(lblStartDate)
-												.addPreferredGap(ComponentPlacement.RELATED))
-											.addComponent(btnThisMonth))
-										.addComponent(dateChooserEnd, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+										.addGroup(gl_generateReport.createSequentialGroup()
+											.addComponent(lblStartDate)
+											.addPreferredGap(ComponentPlacement.RELATED))
+										.addComponent(dateChooserEnd, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addGroup(gl_generateReport.createParallelGroup(Alignment.BASELINE)
+											.addComponent(btnLastMonth)
+											.addComponent(btnThisMonth)
+											.addComponent(btnThisYear)))
 									.addGroup(gl_generateReport.createParallelGroup(Alignment.BASELINE)
 										.addComponent(btnGenerate)
 										.addComponent(lblErrorMsg))))
@@ -635,7 +669,7 @@ private JFreeChart createChart(CategoryDataset dataset) {
         final JFreeChart chart = ChartFactory.createBarChart(
             "My Summary",         // chart title
             "Type",               // domain axis label
-            "Amount",                  // range axis label
+            "Percentage",                  // range axis label
             dataset,                  // data
             PlotOrientation.VERTICAL, // orientation
             true,                     // include legend
