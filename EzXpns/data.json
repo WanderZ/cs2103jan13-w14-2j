@@ -170,6 +170,42 @@
       ],
       "1364969857857": [
         {
+          "expenseType": "WANT",
+          "paymentMethod": {
+            "id": 1363314106821,
+            "name": "Gifts"
+          },
+          "amount": 1000.0,
+          "name": "test",
+          "remark": "alright",
+          "date": "Apr 4, 2013 3:34:13 PM",
+          "id": 1365060855153
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1363314106821,
+            "name": "Gifts"
+          },
+          "amount": 1000.0,
+          "name": "test",
+          "remark": "alright",
+          "date": "Apr 4, 2013 3:19:40 PM",
+          "id": 1365059981353
+        },
+        {
+          "expenseType": "WANT",
+          "paymentMethod": {
+            "id": 1363314106821,
+            "name": "Gifts"
+          },
+          "amount": 100000.0,
+          "name": "test",
+          "remark": "alright",
+          "date": "Apr 4, 2013 12:00:00 AM",
+          "id": 1365060867341
+        },
+        {
           "expenseType": "NEED",
           "paymentMethod": {
             "id": 1363314106821,
@@ -541,6 +577,22 @@
     },
     "recordsByCategory": {
       "0": [],
+      "1364222011061": [
+        {
+          "amount": 100000.0,
+          "name": "test",
+          "remark": "",
+          "date": "Apr 4, 2013 3:34:06 PM",
+          "id": 1365060848847
+        },
+        {
+          "amount": 100000.0,
+          "name": "test",
+          "remark": "",
+          "date": "Apr 4, 2013 12:00:00 AM",
+          "id": 1365060838494
+        }
+      ],
       "1364097417024": [
         {
           "amount": 225.97,
@@ -684,17 +736,17 @@
         "year": 2013,
         "month": 3,
         "dayOfMonth": 4,
-        "hourOfDay": 10,
-        "minute": 53,
-        "second": 56
+        "hourOfDay": 15,
+        "minute": 40,
+        "second": 3
       },
       "targetNeedsRatio": 0.5,
       "targetWantsRatio": 0.3,
       "targetSavingsRatio": 0.2,
-      "currentNeeds": 13144.0,
-      "currentWants": 0.0,
-      "currentSavings": 0.0,
-      "income": 10000.0,
+      "currentNeeds": 14144.0,
+      "currentWants": 101000.0,
+      "currentSavings": 94856.0,
+      "income": 210000.0,
       "isSet": true
     }
   },

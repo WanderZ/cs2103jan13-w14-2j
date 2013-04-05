@@ -1,24 +1,12 @@
 package ezxpns.GUI;
 
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.*;
 
-import javax.swing.AbstractAction;
-import javax.swing.JFrame;
-import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
+import javax.swing.*;
+import javax.swing.border.*;
 
-import ezxpns.data.NWSGenerator;
-import ezxpns.data.SummaryGenerator;
-import ezxpns.data.TargetManager;
-import ezxpns.data.records.CategoryHandler;
-import ezxpns.data.records.ExpenseRecord;
-import ezxpns.data.records.IncomeRecord;
-import ezxpns.data.records.PaymentHandler;
-import ezxpns.data.records.RecordHandler;
-import ezxpns.data.records.SearchHandler;
+import ezxpns.data.*;
+import ezxpns.data.records.*;
 
 @SuppressWarnings("serial")
 public class MainGUI extends JFrame implements UpdateNotifyee {
@@ -55,10 +43,6 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 		this.undoMgr = undoMgr;
 		
 		this.uiCtrl = uiCtrl;
-		// TODO: InstantiateNavi
-		// TODO: CardLayout
-		// TODO: InstantiateContent
-		// TODO: Iterate through the list of JLayeredPane/JPanel to be displayed
 		
 		CardLayout contentMgr = new CardLayout();
 		panContent = new JLayeredPane();
@@ -74,38 +58,24 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 		gbc.gridy = 0;
 		this.add(navi, gbc);
 		
-		JPanel homeContent = new JPanel(new GridBagLayout());
-		GridBagConstraints gbContent = new GridBagConstraints();
-		gbContent.fill = GridBagConstraints.BOTH;
-		// Overview Panel
-		gbContent.gridx = 0;
-		gbContent.gridy = 0; // 0, 0
-//		gbContent.weightx = 0.3;
-//		gbContent.weighty = 0.3;
-		gbContent.gridheight = 1;
+		JPanel homeContent = new JPanel();
+		homeContent.setBorder(new EmptyBorder(15, 15, 15, 15));
+		homeContent.setLayout(new GridLayout(2, 2, 15, 15));
 		panOverview = new OverviewPanel(sumGen);
-		homeContent.add(panOverview, gbContent);
+		homeContent.add(panOverview);
 		
-		// Records Display Panel
-		gbContent.gridx = 1;
-		panRecords = new RecordsDisplayPanel(recHandler, uiCtrl, this);
-		homeContent.add(panRecords, gbContent);
 		
 		// Targets Panel
-		
-		gbContent.gridheight = 2;
-		gbContent.weightx = 0.1;
-		gbContent.weighty = 0.1;
-		gbContent.gridy = 2;
-		gbContent.gridx = 0;
 		panTarget = new TargetOverviewPanel(targetMgr);
-		homeContent.add(panTarget, gbContent);
+		homeContent.add(panTarget);
 		
 		// Savings Panel
-//		gbContent.gridy = 1;
-		gbContent.gridx = 1;
 		panSavings = new SavingsOverviewPanel(nwsGen);
-		homeContent.add(panSavings, gbContent);
+		homeContent.add(panSavings);
+		
+		// Records Display Panel
+		panRecords = new RecordsDisplayPanel(recHandler, uiCtrl, this);
+		homeContent.add(panRecords);
 		
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx = 0.9;
@@ -127,9 +97,9 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 		this.setLocationRelativeTo(null);
 		this.setLayout(new GridBagLayout());
 		this.setLocationRelativeTo(null);
-		this.setResizable(false);
+		this.setMinimumSize(new Dimension(Config.MIN_UI_WIDTH, Config.MIN_UI_HEIGHT));
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		// this.setUndecorated(true); // Remove Title Bar 
+		this.setTitle("EzXpnz - the revolutionary next genration game changer-ish luxury classy high-end expense manager");
 	}
 	
 	/**
