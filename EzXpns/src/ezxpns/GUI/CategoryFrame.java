@@ -35,6 +35,7 @@ import java.util.List;
  */
 @SuppressWarnings("serial")
 public class CategoryFrame extends JPanel {
+	public static final int MAX_CATS = 20;
 	
 	private TargetManager targetMgr;
 	private CategoryHandler<ExpenseRecord> excats;
@@ -79,13 +80,13 @@ public class CategoryFrame extends JPanel {
 		this.add(tabbedPane, BorderLayout.CENTER);
 		
 		JPanel panExCats = new JPanel();
-		panExCats.addComponentListener(new ComponentAdapter() {
-			@Override
-			public void componentShown(ComponentEvent arg0) {
-				if(exlist!=null)
-					exlist.setSelectedIndex(0);
-			}
-		});
+//		panExCats.addComponentListener(new ComponentAdapter() {
+//			@Override
+//			public void componentShown(ComponentEvent arg0) {
+//				if(exlist!=null)
+//					exlist.setSelectedIndex(0);
+//			}
+//		});
 		tabbedPane.addTab(
 				"Expense", 
 				null, 
@@ -101,7 +102,7 @@ public class CategoryFrame extends JPanel {
 				updateExDisplay((Category) exlist.getSelectedValue());
 			}
 		});
-		panExCats.add(exlist, BorderLayout.CENTER);
+		panExCats.add(new JScrollPane(exlist), BorderLayout.CENTER);
 		exlist.setMinimumSize(new Dimension(150, 500));
 		exlist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
@@ -209,7 +210,7 @@ public class CategoryFrame extends JPanel {
 		});
 		inlist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		inlist.setMinimumSize(new Dimension(150, 500));
-		panInCats.add(inlist);
+		panInCats.add(new JScrollPane(inlist));
 		
 		JPanel panOptions = new JPanel();
 		panInCats.add(panOptions, BorderLayout.EAST);
@@ -354,7 +355,6 @@ public class CategoryFrame extends JPanel {
 			changeInBtn.setText("Add");
 			inNameField.setEnabled(true);
 			removeInBtn.setEnabled(true);
-			changeInBtn.setText("Change");
 			removeInBtn.setEnabled(false);
 			changeInBtn.setEnabled(true);
 		}
