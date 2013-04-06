@@ -25,6 +25,10 @@ public class CategoryModel extends AbstractListModel {
 	private CategoryHandler cat;
 	private List<Category> cats;
 	private Category toadd;
+	
+	public int size(){
+		return cats.size();
+	}
 
 	@Override
 	public Object getElementAt(int arg0) {

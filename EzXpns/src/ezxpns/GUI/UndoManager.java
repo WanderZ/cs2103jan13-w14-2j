@@ -43,7 +43,7 @@ public class UndoManager {
 	public void add(AbstractAction action, String name){
 		stack.push(new Pair<AbstractAction, String>(action, name));
 		this.action.setEnabled(true);
-		this.action.putValue(Action.NAME, "Undo " + name);
+		this.action.putValue(Action.NAME, "<html><center>Undo<br />" + name + "</center></html>");
 	}
 	
 	/**
@@ -62,7 +62,7 @@ public class UndoManager {
 			action.setEnabled(false);
 			action.putValue(Action.NAME, "Undo");
 		}else{
-			action.putValue(Action.NAME, "Undo " + stack.peek().getRight());
+			action.putValue(Action.NAME, "<html><center>Undo<br />" + stack.peek().getRight() + "</center></html>");
 		}
 		if(postUndo != null){
 			postUndo.actionPerformed(null);

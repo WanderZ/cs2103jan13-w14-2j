@@ -35,6 +35,7 @@ import java.util.List;
  */
 @SuppressWarnings("serial")
 public class CategoryFrame extends JPanel {
+	public static final int MAX_CATS = 20;
 	
 	private TargetManager targetMgr;
 	private CategoryHandler<ExpenseRecord> excats;
@@ -79,13 +80,13 @@ public class CategoryFrame extends JPanel {
 		this.add(tabbedPane, BorderLayout.CENTER);
 		
 		JPanel panExCats = new JPanel();
-		panExCats.addComponentListener(new ComponentAdapter() {
-			@Override
-			public void componentShown(ComponentEvent arg0) {
-				if(exlist!=null)
-					exlist.setSelectedIndex(0);
-			}
-		});
+//		panExCats.addComponentListener(new ComponentAdapter() {
+//			@Override
+//			public void componentShown(ComponentEvent arg0) {
+//				if(exlist!=null)
+//					exlist.setSelectedIndex(0);
+//			}
+//		});
 		tabbedPane.addTab(
 				"Expense", 
 				null, 
@@ -101,7 +102,7 @@ public class CategoryFrame extends JPanel {
 				updateExDisplay((Category) exlist.getSelectedValue());
 			}
 		});
-		panExCats.add(exlist, BorderLayout.CENTER);
+		panExCats.add(new JScrollPane(exlist), BorderLayout.CENTER);
 		exlist.setMinimumSize(new Dimension(150, 500));
 		exlist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
@@ -209,7 +210,7 @@ public class CategoryFrame extends JPanel {
 		});
 		inlist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		inlist.setMinimumSize(new Dimension(150, 500));
-		panInCats.add(inlist);
+		panInCats.add(new JScrollPane(inlist));
 		
 		JPanel panOptions = new JPanel();
 		panInCats.add(panOptions, BorderLayout.EAST);
@@ -354,7 +355,6 @@ public class CategoryFrame extends JPanel {
 			changeInBtn.setText("Add");
 			inNameField.setEnabled(true);
 			removeInBtn.setEnabled(true);
-			changeInBtn.setText("Change");
 			removeInBtn.setEnabled(false);
 			changeInBtn.setEnabled(true);
 		}
@@ -364,14 +364,17 @@ public class CategoryFrame extends JPanel {
 	 * @param targetString
 	 * @return whether the target amount is valid
 	 */
-	private boolean validateTarget(String targetString){
+	private String validateTarget(String targetString){
 		double d;
 		try{
 			d = Double.parseDouble(targetString);
-			return d > 10 || d == 0;
+			if(d == 0)return null;
+			if(d < 10) return "Target too small!";
+			if(d > 7000000) return "Target is too big!";
 		}catch(NumberFormatException e){
-			return false;
+			return "";
 		}
+		return null;
 	}
 	
 	/**
@@ -386,11 +389,16 @@ public class CategoryFrame extends JPanel {
 		if(err == null){
 			if(curCat == addNew){
 				Category cat = excats.addNewCategory(new Category(newName));
-				if(validateTarget(targetAmountField.getText())){
-					targetMgr.setTarget(cat, Double.parseDouble(targetAmountField.getText()));
+				String tarerr = validateTarget(targetAmountField.getText());
+				if(tarerr == null){
+					if(Double.parseDouble(targetAmountField.getText()) != 0){
+						targetMgr.setTarget(cat, Double.parseDouble(targetAmountField.getText()));
+					}
+					notifyee.addUndoAction(getUndoNewCat(cat.getID(), excats), "Creating new category");
+				}else if(tarerr.equals("")){
 					notifyee.addUndoAction(getUndoNewCat(cat.getID(), excats), "Creating new category");
 				}else{
-					notifyee.addUndoAction(getUndoNewCat(cat.getID(), excats), "Creating new category");
+					JOptionPane.showMessageDialog(this, tarerr, "Error!!!!!", JOptionPane.ERROR_MESSAGE);
 				}
 				exmo.update();
 				exlist.setSelectedValue(cat, true);
@@ -402,13 +410,18 @@ public class CategoryFrame extends JPanel {
 					targetAmt = tar.getTargetAmt();
 				}
 				Category cat = excats.updateCategory(curCat.getID(), new Category(exnameField.getText()));
-				if(validateTarget(targetAmountField.getText())){
+				
+				String tarerr = validateTarget(targetAmountField.getText());
+				if(tarerr == null){
 					double d = Double.parseDouble(targetAmountField.getText());
 					if(d == 0){
 						targetMgr.removeCategoryTarget(cat.getID());
 					}else{
 						targetMgr.setTarget(cat, d);
 					}
+				}else if(!tarerr.equals("")){
+					JOptionPane.showMessageDialog(this, tarerr, "Error!!!!!", JOptionPane.ERROR_MESSAGE);
+					return;
 				}
 				notifyee.addUndoAction(getUndoModifyExCat(cat.getID(), original, targetAmt), "Modify category");
 				exmo.update();
