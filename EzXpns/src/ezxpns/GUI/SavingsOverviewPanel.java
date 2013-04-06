@@ -252,7 +252,6 @@ public class SavingsOverviewPanel extends JPanel {
 			this.nwsData = nwsGen.getNWSdataCopy();
 			value = new double[]{nwsData.getCurrNeedsRatio()*100, nwsData.getCurrWantsRatio()*100, nwsData.getCurrSavingsRatio()*100}; 
 			target = new double[]{nwsData.getTargetNeedsRatio()*100, nwsData.getTargetWantsRatio()*100, nwsData.getTargetSavingsRatio()*100};
-			System.out.println(nwsData.getTargetNeedsRatio()*100);
 		}
 
 		
@@ -297,12 +296,9 @@ public class SavingsOverviewPanel extends JPanel {
 			int bottom = labelFontMetrics.getHeight() * 2;
 			if (maxValue == minValue)
 				return;
-			System.out.println(maxValue);
 			if (maxValue > 100)
 				maxValue = Math.log(maxValue-100) + 100;
-			System.out.println(maxValue);
 			double scale = (clientHeight - bottom) / (maxValue - minValue);
-			System.out.println(scale);
 			int q = clientHeight - labelFontMetrics.getDescent();
 			g.setFont(labelFont);
 
