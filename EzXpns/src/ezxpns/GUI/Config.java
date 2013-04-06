@@ -4,6 +4,8 @@ import java.awt.Font;
 import java.text.DecimalFormat;
 import java.util.regex.Pattern;
 
+import ezxpns.data.records.RecordManager;
+
 /**
  * Default Configurations for GUI Component
  */
@@ -92,7 +94,7 @@ public class Config {
 	/**
 	 * Alphanumeric pattern matcher
 	 */
-	public static final Pattern ALPHANUMERIC = Pattern.compile("[^a-zA-Z0-9 ()]");
+	public static final Pattern ALPHANUMERIC = RecordManager.INVALIDNAME;
 	
 	private Config(){}
 	

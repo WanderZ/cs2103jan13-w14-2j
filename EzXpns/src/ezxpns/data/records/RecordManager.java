@@ -33,7 +33,7 @@ public class RecordManager<T extends Record>
 		}
 	}
 	
-	static public final Pattern INVALIDNAME = Pattern.compile("[^a-zA-Z0-9 ()]");
+	static public final Pattern INVALIDNAME = Pattern.compile("[^a-zA-Z0-9 ()-]");
 	
 	
 	/**
