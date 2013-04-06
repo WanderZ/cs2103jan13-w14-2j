@@ -165,7 +165,7 @@ public class RecordDialog extends JDialog implements ActionListener {
 	 * Initialize this frame with its components
 	 */
 	private void initComponent() {
-		this.setTitle(isEditing? "EzXpns - Edit Record" : "EzXpns - New Record");
+		this.setTitle(isEditing? "Edit" : "New");
 		panMain = new PanelMain(recHandler, incomeHandler, expenseHandler, payHandler, notifyee);
 		getContentPane().add(panMain, BorderLayout.CENTER);
 		
