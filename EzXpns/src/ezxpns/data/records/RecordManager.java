@@ -1,6 +1,7 @@
 package ezxpns.data.records;
 
 import java.util.*;
+import java.util.regex.Pattern;
 
 import ezxpns.data.RecordQueryHandler;
 import ezxpns.data.Storable;
@@ -31,6 +32,8 @@ public class RecordManager<T extends Record>
 			super(message);
 		}
 	}
+	
+	static public final Pattern INVALIDNAME = Pattern.compile("[^a-zA-Z0-9 ().,;]");
 	
 	
 	/**
@@ -122,7 +125,6 @@ public class RecordManager<T extends Record>
 		cal.set(Calendar.MINUTE, 0);
 		cal.set(Calendar.SECOND, 0);
 		today = cal.getTime();
-		System.out.println(today);
 		cal.set(Calendar.DAY_OF_MONTH, 0);
 		startOfMonth = cal.getTime();
 		if(cal.get(Calendar.MONTH) == 0){
@@ -343,7 +345,6 @@ public class RecordManager<T extends Record>
 	@Override
 	public Category addNewCategory(Category toAdd){
 		String err = validateCategoryName(toAdd.name);
-		System.out.println(err);
 		if(err != null)return null;
 		Category category = toAdd.copy();
 		while(categories.containsKey(category.getID())){
@@ -500,6 +501,9 @@ public class RecordManager<T extends Record>
 	public String validateCategoryName(String name) {
 		if(name.length() < 2)return "Category name is too short";
 		if(name.length() > 20)return "Category name is too long";
+		if(INVALIDNAME.matcher(name).find()){
+			return "Category name contains invalid character";
+		}
 		if(name.contains(" "))return "Category name should not contain spaces";
 		if(containsCategoryName(name))return "Category name is used.";
 		return null;
