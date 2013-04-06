@@ -85,6 +85,11 @@ public class Config {
 	public static final int DEFAULT_MAX_LENGTH_NAME = 50;
 	
 	/**
+	 * The preset maximum name length 
+	 */
+	public static final int DEFAULT_MAX_LENGTH_DESC = 250;
+	
+	/**
 	 * Alphanumeric pattern matcher
 	 */
 	public static final Pattern ALPHANUMERIC = Pattern.compile("[^a-zA-Z0-9]");

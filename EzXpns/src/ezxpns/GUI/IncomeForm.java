@@ -2,7 +2,6 @@ package ezxpns.GUI;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -27,6 +26,7 @@ import javax.swing.event.DocumentListener;
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 
+import ezxpns.GUI.Calculator.EvaluationException;
 import ezxpns.data.records.Category;
 import ezxpns.data.records.CategoryHandler;
 import ezxpns.data.records.IncomeRecord;
@@ -55,6 +55,7 @@ public class IncomeForm extends JPanel {
 	// #Logic Components
 	private RecordHandler recHandler; 
 	private CategoryHandler<IncomeRecord> catHandler;
+	private final Calculator cal; 
 	
 	/**
 	 * The Existing record, if available
@@ -76,7 +77,7 @@ public class IncomeForm extends JPanel {
 			RecordHandler recHandlerRef, 
 			CategoryHandler<IncomeRecord> catHandlerRef,
 			UpdateNotifyee notifyeeRef) {
-		
+		cal = Calculator.getInstance();
 		recHandler = recHandlerRef;
 		catHandler = catHandlerRef;
 		notifyee = notifyeeRef;
@@ -222,6 +223,45 @@ public class IncomeForm extends JPanel {
 		loForm.putConstraint(SpringLayout.NORTH, lblAmt, TOP_PAD, SpringLayout.NORTH, lblCat);
 		loForm.putConstraint(SpringLayout.NORTH, txtAmt, TOP_PAD, SpringLayout.NORTH, cboxCat);
 		
+		/* Calculator begins here */
+		final JLabel lblResult = this.createLabel("");
+		this.add(lblResult);
+		loForm.putConstraint(SpringLayout.WEST, lblResult, COL1_PAD, SpringLayout.EAST, txtAmt);
+		loForm.putConstraint(SpringLayout.NORTH, lblResult, TOP_PAD, SpringLayout.NORTH, cboxCat);
+		txtAmt.getDocument().addDocumentListener(new DocumentListener() {
+
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+				evaluate(lblResult);
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent arg0) {
+				evaluate(lblResult);
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent arg0) {
+				evaluate(lblResult);
+			}			
+		});
+		
+		txtAmt.addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusGained(FocusEvent e) {
+				evaluate(lblResult);
+				txtAmt.selectAll();
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				evaluate(lblResult);
+			}
+			
+		});
+
+		
 		lblDate = this.createLabel("Date");
 		// JDateChooser stuff starts here (tingzhe)
 		txtDateChooser = new JDateChooser(new Date());
@@ -232,7 +272,7 @@ public class IncomeForm extends JPanel {
 	        @Override
 	        public void propertyChange(PropertyChangeEvent evt) {
 	            Date selectedDate = ((JCalendar)evt.getSource()).getDate();
-	            //TODO: selectedDate seems to be redundant?
+	            // TODO: selectedDate seems to be redundant?
 	        }
 	    };
 	    txtDateChooser.getJCalendar().addPropertyChangeListener("calendar",calendarChangeListener);
@@ -279,7 +319,6 @@ public class IncomeForm extends JPanel {
 		StringBuilder errMsg = new StringBuilder();
 		
 		if(!validateAmt(errMsg)) {
-			// TODO: Error message for failed amount
 			this.markErr(txtAmt);
 			validateSuccess = false;
 		}
@@ -456,6 +495,15 @@ public class IncomeForm extends JPanel {
 	}
 	
 	/**
+	 * Sets the calculated amount next to the amount field
+	 * @param lblResult the label to display calculated amount
+	 * @param amt the calculated amount to be displayed
+	 */
+	private void setAmt(JLabel lblResult, double amt) {
+		lblResult.setText("=" + new DecimalFormat("$###,###,##0.00").format(amt));
+	}
+	
+	/**
 	 * Mark a JComponent (a form field) with a red border to indicate error
 	 * @param component JComponent to mark
 	 */
@@ -526,5 +574,38 @@ public class IncomeForm extends JPanel {
 		JLabel label = new JLabel(lblTxt);
 		label.setFont(Config.TEXT_FONT); // #Font
 		return label;
+	}
+	
+
+	/**
+	 * Evaluates the amount field
+	 * @param label JLabel to populate result
+	 */
+	private void evaluate(JLabel label) {
+		try {
+			if(txtAmt.getText().trim().equals("")) {
+				label.setText("<< Enter your expression");
+				return;
+			}
+			Double result = evaluate();
+			if(result>Config.DEFAULT_MAX_AMT_PER_RECORD) {
+				// Expression is too big!
+				label.setText("<< Sum is too huge!");
+				return;
+			}
+			if(result!=null) setAmt(label, result);
+		}
+		catch(EvaluationException evalErr) {
+			System.out.println(evalErr.getMessage());
+			label.setText("<< Invalid Expression");
+		}
+		catch(Exception err) {
+			System.out.println(err.getMessage());
+			label.setText("<< Invalid Expression");
+		}
+	}
+	
+	private double evaluate() throws EvaluationException {
+		return cal.evaluate(getAmt());
 	}
 }

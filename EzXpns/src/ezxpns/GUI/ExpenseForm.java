@@ -528,7 +528,7 @@ public class ExpenseForm extends JPanel{
 			this.unmarkErr(txtDesc);
 		}
 		
-		UINotify.createErrMsg(this, errMsg.toString());
+		if(!validateSuccess) displayErr(errMsg.toString()); // Failed
 		return validateSuccess;
 	}
 	
@@ -540,8 +540,12 @@ public class ExpenseForm extends JPanel{
 	 */
 	private boolean validateDescription(StringBuilder errMsg) {
 		if(txtDesc.getText().trim().equals("")) {
-			// Empty
-			return true;
+			return true; // Empty description
+		}
+		
+		if(this.getDesc().length() >= Config.DEFAULT_MAX_LENGTH_DESC) {
+			errMsg.append("Description is too long!\n");
+			return false;
 		}
 		
 		if(Config.isAlphaNumeric(txtDesc.getText().trim())) {
@@ -558,6 +562,10 @@ public class ExpenseForm extends JPanel{
 	 */
 	private boolean validateCategory(StringBuilder errMsg) {
 		if(this.isNewCategory()) {
+			if(cboxCat.getSelectedItem() == null) {
+				errMsg.append("Please choose a category\n");
+				return false;
+			}
 			String err = catHandler.validateCategoryName(cboxCat.getSelectedItem().toString().trim());
 			if(err!=null) { // null is error free
 				errMsg.append(err);
@@ -613,6 +621,10 @@ public class ExpenseForm extends JPanel{
 	private boolean validateName(StringBuilder errMsg) {
 		if(getName().equals("")) {
 			errMsg.append("Please enter a name for this record\n");
+			return false;
+		}
+		if(getName().length() > Config.DEFAULT_MAX_LENGTH_NAME) {
+			errMsg.append("Name is too long!\n");
 			return false;
 		}
 		if(Config.isAlphaNumeric(getName())) {
