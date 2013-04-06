@@ -1,0 +1,341 @@
+{
+  "_expenses": {
+    "payms": {
+      "0": {
+        "id": 0,
+        "name": "undefined"
+      },
+      "1361694372893": {
+        "id": 1361694372893,
+        "name": "NETS"
+      },
+      "1363314106821": {
+        "id": 1363314106821,
+        "name": "Gifts"
+      },
+      "1363857352962": {
+        "id": 1363857352962,
+        "name": "Chequeee"
+      },
+      "1363857357505": {
+        "id": 1363857357505,
+        "name": "iNets"
+      },
+      "1363857409977": {
+        "id": 1363857409977,
+        "name": "Cash"
+      },
+      "1363949455170": {
+        "id": 1363949455170,
+        "name": "iBank"
+      },
+      "1364054074479": {
+        "id": 1364054074479,
+        "name": "Cash"
+      },
+      "1364273369381": {
+        "id": 1364273369381,
+        "name": "Carelessness"
+      },
+      "1364521902224": {
+        "id": 1364521902224,
+        "name": "mBank"
+      }
+    },
+    "categories": {
+      "0": {
+        "id": 0,
+        "name": "undefined"
+      },
+      "1364969657548": {
+        "id": 1364969657548,
+        "name": "Entertainmento"
+      },
+      "1363504544188": {
+        "id": 1363504544188,
+        "name": "Misc"
+      },
+      "1363942776603": {
+        "id": 1363942776603,
+        "name": "Food"
+      },
+      "1364969707451": {
+        "id": 1364969707451,
+        "name": "Entertainmentoo"
+      },
+      "1364969857857": {
+        "id": 1364969857857,
+        "name": "Entertainmentooooo"
+      },
+      "1364873536973": {
+        "id": 1364873536973,
+        "name": "Hope"
+      },
+      "1363314106821": {
+        "id": 1363314106821,
+        "name": "Entertainment"
+      },
+      "1364969975721": {
+        "id": 1364969975721,
+        "name": "Entertainmente"
+      },
+      "1364873683613": {
+        "id": 1364873683613,
+        "name": "Family"
+      },
+      "1364704133024": {
+        "id": 1364704133024,
+        "name": "Transport"
+      },
+      "1364969751316": {
+        "id": 1364969751316,
+        "name": "Entertainmentooo"
+      },
+      "1364969813631": {
+        "id": 1364969813631,
+        "name": "Entertainmentoooo"
+      },
+      "1364053692757": {
+        "id": 1364053692757,
+        "name": "Leisure"
+      }
+    },
+    "recordsByCategory": {
+      "1364969751316": [],
+      "0": [],
+      "1364969657548": [
+        {
+          "expenseType": "WANT",
+          "paymentMethod": {
+            "id": 1361694372893,
+            "name": "NETS"
+          },
+          "amount": 130.0,
+          "name": "Wants",
+          "remark": "",
+          "date": "Jul 1, 2013 1:32:05 PM",
+          "id": 1372656727588
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1361694372893,
+            "name": "NETS"
+          },
+          "amount": 600.0,
+          "name": "Needs",
+          "remark": "",
+          "date": "Jul 1, 2013 1:31:44 PM",
+          "id": 1372656707735
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1361694372893,
+            "name": "NETS"
+          },
+          "amount": 600.0,
+          "name": "Needs",
+          "remark": "",
+          "date": "May 1, 2013 1:23:31 PM",
+          "id": 1367385814285
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1361694372893,
+            "name": "NETS"
+          },
+          "amount": 600.0,
+          "name": "Needs",
+          "remark": "",
+          "date": "May 1, 2013 12:00:00 AM",
+          "id": 1367385361562
+        },
+        {
+          "expenseType": "WANT",
+          "paymentMethod": {
+            "id": 1361694372893,
+            "name": "NETS"
+          },
+          "amount": 130.0,
+          "name": "Wants",
+          "remark": "",
+          "date": "May 1, 2013 12:00:00 AM",
+          "id": 1367385386840
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1361694372893,
+            "name": "NETS"
+          },
+          "amount": 400.0,
+          "name": "Need4",
+          "remark": "",
+          "date": "Apr 5, 2013 12:00:00 AM",
+          "id": 1365164570142
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1361694372893,
+            "name": "NETS"
+          },
+          "amount": 100.0,
+          "name": "Need4",
+          "remark": "",
+          "date": "Apr 1, 2013 12:00:00 AM",
+          "id": 1365165507168
+        }
+      ],
+      "1363504544188": [],
+      "1363942776603": [
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1361694372893,
+            "name": "NETS"
+          },
+          "amount": 450.0,
+          "name": "Need4",
+          "remark": "",
+          "date": "Apr 5, 2013 12:00:00 AM",
+          "id": 1365164387931
+        }
+      ],
+      "1364969707451": [],
+      "1364969857857": [],
+      "1364873536973": [],
+      "1363314106821": [],
+      "1364969813631": [],
+      "1364969975721": [],
+      "1364873683613": [],
+      "1364704133024": []
+    }
+  },
+  "_incomes": {
+    "categories": {
+      "0": {
+        "id": 0,
+        "name": "undefined"
+      },
+      "1364222011061": {
+        "id": 1364222011061,
+        "name": "Free"
+      },
+      "1364097417024": {
+        "id": 1364097417024,
+        "name": "Gifts"
+      },
+      "1362480320970": {
+        "id": 1362480320970,
+        "name": "Allowance"
+      },
+      "1362122547530": {
+        "id": 1362122547530,
+        "name": "Salary"
+      },
+      "1363950844232": {
+        "id": 1363950844232,
+        "name": "Loot"
+      },
+      "1363314106821": {
+        "id": 1363314106821,
+        "name": "Scholarship"
+      },
+      "1364222095831": {
+        "id": 1364222095831,
+        "name": "Found"
+      },
+      "1364935492692": {
+        "id": 1364935492692,
+        "name": "Bursary"
+      }
+    },
+    "recordsByCategory": {
+      "0": [],
+      "1364222011061": [
+        {
+          "amount": 1000.0,
+          "name": "1000ic",
+          "remark": "",
+          "date": "Jun 1, 2013 12:00:00 AM",
+          "id": 1370064260748
+        },
+        {
+          "amount": 1000.0,
+          "name": "1000 income",
+          "remark": "",
+          "date": "May 1, 2013 12:00:00 AM",
+          "id": 1367414813625
+        }
+      ],
+      "1364097417024": [],
+      "1362480320970": [],
+      "1362122547530": [
+        {
+          "amount": 1000.0,
+          "name": "Monthly Pay",
+          "remark": "",
+          "date": "Apr 5, 2013 12:00:00 AM",
+          "id": 1365164430537
+        }
+      ],
+      "1364222095831": [],
+      "1364935492692": [],
+      "1363314106821": []
+    }
+  },
+  "_nwsGen": {
+    "NEEDS": 0.5,
+    "WANTS": 0.3,
+    "SAVINGS": 0.2,
+    "BUFFER": 0.05,
+    "MAXNEEDS": 0.7,
+    "MINNEEDS": 0.1,
+    "MAXWANTS": 0.5,
+    "MINWANTS": 0.1,
+    "MAXSAVINGS": 0.7,
+    "MINSAVINGS": 0.2,
+    "pastMonthNWS": {
+      "date": {
+        "year": 2013,
+        "month": 5,
+        "dayOfMonth": 1,
+        "hourOfDay": 13,
+        "minute": 29,
+        "second": 43
+      },
+      "targetNeedsRatio": 0.20000000000000007,
+      "targetWantsRatio": 0.10000000000000002,
+      "targetSavingsRatio": 0.6999999999999998,
+      "currentNeeds": 0.0,
+      "currentWants": 0.0,
+      "currentSavings": 1000.0,
+      "income": 1000.0,
+      "isSet": true
+    },
+    "thisMonthNWS": {
+      "date": {
+        "year": 2013,
+        "month": 6,
+        "dayOfMonth": 1,
+        "hourOfDay": 13,
+        "minute": 32,
+        "second": 7
+      },
+      "targetNeedsRatio": 0.10000000000000007,
+      "targetWantsRatio": 0.20000000000000007,
+      "targetSavingsRatio": 0.6999999999999998,
+      "currentNeeds": 600.0,
+      "currentWants": 130.0,
+      "currentSavings": 0.0,
+      "income": 0.0,
+      "isSet": true
+    }
+  },
+  "_targetManager": {
+    "mapTarget": {}
+  }
+}
