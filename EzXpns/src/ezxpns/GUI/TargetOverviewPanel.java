@@ -23,6 +23,7 @@ import net.miginfocom.swing.MigLayout;
 import ezxpns.data.Bar;
 import ezxpns.data.TargetManager;
 import javax.swing.JSeparator;
+import javax.swing.border.EtchedBorder;
 
 /**
  * This is the panel in which will be slotted into the MainGUI (the main
@@ -34,7 +35,7 @@ public class TargetOverviewPanel extends JPanel {
 
 	private TargetManager targetMgr;
 	private final DecimalFormat MONEY_FORMAT = new DecimalFormat("$###,###,##0.00");
-	private final DecimalFormat TWO_DP = new DecimalFormat("#.##");
+	private final DecimalFormat TWO_DP = new DecimalFormat("0.00");
 	private JPanel largeBorderLayoutPanel;
 	private JPanel tagsPane;
 	private JScrollPane targetScrollPane;
@@ -63,13 +64,12 @@ public class TargetOverviewPanel extends JPanel {
 		largeBorderLayoutPanel.setLayout(new BorderLayout(0, 0));
 
 		tagsPane = new JPanel();
-//		tagsPane.setBackground(new Color(255, 255, 255));
 		tagsPane.setOpaque(false);
 		largeBorderLayoutPanel.add(tagsPane, BorderLayout.NORTH);
 
 		targetScrollPane = new JScrollPane();
-		targetScrollPane.setBorder(BorderFactory.createEmptyBorder());
-		tagsPane.setLayout(new MigLayout("", "[222.00]50[30][100]", "[25][16px]0[][1]0"));
+		targetScrollPane.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+		tagsPane.setLayout(new MigLayout("", "[222.00]50[30][100]", "[0][16px]0[][1]0"));
 
 
 		targetScrollPane
@@ -77,14 +77,12 @@ public class TargetOverviewPanel extends JPanel {
 		largeBorderLayoutPanel.add(targetScrollPane, BorderLayout.CENTER);
 
 		smallBorderLayoutpanel = new JPanel();
-//		smallBorderLayoutpanel.setBackground(new Color(255, 255, 255));
-		smallBorderLayoutpanel.setOpaque(false);
-		smallBorderLayoutpanel.setForeground(new Color(255, 102, 204));
+		smallBorderLayoutpanel.setBackground(new Color(238,238,238));
+		smallBorderLayoutpanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
 		targetScrollPane.setViewportView(smallBorderLayoutpanel);
 		smallBorderLayoutpanel.setLayout(new BorderLayout(0, 0));
 
 		columnPanel = new JPanel();
-//		columnPanel.setBackground(new Color(255, 255, 255));
 		columnPanel.setOpaque(false);
 		smallBorderLayoutpanel.add(columnPanel, BorderLayout.NORTH);
 		columnPanel.setLayout(new GridLayout(0, 1));
@@ -117,34 +115,26 @@ public class TargetOverviewPanel extends JPanel {
 																// scroll to
 																// appear),
 																// height
-//			rowPanel.setBackground(new Color(255, 255, 255));
 			rowPanel.setOpaque(false);
 			columnPanel.add(rowPanel);
-			//rowPanel.setLayout(new BorderLayout());
 			rowPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
 			// CATEGORY LABEL
 			JLabel lblBar = new JLabel(bar.getTarget().getCategory().getName());
-			//rowPanel.add(lblBar, BorderLayout.WEST);
 			rowPanel.add(lblBar);
 			lblBar.setPreferredSize(new Dimension(100, 50));
 
 			// BAR GRAPHICS
 			BarGraphic myBarGraphics = new BarGraphic(bar);
 			myBarGraphics.setPreferredSize(new Dimension(150,50));
-//			myBarGraphics.setBackground(new Color(255,255,255));
 			myBarGraphics.setOpaque(false);
-			//rowPanel.add(myBarGraphics, BorderLayout.CENTER);
 			rowPanel.add(myBarGraphics);
 			
 			// SUB LAYOUT FOR AMOUNT
 			JPanel subPanel = new JPanel();
-			//subPanel.setPreferredSize(new Dimension (200,60));
 			subPanel.setLayout(new BoxLayout(subPanel, BoxLayout.Y_AXIS));
-//			subPanel.setBackground(new Color(255, 255, 255));
 			subPanel.setOpaque(false);
-
-			//rowPanel.add(subPanel, BorderLayout.EAST);
+			subPanel.setPreferredSize(new Dimension(80, 26));
 			rowPanel.add(subPanel);
 			
 			// CURRENT AMOUNT/TARGET AMOUNT
@@ -156,6 +146,9 @@ public class TargetOverviewPanel extends JPanel {
 			lblRemainingAmt.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
 			lblRemainingAmt.setHorizontalAlignment(SwingConstants.LEFT);
 			subPanel.add(lblRemainingAmt);
+			
+			// Budget
+			rowPanel.add(new JLabel("<html>Limit: "+TWO_DP.format(bar.getTargetAmt())+"</html>"));
 		}
 
 	}
@@ -207,36 +200,6 @@ public class TargetOverviewPanel extends JPanel {
 			tagsPane.add(lblAlert, "cell 2 0");
 
 		}
-		
-		/*// lblCountdown
-		JLabel lblCountdown = new JLabel("Countdown");
-		lblCountdown.setForeground(new Color(255, 153, 0));
-		lblCountdown.setFont(new Font("Lucida Grande", Font.BOLD, 48));
-		tagsPane.add(lblCountdown, "cell 1 0 1 2");
-		int remainingDay = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH) - cal.get(Calendar.DAY_OF_MONTH);
-		lblCountdown.setText(""+remainingDay);
-		
-		// lblDaysTill
-		lblDaysTill = new JLabel("days till " + monthName[(cal.get(Calendar.MONTH)+1)%12]);
-		lblDaysTill.setForeground(new Color(255, 153, 0));
-		tagsPane.add(lblDaysTill, "cell 2 0,aligny bottom");
-		
-		// lblStatus
-		int numAlert = targetMgr.getAlerts().size();
-		String status;
-		if (numAlert == 0)
-			status = "You're ontrack! Good job!";
-		else
-			status = ""+ numAlert + " targets in danger!";
-		JLabel lblStatus = new JLabel("status");
-		lblStatus.setText(status);
-		tagsPane.add(lblStatus, "cell 0 1,alignx left,aligny top");
-		
-		// lblMonth
-		lblMonth = new JLabel("month");
-		lblMonth.setForeground(new Color(255, 153, 0));
-		tagsPane.add(lblMonth, "cell 2 1");
-		lblMonth.setText(monthName[(cal.get(Calendar.MONTH)+1)%12]);*/
 
 	}
 	public void update() {

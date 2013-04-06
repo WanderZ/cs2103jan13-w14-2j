@@ -77,7 +77,7 @@ class RecordsListerPanel extends JPanel {
 	public RecordsListerPanel(RecordHandler recHandlerRef, RecordListView.RecordEditor editorRef, UpdateNotifyee notifyee) {
 		this.recHandler = recHandlerRef;
 		this.setLayout(new BorderLayout());
-		this.add(getTitleLabel("Recently added..."), BorderLayout.NORTH);
+		this.add(getTitleLabel("Recent Records"), BorderLayout.NORTH);
 		
 		list = new RecordListView(editorRef, recHandlerRef, notifyee);
 		this.add(new JScrollPane(list), BorderLayout.CENTER);

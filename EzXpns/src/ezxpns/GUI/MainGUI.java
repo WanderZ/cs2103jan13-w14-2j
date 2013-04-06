@@ -60,12 +60,12 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("default:grow"),}));
 		navi = new EzNavigator(uiCtrl, contentMgr, panContent);
-		navi.setPreferredSize(new Dimension(250, 400));
+		navi.setPreferredSize(new Dimension(180, 400));
 		
 		this.add(navi, "1, 2, fill, fill");
 		
 		JPanel homeContent = new JPanel();
-		homeContent.setBorder(new EmptyBorder(15, 0, 15, 15));
+		homeContent.setBorder(new EmptyBorder(5, 0, 10, 10));
 		homeContent.setLayout(new GridLayout(2, 2, 15, 15));
 		panOverview = new OverviewPanel(sumGen);
 		homeContent.add(panOverview);

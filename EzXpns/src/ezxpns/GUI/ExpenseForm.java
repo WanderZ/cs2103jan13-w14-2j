@@ -506,14 +506,6 @@ public class ExpenseForm extends JPanel{
 		// TODO: Validate Payment Method Name
 		// TODO: Validate Description?
 		
-//		System.out.println("Name: " + getName());
-//		System.out.println("Amt: " + getAmt());
-//		System.out.println("Date: " + getDate());
-//		System.out.println("Desc: " + getDesc());
-//		System.out.println("Cat: " + getCat());
-//		System.out.println("Mode: " + getMode());
-//		System.out.println("Type: " + getType());
-		
 		return validateSuccess;
 	}
 	
