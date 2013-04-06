@@ -73,20 +73,11 @@ public class NWSGenerator extends Storable {
 		initNWSdata();
 		
 		if (isExpired(thisMonthNWS)){ 
-				setToPastMonth(thisMonthNWS);
+			setToPastMonth(thisMonthNWS);
 			System.out.println("expired and past month updated");
-			}
-		
-		generateRatios(); 
-		
-		if(!pastMonthNWS.isSet()){
-			System.out.println("pastmonth not set");
+			generateRatios(); 
 		}
-		else{
-			System.out.println("past month is set");
-			System.out.println("pastNWS");
-			printNWS(pastMonthNWS);
-		}
+		
 	}
 	
 	
@@ -106,21 +97,17 @@ public class NWSGenerator extends Storable {
 		System.out.println("in deserialise");
 		initNWSdata();
 		
+		//check for new month
 		if (isExpired(thisMonthNWS)){ 
-				setToPastMonth(thisMonthNWS);
+			setToPastMonth(thisMonthNWS);
 			System.out.println("expired and past month updated");
-			}
-		
-		generateRatios(); 
-		
-		if(!pastMonthNWS.isSet()){
-			System.out.println("pastmonth not set");
+			generateRatios(); 
 		}
-		else{
-			System.out.println("past month is set");
-			System.out.println("pastNWS");
-			printNWS(pastMonthNWS);
-		}
+		
+
+			generateRatios();
+		
+		
 		
 	}
 
@@ -138,7 +125,9 @@ public class NWSGenerator extends Storable {
 				System.out.println("has skipped a month");
 			}
 		}
+
 		generateRatios();
+
 		System.out.println("After update: thismonthNWS");
 		printNWS(thisMonthNWS);
 	}
@@ -219,6 +208,17 @@ public class NWSGenerator extends Storable {
 					data.getMonthlyExpense(ExpenseType.NEED),
 					data.getMonthlyExpense(ExpenseType.WANT),
 					getMonthlySavings(), data.getMonthlyIncome());
+			markUpdate();
+			return;
+		}
+		
+		if(!isPastMonthRecModified()){
+			//no need to regenerate ratio but just update the values
+			thisMonthNWS.setAll(new GregorianCalendar(), thisMonthNWS.getTargetNeedsRatio(), thisMonthNWS.getTargetWantsRatio(),
+					thisMonthNWS.getTargetSavingsRatio(), data.getMonthlyExpense(ExpenseType.NEED),
+					data.getMonthlyExpense(ExpenseType.WANT), getMonthlySavings(),
+					data.getMonthlyIncome());
+			
 			markUpdate();
 			return;
 		}
@@ -715,4 +715,18 @@ break;
 			else break;
 			}
 		}
+	
+	private boolean isPastMonthRecModified(){
+		if(pastMonthNWS.getIncome() != data.getPrevMonthlyIncome()){
+			return true;
+		}
+		else if(pastMonthNWS.getCurrentNeeds() != data.getPrevMonthlyExpense(ExpenseType.NEED)){			
+			return true;
+		}
+		else if(pastMonthNWS.getCurrentWants() != data.getPrevMonthlyExpense(ExpenseType.WANT)){
+			return true;
+		}
+		return false;
+	}
+	
 	}
