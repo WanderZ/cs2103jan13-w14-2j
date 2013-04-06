@@ -793,9 +793,9 @@
         "year": 2013,
         "month": 3,
         "dayOfMonth": 6,
-        "hourOfDay": 0,
-        "minute": 27,
-        "second": 2
+        "hourOfDay": 12,
+        "minute": 1,
+        "second": 49
       },
       "targetNeedsRatio": 0.5,
       "targetWantsRatio": 0.3,
@@ -828,7 +828,7 @@
           "id": 1363942776603,
           "name": "Food"
         },
-        "targetAmt": 1000.0
+        "targetAmt": 100.0
       },
       "1364053692757": {
         "cat": {
@@ -843,6 +843,13 @@
           "name": "Transport"
         },
         "targetAmt": 80000.0
+      },
+      "1364969975721": {
+        "cat": {
+          "id": 1364969975721,
+          "name": "Entertainmente"
+        },
+        "targetAmt": 12.0
       }
     }
   }
