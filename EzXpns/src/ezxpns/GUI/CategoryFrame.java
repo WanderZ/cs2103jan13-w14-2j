@@ -48,7 +48,7 @@ public class CategoryFrame extends JPanel {
 	private JTextField exnameField;
 	private JTextField inNameField;
 	private Category addNew;
-	private Category curCat;
+	private Category curExCat, curInCat;
 	private Target curTar;
 	
 	private JButton removeExBtn, changeExBtn;
@@ -296,7 +296,7 @@ public class CategoryFrame extends JPanel {
 	 * @param cat category to be displayed
 	 */
 	private void updateExDisplay(Category cat){
-		curCat = cat;
+		curExCat = cat;
 		if(cat == null){
 			exnameField.setText("");
 			targetAmountField.setText("");
@@ -335,7 +335,7 @@ public class CategoryFrame extends JPanel {
 	 * @param cat income category to be displayed
 	 */
 	private void updateInDisplay(Category cat){
-		curCat = cat;
+		curInCat = cat;
 		if(cat == null){
 			inNameField.setText("");
 			inNameField.setEnabled(false);
@@ -383,11 +383,11 @@ public class CategoryFrame extends JPanel {
 	private void modifyEx(){
 		String err = null;
 		String newName = exnameField.getText();
-		if(curCat != addNew && !curCat.getName().equals(newName)){
+		if(curExCat == addNew || !curExCat.getName().equals(newName)){
 			err = excats.validateCategoryName(newName);
 		}
 		if(err == null){
-			if(curCat == addNew){
+			if(curExCat == addNew){
 				Category cat = excats.addNewCategory(new Category(newName));
 				String tarerr = validateTarget(targetAmountField.getText());
 				if(tarerr == null){
@@ -403,13 +403,13 @@ public class CategoryFrame extends JPanel {
 				exmo.update();
 				exlist.setSelectedValue(cat, true);
 			}else{
-				Category original = curCat.copy();
-				Target tar = targetMgr.getTarget(curCat);
+				Category original = curExCat.copy();
+				Target tar = targetMgr.getTarget(curExCat);
 				double targetAmt = 0;
 				if(tar != null){
 					targetAmt = tar.getTargetAmt();
 				}
-				Category cat = excats.updateCategory(curCat.getID(), new Category(exnameField.getText()));
+				Category cat = excats.updateCategory(curExCat.getID(), new Category(exnameField.getText()));
 				
 				String tarerr = validateTarget(targetAmountField.getText());
 				if(tarerr == null){
@@ -439,18 +439,18 @@ public class CategoryFrame extends JPanel {
 	private void modifyIn(){
 		String err = null;
 		String newName = inNameField.getText();
-		if(curCat != addNew && !curCat.getName().equals(newName)){
-			err = excats.validateCategoryName(newName);
+		if(curInCat == addNew || !curInCat.getName().equals(newName)){
+			err = incats.validateCategoryName(newName);
 		}
 		if(err == null){
-			if(curCat == addNew){
+			if(curInCat == addNew){
 				Category cat = incats.addNewCategory(new Category(newName));
 				notifyee.addUndoAction(getUndoNewCat(cat.getID(), incats), "Create new category");
 				inmo.update();
 				inlist.setSelectedValue(cat, true);
 			}else{
-				Category original = curCat.copy();
-				Category cat = incats.updateCategory(curCat.getID(), new Category(inNameField.getText()));
+				Category original = curInCat.copy();
+				Category cat = incats.updateCategory(curInCat.getID(), new Category(inNameField.getText()));
 				inmo.update();
 				inlist.setSelectedValue(cat, true);
 				notifyee.addUndoAction(getUndoModifyInCat(cat.getID(), original), "Modify category");
@@ -469,13 +469,13 @@ public class CategoryFrame extends JPanel {
 			    		"All records under this category will have an undefined category!";
 		if(JOptionPane.showConfirmDialog(this, message, "what?!",
 				JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
-			Category original = curCat.copy();
+			Category original = curExCat.copy();
 			double targetAmt = 0;
-			if(targetMgr.getTarget(curCat)!= null){
-				targetAmt = targetMgr.getTarget(curCat).getTargetAmt();
+			if(targetMgr.getTarget(curExCat)!= null){
+				targetAmt = targetMgr.getTarget(curExCat).getTargetAmt();
 			}
-			List<ExpenseRecord> recs = excats.getRecordsBy(curCat, -1);
-			excats.removeCategory(curCat.getID());
+			List<ExpenseRecord> recs = excats.getRecordsBy(curExCat, -1);
+			excats.removeCategory(curExCat.getID());
 			exmo.update();
 			exlist.setSelectedIndex(0);
 			notifyee.addUndoAction(getUndoRemoveExCat(recs, original, targetAmt), "Removing Category");
@@ -490,9 +490,9 @@ public class CategoryFrame extends JPanel {
 			    		"All records under this category will have an undefined category!";
 		if(JOptionPane.showConfirmDialog(this, message, "what?!",
 				JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
-			List<IncomeRecord> oriRecords = incats.getRecordsBy(curCat, -1);
-			Category cat = curCat.copy();
-			incats.removeCategory(curCat.getID());
+			List<IncomeRecord> oriRecords = incats.getRecordsBy(curInCat, -1);
+			Category cat = curInCat.copy();
+			incats.removeCategory(curInCat.getID());
 			inmo.update();
 			inlist.setSelectedIndex(0);
 			notifyee.updateAll();
