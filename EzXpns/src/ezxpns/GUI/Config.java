@@ -2,6 +2,7 @@ package ezxpns.GUI;
 
 import java.awt.Font;
 import java.text.DecimalFormat;
+import java.util.regex.Pattern;
 
 /**
  * Default Configurations for GUI Component
@@ -71,7 +72,26 @@ public class Config {
 	/**
 	 * The preset maximum amount for each record - One million
 	 */
-	public static final int DEFAULT_MAX_PER_RECORD = 1000000000; // One million
+	public static final int DEFAULT_MAX_AMT_PER_RECORD = 1000000000; // One million
+	
+	/**
+	 * The preset minimum amount for each record - 1cent
+	 */
+	public static final double DEFAULT_MIN_AMT_PER_RECORD = 0.01;
+		
+	/**
+	 * The preset maximum name length 
+	 */
+	public static final int DEFAULT_MAX_LENGTH_NAME = 50;
+	
+	/**
+	 * Alphanumeric pattern matcher
+	 */
+	public static final Pattern ALPHANUMERIC = Pattern.compile("[^a-zA-Z0-9]");
 	
 	private Config(){}
+	
+	public static boolean isAlphaNumeric(String text) {
+		return ALPHANUMERIC.matcher(text).find();
+	}
 }

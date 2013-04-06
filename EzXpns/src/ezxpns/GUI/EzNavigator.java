@@ -68,8 +68,6 @@ public class EzNavigator extends JLayeredPane {
 		/* Insert Second Button here */
 		btn = createMenuBtn(new NewExpenseDialog(this.uiCtrl));
 		this.add(btn, gbc);
-		btn.setBorder(BorderFactory.createLoweredBevelBorder());
-		selected = btn;
 		
 		gbc.gridx = 0;
 		gbc.gridy = 3;
@@ -83,7 +81,8 @@ public class EzNavigator extends JLayeredPane {
 		/* Insert Fourth Button here */
 		btn = createMenuBtn(NormalMenuOpt.DASHBD);
 		this.add(btn, gbc);
-		
+		btn.setBorder(BorderFactory.createLoweredBevelBorder());
+		selected = btn;
 		
 		gbc.gridx = 0;
 		gbc.gridy = 5;
