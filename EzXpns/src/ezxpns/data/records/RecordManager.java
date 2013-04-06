@@ -280,8 +280,8 @@ public class RecordManager<T extends Record>
 	public T addNewRecord(T toAdd) throws RecordUpdateException{
 		T record = (T)toAdd.copy();
 		record.category = categories.get(toAdd.category.getID());
-		if(!toAdd.date.before(today)){
-			toAdd.date = new Date();
+		if(!record.date.before(today)){
+			record.date = new Date();
 		}
 		if(record.category == null){
 			throw new RecordUpdateException("Invalid category!");
