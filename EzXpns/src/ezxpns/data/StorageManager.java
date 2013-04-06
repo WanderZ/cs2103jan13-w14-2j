@@ -131,6 +131,7 @@ public class StorageManager {
 		manager = gson.fromJson(str.toString(), DataManager.class);
 		if(manager == null){
 			manager = new DataManager();
+			manager.afterDeserialize();
 			writeToFile();
 		}else{
 			manager.afterDeserialize();

@@ -76,6 +76,7 @@ public class ReportGenerator {
 			Pair<Vector<ExpenseRecord>, Vector<IncomeRecord>> pair) {
 		expenseRecord = pair.getLeft();
 		incomeRecord = pair.getRight();
+		System.out.println(expenseRecord.size()+" "+incomeRecord.size());
 	}
 
 	/**

@@ -227,17 +227,6 @@ public class ReportFrame extends JFrame implements ComponentListener {
 			}
 		});
 
-		// Remove buttons outline
-
-		/*
-		 * btnGeneral.setFocusPainted(false); btnGeneral.setMargin(new Insets(0,
-		 * 0, 0, 0)); btnGeneral.setContentAreaFilled(false);
-		 * btnGeneral.setBorderPainted(false); btnGeneral.setOpaque(false);
-		 * btnExpense.setFocusPainted(false); btnExpense.setMargin(new Insets(0,
-		 * 0, 0, 0)); btnExpense.setContentAreaFilled(false);
-		 * btnExpense.setBorderPainted(false); btnExpense.setOpaque(false);
-		 */
-
 		// Report JLabel
 		JLabel fromDisplay = new JLabel("from");
 		startDateDisplay = new JLabel("test start");
@@ -260,6 +249,8 @@ public class ReportFrame extends JFrame implements ComponentListener {
 				btnGeneral.setEnabled(false);
 				btnExpense.setEnabled(false);
 				btnGenerateANew.setEnabled(false);
+				dateChooserStart.setDate(null);
+				dateChooserEnd.setDate(null);
 			}
 		});
 
@@ -380,8 +371,18 @@ public class ReportFrame extends JFrame implements ComponentListener {
 				Calendar calendar = Calendar.getInstance();
 				calendar.setTime(new Date());
 				calendar.set(Calendar.DAY_OF_MONTH, 1);
+				calendar.set(Calendar.HOUR, 0);
+				calendar.set(Calendar.MINUTE, 0);
+				calendar.set(Calendar.SECOND, 0);
+				calendar.set(Calendar.AM_PM, Calendar.AM);
 				dateChooserStart.setDate(calendar.getTime());
-				dateChooserEnd.setDate(new Date());
+				calendar = Calendar.getInstance();
+				calendar.setTime(new Date());
+				calendar.set(Calendar.HOUR, 0);
+				calendar.set(Calendar.MINUTE, 0);
+				calendar.set(Calendar.SECOND, 0);
+				calendar.set(Calendar.AM_PM, Calendar.AM);
+				dateChooserEnd.setDate(calendar.getTime());
 			}
 		});
 		
@@ -393,8 +394,17 @@ public class ReportFrame extends JFrame implements ComponentListener {
 				calendar.setTime(new Date());
 				calendar.set(Calendar.DAY_OF_MONTH, 1);
 				calendar.set(Calendar.MONTH, (Calendar.MONTH)%12);
+				calendar.set(Calendar.DAY_OF_MONTH, 1);
+				calendar.set(Calendar.HOUR, 0);
+				calendar.set(Calendar.MINUTE, 0);
+				calendar.set(Calendar.SECOND, 0);
+				calendar.set(Calendar.AM_PM, Calendar.AM);
 				dateChooserStart.setDate(calendar.getTime());
 				calendar.set(Calendar.DAY_OF_MONTH, Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH)+1);
+				calendar.set(Calendar.HOUR, 0);
+				calendar.set(Calendar.MINUTE, 0);
+				calendar.set(Calendar.SECOND, 0);
+				calendar.set(Calendar.AM_PM, Calendar.AM);
 				dateChooserEnd.setDate(calendar.getTime());
 			}
 		});
@@ -407,8 +417,19 @@ public class ReportFrame extends JFrame implements ComponentListener {
 				calendar.setTime(new Date());
 				calendar.set(Calendar.DAY_OF_MONTH, 1);
 				calendar.set(Calendar.MONTH, 0);
+				calendar.set(Calendar.DAY_OF_MONTH, 1);
+				calendar.set(Calendar.HOUR, 0);
+				calendar.set(Calendar.MINUTE, 0);
+				calendar.set(Calendar.SECOND, 0);
+				calendar.set(Calendar.AM_PM, Calendar.AM);
 				dateChooserStart.setDate(calendar.getTime());
-				dateChooserEnd.setDate(new Date());
+				calendar = Calendar.getInstance();
+				calendar.setTime(new Date());
+				calendar.set(Calendar.HOUR, 0);
+				calendar.set(Calendar.MINUTE, 0);
+				calendar.set(Calendar.SECOND, 0);
+				calendar.set(Calendar.AM_PM, Calendar.AM);
+				dateChooserEnd.setDate(calendar.getTime());
 			}
 		});
 		
@@ -540,7 +561,8 @@ public class ReportFrame extends JFrame implements ComponentListener {
 	private void generateAction(){
 		try {
 			myReportData = rptGen.generateReport(dateChooserStart.getDate(), dateChooserEnd.getDate());
-			
+			System.out.println(dateChooserStart.getDate());
+			System.out.println(dateChooserEnd.getDate());
 			//Check if there is records
 			if (myReportData.getNumRecords() == 0){
 				JOptionPane.showMessageDialog(this, "No records were found in that time range.", "Alert!", JOptionPane.WARNING_MESSAGE);
@@ -557,7 +579,7 @@ public class ReportFrame extends JFrame implements ComponentListener {
 			btnGeneral.setEnabled(true);
 			btnExpense.setEnabled(true);
 			btnGenerateANew.setEnabled(true);
-
+			
 			startDateDisplay.setText(dateFormat.format(dateChooserStart.getDate()));
 			endDateDisplay.setText(dateFormat.format(dateChooserEnd.getDate()));
 		} catch (NullPointerException e1) {
