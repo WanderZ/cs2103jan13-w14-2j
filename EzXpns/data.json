@@ -105,431 +105,15 @@
       }
     },
     "recordsByCategory": {
-      "0": [
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1361694372893,
-            "name": "NETS"
-          },
-          "amount": 12.0,
-          "name": "asdf",
-          "remark": "12",
-          "date": "Apr 5, 2013 12:00:00 AM",
-          "id": 1365134500167
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1361694372893,
-            "name": "NETS"
-          },
-          "amount": 12.0,
-          "name": "abc efg",
-          "remark": "2",
-          "date": "Apr 5, 2013 12:00:00 AM",
-          "id": 1365165945575
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1363314106821,
-            "name": "Gifts"
-          },
-          "amount": 1000.0,
-          "name": "test",
-          "remark": "alright",
-          "date": "Apr 3, 2013 2:14:13 PM",
-          "id": 1364969657548
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1363857409977,
-            "name": "Cash"
-          },
-          "amount": 52.0,
-          "name": "High Tea",
-          "remark": "liang teh",
-          "date": "Apr 1, 2013 12:00:00 AM",
-          "id": 1364873683613
-        }
-      ],
-      "1364969751316": [
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1363314106821,
-            "name": "Gifts"
-          },
-          "amount": 1000.0,
-          "name": "test",
-          "remark": "alright",
-          "date": "Apr 3, 2013 2:15:48 PM",
-          "id": 1364969751316
-        }
-      ],
-      "1365134438535": [
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
-          "amount": 1000.0,
-          "name": "test",
-          "remark": "alright",
-          "date": "Apr 6, 2013 5:17:37 PM",
-          "id": 1365239857833
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
-          "amount": 1000.0,
-          "name": "testeeeee",
-          "remark": "alright",
-          "date": "Apr 6, 2013 4:22:06 PM",
-          "id": 1365236529218
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1365134400063,
-            "name": "Giftsssss"
-          },
-          "amount": 1000.0,
-          "name": "test",
-          "remark": "alright",
-          "date": "Apr 6, 2013 1:44:52 PM",
-          "id": 1365227093878
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1365134400063,
-            "name": "Giftsssss"
-          },
-          "amount": 1000.0,
-          "name": "test",
-          "remark": "alright",
-          "date": "Apr 5, 2013 12:00:33 PM",
-          "id": 1365134438536
-        }
-      ],
-      "1363504544188": [
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
-          "amount": 1111.0,
-          "name": "234",
-          "remark": "asdfasdf",
-          "date": "Apr 6, 2013 12:00:00 AM",
-          "id": 1365234287067
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
-          "amount": 1.11111111E8,
-          "name": "asfasf",
-          "remark": "",
-          "date": "Apr 6, 2013 12:00:00 AM",
-          "id": 1365234330404
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
-          "amount": 23123.0,
-          "name": "1231231312312312312312313123132113",
-          "remark": "1231231231",
-          "date": "Apr 6, 2013 12:00:00 AM",
-          "id": 1365234434077
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
-          "amount": 1.0,
-          "name": "sdfasd",
-          "remark": "",
-          "date": "Apr 6, 2013 12:00:00 AM",
-          "id": 1365239807722
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1364273369381,
-            "name": "Carelessness"
-          },
-          "amount": 20.2,
-          "name": "yayx2",
-          "remark": "111",
-          "date": "Mar 26, 2013 12:49:04 PM",
-          "id": 1363933184636
-        }
-      ],
-      "1363942776603": [
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1363857409977,
-            "name": "Cash"
-          },
-          "amount": 55.0,
-          "name": "Dinner",
-          "remark": "111",
-          "date": "Mar 26, 2013 12:34:18 PM",
-          "id": 1363941833220
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1361694372893,
-            "name": "NETS"
-          },
-          "amount": 100.0,
-          "name": "money",
-          "remark": "re",
-          "date": "Mar 22, 2013 12:00:00 AM",
-          "id": 1364222068344
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1361694372893,
-            "name": "NETS"
-          },
-          "amount": 20.2,
-          "name": "test",
-          "remark": "test",
-          "date": "Mar 18, 2013 12:00:00 AM",
-          "id": 1363950018778
-        }
-      ],
-      "1364969707451": [
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1363314106821,
-            "name": "Gifts"
-          },
-          "amount": 1000.0,
-          "name": "test",
-          "remark": "alright",
-          "date": "Apr 3, 2013 2:15:05 PM",
-          "id": 1364969707451
-        }
-      ],
-      "1364969857857": [
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1365134400063,
-            "name": "Giftsssss"
-          },
-          "amount": 1000.0,
-          "name": "test",
-          "remark": "alright",
-          "date": "Apr 5, 2013 11:59:57 AM",
-          "id": 1365134400063
-        },
-        {
-          "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 1363314106821,
-            "name": "Gifts"
-          },
-          "amount": 1000.0,
-          "name": "test",
-          "remark": "alright",
-          "date": "Apr 4, 2013 3:34:13 PM",
-          "id": 1365060855153
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1363314106821,
-            "name": "Gifts"
-          },
-          "amount": 1000.0,
-          "name": "test",
-          "remark": "alright",
-          "date": "Apr 4, 2013 3:19:40 PM",
-          "id": 1365059981353
-        },
-        {
-          "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 1363314106821,
-            "name": "Gifts"
-          },
-          "amount": 100000.0,
-          "name": "test",
-          "remark": "alright",
-          "date": "Apr 4, 2013 12:00:00 AM",
-          "id": 1365060867341
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1363314106821,
-            "name": "Gifts"
-          },
-          "amount": 1000.0,
-          "name": "test",
-          "remark": "alright",
-          "date": "Apr 3, 2013 2:31:53 PM",
-          "id": 1364970714556
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1363314106821,
-            "name": "Gifts"
-          },
-          "amount": 1000.0,
-          "name": "test",
-          "remark": "alright",
-          "date": "Apr 3, 2013 2:30:46 PM",
-          "id": 1364970646818
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1363314106821,
-            "name": "Gifts"
-          },
-          "amount": 1000.0,
-          "name": "test",
-          "remark": "alright",
-          "date": "Apr 3, 2013 2:29:57 PM",
-          "id": 1364970598656
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1363314106821,
-            "name": "Gifts"
-          },
-          "amount": 1000.0,
-          "name": "test",
-          "remark": "alright",
-          "date": "Apr 3, 2013 2:27:51 PM",
-          "id": 1364970472828
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1363314106821,
-            "name": "Gifts"
-          },
-          "amount": 1000.0,
-          "name": "test",
-          "remark": "alright",
-          "date": "Apr 3, 2013 2:23:01 PM",
-          "id": 1364970182595
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1363314106821,
-            "name": "Gifts"
-          },
-          "amount": 1000.0,
-          "name": "test",
-          "remark": "alright",
-          "date": "Apr 3, 2013 2:22:56 PM",
-          "id": 1364970178381
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1363314106821,
-            "name": "Gifts"
-          },
-          "amount": 1000.0,
-          "name": "test",
-          "remark": "alright",
-          "date": "Apr 3, 2013 2:22:48 PM",
-          "id": 1364970169080
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1363314106821,
-            "name": "Gifts"
-          },
-          "amount": 1000.0,
-          "name": "test",
-          "remark": "alright",
-          "date": "Apr 3, 2013 2:17:35 PM",
-          "id": 1364969857858
-        }
-      ],
-      "1364873536973": [
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1361694372893,
-            "name": "NETS"
-          },
-          "amount": 52.0,
-          "name": "zealous",
-          "remark": "haha",
-          "date": "Apr 1, 2013 12:00:00 AM",
-          "id": 1364873536973
-        }
-      ],
+      "1364969751316": [],
+      "0": [],
+      "1365134438535": [],
+      "1363504544188": [],
+      "1363942776603": [],
+      "1364969857857": [],
+      "1364969707451": [],
+      "1364873536973": [],
       "1363314106821": [
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1363314106821,
-            "name": "Gifts"
-          },
-          "amount": 1000.0,
-          "name": "test",
-          "remark": "alright",
-          "date": "Apr 1, 2013 12:19:48 AM",
-          "id": 1364746789972
-        },
-        {
-          "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 1363314106821,
-            "name": "Gifts"
-          },
-          "amount": 44.0,
-          "name": "testingzasdfaasdfk",
-          "remark": "alright",
-          "date": "Mar 27, 2013 2:52:14 PM",
-          "id": 1364367139074
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1363314106821,
-            "name": "Gifts"
-          },
-          "amount": 22.0,
-          "name": "fun?",
-          "remark": "fund",
-          "date": "Mar 22, 2013 7:42:36 PM",
-          "id": 1363952568164
-        },
         {
           "expenseType": "NEED",
           "paymentMethod": {
@@ -541,134 +125,11 @@
           "remark": "nil",
           "date": "Mar 22, 2013 7:14:33 PM",
           "id": 1363950898967
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1361694372893,
-            "name": "NETS"
-          },
-          "amount": 20.0,
-          "name": "testo",
-          "remark": "test",
-          "date": "Mar 22, 2013 12:00:00 AM",
-          "id": 1363952649900
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
-          "amount": 5000.0,
-          "name": "TVWatching",
-          "remark": "eh",
-          "date": "Mar 20, 2013 2:18:53 PM",
-          "id": 1363760333736
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1363314106821,
-            "name": "Gifts"
-          },
-          "amount": 44.0,
-          "name": "test",
-          "remark": "alright",
-          "date": "Mar 19, 2013 9:39:14 PM",
-          "id": 1363700354193
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1363314106821,
-            "name": "Gifts"
-          },
-          "amount": 165.81,
-          "name": "1jaa73uagt4w",
-          "remark": "nil",
-          "date": "Feb 27, 2012 9:59:13 PM",
-          "id": 1365249491970
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
-          "amount": 769.99,
-          "name": "1qrp6cycdfy8",
-          "remark": "nil",
-          "date": "Feb 27, 2012 5:45:00 PM",
-          "id": 1363314106823
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
-          "amount": 250.82,
-          "name": "3zubfq3gtsow",
-          "remark": "nil",
-          "date": "Nov 16, 2011 2:52:42 AM",
-          "id": 1361743350635
         }
       ],
-      "1364969813631": [
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1363314106821,
-            "name": "Gifts"
-          },
-          "amount": 1000.0,
-          "name": "test",
-          "remark": "alright",
-          "date": "Apr 3, 2013 2:16:51 PM",
-          "id": 1364969813631
-        }
-      ],
-      "1364969975721": [
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1361694372893,
-            "name": "NETS"
-          },
-          "amount": 20.0,
-          "name": "testooo",
-          "remark": "test",
-          "date": "Apr 3, 2013 2:35:26 PM",
-          "id": 1364970928020
-        },
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 1361694372893,
-            "name": "NETS"
-          },
-          "amount": 20.0,
-          "name": "testo",
-          "remark": "test",
-          "date": "Apr 3, 2013 2:19:33 PM",
-          "id": 1364969975721
-        }
-      ],
-      "1364704133024": [
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
-          "amount": 20.0,
-          "name": "Car",
-          "remark": "eh",
-          "date": "Mar 20, 2013 2:19:45 PM",
-          "id": 1363760385546
-        }
-      ]
+      "1364969813631": [],
+      "1364969975721": [],
+      "1364704133024": []
     }
   },
   "_incomes": {
@@ -689,168 +150,43 @@
         "id": 1362480320970,
         "name": "Allowance"
       },
-      "1363950844232": {
-        "id": 1363950844232,
-        "name": "Loot"
-      },
       "1362122547530": {
         "id": 1362122547530,
         "name": "Salary"
       },
-      "1364935492692": {
-        "id": 1364935492692,
-        "name": "Bursary"
+      "1363950844232": {
+        "id": 1363950844232,
+        "name": "Loot"
+      },
+      "1363314106821": {
+        "id": 1363314106821,
+        "name": "Scholarship"
       },
       "1364222095831": {
         "id": 1364222095831,
         "name": "Found"
       },
-      "1363314106821": {
-        "id": 1363314106821,
-        "name": "Scholarship"
+      "1364935492692": {
+        "id": 1364935492692,
+        "name": "Bursary"
       }
     },
     "recordsByCategory": {
-      "0": [
-        {
-          "amount": 100000.0,
-          "name": "test",
-          "remark": "",
-          "date": "Apr 4, 2013 3:34:06 PM",
-          "id": 1365060848847
-        },
-        {
-          "amount": 100000.0,
-          "name": "test",
-          "remark": "",
-          "date": "Apr 4, 2013 12:00:00 AM",
-          "id": 1365060838494
-        }
-      ],
-      "1363504544188": [
-        {
-          "amount": 12312.0,
-          "name": "212312312312312312312321312312312312312",
-          "remark": "132131231adfsdasadfsadfasdfasfasdfsadf",
-          "date": "Apr 6, 2013 12:00:00 AM",
-          "id": 1365234490368
-        }
-      ],
-      "1364097417024": [
-        {
-          "amount": 225.97,
-          "name": "1srithadcsqo",
-          "remark": "nil",
-          "date": "Jul 4, 2011 5:55:31 PM",
-          "id": 1365440985060
-        }
-      ],
+      "0": [],
+      "1363504544188": [],
+      "1364097417024": [],
       "1362480320970": [
-        {
-          "amount": 20.0,
-          "name": "testingedd",
-          "remark": "nil",
-          "date": "Mar 22, 2013 7:41:10 PM",
-          "id": 1363952483313
-        },
         {
           "amount": 200.0,
           "name": "Pocket Money",
           "remark": ":\\",
           "date": "Mar 22, 2013 12:36:07 PM",
           "id": 1364133005448
-        },
-        {
-          "amount": 2000.0,
-          "name": "Pocket Money",
-          "remark": ":\\",
-          "date": "Mar 1, 2013 12:35:00 PM",
-          "id": 1364133061613
-        },
-        {
-          "amount": 85.81,
-          "name": "64ru2kmtvo8w",
-          "remark": "nil",
-          "date": "Sep 28, 2012 6:08:57 AM",
-          "id": 1362533861098
-        },
-        {
-          "amount": 532.88,
-          "name": "gu5qpqh6nwg",
-          "remark": "nil",
-          "date": "Dec 22, 2011 9:56:45 AM",
-          "id": 1362694204676
-        },
-        {
-          "amount": 540.91,
-          "name": "527nhkkx0mtc",
-          "remark": "nil",
-          "date": "Sep 10, 2011 2:32:50 AM",
-          "id": 1363715773749
         }
       ],
-      "1363314106821": [
-        {
-          "amount": 950.53,
-          "name": "5snrnsbymdj4",
-          "remark": "nil",
-          "date": "Apr 28, 2012 10:18:47 AM",
-          "id": 1364988487851
-        },
-        {
-          "amount": 66.8,
-          "name": "uwuasknxo8w",
-          "remark": "nil",
-          "date": "Mar 18, 2012 8:37:38 AM",
-          "id": 1363516385867
-        },
-        {
-          "amount": 586.76,
-          "name": "558zq4vninpc",
-          "remark": "nil",
-          "date": "Jan 14, 2012 10:00:49 PM",
-          "id": 1361850260409
-        },
-        {
-          "amount": 566.21,
-          "name": "7cpqnzzoo0ao",
-          "remark": "nil",
-          "date": "May 2, 2011 3:56:53 PM",
-          "id": 1365133895255
-        }
-      ],
-      "1364935492692": [
-        {
-          "amount": 183.08,
-          "name": "33iyf5s64rnk",
-          "remark": "nil",
-          "date": "Mar 2, 2013 5:16:57 AM",
-          "id": 1363314106822
-        },
-        {
-          "amount": 821.07,
-          "name": "5cccdpl4aha8",
-          "remark": "nil",
-          "date": "Dec 30, 2011 1:21:32 PM",
-          "id": 1363314106823
-        }
-      ],
-      "1364222095831": [
-        {
-          "amount": 10000.0,
-          "name": "Blessingz",
-          "remark": "Found this on the floor!",
-          "date": "Apr 1, 2013 12:20:09 AM",
-          "id": 1364746811145
-        },
-        {
-          "amount": 20.2,
-          "name": "Blessingz",
-          "remark": "Found this on the floor!",
-          "date": "Mar 26, 2013 12:50:15 PM",
-          "id": 1364223741192
-        }
-      ]
+      "1364222095831": [],
+      "1364935492692": [],
+      "1363314106821": []
     }
   },
   "_nwsGen": {
@@ -876,10 +212,10 @@
       "targetNeedsRatio": 0.6000000000000001,
       "targetWantsRatio": 0.25,
       "targetSavingsRatio": 0.14999999999999986,
-      "currentNeeds": 5400.4,
-      "currentWants": 44.0,
-      "currentSavings": 0.0,
-      "income": 240.2,
+      "currentNeeds": 99.0,
+      "currentWants": 0.0,
+      "currentSavings": 101.0,
+      "income": 200.0,
       "isSet": true
     },
     "thisMonthNWS": {
@@ -887,17 +223,17 @@
         "year": 2013,
         "month": 3,
         "dayOfMonth": 6,
-        "hourOfDay": 17,
-        "minute": 34,
-        "second": 23
+        "hourOfDay": 18,
+        "minute": 20,
+        "second": 43
       },
-      "targetNeedsRatio": 0.15000000000000008,
-      "targetWantsRatio": 0.39999999999999997,
-      "targetSavingsRatio": 0.4499999999999999,
-      "currentNeeds": 1.11154514E8,
-      "currentWants": 101000.0,
+      "targetNeedsRatio": 0.45000000000000023,
+      "targetWantsRatio": 0.10000000000000002,
+      "targetSavingsRatio": 0.4499999999999998,
+      "currentNeeds": 0.0,
+      "currentWants": 0.0,
       "currentSavings": 0.0,
-      "income": 222312.0,
+      "income": 0.0,
       "isSet": true
     }
   },
