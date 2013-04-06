@@ -31,7 +31,7 @@ public class Config {
 	/**
 	 * The minimum width for the GUI window
 	 */
-	public static final int MIN_UI_WIDTH = 1200;
+	public static final int MIN_UI_WIDTH = 1130;
 	
 	/**
 	 * The minimum height for the GUI window
