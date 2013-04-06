@@ -380,6 +380,8 @@ public class ExpenseForm extends JPanel{
 		txtDesc = new JTextArea();
 		txtDesc.setPreferredSize(new Dimension(200, 100));
 		txtDesc.setBorder(BorderFactory.createEmptyBorder());
+		txtDesc.setWrapStyleWord(true);
+		txtDesc.setLineWrap(true);
 		this.add(lblDesc);
 		this.add(txtDesc);
 		loForm.putConstraint(SpringLayout.WEST, lblDesc, COL1_PAD, SpringLayout.WEST, this);

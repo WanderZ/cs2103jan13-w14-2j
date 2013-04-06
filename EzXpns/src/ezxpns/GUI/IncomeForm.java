@@ -150,7 +150,7 @@ public class IncomeForm extends JPanel {
 		txtName = new JTextField("");
 		txtName.setToolTipText("Short name to name this record");
 		txtName.setPreferredSize(new Dimension(200, 25));
-		txtName.setBorder(BorderFactory.createEmptyBorder());
+		System.out.println(txtName.getBorder().toString());
 		txtName.getDocument().addDocumentListener(new DocumentListener(){
 
 			@Override
@@ -260,7 +260,6 @@ public class IncomeForm extends JPanel {
 			}
 			
 		});
-
 		
 		lblDate = this.createLabel("Date");
 		// JDateChooser stuff starts here (tingzhe)
@@ -293,6 +292,8 @@ public class IncomeForm extends JPanel {
 		txtDesc = new JTextArea("");
 		txtDesc.setPreferredSize(new Dimension(200, 100));
 		txtDesc.setBorder(BorderFactory.createEmptyBorder());
+		txtDesc.setWrapStyleWord(true);
+		txtDesc.setLineWrap(true);
 		this.add(lblDesc);
 		this.add(txtDesc);
 		loForm.putConstraint(SpringLayout.WEST, lblDesc, COL1_PAD, SpringLayout.WEST, this);
@@ -360,7 +361,7 @@ public class IncomeForm extends JPanel {
 			this.unmarkErr(txtDesc);
 		}
 		
-		UINotify.createErrMsg(this, errMsg.toString());
+		if(!validateSuccess) UINotify.createErrMsg(this, errMsg.toString());
 		return validateSuccess;
 	}
 	
@@ -370,9 +371,14 @@ public class IncomeForm extends JPanel {
 	 * @return true if validation is successful, otherwise false
 	 */
 	private boolean validateDescription(StringBuilder errMsg) {
-		if(txtDesc.getText().trim().equals("")) {
+		if(getDesc().equals("")) {
 			// Empty
 			return true;
+		}
+		
+		if(getDesc().length() > Config.DEFAULT_MAX_LENGTH_DESC) {
+			errMsg.append("Description is too long!\n");
+			return false;
 		}
 		
 		if(Config.isAlphaNumeric(txtDesc.getText().trim())) {
@@ -390,6 +396,10 @@ public class IncomeForm extends JPanel {
 	 */
 	private boolean validateCategory(StringBuilder errMsg) {
 		if(this.isNewCategory()) {
+			if(cboxCat.getSelectedItem() == null) {
+				errMsg.append("Please choose a category\n");
+				return false;
+			}
 			String err = catHandler.validateCategoryName(cboxCat.getSelectedItem().toString().trim());
 			if(err!=null) { // null is error free
 				errMsg.append(err);
@@ -425,6 +435,10 @@ public class IncomeForm extends JPanel {
 	private boolean validateName(StringBuilder errMsg) {
 		if(getName().equals("")) {
 			errMsg.append("Please enter a name for this record\n");
+			return false;
+		}
+		if(getName().length() > Config.DEFAULT_MAX_LENGTH_NAME) {
+			errMsg.append("Name is too long!\n");
 			return false;
 		}
 		if(Config.isAlphaNumeric(getName())) {
