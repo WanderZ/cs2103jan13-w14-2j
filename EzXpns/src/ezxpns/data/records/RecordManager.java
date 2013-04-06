@@ -374,9 +374,7 @@ public class RecordManager<T extends Record>
 	 * @return a record with id, or null if not found
 	 */
 	public T getRecordBy(long id){
-		T r = findRecord(id);
-		if(r == null) return r;
-		else return (T)r.copy();
+		return findRecord(id);
 	}
 	
 	@Override
