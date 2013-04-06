@@ -5,6 +5,8 @@ import java.util.*;
 import ezxpns.*;
 import ezxpns.data.*;
 import ezxpns.data.records.*;
+import ezxpns.data.records.RecordManager.RecordUpdateException;
+
 import java.math.*;
 
 /**
@@ -23,44 +25,51 @@ public class GenData {
 	 */
 	public static void mein(String[] args) {
 		Ezxpns eh = new Ezxpns();
-		Random r = new Random();
-		long now = (new Date()).getTime();
-		long earliest = now - 3600l * 24 * 1000 * 700;
 		
-		Category cat;
-		PaymentMethod pay;
-		for(int i = 0; i < catToGen; i++){
-			cat = new Category(Long.toString((long)(r.nextDouble()*(1l<<60)), 36));
-			eh.getDataMng().expenses().addNewCategory(cat);
-			
-			cat = new Category(Long.toString((long)(r.nextDouble()*(1l<<60)), 36));
-			eh.getDataMng().incomes().addNewCategory(cat);
-			
-			pay = new PaymentMethod(Long.toString((long)(r.nextDouble()*(1l<<60)), 36));
-			eh.getDataMng().expenses().addNewPaymentMethod(pay);
+		ExpenseRecord coffee = eh.getDataMng().expenses().getRecordsBy("coffee", 1).get(0);
+		ExpenseRecord bigmac = eh.getDataMng().expenses().getRecordsBy("Big Mac", 1).get(0);
+		ExpenseRecord pineapple = eh.getDataMng().expenses().getRecordsBy("pineapple", 1).get(0);
+		
+		Calendar cal = Calendar.getInstance();
+		for(int d = 0; d < 6; d++){
+			cal.set(Calendar.DAY_OF_MONTH, d);
+			try {
+				if(Math.random() < 0.5)
+					eh.getDataMng().expenses().addNewRecord(new ExpenseRecord(
+							coffee.getAmount(),
+							coffee.getName(), 
+							coffee.getRemark(),
+							cal.getTime(), 
+							coffee.getCategory(), 
+							coffee.getExpenseType(),
+							coffee.getPaymentMethod()
+							));
+				if(Math.random() < 0.3)
+					eh.getDataMng().expenses().addNewRecord(new ExpenseRecord(
+	                        bigmac.getAmount(),
+	                        bigmac.getName(), 
+	                        bigmac.getRemark(),
+	                        cal.getTime(), 
+	                        bigmac.getCategory(), 
+	                        bigmac.getExpenseType(),
+	                        bigmac.getPaymentMethod()
+	                        ));
+				if(Math.random() < 0.4)
+					eh.getDataMng().expenses().addNewRecord(new ExpenseRecord(
+	                        pineapple.getAmount(),
+	                        pineapple.getName(), 
+	                        pineapple.getRemark(),
+	                        cal.getTime(), 
+	                        pineapple.getCategory(), 
+	                        pineapple.getExpenseType(),
+	                        pineapple.getPaymentMethod()
+	                        ));
+			} catch (RecordUpdateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
-		List<Category> exCat = eh.getDataMng().expenses().getAllCategories();
-		List<Category> inCat = eh.getDataMng().incomes().getAllCategories();
-		
-		List<PaymentMethod> pays = eh.getDataMng().expenses().getAllPaymentMethod();
-		
-		int exCatl = exCat.size();
-		int inCatl = inCat.size();
-		int paysl = pays.size();
-		
-		for(int i = 0; i < recordToGen; i++){
-			eh.createRecord(new ExpenseRecord((double)r.nextInt(maxAmount) / 100,
-					Long.toString((long)(r.nextDouble()*(1l<<60)), 36),
-					"nil", new Date((long)(r.nextDouble()*(now - earliest) + earliest)),
-					exCat.get(r.nextInt(exCatl)), ExpenseType.NEED,
-					pays.get(r.nextInt(paysl))), false, false);
-			
-			eh.createRecord(new IncomeRecord((double)r.nextInt(maxAmount) / 100,
-					Long.toString((long)(r.nextDouble()*(1l<<60)), 36),
-					"nil", new Date((long)(r.nextDouble()*(now - earliest) + earliest)),
-					inCat.get(r.nextInt(inCatl))), false);
-		}
 		
 		System.exit(0);
 
