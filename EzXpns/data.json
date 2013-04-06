@@ -51,10 +51,6 @@
         "id": 0,
         "name": "undefined"
       },
-      "1364969657548": {
-        "id": 1364969657548,
-        "name": "asdfafd"
-      },
       "1363504544188": {
         "id": 1363504544188,
         "name": "Misc"
@@ -62,6 +58,10 @@
       "1363942776603": {
         "id": 1363942776603,
         "name": "Food"
+      },
+      "1365228904230": {
+        "id": 1365228904230,
+        "name": "eee"
       },
       "1364969707451": {
         "id": 1364969707451,
@@ -73,7 +73,7 @@
       },
       "1364873536973": {
         "id": 1364873536973,
-        "name": "Hope"
+        "name": "adsf"
       },
       "1363314106821": {
         "id": 1363314106821,
@@ -109,20 +109,6 @@
         {
           "expenseType": "NEED",
           "paymentMethod": {
-            "id": 1363857409977,
-            "name": "Cash"
-          },
-          "amount": 52.0,
-          "name": "High Tea",
-          "remark": "liang teh",
-          "date": "Apr 1, 2013 12:00:00 AM",
-          "id": 1364873683613
-        }
-      ],
-      "1364969657548": [
-        {
-          "expenseType": "NEED",
-          "paymentMethod": {
             "id": 1361694372893,
             "name": "NETS"
           },
@@ -155,6 +141,18 @@
           "remark": "alright",
           "date": "Apr 3, 2013 2:14:13 PM",
           "id": 1364969657548
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1363857409977,
+            "name": "Cash"
+          },
+          "amount": 52.0,
+          "name": "High Tea",
+          "remark": "liang teh",
+          "date": "Apr 1, 2013 12:00:00 AM",
+          "id": 1364873683613
         }
       ],
       "1363504544188": [
@@ -569,6 +567,18 @@
           "amount": 1000.0,
           "name": "test",
           "remark": "alright",
+          "date": "Apr 6, 2013 1:44:52 PM",
+          "id": 1365227093878
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1365134400063,
+            "name": "Giftsssss"
+          },
+          "amount": 1000.0,
+          "name": "test",
+          "remark": "alright",
           "date": "Apr 5, 2013 12:00:33 PM",
           "id": 1365134438536
         }
@@ -595,13 +605,9 @@
         "id": 0,
         "name": "undefined"
       },
-      "1364222011061": {
-        "id": 1364222011061,
-        "name": "Free"
-      },
-      "1364969657548": {
-        "id": 1364969657548,
-        "name": "Entertainmento"
+      "1363504544188": {
+        "id": 1363504544188,
+        "name": "Misc"
       },
       "1364097417024": {
         "id": 1364097417024,
@@ -633,8 +639,7 @@
       }
     },
     "recordsByCategory": {
-      "0": [],
-      "1364222011061": [
+      "0": [
         {
           "amount": 100000.0,
           "name": "test",
@@ -779,30 +784,38 @@
     "MAXSAVINGS": 0.7,
     "MINSAVINGS": 0.2,
     "pastMonthNWS": {
-      "targetNeedsRatio": 0.0,
-      "targetWantsRatio": 0.0,
-      "targetSavingsRatio": 0.0,
-      "currentNeeds": 0.0,
-      "currentWants": 0.0,
+      "date": {
+        "year": 2013,
+        "month": 2,
+        "dayOfMonth": 6,
+        "hourOfDay": 13,
+        "minute": 40,
+        "second": 46
+      },
+      "targetNeedsRatio": 0.6000000000000001,
+      "targetWantsRatio": 0.25,
+      "targetSavingsRatio": 0.14999999999999986,
+      "currentNeeds": 5400.4,
+      "currentWants": 44.0,
       "currentSavings": 0.0,
-      "income": 0.0,
-      "isSet": false
+      "income": 240.2,
+      "isSet": true
     },
     "thisMonthNWS": {
       "date": {
         "year": 2013,
         "month": 3,
         "dayOfMonth": 6,
-        "hourOfDay": 13,
-        "minute": 6,
-        "second": 31
+        "hourOfDay": 14,
+        "minute": 32,
+        "second": 48
       },
-      "targetNeedsRatio": 0.5,
-      "targetWantsRatio": 0.3,
-      "targetSavingsRatio": 0.2,
-      "currentNeeds": 16168.0,
+      "targetNeedsRatio": 0.6000000000000001,
+      "targetWantsRatio": 0.25,
+      "targetSavingsRatio": 0.14999999999999986,
+      "currentNeeds": 17168.0,
       "currentWants": 101000.0,
-      "currentSavings": 92832.0,
+      "currentSavings": 91832.0,
       "income": 210000.0,
       "isSet": true
     }

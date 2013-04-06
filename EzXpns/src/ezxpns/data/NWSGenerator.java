@@ -4,8 +4,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import test.NWSGeneratorTest;
-
 import ezxpns.data.TargetManager.DataProvider;
 import ezxpns.data.records.ExpenseType;
 
@@ -215,7 +213,7 @@ public class NWSGenerator extends Storable {
 	 * @return
 	 */
 	public void generateRatios() {
-System.out.println("genRatio!");
+		System.out.println("genRatio!");
 		if (!pastMonthNWS.isSet()) {
 			thisMonthNWS.setAll(new GregorianCalendar(), NEEDS, WANTS, SAVINGS,
 					data.getMonthlyExpense(ExpenseType.NEED),
