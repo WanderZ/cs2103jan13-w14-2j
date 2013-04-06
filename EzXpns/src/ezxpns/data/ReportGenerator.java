@@ -30,7 +30,7 @@ public class ReportGenerator {
 	private Vector<ExpenseRecord> expenseRecord;
 	private Vector<IncomeRecord> incomeRecord;
 	private Report myReport;
-	private Vector<ReportCategory> expenseCategory = new Vector<ReportCategory>();
+	private Vector<ReportCategory> expenseCategory;
 	static int INVALID = -1;
 
 	/**
@@ -57,6 +57,7 @@ public class ReportGenerator {
 		if (dateError(start, end))
 			throw (new DateOrderException());
 
+		expenseCategory = new Vector<ReportCategory>();
 		records = getRecords(start, end);
 		seperatePair(records);
 		return writeReport(start, end);
