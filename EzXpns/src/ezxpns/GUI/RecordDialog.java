@@ -57,12 +57,13 @@ public class RecordDialog extends JDialog implements ActionListener {
 	 */
 	public RecordDialog(
 			JFrame homeRef,
+			String title,
 			RecordHandler recHandlerRef, 
 			CategoryHandler<IncomeRecord> incomeHandlerRef, 
 			CategoryHandler<ExpenseRecord> expenseHandlerRef,
 			PaymentHandler payHandlerRef,
 			UpdateNotifyee notifyeeRef) {
-		super(homeRef, "EzXpns - Record", true); /* Owner, Title, Modularity */
+		super(homeRef, title, true); /* Owner, Title, Modularity */
 		recHandler = recHandlerRef;
 		incomeHandler = incomeHandlerRef;
 		expenseHandler = expenseHandlerRef;
@@ -91,7 +92,7 @@ public class RecordDialog extends JDialog implements ActionListener {
 			UpdateNotifyee notifyeeRef,
 			int initTab) {
 		
-		this(homeRef, recHandlerRef, incomeHandlerRef, expenseHandlerRef, payHandlerRef, notifyeeRef);
+		this(homeRef, initTab == TAB_INCOME ? "EzXpns - New Income Record": "EzXpns - New Expense Record", recHandlerRef, incomeHandlerRef, expenseHandlerRef, payHandlerRef, notifyeeRef);
 		this.initComponent();
 		
 		panMain.toggleIncomeTab(); // Fix
@@ -119,12 +120,13 @@ public class RecordDialog extends JDialog implements ActionListener {
 	 */
 	public RecordDialog(
 			JFrame homeRef,
+			String title,
 			RecordHandler recHandlerRef,
 			CategoryHandler<ExpenseRecord> expenseHandlerRef,
 			PaymentHandler payHandlerRef,
 			UpdateNotifyee notifyeeRef,
 			ExpenseRecord record) {
-		this(homeRef, recHandlerRef, null, expenseHandlerRef, payHandlerRef, notifyeeRef);
+		this(homeRef, title, recHandlerRef, null, expenseHandlerRef, payHandlerRef, notifyeeRef);
 		isEditing = true;
 		this.initComponent(record);
 		
@@ -139,11 +141,12 @@ public class RecordDialog extends JDialog implements ActionListener {
 	 */
 	public RecordDialog(
 			JFrame homeRef,
+			String title,
 			RecordHandler recHandlerRef, 
 			CategoryHandler<IncomeRecord> incomeHandlerRef,
 			UpdateNotifyee notifyeeRef,
 			IncomeRecord record) {
-		this(homeRef, recHandlerRef, incomeHandlerRef, null, null, notifyeeRef);
+		this(homeRef, title, recHandlerRef, incomeHandlerRef, null, null, notifyeeRef);
 		isEditing = true;
 		this.initComponent(record);
 		
