@@ -771,6 +771,7 @@ private JFreeChart createChart(CategoryDataset dataset) {
 		// Table
 		if (pieChartIndex == 1){
 			expenseTable.removeAll();
+			cardExpense.remove(0);
 		}
 		tableModel = new InteractiveTableModel(columnNames);
 		expenseTable.setLayout(new BoxLayout(expenseTable, BoxLayout.Y_AXIS));
@@ -783,6 +784,7 @@ private JFreeChart createChart(CategoryDataset dataset) {
 		expenseTable.add(Box.createVerticalGlue());
 		expenseTable.add(scrollPane);
 		expenseTable.add(Box.createVerticalGlue());
+		cardExpense.add(expenseTable, "cell 1 0,grow");
 	}
 
 	private void initSummary() {
@@ -851,10 +853,8 @@ private JFreeChart createChart(CategoryDataset dataset) {
 			case FREQUENCY_INDEX:
 				return report.getFrequency();
 			case AMOUNT_INDEX:
-				//return money.format(report.getAmount());
 				return report.getAmount();
 			case PERCENTAGE_INDEX:
-				//return percent.format(report.getPercentage());
 				return report.getPercentage();
 			case AMTFEQ_INDEX:
 				return report.getAmtPerFreq();
