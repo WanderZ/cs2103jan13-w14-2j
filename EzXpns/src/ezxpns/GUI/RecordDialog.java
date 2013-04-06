@@ -62,7 +62,7 @@ public class RecordDialog extends JDialog implements ActionListener {
 			CategoryHandler<ExpenseRecord> expenseHandlerRef,
 			PaymentHandler payHandlerRef,
 			UpdateNotifyee notifyeeRef) {
-		super(homeRef, "EzXpns", true); /* Owner, Title, Modularity */
+		super(homeRef, "EzXpns - Record", true); /* Owner, Title, Modularity */
 		recHandler = recHandlerRef;
 		incomeHandler = incomeHandlerRef;
 		expenseHandler = expenseHandlerRef;
@@ -153,7 +153,6 @@ public class RecordDialog extends JDialog implements ActionListener {
 	 * Initialize this frame with its properties
 	 */
 	private void initFrame() {
-		
 		getContentPane().setLayout(new BorderLayout(5, 5));
 		this.setBounds(0, 0, Config.DEFAULT_DIALOG_WIDTH, Config.DEFAULT_DIALOG_HEIGHT);
 		this.setLocationRelativeTo(null);
@@ -165,7 +164,6 @@ public class RecordDialog extends JDialog implements ActionListener {
 	 * Initialize this frame with its components
 	 */
 	private void initComponent() {
-		this.setTitle(isEditing? "Edit" : "New");
 		panMain = new PanelMain(recHandler, incomeHandler, expenseHandler, payHandler, notifyee);
 		getContentPane().add(panMain, BorderLayout.CENTER);
 		

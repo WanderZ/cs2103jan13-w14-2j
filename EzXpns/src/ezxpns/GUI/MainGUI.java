@@ -16,24 +16,47 @@ import ezxpns.data.records.*;
 @SuppressWarnings("serial")
 public class MainGUI extends JFrame implements UpdateNotifyee {
 	
-	private UIControl uiCtrl;
+//	private UIControl uiCtrl;
+	
+	/**
+	 * The Undo Manager for EzXpns
+	 */
 	private UndoManager undoMgr;
 	
 	/**
-	 * Main Navigator for UI
+	 * Main Navigator - the side bar
 	 */
 	private EzNavigator navi;
 	private JLayeredPane panContent;
 	
 	/**
-	 * 
+	 * Reference to the SavingsOverviewPanel on the Dash board
 	 */
 	private SavingsOverviewPanel panSavings;
+	
+	/**
+	 * Reference to the OverviewPanel on the Dash board
+	 */
 	private OverviewPanel panOverview;
+	
+	/**
+	 * Reference to the TargetOverviewPanel on the Dash board
+	 */
 	private TargetOverviewPanel panTarget;
 	
+	/**
+	 * Reference to the SearchPanel 
+	 */
 	private SearchFrame panSearch;
+	
+	/**
+	 * Reference to the CategoryManagerPanel - also the TargetManager
+	 */
 	private CategoryFrame panCategory;
+	
+	/**
+	 * Reference to the RecordsDisplayPanel on the Dash board
+	 */
 	private RecordsDisplayPanel panRecords;
 	
 	public MainGUI(
@@ -47,7 +70,7 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 		this.instantiateUI();
 		this.undoMgr = undoMgr;
 		
-		this.uiCtrl = uiCtrl;
+//		this.uiCtrl = uiCtrl;
 		
 		CardLayout contentMgr = new CardLayout();
 		panContent = new JLayeredPane();
@@ -146,11 +169,13 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 		panCategory.reload();
 		panSearch.reload();
 		panRecords.update();
+		navi.updateUndoBtn();
 		this.validate();
 	}
 
 	@Override
 	public void addUndoAction(AbstractAction action, String name) {
+		navi.updateUndoBtn();
 		undoMgr.add(action, name);
 	}
 }
