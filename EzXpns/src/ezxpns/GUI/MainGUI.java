@@ -65,7 +65,7 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 		this.add(navi, "1, 2, fill, fill");
 		
 		JPanel homeContent = new JPanel();
-		homeContent.setBorder(new EmptyBorder(15, 0, 15, 15));
+		homeContent.setBorder(new EmptyBorder(5, 0, 10, 10));
 		homeContent.setLayout(new GridLayout(2, 2, 15, 15));
 		panOverview = new OverviewPanel(sumGen);
 		homeContent.add(panOverview);

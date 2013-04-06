@@ -794,8 +794,8 @@
         "month": 3,
         "dayOfMonth": 6,
         "hourOfDay": 13,
-        "minute": 1,
-        "second": 26
+        "minute": 6,
+        "second": 31
       },
       "targetNeedsRatio": 0.5,
       "targetWantsRatio": 0.3,
