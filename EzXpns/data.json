@@ -173,6 +173,18 @@
         {
           "expenseType": "NEED",
           "paymentMethod": {
+            "id": 0,
+            "name": "undefined"
+          },
+          "amount": 1000.0,
+          "name": "testeeeee",
+          "remark": "alright",
+          "date": "Apr 6, 2013 4:22:06 PM",
+          "id": 1365236529218
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
             "id": 1365134400063,
             "name": "Giftsssss"
           },
@@ -852,13 +864,13 @@
         "month": 3,
         "dayOfMonth": 6,
         "hourOfDay": 16,
-        "minute": 47,
-        "second": 17
+        "minute": 36,
+        "second": 6
       },
       "targetNeedsRatio": 0.15000000000000008,
       "targetWantsRatio": 0.39999999999999997,
       "targetSavingsRatio": 0.4499999999999999,
-      "currentNeeds": 1.11152513E8,
+      "currentNeeds": 1.11153513E8,
       "currentWants": 101000.0,
       "currentSavings": 0.0,
       "income": 222312.0,

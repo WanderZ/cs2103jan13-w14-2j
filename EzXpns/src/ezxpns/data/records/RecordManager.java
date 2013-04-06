@@ -280,6 +280,9 @@ public class RecordManager<T extends Record>
 	public T addNewRecord(T toAdd) throws RecordUpdateException{
 		T record = (T)toAdd.copy();
 		record.category = categories.get(toAdd.category.getID());
+		if(!toAdd.date.before(today)){
+			toAdd.date = new Date();
+		}
 		if(record.category == null){
 			throw new RecordUpdateException("Invalid category!");
 		}
@@ -371,9 +374,7 @@ public class RecordManager<T extends Record>
 	 * @return a record with id, or null if not found
 	 */
 	public T getRecordBy(long id){
-		T r = findRecord(id);
-		if(r == null) return r;
-		else return (T)r.copy();
+		return findRecord(id);
 	}
 	
 	@Override
@@ -417,10 +418,10 @@ public class RecordManager<T extends Record>
 		Vector<T> rs = new Vector<T>();
 		Collection<Vector<T> > allrecs;
 		if(reverse){
-			start = new Date(Math.max(start.getTime() - 24 * 60 * 1000, 0));
+			start = new Date(Math.max(start.getTime() - 24 * 3600 * 1000, 0));
 			allrecs = recordsByDate.descendingMap().subMap(end, start).values();
 		}else{
-			end = new Date(end.getTime() + 24 * 60 * 1000);
+			end = new Date(end.getTime() + 24 * 3600 * 1000);
 			allrecs = recordsByDate.subMap(start, end).values();
 		}
 		for(Vector<T> rrs : allrecs){
