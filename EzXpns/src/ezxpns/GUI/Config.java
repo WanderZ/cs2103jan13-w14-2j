@@ -92,7 +92,7 @@ public class Config {
 	/**
 	 * Alphanumeric pattern matcher
 	 */
-	public static final Pattern ALPHANUMERIC = Pattern.compile("[^a-zA-Z0-9]");
+	public static final Pattern ALPHANUMERIC = Pattern.compile("[^a-zA-Z0-9 ()]");
 	
 	private Config(){}
 	

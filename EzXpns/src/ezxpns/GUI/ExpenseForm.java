@@ -545,10 +545,10 @@ public class ExpenseForm extends JPanel{
 			return false;
 		}
 		
-		if(Config.isAlphaNumeric(txtDesc.getText().trim())) {
-			errMsg.append("Description contains invalid characters \n");
-			return false;
-		}
+//		if(Config.isAlphaNumeric(txtDesc.getText().trim())) {
+//			errMsg.append("Description contains invalid characters \n");
+//			return false;
+//		}
 		return true;
 	}
 
