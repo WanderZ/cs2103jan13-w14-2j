@@ -72,7 +72,7 @@ public class Config {
 	/**
 	 * The preset maximum amount for each record - One million
 	 */
-	public static final int DEFAULT_MAX_AMT_PER_RECORD = 1000000000; // One million
+	public static final int DEFAULT_MAX_AMT_PER_RECORD = 1000000; // One million
 	
 	/**
 	 * The preset minimum amount for each record - 1cent
