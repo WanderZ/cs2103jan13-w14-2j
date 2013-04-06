@@ -20,6 +20,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.event.DocumentEvent;
@@ -43,9 +44,9 @@ import ezxpns.data.records.RecordHandler;
 public class ExpenseForm extends JPanel{
 	
 	// #Constants
-	public final int TOP_PAD = 27;
+	public final int TOP_PAD = 30;
 	public final int COL1_PAD = 15;
-	public final int COL2_PAD = 200;
+	public final int COL2_PAD = 150;
 	
 	public final String EXPENSE_TYPE_NEED = "Need";
 	public final String EXPENSE_TYPE_WANT = "Want";
@@ -53,12 +54,12 @@ public class ExpenseForm extends JPanel{
 	// #Swing Components
 	private ButtonGroup bgType;
 	private JRadioButton rbtnNeed, rbtnWant;
-	private JLabel lblAmt, lblName, lblType, lblCat, lblPayment, lblDate, lblDesc;
+	private JLabel lblAmt, lblName, lblType, lblCat, /*lblPayment, */lblDate, lblDesc;
 	private JTextField 	txtAmt, txtName;
 //	private JFormattedTextField txtDate;
 	private JDateChooser txtDateChooser;
-	private JTextField txtDesc;
-	private JComboBox cboxCat, cboxPay;
+	private JTextArea txtDesc;
+	private JComboBox cboxCat/*, cboxPay*/;
 	
 	// #Logic Components
 	private RecordHandler recHandler; 
@@ -70,7 +71,7 @@ public class ExpenseForm extends JPanel{
 	
 	// #Data Components
 	private List<Category> categories;
-	private List<PaymentMethod> methods;
+//	private List<PaymentMethod> methods;
 	private ExpenseRecord record;
 	
 	private boolean blockAutoFill = false;
@@ -94,7 +95,7 @@ public class ExpenseForm extends JPanel{
 		notifyee = notifyeeRef;
 		
 		categories = catHandler.getAllCategories();
-		methods = payHandler.getAllPaymentMethod();
+//		methods = payHandler.getAllPaymentMethod();
 		this.initFields();
 		isEdit = false;
 	}
@@ -139,7 +140,7 @@ public class ExpenseForm extends JPanel{
 		cboxCat.setSelectedIndex(categories.indexOf(record.getCategory()));
 		
 		// Payment Method
-		cboxPay.setSelectedIndex(methods.indexOf(record.getPaymentMethod()));
+//		cboxPay.setSelectedIndex(methods.indexOf(record.getPaymentMethod()));
 		
 		// Date - populated only if editing
 		txtDateChooser.setDate(isEdit ? record.getDate() : new Date()); 
@@ -187,11 +188,11 @@ public class ExpenseForm extends JPanel{
 	}
 	
 	/** Populates the Payment Methods Drop down field */
-	private void initPayComboBox() {
-		for(PaymentMethod method: methods) {
-			this.cboxPay.addItem(method.getName());
-		}
-	}
+//	private void initPayComboBox() {
+//		for(PaymentMethod method: methods) {
+//			this.cboxPay.addItem(method.getName());
+//		}
+//	}
 	
 	/** Initiates all the fields of this panel. */
 	private void initFields() {
@@ -202,7 +203,6 @@ public class ExpenseForm extends JPanel{
 		
 		// Initialize Radio Buttons
 		lblType = this.createLabel("Type");
-		
 		bgType = new ButtonGroup();
 		
 		rbtnNeed = new JRadioButton(EXPENSE_TYPE_NEED);
@@ -222,18 +222,19 @@ public class ExpenseForm extends JPanel{
 		this.initCatComboBox();
 		cboxCat.setEditable(true);
 		cboxCat.setPreferredSize(new Dimension(200, 25));
+		cboxCat.setBorder(BorderFactory.createEmptyBorder());
 		
 		// Initialize Combo Box - To be a dynamic updating list.
-		lblPayment = this.createLabel("Payment Method");
-		cboxPay = new JComboBox();
-		this.initPayComboBox();
-		cboxPay .setEditable(true);
-		cboxPay.setPreferredSize(new Dimension(200, 25));
+//		lblPayment = this.createLabel("Payment Method");
+//		cboxPay = new JComboBox();
+//		this.initPayComboBox();
+//		cboxPay .setEditable(true);
+//		cboxPay.setPreferredSize(new Dimension(200, 25));
 		
 		lblName = this.createLabel("Name");
 		txtName = new JTextField("");
 		txtName.setPreferredSize(new Dimension(200, 25));
-		txtName.setBorder(BorderFactory.createLoweredBevelBorder());
+		txtName.setBorder(BorderFactory.createEmptyBorder());
 		txtName.getDocument().addDocumentListener(new DocumentListener() {
 
 			@Override
@@ -269,7 +270,7 @@ public class ExpenseForm extends JPanel{
 
 			@Override
 			public void focusLost(FocusEvent arg0) {
-				
+				// TODO: Validate name
 			}
 		});
 		
@@ -280,19 +281,19 @@ public class ExpenseForm extends JPanel{
 		loForm.putConstraint(SpringLayout.NORTH, lblName, TOP_PAD, SpringLayout.NORTH, this);
 		loForm.putConstraint(SpringLayout.NORTH, txtName, TOP_PAD, SpringLayout.NORTH, this);
 		
-		this.add(lblPayment);
-		this.add(cboxPay);
-		loForm.putConstraint(SpringLayout.WEST, lblPayment, COL1_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.WEST, cboxPay, COL2_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.NORTH, lblPayment, TOP_PAD, SpringLayout.NORTH, lblName);
-		loForm.putConstraint(SpringLayout.NORTH, cboxPay, TOP_PAD, SpringLayout.NORTH, txtName);
+//		this.add(lblPayment);
+//		this.add(cboxPay);
+//		loForm.putConstraint(SpringLayout.WEST, lblPayment, COL1_PAD, SpringLayout.WEST, this);
+//		loForm.putConstraint(SpringLayout.WEST, cboxPay, COL2_PAD, SpringLayout.WEST, this);
+//		loForm.putConstraint(SpringLayout.NORTH, lblPayment, TOP_PAD, SpringLayout.NORTH, lblName);
+//		loForm.putConstraint(SpringLayout.NORTH, cboxPay, TOP_PAD, SpringLayout.NORTH, txtName);
 		
 		this.add(lblCat);
 		this.add(cboxCat);
 		loForm.putConstraint(SpringLayout.WEST, lblCat, COL1_PAD, SpringLayout.WEST, this);
 		loForm.putConstraint(SpringLayout.WEST, cboxCat, COL2_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.NORTH, lblCat, TOP_PAD, SpringLayout.NORTH, lblPayment);
-		loForm.putConstraint(SpringLayout.NORTH, cboxCat, TOP_PAD, SpringLayout.NORTH, cboxPay);
+		loForm.putConstraint(SpringLayout.NORTH, lblCat, TOP_PAD, SpringLayout.NORTH, lblName);
+		loForm.putConstraint(SpringLayout.NORTH, cboxCat, TOP_PAD, SpringLayout.NORTH, txtName);
 				
 		this.add(lblType);
 		this.add(rbtnNeed);
@@ -307,34 +308,33 @@ public class ExpenseForm extends JPanel{
 		lblAmt = this.createLabel("Amount");
 		txtAmt = new JTextField("");
 		txtAmt.setPreferredSize(new Dimension(200, 25));
+		txtAmt.setBorder(BorderFactory.createEmptyBorder());
 		this.add(lblAmt);
 		this.add(txtAmt);
 		loForm.putConstraint(SpringLayout.WEST, lblAmt, COL1_PAD, SpringLayout.WEST, this);
 		loForm.putConstraint(SpringLayout.WEST, txtAmt, COL2_PAD, SpringLayout.WEST, this);
 		loForm.putConstraint(SpringLayout.NORTH, lblAmt, TOP_PAD, SpringLayout.NORTH, rbtnNeed);
 		loForm.putConstraint(SpringLayout.NORTH, txtAmt, TOP_PAD, SpringLayout.NORTH, rbtnWant);
-		// TODO: Calculator
+		
+		/* Calculator is inbuilt here */
 		final JLabel lblResult = this.createLabel("");
 		this.add(lblResult);
-		loForm.putConstraint(SpringLayout.WEST, lblResult, COL2_PAD, SpringLayout.WEST, txtAmt);
+		loForm.putConstraint(SpringLayout.WEST, lblResult, COL1_PAD, SpringLayout.EAST, txtAmt);
 		loForm.putConstraint(SpringLayout.NORTH, lblResult, TOP_PAD, SpringLayout.NORTH, rbtnWant);
 		txtAmt.getDocument().addDocumentListener(new DocumentListener() {
 
 			@Override
 			public void changedUpdate(DocumentEvent arg0) {
-				// TODO Auto-generated method stub
 				evaluate(lblResult);
 			}
 
 			@Override
 			public void insertUpdate(DocumentEvent arg0) {
-				// TODO Auto-generated method stub
 				evaluate(lblResult);
 			}
 
 			@Override
 			public void removeUpdate(DocumentEvent arg0) {
-				// TODO Auto-generated method stub
 				evaluate(lblResult);
 			}			
 		});
@@ -367,11 +367,8 @@ public class ExpenseForm extends JPanel{
 	        }
 	    };
 		txtDateChooser.setPreferredSize(new Dimension(200, 25));
+		txtDateChooser.setBorder(BorderFactory.createEmptyBorder());
 	    // JDateChooser stuff ends here (tingzhe)
-		//txtDate = new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy"));
-		//txtDate.setPreferredSize(new Dimension(200, 25));
-		//txtDate.setValue(new Date());
-		//txtDate.setBorder(BorderFactory.createLoweredBevelBorder());
 		this.add(lblDate);
 		this.add(txtDateChooser);
 		loForm.putConstraint(SpringLayout.WEST, lblDate, COL1_PAD, SpringLayout.WEST, this);
@@ -380,8 +377,9 @@ public class ExpenseForm extends JPanel{
 		loForm.putConstraint(SpringLayout.NORTH, txtDateChooser, TOP_PAD, SpringLayout.NORTH, txtAmt);
 
 		lblDesc = this.createLabel("Remarks");
-		txtDesc = new JTextField("");
-		txtDesc.setPreferredSize(new Dimension(200, 25));
+		txtDesc = new JTextArea();
+		txtDesc.setPreferredSize(new Dimension(200, 100));
+		txtDesc.setBorder(BorderFactory.createEmptyBorder());
 		this.add(lblDesc);
 		this.add(txtDesc);
 		loForm.putConstraint(SpringLayout.WEST, lblDesc, COL1_PAD, SpringLayout.WEST, this);
@@ -441,14 +439,15 @@ public class ExpenseForm extends JPanel{
 	 * @return the PaymentMethod chosen by the user
 	 */
 	public PaymentMethod getMode() {
-		if(isNewMethod()) {
-			// User defined new payment
-			String userInput = this.cboxPay.getSelectedItem().toString().trim();
-			return new PaymentMethod(userInput);
-		}
-		// Else find the selected Payment Method
-		// NOTE: MAY HAVE TO STORE A THE LIST TO RETRIEVE IN VIA INDEX.
-		return methods.get(cboxPay.getSelectedIndex());
+		return PaymentMethod.undefined;
+//		if(isNewMethod()) {
+//			// User defined new payment
+//			String userInput = this.cboxPay.getSelectedItem().toString().trim();
+//			return new PaymentMethod(userInput);
+//		}
+//		// Else find the selected Payment Method
+//		// NOTE: MAY HAVE TO STORE A THE LIST TO RETRIEVE IN VIA INDEX.
+//		return methods.get(cboxPay.getSelectedIndex());
 	}
 	
 	/**
@@ -456,7 +455,8 @@ public class ExpenseForm extends JPanel{
 	 * @return true if it is new, otherwise false;
 	 */
 	private boolean isNewMethod() {
-		return this.cboxPay.getSelectedIndex() < 0;
+//		return this.cboxPay.getSelectedIndex() < 0;
+		return false;
 	}
 	
 	/**
@@ -487,65 +487,139 @@ public class ExpenseForm extends JPanel{
 	 */
 	public boolean validateFields() {
 		boolean validateSuccess = true;
-		if(!validateAmt()) {
+		StringBuilder errMsg = new StringBuilder();
+		
+		if(!validateAmt(errMsg)) {
 			this.markErr(txtAmt);
 			validateSuccess = false;
 		}
+		else {
+			this.unmarkErr(txtAmt);
+		}
 		
-		if(!validateName()) {
+		if(!validateName(errMsg)) {
 			this.markErr(txtName);
 			validateSuccess = false;
 		}
+		else {
+			this.unmarkErr(txtName);
+		}
 		
-		if(!validateDate()) {
+		if(!validateDate(errMsg)) {
 			this.markErr(txtDateChooser);
 			validateSuccess = false;
 		}
+		else {
+			this.unmarkErr(txtDateChooser);
+		}
+		if(!validateCategory(errMsg)) {
+			this.markErr(cboxCat);
+			validateSuccess = false;
+		}
+		else {
+			this.unmarkErr(cboxCat);
+		}
 		
-		// TODO: Validate Category Name
-		// TODO: Validate Payment Method Name
-		// TODO: Validate Description?
+		if(!validateDescription(errMsg)) {
+			this.markErr(txtDesc);
+			validateSuccess = false;
+		}
+		else {
+			this.unmarkErr(txtDesc);
+		}
 		
+		UINotify.createErrMsg(this, errMsg.toString());
 		return validateSuccess;
 	}
 	
+
 	/**
-	 * Method to validate the date field
-	 * @return true if the date is before today's date, otherwise false
+	 * Validates the description field
+	 * @param errMsg StringBuilder Object to store error message, if any
+	 * @return true if validation is successful, otherwise false
 	 */
-	private boolean validateDate() {
-		if(getDate().after(new Date())) return false; // #Constraint disallow users to add future records
+	private boolean validateDescription(StringBuilder errMsg) {
+		if(txtDesc.getText().trim().equals("")) {
+			// Empty
+			return true;
+		}
+		
+		if(Config.isAlphaNumeric(txtDesc.getText().trim())) {
+			errMsg.append("Description contains invalid characters \n");
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Validates the Category field
+	 * @param errMsg StringBuilder object to store the error message, if any
+	 * @return true is validation is successful, otherwise false
+	 */
+	private boolean validateCategory(StringBuilder errMsg) {
+		if(this.isNewCategory()) {
+			String err = catHandler.validateCategoryName(cboxCat.getSelectedItem().toString().trim());
+			if(err!=null) { // null is error free
+				errMsg.append(err);
+				errMsg.append("\n");
+				return false;
+			}
+		}
 		return true;
 	}
 	
 	/**
-	 * Method to validate the amount field
+	 * validates the date field - if the date entered is a valid date (non future date)
+	 * @return true if it is a historical date, otherwise false
+	 */
+	private boolean validateDate(StringBuilder errMsg) {
+		if(getDate().after(new Date())) {
+			// #Constraint disallow users to add future records
+			errMsg.append("Future records are not supported\n");
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * Validates the amount field
 	 * @return true if no problems parsing, otherwise false
 	 */
-	private boolean validateAmt() {
+	private boolean validateAmt(StringBuilder errMsg) {
 		double result;
 		try {
-			result = evaluate();// To be updated to the inbuilt calculator
-//			this.setAmt(result);
-			// TODO: Max amount
-			if(result >= 1000000000) {
+			result = evaluate();
+			if(result > Config.DEFAULT_MAX_AMT_PER_RECORD) {
 				// Thats some big ticket item
+				errMsg.append("That amount is too big\n");
 				return false;
 			}
-			return result >= 0.01; // Minimum value
+			if(result < Config.DEFAULT_MIN_AMT_PER_RECORD) { // Minimum value
+				errMsg.append("That amount is too small\n");
+				return false;
+			}
+			return true;
 		}
 		catch(Exception err) {
-			displayErr("Unable to calculate input\n Please try again.");
+			errMsg.append("Invalid amount\n");
 			return false;
 		}
 	}
 	
 	/**
-	 * Method to validate the name field - ensure its not empty
-	 * @return true if name is not empty, otherwise false
+	 * Validates the name field - if there is any input
+	 * @return true if there is input, otherwise false
 	 */
-	private boolean validateName() {
-		return !getName().equals("");
+	private boolean validateName(StringBuilder errMsg) {
+		if(getName().equals("")) {
+			errMsg.append("Please enter a name for this record\n");
+			return false;
+		}
+		if(Config.isAlphaNumeric(getName())) {
+			errMsg.append("Name field contains non alphanumeric characters\n");
+			return false;
+		}	
+		return true;
 	}
 	
 	/**
@@ -562,6 +636,10 @@ public class ExpenseForm extends JPanel{
 	 */
 	private void markErr(JComponent component) {
 		component.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+	}
+	
+	private void unmarkErr(JComponent component) {
+		component.setBorder(BorderFactory.createEmptyBorder());
 	}
 	
 	/**
@@ -642,18 +720,29 @@ public class ExpenseForm extends JPanel{
 	
 	/**
 	 * Evaluates the amount field
-	 * @param lblResult JLabel to populate result
+	 * @param label JLabel to populate result
 	 */
-	private void evaluate(JLabel lblResult) {
+	private void evaluate(JLabel label) {
 		try {
+			if(txtAmt.getText().trim().equals("")) {
+				label.setText("<< Enter your expression");
+				return;
+			}
 			Double result = evaluate();
-			if(result!=null) setAmt(lblResult, result);
+			if(result>Config.DEFAULT_MAX_AMT_PER_RECORD) {
+				// Expression is too big!
+				label.setText("<< Sum is too huge!");
+				return;
+			}
+			if(result!=null) setAmt(label, result);
 		}
 		catch(EvaluationException evalErr) {
 			System.out.println(evalErr.getMessage());
+			label.setText("<< Invalid Expression");
 		}
 		catch(Exception err) {
 			System.out.println(err.getMessage());
+			label.setText("<< Invalid Expression");
 		}
 	}
 	

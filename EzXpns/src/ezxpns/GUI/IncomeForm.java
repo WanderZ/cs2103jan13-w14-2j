@@ -15,8 +15,10 @@ import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.event.DocumentEvent;
@@ -38,9 +40,9 @@ import ezxpns.data.records.RecordHandler;
 public class IncomeForm extends JPanel {
 	
 	// #Constants
-	public final int TOP_PAD = 27;
+	public final int TOP_PAD = 30;
 	public final int COL1_PAD = 15;
-	public final int COL2_PAD = 200;
+	public final int COL2_PAD = 150;
 	
 	// #Swing Components
 	private JLabel lblAmt, lblName, lblCat, lblDesc, lblDate;
@@ -48,7 +50,7 @@ public class IncomeForm extends JPanel {
 //	private JFormattedTextField txtDate;
 	private JDateChooser txtDateChooser;
 	private JComboBox cboxCat;
-	private JTextField txtDesc;
+	private JTextArea txtDesc;
 	
 	// #Logic Components
 	private RecordHandler recHandler; 
@@ -145,7 +147,9 @@ public class IncomeForm extends JPanel {
 		
 		lblName = this.createLabel("Name");
 		txtName = new JTextField("");
+		txtName.setToolTipText("Short name to name this record");
 		txtName.setPreferredSize(new Dimension(200, 25));
+		txtName.setBorder(BorderFactory.createEmptyBorder());
 		txtName.getDocument().addDocumentListener(new DocumentListener(){
 
 			@Override
@@ -182,7 +186,7 @@ public class IncomeForm extends JPanel {
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				// TODO Auto complete?
+				// TODO Validate name field
 			}
 			
 		});
@@ -210,6 +214,7 @@ public class IncomeForm extends JPanel {
 		txtAmt = new JTextField("");
 		txtAmt.setPreferredSize(new Dimension(200, 25));
 		txtAmt.setToolTipText("Enter Amount Here!");
+		txtAmt.setBorder(BorderFactory.createEmptyBorder());
 		this.add(lblAmt);
 		this.add(txtAmt);
 		loForm.putConstraint(SpringLayout.WEST, lblAmt, COL1_PAD, SpringLayout.WEST, this);
@@ -232,6 +237,7 @@ public class IncomeForm extends JPanel {
 	    };
 	    txtDateChooser.getJCalendar().addPropertyChangeListener("calendar",calendarChangeListener);
 		txtDateChooser.setPreferredSize(new Dimension(200, 25));
+		txtDateChooser.setBorder(BorderFactory.createEmptyBorder());
 	    // jDateChooser stuff ends here (tingzhe)
 		//txtDate = new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy"));
 		//txtDate.setMargin(new Insets(0, 10, 0, 10));
@@ -244,8 +250,9 @@ public class IncomeForm extends JPanel {
 		loForm.putConstraint(SpringLayout.NORTH, txtDateChooser, TOP_PAD, SpringLayout.NORTH, txtAmt);
 		
 		lblDesc = this.createLabel("Remarks");
-		txtDesc = new JTextField("");
-		txtDesc.setPreferredSize(new Dimension(200, 25));
+		txtDesc = new JTextArea("");
+		txtDesc.setPreferredSize(new Dimension(200, 100));
+		txtDesc.setBorder(BorderFactory.createEmptyBorder());
 		this.add(lblDesc);
 		this.add(txtDesc);
 		loForm.putConstraint(SpringLayout.WEST, lblDesc, COL1_PAD, SpringLayout.WEST, this);
@@ -269,37 +276,96 @@ public class IncomeForm extends JPanel {
 	 */
 	public boolean validateFields() {
 		boolean validateSuccess = true;
+		StringBuilder errMsg = new StringBuilder();
 		
-		if(!validateAmt()) {
-			System.out.println("failed amt");
+		if(!validateAmt(errMsg)) {
+			// TODO: Error message for failed amount
 			this.markErr(txtAmt);
 			validateSuccess = false;
 		}
+		else {
+			this.unmarkErr(txtAmt);
+		}
 		
-		if(!validateName()) {
-			System.out.println("failed name");
+		if(!validateName(errMsg)) {
+			// TODO: Error message for failed name
 			this.markErr(txtName);
 			validateSuccess = false;
 		}
-		
-		if(!validateDate()) {
-			this.markErr(txtDateChooser);
-			System.out.println("failed date");
-			validateSuccess = false;
+		else {
+			this.unmarkErr(txtName);
 		}
 		
-		// TODO: Validate Income Category
+		if(!validateDate(errMsg)) {
+			// TODO: Error message for failed date
+			this.markErr(txtDateChooser);
+			validateSuccess = false;
+		}
+		else {
+			this.unmarkErr(txtDateChooser);
+		}
 		
-		// TODO: Validate Description?
+		if(!validateCategory(errMsg)) {
+			this.markErr(cboxCat);
+			validateSuccess = false;
+		}
+		else {
+			this.unmarkErr(cboxCat);
+		}
+	
+		if(!validateDescription(errMsg)) {
+			this.markErr(txtDesc);
+			validateSuccess = false;
+		}
+		else {
+			this.unmarkErr(txtDesc);
+		}
 		
+		UINotify.createErrMsg(this, errMsg.toString());
 		return validateSuccess;
 	}
 	
 	/**
-	 * to validate the amount field, checking type and value (>0)
+	 * Validates the description field
+	 * @param errMsg StringBuilder Object to store error message, if any
+	 * @return true if validation is successful, otherwise false
+	 */
+	private boolean validateDescription(StringBuilder errMsg) {
+		if(txtDesc.getText().trim().equals("")) {
+			// Empty
+			return true;
+		}
+		
+		if(Config.isAlphaNumeric(txtDesc.getText().trim())) {
+			errMsg.append("Description contains invalid characters \n");
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Validates the Category field
+	 * @param errMsg StringBuilder object to store the error message, if any
+	 * @return true is validation is successful, otherwise false
+	 */
+	private boolean validateCategory(StringBuilder errMsg) {
+		if(this.isNewCategory()) {
+			String err = catHandler.validateCategoryName(cboxCat.getSelectedItem().toString().trim());
+			if(err!=null) { // null is error free
+				errMsg.append(err);
+				errMsg.append("\n");
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * Validates the amount field, checking type and value (>0)
 	 * @return true if input is valid, else false
 	 */
-	private boolean validateAmt() {
+	private boolean validateAmt(StringBuilder errMsg) {
 		// Data type check
 		double result;
 		try {
@@ -309,24 +375,36 @@ public class IncomeForm extends JPanel {
 			return false; 
 		}
 		
-		// Value check		
-		return result >= 0.01; // Minimum value
+		// Value check
+		return result >= Config.DEFAULT_MIN_AMT_PER_RECORD && result < Config.DEFAULT_MAX_AMT_PER_RECORD; // Minimum value
 	}
 	
 	/**
 	 * validates the name field - if there is any input
 	 * @return true if there is input, otherwise false
 	 */
-	private boolean validateName() {
-		return !getName().equals("");
+	private boolean validateName(StringBuilder errMsg) {
+		if(getName().equals("")) {
+			errMsg.append("Please enter a name for this record\n");
+			return false;
+		}
+		if(Config.isAlphaNumeric(getName())) {
+			errMsg.append("Name field contains non alphanumeric characters\n");
+			return false;
+		}	
+		return true;
 	}
 	
 	/**
 	 * validates the date field - if the date entered is a valid date (non future date)
 	 * @return true if it is a historical date, otherwise false
 	 */
-	private boolean validateDate() {
-		if(getDate().after(new Date())) return false; // #Constraint disallow users to add future records
+	private boolean validateDate(StringBuilder errMsg) {
+		if(getDate().after(new Date())) {
+			// #Constraint disallow users to add future records
+			errMsg.append("Future records are not supported\n");
+			return false;
+		}
 		return true;
 	}
 	
@@ -378,19 +456,19 @@ public class IncomeForm extends JPanel {
 	}
 	
 	/**
-	 * Method to mark fields with a red border to indicate to user that it has error
-	 * @param myTxtDateChooser JDateChooser to be marked for error
+	 * Mark a JComponent (a form field) with a red border to indicate error
+	 * @param component JComponent to mark
 	 */
-	private void markErr(JDateChooser myTxtDateChooser) {
-		myTxtDateChooser.setBorder(BorderFactory.createLineBorder(Color.RED));
+	private void markErr(JComponent component) {
+		component.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
 	}
 	
 	/**
-	 * Method to mark fields with a red border to indicate to user that it has error
-	 * @param myTxtDateChooser JTextField to be marked for error
+	 * Unmark a JComponent (a form field) if it was previously marked
+	 * @param component JComponent to unmark
 	 */
-	private void markErr(JTextField txtAmt) {
-		txtAmt.setBorder(BorderFactory.createLineBorder(Color.RED));
+	private void unmarkErr(JComponent component) {
+		component.setBorder(BorderFactory.createEmptyBorder());
 	}
 	
 	/** 
