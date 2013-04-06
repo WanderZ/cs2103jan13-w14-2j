@@ -177,6 +177,18 @@
             "name": "undefined"
           },
           "amount": 1000.0,
+          "name": "test",
+          "remark": "alright",
+          "date": "Apr 6, 2013 5:17:37 PM",
+          "id": 1365239857833
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 0,
+            "name": "undefined"
+          },
+          "amount": 1000.0,
           "name": "testeeeee",
           "remark": "alright",
           "date": "Apr 6, 2013 4:22:06 PM",
@@ -243,6 +255,18 @@
           "remark": "1231231231",
           "date": "Apr 6, 2013 12:00:00 AM",
           "id": 1365234434077
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 0,
+            "name": "undefined"
+          },
+          "amount": 1.0,
+          "name": "sdfasd",
+          "remark": "",
+          "date": "Apr 6, 2013 12:00:00 AM",
+          "id": 1365239807722
         },
         {
           "expenseType": "NEED",
@@ -864,13 +888,13 @@
         "month": 3,
         "dayOfMonth": 6,
         "hourOfDay": 17,
-        "minute": 2,
-        "second": 23
+        "minute": 17,
+        "second": 37
       },
       "targetNeedsRatio": 0.15000000000000008,
       "targetWantsRatio": 0.39999999999999997,
       "targetSavingsRatio": 0.4499999999999999,
-      "currentNeeds": 1.11153513E8,
+      "currentNeeds": 1.11154514E8,
       "currentWants": 101000.0,
       "currentSavings": 0.0,
       "income": 222312.0,
