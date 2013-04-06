@@ -45,7 +45,7 @@ import ezxpns.data.records.RecordHandler;
 public class ExpenseForm extends JPanel{
 	
 	// #Constants
-	public final int TOP_PAD = 30;
+	public final int TOP_PAD = 5;
 	public final int COL1_PAD = 15;
 	public final int COL2_PAD = 150;
 	
@@ -179,7 +179,7 @@ public class ExpenseForm extends JPanel{
 	 */
 	private JLabel createLabel(String lblTxt) {
 		JLabel lbl = new JLabel(lblTxt);
-		lbl.setFont(new Font("Segoe UI", 0, 18)); // #Font
+		lbl.setFont(Config.TEXT_FONT); // #Font
 		return lbl;
 	}
 	
@@ -294,18 +294,18 @@ public class ExpenseForm extends JPanel{
 		this.add(cboxCat);
 		loForm.putConstraint(SpringLayout.WEST, lblCat, COL1_PAD, SpringLayout.WEST, this);
 		loForm.putConstraint(SpringLayout.WEST, cboxCat, COL2_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.NORTH, lblCat, TOP_PAD, SpringLayout.NORTH, lblName);
-		loForm.putConstraint(SpringLayout.NORTH, cboxCat, TOP_PAD, SpringLayout.NORTH, txtName);
+		loForm.putConstraint(SpringLayout.NORTH, lblCat, TOP_PAD, SpringLayout.SOUTH, lblName);
+		loForm.putConstraint(SpringLayout.NORTH, cboxCat, TOP_PAD, SpringLayout.SOUTH, txtName);
 				
 		this.add(lblType);
 		this.add(rbtnNeed);
 		this.add(rbtnWant);
 		loForm.putConstraint(SpringLayout.WEST, lblType, COL1_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.NORTH, lblType, TOP_PAD, SpringLayout.NORTH, lblCat);
+		loForm.putConstraint(SpringLayout.NORTH, lblType, TOP_PAD, SpringLayout.SOUTH, lblCat);
 		loForm.putConstraint(SpringLayout.WEST, rbtnNeed, COL2_PAD, SpringLayout.WEST, this);
 		loForm.putConstraint(SpringLayout.WEST, rbtnWant, COL2_PAD/2, SpringLayout.WEST, rbtnNeed);
-		loForm.putConstraint(SpringLayout.NORTH, rbtnNeed, TOP_PAD, SpringLayout.NORTH, cboxCat);
-		loForm.putConstraint(SpringLayout.NORTH, rbtnWant, TOP_PAD, SpringLayout.NORTH, cboxCat);
+		loForm.putConstraint(SpringLayout.NORTH, rbtnNeed, TOP_PAD, SpringLayout.SOUTH, cboxCat);
+		loForm.putConstraint(SpringLayout.NORTH, rbtnWant, TOP_PAD, SpringLayout.SOUTH, cboxCat);
 		
 		lblAmt = this.createLabel("Amount");
 		txtAmt = new JTextField("");
@@ -314,14 +314,14 @@ public class ExpenseForm extends JPanel{
 		this.add(txtAmt);
 		loForm.putConstraint(SpringLayout.WEST, lblAmt, COL1_PAD, SpringLayout.WEST, this);
 		loForm.putConstraint(SpringLayout.WEST, txtAmt, COL2_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.NORTH, lblAmt, TOP_PAD, SpringLayout.NORTH, rbtnNeed);
-		loForm.putConstraint(SpringLayout.NORTH, txtAmt, TOP_PAD, SpringLayout.NORTH, rbtnWant);
+		loForm.putConstraint(SpringLayout.NORTH, lblAmt, TOP_PAD, SpringLayout.SOUTH, rbtnNeed);
+		loForm.putConstraint(SpringLayout.NORTH, txtAmt, TOP_PAD, SpringLayout.SOUTH, rbtnWant);
 		
 		/* Calculator is inbuilt here */
 		final JLabel lblResult = this.createLabel("");
 		this.add(lblResult);
 		loForm.putConstraint(SpringLayout.WEST, lblResult, COL1_PAD, SpringLayout.EAST, txtAmt);
-		loForm.putConstraint(SpringLayout.NORTH, lblResult, TOP_PAD, SpringLayout.NORTH, rbtnWant);
+		loForm.putConstraint(SpringLayout.NORTH, lblResult, TOP_PAD, SpringLayout.SOUTH, rbtnWant);
 		txtAmt.getDocument().addDocumentListener(new DocumentListener() {
 
 			@Override
@@ -374,8 +374,8 @@ public class ExpenseForm extends JPanel{
 		this.add(txtDateChooser);
 		loForm.putConstraint(SpringLayout.WEST, lblDate, COL1_PAD, SpringLayout.WEST, this);
 		loForm.putConstraint(SpringLayout.WEST, txtDateChooser, COL2_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.NORTH, lblDate, TOP_PAD, SpringLayout.NORTH, lblAmt);
-		loForm.putConstraint(SpringLayout.NORTH, txtDateChooser, TOP_PAD, SpringLayout.NORTH, txtAmt);
+		loForm.putConstraint(SpringLayout.NORTH, lblDate, TOP_PAD, SpringLayout.SOUTH, lblAmt);
+		loForm.putConstraint(SpringLayout.NORTH, txtDateChooser, TOP_PAD, SpringLayout.SOUTH, txtAmt);
 
 		lblDesc = this.createLabel("Remarks");
 		txtDesc = new JTextArea();
@@ -387,8 +387,8 @@ public class ExpenseForm extends JPanel{
 		this.add(txtDesc);
 		loForm.putConstraint(SpringLayout.WEST, lblDesc, COL1_PAD, SpringLayout.WEST, this);
 		loForm.putConstraint(SpringLayout.WEST, txtDesc, COL2_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.NORTH, lblDesc, TOP_PAD, SpringLayout.NORTH, lblDate);
-		loForm.putConstraint(SpringLayout.NORTH, txtDesc, TOP_PAD, SpringLayout.NORTH, txtDateChooser);
+		loForm.putConstraint(SpringLayout.NORTH, lblDesc, TOP_PAD, SpringLayout.SOUTH, lblDate);
+		loForm.putConstraint(SpringLayout.NORTH, txtDesc, TOP_PAD, SpringLayout.SOUTH, txtDateChooser);
 				
 		// Request focus in txtName
 		txtName.requestFocusInWindow();
@@ -744,18 +744,23 @@ public class ExpenseForm extends JPanel{
 			Double result = evaluate();
 			if(result>Config.DEFAULT_MAX_AMT_PER_RECORD) {
 				// Expression is too big!
-				label.setText("<< Sum is too huge!");
+				label.setText("<< Value is too huge!");
+				return;
+			}
+			
+			if(result < Config.DEFAULT_MIN_AMT_PER_RECORD) {
+				label.setText("<< Value is too small");
 				return;
 			}
 			if(result!=null) setAmt(label, result);
 		}
 		catch(EvaluationException evalErr) {
 			System.out.println(evalErr.getMessage());
-			label.setText("<< Invalid Expression");
+			label.setText("<< Invalid");
 		}
 		catch(Exception err) {
 			System.out.println(err.getMessage());
-			label.setText("<< Invalid Expression");
+			label.setText("<< Invalid");
 		}
 	}
 	
