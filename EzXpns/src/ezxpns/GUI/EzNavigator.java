@@ -66,7 +66,7 @@ public class EzNavigator extends JLayeredPane {
 		gbc.gridx = 0;
 		gbc.gridy = 2;
 		/* Insert Second Button here */
-		btn = createMenuBtn(NormalMenuOpt.DASHBD);
+		btn = createMenuBtn(new NewExpenseDialog(this.uiCtrl));
 		this.add(btn, gbc);
 		btn.setBorder(BorderFactory.createLoweredBevelBorder());
 		selected = btn;
@@ -74,21 +74,21 @@ public class EzNavigator extends JLayeredPane {
 		gbc.gridx = 0;
 		gbc.gridy = 3;
 		/* Insert Third Button here */
-		btn = createMenuBtn(new NewExpenseDialog(this.uiCtrl));
+		btn = createMenuBtn(new NewIncomeDialog(this.uiCtrl));
 		this.add(btn, gbc);
 		
 		
 		gbc.gridx = 0;
 		gbc.gridy = 4;
 		/* Insert Fourth Button here */
-		btn = createMenuBtn(new NewIncomeDialog(this.uiCtrl));
+		btn = createMenuBtn(NormalMenuOpt.DASHBD);
 		this.add(btn, gbc);
 		
 		
 		gbc.gridx = 0;
 		gbc.gridy = 5;
 		/* Insert Fifth Button here */
-		btn = createMenuBtn(new ReportDialog(this.uiCtrl));
+		btn = createMenuBtn(NormalMenuOpt.SEARCH);
 		this.add(btn, gbc);
 
 		
@@ -102,7 +102,7 @@ public class EzNavigator extends JLayeredPane {
 		gbc.gridx = 0;
 		gbc.gridy = 7;
 		/* Insert Seventh Button here */
-		btn = createMenuBtn(NormalMenuOpt.SEARCH);
+		btn = createMenuBtn(new ReportDialog(this.uiCtrl));
 		this.add(btn, gbc);
 		
 //		btn = createMenuBtn(NormalMenuOpt.PAYMGR);
