@@ -1,12 +1,9 @@
 package ezxpns.GUI;
 import java.awt.*;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
@@ -20,12 +17,12 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -37,7 +34,6 @@ import ezxpns.data.records.CategoryHandler;
 import ezxpns.data.records.ExpenseRecord;
 import ezxpns.data.records.IncomeRecord;
 import ezxpns.data.records.PaymentHandler;
-import ezxpns.data.records.PaymentMethod;
 import ezxpns.data.records.Record;
 import ezxpns.data.records.SearchHandler;
 import ezxpns.data.records.SearchRequest;
@@ -47,7 +43,7 @@ import ezxpns.util.Pair;
  * The window to handle the searching and querying needs of the user
  */
 @SuppressWarnings("serial")
-public class SearchFrame extends JPanel {
+public class SearchFrame extends JPanel implements FocusListener, DocumentListener {
 	
 	public final int DEFAULT_WIDTH = 600;
 	public final int DEFAULT_HEIGHT = 400;
@@ -87,7 +83,7 @@ public class SearchFrame extends JPanel {
 		panCtrls = new JPanel();
 		panCtrls.setLayout(new BorderLayout());
 		
-		panForm = new SearchFormPanel(inCatHandRef, exCatHandRef, payHandRef);
+		panForm = new SearchFormPanel(this, this, inCatHandRef, exCatHandRef, payHandRef);
 		panCtrls.add(panForm, BorderLayout.CENTER);
 		panCtrls.setPreferredSize(new Dimension(DEFAULT_WIDTH, SIMPLE_HEIGHT)); // SIMPLE SEARCH EXPERIMENTATION
 		
@@ -238,8 +234,36 @@ public class SearchFrame extends JPanel {
 		}
 		panForm.reload();
 	}
+
+	@Override
+	public void changedUpdate(DocumentEvent e) {
+		performSearch();
+	}
+
+	@Override
+	public void insertUpdate(DocumentEvent e) {
+		performSearch();
+	}
+
+	@Override
+	public void removeUpdate(DocumentEvent e) {
+		performSearch();
+	}
+
+	@Override
+	public void focusGained(FocusEvent arg0) {
+		performSearch();
+	}
+
+	@Override
+	public void focusLost(FocusEvent arg0) {
+		performSearch();
+	}
 }
 
+/**
+ * The form for the Search Panel
+ */
 @SuppressWarnings("serial")
 class SearchFormPanel extends JPanel {
 	
@@ -280,6 +304,8 @@ class SearchFormPanel extends JPanel {
 	}
 	
 	public SearchFormPanel(
+			DocumentListener docListener,
+			FocusListener focusListener,
 			CategoryHandler<IncomeRecord> inCatHandRef, 
 			CategoryHandler<ExpenseRecord> exCatHandRef, 
 			PaymentHandler payHandRef) {
@@ -297,6 +323,8 @@ class SearchFormPanel extends JPanel {
 		txtSimpleField = new JTextField("");
 		txtSimpleField.setFont(FORM_FONT);
 		txtSimpleField.setPreferredSize(new Dimension(230,32));
+		txtSimpleField.getDocument().addDocumentListener(docListener);
+		txtSimpleField.addFocusListener(focusListener);
 		normalPane.add(txtSimpleField, "span 1, wrap");
 		this.add(normalPane);
 		
