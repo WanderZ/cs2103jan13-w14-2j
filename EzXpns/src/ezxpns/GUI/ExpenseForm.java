@@ -23,6 +23,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
+import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -60,6 +61,8 @@ public class ExpenseForm extends JPanel{
 	private JDateChooser txtDateChooser;
 	private JTextArea txtDesc;
 	private JComboBox cboxCat/*, cboxPay*/;
+	private Border defaultTFBorder;
+	private Border defaultCBBorder;
 	
 	// #Logic Components
 	private RecordHandler recHandler; 
@@ -181,7 +184,7 @@ public class ExpenseForm extends JPanel{
 	}
 	
 	/** Populates the Categories Drop down field */
-	private void initCatComboBox() {
+	private void populateCategories() {
 		for(Category cat: categories) {
 			this.cboxCat.addItem(cat.getName());
 		}
@@ -214,15 +217,14 @@ public class ExpenseForm extends JPanel{
 		
 		bgType.add(rbtnNeed);
 		bgType.add(rbtnWant);
-		// Action Listener to update the label text in preview?
 		
 		// Initialize Combo Box - To be a dynamic updating list.
 		lblCat = this.createLabel("Category");
 		cboxCat = new JComboBox();
-		this.initCatComboBox();
+		this.populateCategories();
 		cboxCat.setEditable(true);
 		cboxCat.setPreferredSize(new Dimension(200, 25));
-		cboxCat.setBorder(BorderFactory.createEmptyBorder());
+		defaultCBBorder = cboxCat.getBorder();
 		
 		// Initialize Combo Box - To be a dynamic updating list.
 //		lblPayment = this.createLabel("Payment Method");
@@ -234,7 +236,7 @@ public class ExpenseForm extends JPanel{
 		lblName = this.createLabel("Name");
 		txtName = new JTextField("");
 		txtName.setPreferredSize(new Dimension(200, 25));
-		txtName.setBorder(BorderFactory.createEmptyBorder());
+		defaultTFBorder = txtName.getBorder();
 		txtName.getDocument().addDocumentListener(new DocumentListener() {
 
 			@Override
@@ -308,7 +310,6 @@ public class ExpenseForm extends JPanel{
 		lblAmt = this.createLabel("Amount");
 		txtAmt = new JTextField("");
 		txtAmt.setPreferredSize(new Dimension(200, 25));
-		txtAmt.setBorder(BorderFactory.createEmptyBorder());
 		this.add(lblAmt);
 		this.add(txtAmt);
 		loForm.putConstraint(SpringLayout.WEST, lblAmt, COL1_PAD, SpringLayout.WEST, this);
@@ -379,7 +380,7 @@ public class ExpenseForm extends JPanel{
 		lblDesc = this.createLabel("Remarks");
 		txtDesc = new JTextArea();
 		txtDesc.setPreferredSize(new Dimension(200, 100));
-		txtDesc.setBorder(BorderFactory.createEmptyBorder());
+		txtDesc.setBorder(defaultTFBorder);
 		txtDesc.setWrapStyleWord(true);
 		txtDesc.setLineWrap(true);
 		this.add(lblDesc);
@@ -388,8 +389,7 @@ public class ExpenseForm extends JPanel{
 		loForm.putConstraint(SpringLayout.WEST, txtDesc, COL2_PAD, SpringLayout.WEST, this);
 		loForm.putConstraint(SpringLayout.NORTH, lblDesc, TOP_PAD, SpringLayout.NORTH, lblDate);
 		loForm.putConstraint(SpringLayout.NORTH, txtDesc, TOP_PAD, SpringLayout.NORTH, txtDateChooser);
-		
-		
+				
 		// Request focus in txtName
 		txtName.requestFocusInWindow();
 	}
@@ -414,7 +414,7 @@ public class ExpenseForm extends JPanel{
 		if(isNewCategory()) {
 			// User defined new category
 			String userInput = this.cboxCat.getSelectedItem().toString().trim();
-			return new Category(userInput); // To be refactored in the future implementation
+			return new Category(userInput); 
 		}
 		// Else find the selected Category
 		return categories.get(cboxCat.getSelectedIndex());
@@ -447,8 +447,6 @@ public class ExpenseForm extends JPanel{
 //			String userInput = this.cboxPay.getSelectedItem().toString().trim();
 //			return new PaymentMethod(userInput);
 //		}
-//		// Else find the selected Payment Method
-//		// NOTE: MAY HAVE TO STORE A THE LIST TO RETRIEVE IN VIA INDEX.
 //		return methods.get(cboxPay.getSelectedIndex());
 	}
 	
@@ -491,14 +489,6 @@ public class ExpenseForm extends JPanel{
 		boolean validateSuccess = true;
 		StringBuilder errMsg = new StringBuilder();
 		
-		if(!validateAmt(errMsg)) {
-			this.markErr(txtAmt);
-			validateSuccess = false;
-		}
-		else {
-			this.unmarkErr(txtAmt);
-		}
-		
 		if(!validateName(errMsg)) {
 			this.markErr(txtName);
 			validateSuccess = false;
@@ -507,13 +497,18 @@ public class ExpenseForm extends JPanel{
 			this.unmarkErr(txtName);
 		}
 		
-		if(!validateDate(errMsg)) {
-			this.markErr(txtDateChooser);
+		if(!validateAmt(errMsg)) {
+			this.markErr(txtAmt);
 			validateSuccess = false;
 		}
 		else {
-			this.unmarkErr(txtDateChooser);
+			this.unmarkErr(txtAmt);
 		}
+		
+		if(!validateDate(errMsg)) {
+			validateSuccess = false;
+		}
+		
 		if(!validateCategory(errMsg)) {
 			this.markErr(cboxCat);
 			validateSuccess = false;
@@ -645,15 +640,19 @@ public class ExpenseForm extends JPanel{
 	}
 	
 	/**
-	 * Method to mark fields with a red border to indicate to user that it has error
+	 * Marks fields with a red border to indicate to user that it has error
 	 * @param component JTextField to be marked for error
 	 */
 	private void markErr(JComponent component) {
 		component.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
 	}
 	
+	/**
+	 * Unmarks fields without error with their default border
+	 * @param component
+	 */
 	private void unmarkErr(JComponent component) {
-		component.setBorder(BorderFactory.createEmptyBorder());
+		component.setBorder(component instanceof JTextField ? defaultTFBorder : defaultCBBorder);
 	}
 	
 	/**

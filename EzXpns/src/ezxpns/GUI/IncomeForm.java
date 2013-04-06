@@ -8,6 +8,7 @@ import java.awt.event.FocusListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
+import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -51,6 +53,8 @@ public class IncomeForm extends JPanel {
 	private JDateChooser txtDateChooser;
 	private JComboBox cboxCat;
 	private JTextArea txtDesc;
+	private Border defaultTFBorder;
+	private Border defaultCBBorder;
 	
 	// #Logic Components
 	private RecordHandler recHandler; 
@@ -127,14 +131,13 @@ public class IncomeForm extends JPanel {
 		// Description
 		txtDesc.setText(record.getRemark());
 		
-		// Recurrence stuff...
-		// Not handled at the moment
+		// TODO: Recurring Records
 		
 		blockAutoFill = false;
 	}
 	
-	/** Initialize the categories drop down field */
-	private void initCat() {
+	/** Populates the categories drop down field */
+	private void populateCategories() {
 		for(Category cat: categories) {
 			this.cboxCat.addItem(cat.getName());
 		}
@@ -142,6 +145,7 @@ public class IncomeForm extends JPanel {
 	
 	/** Initiate all Form fields */
 	private void initFields() {
+		
 		/* The Layout governing the positions */
 		SpringLayout loForm = new SpringLayout();
 		this.setLayout(loForm);
@@ -150,7 +154,7 @@ public class IncomeForm extends JPanel {
 		txtName = new JTextField("");
 		txtName.setToolTipText("Short name to name this record");
 		txtName.setPreferredSize(new Dimension(200, 25));
-		System.out.println(txtName.getBorder().toString());
+		defaultTFBorder = txtName.getBorder();
 		txtName.getDocument().addDocumentListener(new DocumentListener(){
 
 			@Override
@@ -201,8 +205,8 @@ public class IncomeForm extends JPanel {
 		lblCat = this.createLabel("Category");
 		cboxCat = new JComboBox();
 		cboxCat.setPreferredSize(new Dimension(200, 25));
-		cboxCat.setBorder(BorderFactory.createEmptyBorder());
-		this.initCat();
+		defaultCBBorder = cboxCat.getBorder();
+		this.populateCategories();
 		cboxCat.setEditable(true);
 		this.add(lblCat);
 		this.add(cboxCat);
@@ -215,7 +219,7 @@ public class IncomeForm extends JPanel {
 		txtAmt = new JTextField("");
 		txtAmt.setPreferredSize(new Dimension(200, 25));
 		txtAmt.setToolTipText("Enter Amount Here!");
-		txtAmt.setBorder(BorderFactory.createEmptyBorder());
+		
 		this.add(lblAmt);
 		this.add(txtAmt);
 		loForm.putConstraint(SpringLayout.WEST, lblAmt, COL1_PAD, SpringLayout.WEST, this);
@@ -276,7 +280,7 @@ public class IncomeForm extends JPanel {
 	    };
 	    txtDateChooser.getJCalendar().addPropertyChangeListener("calendar",calendarChangeListener);
 		txtDateChooser.setPreferredSize(new Dimension(200, 25));
-		txtDateChooser.setBorder(BorderFactory.createEmptyBorder());
+		
 	    // jDateChooser stuff ends here (tingzhe)
 		//txtDate = new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy"));
 		//txtDate.setMargin(new Insets(0, 10, 0, 10));
@@ -291,7 +295,7 @@ public class IncomeForm extends JPanel {
 		lblDesc = this.createLabel("Remarks");
 		txtDesc = new JTextArea("");
 		txtDesc.setPreferredSize(new Dimension(200, 100));
-		txtDesc.setBorder(BorderFactory.createEmptyBorder());
+		txtDesc.setBorder(defaultTFBorder);
 		txtDesc.setWrapStyleWord(true);
 		txtDesc.setLineWrap(true);
 		this.add(lblDesc);
@@ -319,6 +323,14 @@ public class IncomeForm extends JPanel {
 		boolean validateSuccess = true;
 		StringBuilder errMsg = new StringBuilder();
 		
+		if(!validateName(errMsg)) {
+			this.markErr(txtName);
+			validateSuccess = false;
+		}
+		else {
+			this.unmarkErr(txtName);
+		}
+		
 		if(!validateAmt(errMsg)) {
 			this.markErr(txtAmt);
 			validateSuccess = false;
@@ -327,22 +339,8 @@ public class IncomeForm extends JPanel {
 			this.unmarkErr(txtAmt);
 		}
 		
-		if(!validateName(errMsg)) {
-			// TODO: Error message for failed name
-			this.markErr(txtName);
-			validateSuccess = false;
-		}
-		else {
-			this.unmarkErr(txtName);
-		}
-		
 		if(!validateDate(errMsg)) {
-			// TODO: Error message for failed date
-			this.markErr(txtDateChooser);
 			validateSuccess = false;
-		}
-		else {
-			this.unmarkErr(txtDateChooser);
 		}
 		
 		if(!validateCategory(errMsg)) {
@@ -361,7 +359,7 @@ public class IncomeForm extends JPanel {
 			this.unmarkErr(txtDesc);
 		}
 		
-		if(!validateSuccess) UINotify.createErrMsg(this, errMsg.toString());
+		if(!validateSuccess) displayErr(errMsg.toString());
 		return validateSuccess;
 	}
 	
@@ -415,21 +413,28 @@ public class IncomeForm extends JPanel {
 	 * @return true if input is valid, else false
 	 */
 	private boolean validateAmt(StringBuilder errMsg) {
-		// Data type check
 		double result;
 		try {
-			result = Double.parseDouble(getAmt());
+			result = evaluate();
+			if(result > Config.DEFAULT_MAX_AMT_PER_RECORD) {
+				// Thats some big ticket item
+				errMsg.append("That amount is too big\n");
+				return false;
+			}
+			if(result < Config.DEFAULT_MIN_AMT_PER_RECORD) { // Minimum value
+				errMsg.append("That amount is too small\n");
+				return false;
+			}
+			return true;
 		}
-		catch(Exception err) { 
-			return false; 
+		catch(Exception err) {
+			errMsg.append("Invalid amount\n");
+			return false;
 		}
-		
-		// Value check
-		return result >= Config.DEFAULT_MIN_AMT_PER_RECORD && result < Config.DEFAULT_MAX_AMT_PER_RECORD; // Minimum value
 	}
 	
 	/**
-	 * validates the name field - if there is any input
+	 * Validates the name field - if there is any input
 	 * @return true if there is input, otherwise false
 	 */
 	private boolean validateName(StringBuilder errMsg) {
@@ -449,7 +454,7 @@ public class IncomeForm extends JPanel {
 	}
 	
 	/**
-	 * validates the date field - if the date entered is a valid date (non future date)
+	 * Validates the date field - if the date entered is a valid date (non future date)
 	 * @return true if it is a historical date, otherwise false
 	 */
 	private boolean validateDate(StringBuilder errMsg) {
@@ -530,7 +535,7 @@ public class IncomeForm extends JPanel {
 	 * @param component JComponent to unmark
 	 */
 	private void unmarkErr(JComponent component) {
-		component.setBorder(BorderFactory.createEmptyBorder());
+		component.setBorder(component instanceof JTextField ? defaultTFBorder : defaultCBBorder);
 	}
 	
 	/** 
@@ -538,20 +543,29 @@ public class IncomeForm extends JPanel {
 	 * @return Record object containing the user input
 	 */
 	public Record save() {
-		IncomeRecord iRecord = new IncomeRecord(
-				Double.parseDouble(this.getAmt()), 
-				this.getName(), 
-				this.getDesc(), 
-				this.getDate(), 
-				this.getCat()
-			);
-		if(isEdit) {
-			this.recHandler.modifyRecord(record.getId(), iRecord, isNewCategory());
+		IncomeRecord iRecord = null;
+		try {
+			iRecord = new IncomeRecord(
+					evaluate(), 
+					this.getName(), 
+					this.getDesc(), 
+					this.getDate(), 
+					this.getCat()
+				);
+			if(isEdit) {
+				this.recHandler.modifyRecord(record.getId(), iRecord, isNewCategory());
+			}
+			else {
+				iRecord = this.recHandler.createRecord(iRecord, isNewCategory());
+			}
+			notifyee.addUndoAction(createUndoAction(iRecord, isNewCategory()), isEdit ? "Edit Income" : "New Income");
+			
+			return iRecord;
+			
+		} 
+		catch (EvaluationException e) {
+			
 		}
-		else {
-			iRecord = this.recHandler.createRecord(iRecord, isNewCategory());
-		}
-		notifyee.addUndoAction(createUndoAction(iRecord, isNewCategory()), isEdit ? "Edit Income" : "New Income");
 		return iRecord;
 	}
 	
@@ -590,6 +604,13 @@ public class IncomeForm extends JPanel {
 		return label;
 	}
 	
+	/**
+	 * Displays an error dialog
+	 * @param msg Message to be displayed
+	 */
+	private void displayErr(String msg) {
+		UINotify.createErrMsg(this, msg);
+	}
 
 	/**
 	 * Evaluates the amount field
