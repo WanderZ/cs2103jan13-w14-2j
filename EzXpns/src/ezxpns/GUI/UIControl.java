@@ -141,12 +141,12 @@ public class UIControl implements RecordListView.RecordEditor {
 		if(record instanceof ExpenseRecord) {
 			ExpenseRecord expense = (ExpenseRecord) record;
 			// recWin = new RecordDialog(homeScreen, recHandler, exCatHandler, payHandler, homeScreen, expense);
-			recWin = new RecordDialog(home, recHandler, exCatHandler, payHandler, home, expense);
+			recWin = new RecordDialog(home, "EzXpns - Edit Expense Record", recHandler, exCatHandler, payHandler, home, expense);
 		}
 		else {
 			IncomeRecord income = (IncomeRecord) record;
 			// recWin = new RecordFrame(homeScreen, recHandler, inCatHandler, homeScreen, income);
-			recWin = new RecordDialog(home, recHandler, inCatHandler, home, income);
+			recWin = new RecordDialog(home, "EzXpns - Edit Income Record", recHandler, inCatHandler, home, income);
 		}		
 	}
 	

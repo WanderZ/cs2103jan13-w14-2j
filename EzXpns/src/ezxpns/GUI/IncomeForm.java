@@ -42,7 +42,7 @@ import ezxpns.data.records.RecordHandler;
 public class IncomeForm extends JPanel {
 	
 	// #Constants
-	public final int TOP_PAD = 5;
+	public final int TOP_PAD = 30;
 	public final int COL1_PAD = 15;
 	public final int COL2_PAD = 150;
 	
@@ -199,8 +199,8 @@ public class IncomeForm extends JPanel {
 		this.add(txtName);
 		loForm.putConstraint(SpringLayout.WEST, lblName, COL1_PAD, SpringLayout.WEST, this);
 		loForm.putConstraint(SpringLayout.WEST, txtName, COL2_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.NORTH, lblName, TOP_PAD, SpringLayout.NORTH, this);
-		loForm.putConstraint(SpringLayout.NORTH, txtName, TOP_PAD, SpringLayout.NORTH, this);
+		loForm.putConstraint(SpringLayout.NORTH, lblName, TOP_PAD>>2, SpringLayout.NORTH, this);
+		loForm.putConstraint(SpringLayout.NORTH, txtName, TOP_PAD>>2, SpringLayout.NORTH, this);
 		
 		lblCat = this.createLabel("Category");
 		cboxCat = new JComboBox();
@@ -212,8 +212,8 @@ public class IncomeForm extends JPanel {
 		this.add(cboxCat);
 		loForm.putConstraint(SpringLayout.WEST, lblCat, COL1_PAD, SpringLayout.WEST, this);
 		loForm.putConstraint(SpringLayout.WEST, cboxCat, COL2_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.NORTH, lblCat, TOP_PAD, SpringLayout.SOUTH, lblName);
-		loForm.putConstraint(SpringLayout.NORTH, cboxCat, TOP_PAD, SpringLayout.SOUTH, txtName);
+		loForm.putConstraint(SpringLayout.NORTH, lblCat, TOP_PAD, SpringLayout.NORTH, lblName);
+		loForm.putConstraint(SpringLayout.NORTH, cboxCat, TOP_PAD, SpringLayout.NORTH, txtName);
 		
 		lblAmt = this.createLabel("Amount");
 		txtAmt = new JTextField("");
@@ -224,14 +224,14 @@ public class IncomeForm extends JPanel {
 		this.add(txtAmt);
 		loForm.putConstraint(SpringLayout.WEST, lblAmt, COL1_PAD, SpringLayout.WEST, this);
 		loForm.putConstraint(SpringLayout.WEST, txtAmt, COL2_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.NORTH, lblAmt, TOP_PAD, SpringLayout.SOUTH, lblCat);
-		loForm.putConstraint(SpringLayout.NORTH, txtAmt, TOP_PAD, SpringLayout.SOUTH, cboxCat);
+		loForm.putConstraint(SpringLayout.NORTH, lblAmt, TOP_PAD, SpringLayout.NORTH, lblCat);
+		loForm.putConstraint(SpringLayout.NORTH, txtAmt, TOP_PAD, SpringLayout.NORTH, cboxCat);
 		
 		/* Calculator begins here */
 		final JLabel lblResult = this.createLabel("");
 		this.add(lblResult);
 		loForm.putConstraint(SpringLayout.WEST, lblResult, COL1_PAD, SpringLayout.EAST, txtAmt);
-		loForm.putConstraint(SpringLayout.NORTH, lblResult, TOP_PAD, SpringLayout.SOUTH, cboxCat);
+		loForm.putConstraint(SpringLayout.NORTH, lblResult, TOP_PAD, SpringLayout.NORTH, cboxCat);
 		txtAmt.getDocument().addDocumentListener(new DocumentListener() {
 
 			@Override
@@ -289,8 +289,8 @@ public class IncomeForm extends JPanel {
 		this.add(txtDateChooser);
 		loForm.putConstraint(SpringLayout.WEST, lblDate, COL1_PAD, SpringLayout.WEST, this);
 		loForm.putConstraint(SpringLayout.WEST, txtDateChooser, COL2_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.NORTH, lblDate, TOP_PAD, SpringLayout.SOUTH, lblAmt);
-		loForm.putConstraint(SpringLayout.NORTH, txtDateChooser, TOP_PAD, SpringLayout.SOUTH, txtAmt);
+		loForm.putConstraint(SpringLayout.NORTH, lblDate, TOP_PAD, SpringLayout.NORTH, lblAmt);
+		loForm.putConstraint(SpringLayout.NORTH, txtDateChooser, TOP_PAD, SpringLayout.NORTH, txtAmt);
 		
 		lblDesc = this.createLabel("Remarks");
 		txtDesc = new JTextArea("");
@@ -302,8 +302,8 @@ public class IncomeForm extends JPanel {
 		this.add(txtDesc);
 		loForm.putConstraint(SpringLayout.WEST, lblDesc, COL1_PAD, SpringLayout.WEST, this);
 		loForm.putConstraint(SpringLayout.WEST, txtDesc, COL2_PAD, SpringLayout.WEST, this);
-		loForm.putConstraint(SpringLayout.NORTH, lblDesc, TOP_PAD, SpringLayout.SOUTH, lblDate);
-		loForm.putConstraint(SpringLayout.NORTH, txtDesc, TOP_PAD, SpringLayout.SOUTH, txtDateChooser);
+		loForm.putConstraint(SpringLayout.NORTH, lblDesc, TOP_PAD, SpringLayout.NORTH, lblDate);
+		loForm.putConstraint(SpringLayout.NORTH, txtDesc, TOP_PAD, SpringLayout.NORTH, txtDateChooser);
 		
 		manageFocus();
 	}
