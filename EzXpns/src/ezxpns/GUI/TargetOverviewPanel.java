@@ -134,7 +134,7 @@ public class TargetOverviewPanel extends JPanel {
 			JPanel subPanel = new JPanel();
 			subPanel.setLayout(new BoxLayout(subPanel, BoxLayout.Y_AXIS));
 			subPanel.setOpaque(false);
-			subPanel.setPreferredSize(new Dimension(90, 26));
+			subPanel.setPreferredSize(new Dimension(80, 26));
 			rowPanel.add(subPanel);
 			
 			// CURRENT AMOUNT/TARGET AMOUNT
@@ -148,7 +148,7 @@ public class TargetOverviewPanel extends JPanel {
 			subPanel.add(lblRemainingAmt);
 			
 			// Budget
-			rowPanel.add(new JLabel("<html><b>Budget:  "+TWO_DP.format(bar.getTargetAmt())+"</b></html>"));
+			rowPanel.add(new JLabel("<html>Limit: "+TWO_DP.format(bar.getTargetAmt())+"</html>"));
 		}
 
 	}
