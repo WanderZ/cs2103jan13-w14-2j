@@ -241,6 +241,8 @@ public class OverviewPanel extends JPanel {
 			lblBalance.setForeground(Color.GREEN.darker());
 		else if (mySummaryDetails.getBalance() < 0)
 			lblBalance.setForeground(Color.RED.darker());
+		else
+			lblBalance.setForeground(Color.BLACK);
 	}
 	
 	public void updateOverview(){
