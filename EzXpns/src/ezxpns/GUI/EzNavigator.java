@@ -4,7 +4,6 @@ import java.awt.CardLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -32,7 +31,14 @@ public class EzNavigator extends JLayeredPane {
 	
 	private UIControl uiCtrl;
 	
+	/**
+	 * JButton reference to the undo button
+	 */
 	private JButton btnUndo;
+	
+	/**
+	 * JButton reference to the selected button 
+	 */
 	private JButton selected;
 	
 	private EzNavigator(UIControl uiCtrl) {
@@ -54,27 +60,30 @@ public class EzNavigator extends JLayeredPane {
 		btnUndo = btn; // Stored for cosmetic updates
 		this.add(btn, gbc);
 		btnUndo.setAction(uiCtrl.getUndoMgr().getAction());
-		(new Thread() {
-			@Override
-			public void run() {
-				while(true) {
-					btnUndo.setBorderPainted(btnUndo.isEnabled());
-				}
-			}
-		}).start();
+		btnUndo.setBorderPainted(btnUndo.isEnabled());
+//		(new Thread() {
+//			@Override
+//			public void run() {
+//				while(true) {
+//					btnUndo.setBorderPainted(btnUndo.isEnabled());
+//				}
+//			}
+//		}).start();
+		/* Button ends*/
 		
 		gbc.gridx = 0;
 		gbc.gridy = 2;
 		/* Insert Second Button here */
 		btn = createMenuBtn(new NewExpenseDialog(this.uiCtrl));
 		this.add(btn, gbc);
+		/* Button ends*/
 		
 		gbc.gridx = 0;
 		gbc.gridy = 3;
 		/* Insert Third Button here */
 		btn = createMenuBtn(new NewIncomeDialog(this.uiCtrl));
 		this.add(btn, gbc);
-		
+		/* Button ends*/
 		
 		gbc.gridx = 0;
 		gbc.gridy = 4;
@@ -83,31 +92,40 @@ public class EzNavigator extends JLayeredPane {
 		this.add(btn, gbc);
 		btn.setBorder(BorderFactory.createLoweredBevelBorder());
 		selected = btn;
+		/* Button ends*/
 		
 		gbc.gridx = 0;
 		gbc.gridy = 5;
 		/* Insert Fifth Button here */
 		btn = createMenuBtn(NormalMenuOpt.SEARCH);
 		this.add(btn, gbc);
-
+		/* Button ends*/
 		
 		gbc.gridx = 0;
 		gbc.gridy = 6;
 		/* Insert Sixth Button here */
 		btn = createMenuBtn(NormalMenuOpt.CATMGR);
 		this.add(btn, gbc);
-		
+		/* Button ends*/
 		
 		gbc.gridx = 0;
 		gbc.gridy = 7;
 		/* Insert Seventh Button here */
 		btn = createMenuBtn(new ReportDialog(this.uiCtrl));
 		this.add(btn, gbc);
+		/* Button ends*/
 		
 //		btn = createMenuBtn(NormalMenuOpt.PAYMGR);
 //		gbc.gridx = 0;
 //		gbc.gridy = 7;
 //		this.add(btn, gbc);
+	}
+	
+	/**
+	 * Updates the undo button cosmetics
+	 */
+	public void updateUndoBtn() {
+		btnUndo.setBorderPainted(btnUndo.isEnabled());
 	}
 	
 	/**
@@ -138,9 +156,9 @@ public class EzNavigator extends JLayeredPane {
 	}
 	
 	/**
-	 * 
-	 * @param btn
-	 * @param card
+	 * Links the button to the card
+	 * @param btn JButton to be linked
+	 * @param card MenuOption card to be linked to
 	 */
 	public void linkNavi(JButton btn, MenuOption card) {
 		if(card instanceof NormalMenuOpt) {
@@ -153,8 +171,9 @@ public class EzNavigator extends JLayeredPane {
 	
 	
 	/**
-	 * @param btn
-	 * @param option
+	 * Links the provided button to a dialog
+	 * @param btn JButton Object to be linked
+	 * @param option DialogMenuOpt to be linked to
 	 */
 	public void linkDiagMenuOpt(JButton btn, final DialogMenuOpt option) {
 		btn.addActionListener(new ActionListener() {
@@ -166,9 +185,9 @@ public class EzNavigator extends JLayeredPane {
 	}
 	
 	/**
-	 * 
-	 * @param btn
-	 * @param option
+	 * Links the provided button to a panel
+	 * @param btn JButton Object to be linked
+	 * @param option NormalMenuOpt to be linked to
 	 */
 	public void linkNormalMenuOpt(JButton btn, final NormalMenuOpt option) {
 		btn.addActionListener(new ActionListener() {
@@ -263,7 +282,7 @@ public class EzNavigator extends JLayeredPane {
 interface MenuOption {}
 
 /**
- *
+ *	Defines the normal menu buttons for the EzNavigator
  */
 enum NormalMenuOpt implements MenuOption {
 	
@@ -287,7 +306,7 @@ enum NormalMenuOpt implements MenuOption {
 }
 
 /**
- * 
+ * Defines a Dialog Menu Option for EzNavigator
  */
 abstract class DialogMenuOpt implements MenuOption {
 	
@@ -307,7 +326,7 @@ abstract class DialogMenuOpt implements MenuOption {
 
 
 /**
- *
+ * Defines a Dialog Menu Option for EzNavigator to link to new income dialog
  */
 class NewIncomeDialog extends DialogMenuOpt {
 	
@@ -323,7 +342,7 @@ class NewIncomeDialog extends DialogMenuOpt {
 }
 
 /**
- *
+ * Defines a Dialog Menu Option for EzNavigator to link to new expense dialog
  */
 class NewExpenseDialog extends DialogMenuOpt {
 	
@@ -338,7 +357,7 @@ class NewExpenseDialog extends DialogMenuOpt {
 }
 
 /**
- *
+ * Defines a Dialog Menu Option for EzNavigator to link to the report dialog
  */
 class ReportDialog extends DialogMenuOpt {
 	
