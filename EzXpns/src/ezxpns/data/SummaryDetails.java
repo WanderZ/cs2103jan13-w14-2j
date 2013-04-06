@@ -16,6 +16,8 @@ public class SummaryDetails {
 	private double income = 0;
 	private double expense = 0;
 	private double balance = 0;
+	private final static double EPSILON = 0.00001;
+
 	
 	public SummaryDetails(double income, double expense, SummaryType myType){
 		this.income = income;
@@ -29,6 +31,8 @@ public class SummaryDetails {
 	 * @return
 	 */
 	public double getIncome(){
+		if (Math.abs(balance) < EPSILON)
+			return 0;
 		return income;
 	}
 	
@@ -37,6 +41,8 @@ public class SummaryDetails {
 	 * @return
 	 */
 	public double getExpense(){
+		if (Math.abs(balance) < EPSILON)
+			return 0;
 		return expense;
 	}
 	
@@ -45,6 +51,8 @@ public class SummaryDetails {
 	 * @return
 	 */
 	public double getBalance(){
+		if (Math.abs(balance) < EPSILON)
+			return 0;
 		return balance;
 	}
 	
