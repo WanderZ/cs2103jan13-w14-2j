@@ -834,13 +834,13 @@
   },
   "_incomes": {
     "categories": {
-      "0": {
-        "id": 0,
-        "name": "undefined"
-      },
       "1365242066269": {
         "id": 1365242066269,
         "name": "Salary"
+      },
+      "0": {
+        "id": 0,
+        "name": "undefined"
       },
       "1365241996939": {
         "id": 1365241996939,
@@ -848,7 +848,6 @@
       }
     },
     "recordsByCategory": {
-      "0": [],
       "1365242066269": [
         {
           "amount": 400.0,
@@ -858,6 +857,7 @@
           "id": 1365242066269
         }
       ],
+      "0": [],
       "1365241996939": [
         {
           "amount": 300.0,
@@ -900,19 +900,19 @@
     "thisMonthNWS": {
       "date": {
         "year": 2013,
-        "month": 3,
-        "dayOfMonth": 6,
-        "hourOfDay": 19,
-        "minute": 17,
-        "second": 55
+        "month": 10,
+        "dayOfMonth": 1,
+        "hourOfDay": 1,
+        "minute": 2,
+        "second": 46
       },
       "targetNeedsRatio": 0.5,
       "targetWantsRatio": 0.3,
       "targetSavingsRatio": 0.2,
-      "currentNeeds": 2190.4,
-      "currentWants": 59.5,
+      "currentNeeds": 0.0,
+      "currentWants": 0.0,
       "currentSavings": 0.0,
-      "income": 300.0,
+      "income": 0.0,
       "isSet": true
     }
   },
