@@ -72,13 +72,22 @@ public class NWSGenerator extends Storable {
 		this.data = data;
 		dataUpdated = true;
 		
-		initNWSdata();
+		//checks for first time usage: No data in json
+		//thisMonthNWS and pastMonth is not set
 		
-		if (isExpired(thisMonthNWS)){ 
-			setToPastMonth(thisMonthNWS);
-			System.out.println("expired and past month updated");
-			generateRatios(); 
+		//checks for new month then check for skip a month
+		if(isExpired(thisMonthNWS)){
+		if(hasSkippedAMonth(thisMonthNWS.getDate())){ 
+			System.out.println("has skipped a month");
+			initNWSdata();
 		}
+		
+		else{// normal expiry
+			setToPastMonth(thisMonthNWS);
+			generateRatios();
+		}
+			
+			}//end expired
 		
 	}
 	
@@ -97,41 +106,33 @@ public class NWSGenerator extends Storable {
 	@Override
 	public void afterDeserialize() {
 		System.out.println("in deserialise");
-		initNWSdata();
-		
-		//check for new month
-		if (isExpired(thisMonthNWS)){ 
-			setToPastMonth(thisMonthNWS);
-			System.out.println("expired and past month updated");
-			generateRatios(); 
-		}
-		
-
-			generateRatios();
-		
-		
+		//checks for first time usage: No data in json
+				//thisMonthNWS and pastMonth is not set
+				if ((!thisMonthNWS.isSet()) && (!pastMonthNWS.isSet())) {
+					System.out.println("this and past NOT SET");
+					initNWSdata();
+				}
+				
+				//checks for new month then check for skip a month
+				if(isExpired(thisMonthNWS)){
+				if(hasSkippedAMonth(thisMonthNWS.getDate())){ 
+					initNWSdata();
+				}
+				
+				else{// normal expiry
+					setToPastMonth(thisMonthNWS);
+					generateRatios();
+				}
+					
+					}//end expired
 		
 	}
 
 	public void updateNWSdata() {
-		if (pastMonthNWS.isSet()) {
-			if(!hasSkippedAMonth(pastMonthNWS.getDate())){
-			pastMonthNWS.setCurrentNeeds(data
-					.getPrevMonthlyExpense(ExpenseType.NEED));
-			pastMonthNWS.setCurrentWants(data
-					.getPrevMonthlyExpense(ExpenseType.WANT));
-			pastMonthNWS.setCurrentSavings(getPrevMonthlySavings());
-			pastMonthNWS.setIncome(data.getPrevMonthlyIncome());
-			}
-			else{
-				System.out.println("has skipped a month");
-			}
-		}
-
+		System.out.println("hello. there is an update");
+		printNWS(pastMonthNWS);
 		generateRatios();
-
-		System.out.println("After update: thismonthNWS");
-		printNWS(thisMonthNWS);
+		printNWS(pastMonthNWS);
 	}
 
 
@@ -187,15 +188,11 @@ public class NWSGenerator extends Storable {
 	}
 	
 	private void initNWSdata(){
-		// if there is no past month data or this month data, set the ratio as
-		// default.
-		if ((!thisMonthNWS.isSet()) && (!pastMonthNWS.isSet())) {
-			System.out.println("this&past not set");
 			thisMonthNWS.setAll(new GregorianCalendar(), NEEDS, WANTS, SAVINGS,
 					data.getMonthlyExpense(ExpenseType.NEED),
 					data.getMonthlyExpense(ExpenseType.WANT),
 					getMonthlySavings(), data.getMonthlyIncome());
-		}
+			pastMonthNWS = new NWSdata();
 	}
 	
 	/**
@@ -205,26 +202,38 @@ public class NWSGenerator extends Storable {
 	 */
 	public void generateRatios() {
 System.out.println("genRatio!");
+
+		//if past month is not set, no changes is allowed for this month's ratios
 		if (!pastMonthNWS.isSet()) {
-			thisMonthNWS.setAll(new GregorianCalendar(), NEEDS, WANTS, SAVINGS,
-					data.getMonthlyExpense(ExpenseType.NEED),
-					data.getMonthlyExpense(ExpenseType.WANT),
-					getMonthlySavings(), data.getMonthlyIncome());
+			updateThisMonthProgress();
 			markUpdate();
 			return;
 		}
 		
-		if(!isPastMonthRecModified()){
-			//no need to regenerate ratio but just update the values
-			thisMonthNWS.setAll(new GregorianCalendar(), thisMonthNWS.getTargetNeedsRatio(), thisMonthNWS.getTargetWantsRatio(),
-					thisMonthNWS.getTargetSavingsRatio(), data.getMonthlyExpense(ExpenseType.NEED),
-					data.getMonthlyExpense(ExpenseType.WANT), getMonthlySavings(),
-					data.getMonthlyIncome());
-			
+		//no need to regenerate ratio but just update the values of curr income/savings/needs/wants
+		if(!hasModifiedPastMonthRecords()){
+			System.out.println("past month IS NOT modified");
+			updateThisMonthProgress();
 			markUpdate();
-			return;
+			return;	
+		}
+		
+		
+		if(hasModifiedPastMonthRecords()){
+			System.out.println("pastMonth IS modified");
+			pastMonthNWS.setAll(pastMonthNWS.getDate(), 
+					pastMonthNWS.getTargetNeedsRatio(), 
+					pastMonthNWS.getTargetWantsRatio(), 
+					pastMonthNWS.getTargetWantsRatio(), 
+					data.getPrevMonthlyExpense(ExpenseType.NEED), 
+					data.getPrevMonthlyExpense(ExpenseType.WANT), 
+					getPrevMonthlySavings(), 
+					data.getPrevMonthlyIncome());
+			markUpdate();
 		}
 
+
+		//generates ratio
 		targetNeeds = pastMonthNWS.getTargetNeedsRatio();
 		targetWants = pastMonthNWS.getTargetWantsRatio();
 		targetSavings = pastMonthNWS.getTargetSavingsRatio();
@@ -287,6 +296,7 @@ System.out.println("genRatio!");
 			break;
 
 		case 1:// 001
+			System.out.println("state001");
 			if (!hasExceededTarget(diffFromST)) {
 				if (canReduce(MINSAVINGS, targetSavings)) {
 					if (hasExceededTarget(diffFromNT)
@@ -320,6 +330,7 @@ System.out.println("genRatio!");
 
 			break;
 		case 2:// 010
+			System.out.println("state010");
 			if (!hasExceededTarget(diffFromWT)) {
 				if (canReduce(MINWANTS, targetWants)) {
 					if (hasExceededTarget(diffFromNT)
@@ -353,6 +364,7 @@ System.out.println("genRatio!");
 			break;
 
 		case 3:// 011
+			System.out.println("state011");
 			if (!hasExceededTarget(diffFromWT) 
 					&& hasExceededTarget(diffFromST)) {
 				if (canIncrease(MAXSAVINGS, targetSavings)
@@ -373,6 +385,7 @@ System.out.println("genRatio!");
 			break;
 
 		case 4:// 100
+			System.out.println("state100");
 			if (!hasExceededTarget(diffFromNT)) {
 				if (canReduce(MINNEEDS, targetNeeds)) {
 					if (hasExceededTarget(diffFromST)
@@ -403,6 +416,7 @@ System.out.println("genRatio!");
 			break;
 
 		case 5:// 101
+			System.out.println("state101");
 			if (!hasExceededTarget(diffFromNT) && hasExceededTarget(diffFromST)) {
 				if (canReduce(MINNEEDS, targetNeeds)
 						&& canIncrease(MAXSAVINGS, targetSavings)) {
@@ -420,6 +434,7 @@ System.out.println("genRatio!");
 			break;
 
 		case 6:// 110
+			System.out.println("state110");
 			if (!hasExceededTarget(diffFromNT) && hasExceededTarget(diffFromWT)) {
 				if (canReduce(MINNEEDS, targetNeeds)
 						&& canIncrease(MAXWANTS, targetWants)) {
@@ -437,6 +452,7 @@ System.out.println("genRatio!");
 			break;
 
 		case 7: // 111
+			System.out.println("state111");
 			ExpenseType min = ExpenseType.NEED;
 			
 			if(Math.abs(diffFromST)<Math.abs(diffFromNT)){
@@ -522,8 +538,7 @@ break;
 	private boolean isExpired(NWSdata nwsData) {
 		Calendar date = nwsData.getDate();
 		Calendar today = new GregorianCalendar();
-		System.out.println("see if month is set");
-		System.out.println("date:"+date.get(Calendar.MONTH)+date.get(Calendar.YEAR)+"today"+today.get(Calendar.MONTH)+today.get(Calendar.YEAR));
+		System.out.println(today.getTime() == (new Date()));
 		if (date.get(Calendar.MONTH) == today.get(Calendar.MONTH)) {
 			if (date.get(Calendar.YEAR) == today.get(Calendar.YEAR)) {
 				return false;
@@ -544,7 +559,6 @@ break;
 				return false;
 			}
 		}
-
 		return true;
 	}
 
@@ -718,17 +732,36 @@ break;
 			}
 		}
 	
-	private boolean isPastMonthRecModified(){
+	private boolean hasModifiedPastMonthRecords(){
 		if(pastMonthNWS.getIncome() != data.getPrevMonthlyIncome()){
+			System.out.println("income is DIFFERENT"+pastMonthNWS.getIncome()+"=="+data.getPrevMonthlyIncome());
 			return true;
 		}
-		else if(pastMonthNWS.getCurrentNeeds() != data.getPrevMonthlyExpense(ExpenseType.NEED)){			
+		else{
+			System.out.println("income is the same"+pastMonthNWS.getIncome()+"=="+data.getPrevMonthlyIncome());
+		}
+		
+		if(pastMonthNWS.getCurrentNeeds() != data.getPrevMonthlyExpense(ExpenseType.NEED)){			
 			return true;
 		}
 		else if(pastMonthNWS.getCurrentWants() != data.getPrevMonthlyExpense(ExpenseType.WANT)){
 			return true;
 		}
+		else{
 		return false;
 	}
-	
 	}
+	
+	private void updateThisMonthProgress(){
+		thisMonthNWS.setAll(new GregorianCalendar(), 
+				thisMonthNWS.getTargetNeedsRatio(), 
+				thisMonthNWS.getTargetWantsRatio(), 
+				thisMonthNWS.getTargetSavingsRatio(),
+				data.getMonthlyExpense(ExpenseType.NEED),
+				data.getMonthlyExpense(ExpenseType.WANT),
+				getMonthlySavings(), data.getMonthlyIncome());
+	}
+	
+
+}
+	
