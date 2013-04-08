@@ -1,4 +1,4 @@
-package ezxpns.data.records; // This is a temporal storing location for compilation and testing. TO BE MOVED
+package ezxpns.data; // This is a temporal storing location for compilation and testing. TO BE MOVED
 
 import java.util.Calendar;
 import java.util.Date;
@@ -61,10 +61,10 @@ public class SearchRequest {
 	}
 
 	public boolean match(Record r) {
-		return (name == null || r.name.equals(name))
-				&& (category == null || r.category.equals(category))
-				&& (dateRange == null || (!r.date.after(dateRange.getRight()) && !r.date
-						.before(dateRange.getLeft())));
+		return (name == null || r.getName().equals(name))
+				&& (category == null || r.getCategory().equals(category))
+				&& (dateRange == null || (!r.getDate().after(dateRange.getRight()) &&
+						!r.getDate().before(dateRange.getLeft())));
 	}
 
 	public void setName(String name) {

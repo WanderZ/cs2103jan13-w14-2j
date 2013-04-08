@@ -3,7 +3,6 @@ package ezxpns.data;
 import ezxpns.data.records.ExpenseRecord;
 import ezxpns.data.records.IncomeRecord;
 import ezxpns.data.records.Record;
-import ezxpns.data.records.SearchRequest;
 import ezxpns.util.*;
 import java.util.*;
 
