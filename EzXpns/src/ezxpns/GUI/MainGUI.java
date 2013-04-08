@@ -121,7 +121,7 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 		this.setLocationRelativeTo(null);
 		this.setMinimumSize(new Dimension(Config.MIN_UI_WIDTH, Config.MIN_UI_HEIGHT));
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setTitle("EzXpnz - the revolutionary next genration game changer-ish luxury classy high-end expense manager");
+		this.setTitle("EzXpnz - the revolutionary next generation game changer-ish luxury classy high-end expense manager");
 	}
 	
 	/**
