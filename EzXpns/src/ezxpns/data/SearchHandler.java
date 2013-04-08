@@ -1,4 +1,6 @@
-package ezxpns.data.records;
+package ezxpns.data;
+
+import ezxpns.data.records.Record;
 
 
 /**
