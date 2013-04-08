@@ -3,6 +3,7 @@ package ezxpns.data;
 import ezxpns.data.records.ExpenseRecord;
 import ezxpns.data.records.IncomeRecord;
 import ezxpns.data.records.Record;
+import ezxpns.data.records.SearchRequest;
 import ezxpns.util.*;
 import java.util.*;
 
@@ -56,6 +57,10 @@ public class ReportGenerator {
 		// Exception to handle cases where end > start
 		if (dateError(start, end))
 			throw (new DateOrderException());
+		
+		Pair<Date, Date> normalizedRange = SearchRequest.normalizeDateRange(new Pair<Date, Date>(start, end));
+		start = normalizedRange.getLeft();
+		end = normalizedRange.getRight();
 
 		expenseCategory = new Vector<ReportCategory>();
 		records = getRecords(start, end);
