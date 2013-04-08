@@ -415,13 +415,28 @@ public class RecordManager<T extends Record>
 	
 	@Override
 	public Vector<T> getRecordsBy(Date start, Date end, int max, boolean reverse){
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(start);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		start = cal.getTime();
+		
+		cal.setTime(end);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		end = cal.getTime();
+		
+		end = new Date(end.getTime() + 24 * 3600 * 1000 - 1);
+		
 		Vector<T> rs = new Vector<T>();
 		Collection<Vector<T> > allrecs;
 		if(reverse){
-			start = new Date(Math.max(start.getTime() - 24 * 3600 * 1000, 0));
+			start = new Date(Math.max(start.getTime() - 1, 0));
 			allrecs = recordsByDate.descendingMap().subMap(end, start).values();
 		}else{
-			end = new Date(end.getTime() + 24 * 3600 * 1000);
+			end = new Date(end.getTime() + 1);
 			allrecs = recordsByDate.subMap(start, end).values();
 		}
 		for(Vector<T> rrs : allrecs){
