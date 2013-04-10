@@ -1,6 +1,7 @@
 package ezxpns;
 
 import ezxpns.data.*;
+import ezxpns.data.SearchRequest.RecordType;
 import ezxpns.data.records.Category;
 import ezxpns.data.records.CategoryHandler;
 import ezxpns.data.records.ExpenseRecord;
@@ -9,10 +10,7 @@ import ezxpns.data.records.IncomeRecord;
 import ezxpns.data.records.PaymentMethod;
 import ezxpns.data.records.Record;
 import ezxpns.data.records.RecordHandler;
-import ezxpns.data.records.SearchHandler;
-import ezxpns.data.records.SearchRequest;
 import ezxpns.data.records.RecordManager.RecordUpdateException;
-import ezxpns.data.records.SearchRequest.RecordType;
 import ezxpns.util.Pair;
 import ezxpns.GUI.*;
 import ezxpns.GUI.Calculator.EvaluationException;

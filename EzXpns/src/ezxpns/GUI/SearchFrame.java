@@ -29,14 +29,14 @@ import net.miginfocom.swing.MigLayout;
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 
+import ezxpns.data.SearchHandler;
+import ezxpns.data.SearchRequest;
 import ezxpns.data.records.Category;
 import ezxpns.data.records.CategoryHandler;
 import ezxpns.data.records.ExpenseRecord;
 import ezxpns.data.records.IncomeRecord;
 import ezxpns.data.records.PaymentHandler;
 import ezxpns.data.records.Record;
-import ezxpns.data.records.SearchHandler;
-import ezxpns.data.records.SearchRequest;
 import ezxpns.util.Pair;
 
 /**
