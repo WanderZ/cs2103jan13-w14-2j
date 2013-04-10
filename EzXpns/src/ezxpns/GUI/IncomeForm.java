@@ -8,7 +8,6 @@ import java.awt.event.FocusListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -618,7 +617,7 @@ public class IncomeForm extends JPanel {
 	private void evaluate(JLabel label) {
 		try {
 			if(txtAmt.getText().trim().equals("")) {
-				label.setText("<< Enter your expression");
+				label.setText("<< try using + - * /");
 				return;
 			}
 			Double result = evaluate();
