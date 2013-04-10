@@ -29,6 +29,9 @@ public class EzNavigator extends JLayeredPane {
 	 */
 	private JLayeredPane content;
 	
+	/**
+	 * UIControl - to manipulate the Panels 
+	 */
 	private UIControl uiCtrl;
 	
 	/**
@@ -47,14 +50,26 @@ public class EzNavigator extends JLayeredPane {
 		this.setDoubleBuffered(true);
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.insets = new Insets(5, 5, 5, 5);
-		// gbc.weighty = 1;
-		gbc.weightx = 0.5;
+		gbc.fill = GridBagConstraints.BOTH;
+		
+		gbc.weightx = 1;
+		gbc.weighty = 1;
+		
 		JButton btn;
+		
+		// Adding the LOGO
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		LogoIcon ezxpnsLogo = new LogoIcon();
+		this.add(ezxpnsLogo, gbc);
+		gbc.weighty = 0;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		// End of LOGO
 		
 		gbc.gridx = 0;
 		gbc.gridy = 1;
+		gbc.insets = new Insets(10, 10, 10, 10);
+		
 		/* Insert First Button here */
 		btn = createMenuBtn(NormalMenuOpt.REVERT);
 		btnUndo = btn; // Stored for cosmetic updates
