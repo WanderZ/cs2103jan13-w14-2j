@@ -2,7 +2,6 @@ package ezxpns.GUI;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -42,7 +41,7 @@ import ezxpns.data.records.RecordHandler;
 
 /** Panel to contain and maintain the form for a new expense record */
 @SuppressWarnings("serial")
-public class ExpenseForm extends JPanel{
+public class ExpenseForm extends JPanel {
 	
 	// #Constants
 	public final int TOP_PAD = 30;
@@ -738,11 +737,11 @@ public class ExpenseForm extends JPanel{
 	private void evaluate(JLabel label) {
 		try {
 			if(txtAmt.getText().trim().equals("")) {
-				label.setText("<< Enter your expression");
+				label.setText("<< try using + - * /");
 				return;
 			}
 			Double result = evaluate();
-			if(result>Config.DEFAULT_MAX_AMT_PER_RECORD) {
+			if(result > Config.DEFAULT_MAX_AMT_PER_RECORD) {
 				// Expression is too big!
 				label.setText("<< Value is too huge!");
 				return;
