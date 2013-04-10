@@ -56,6 +56,10 @@ public class ReportGenerator {
 		// Exception to handle cases where end > start
 		if (dateError(start, end))
 			throw (new DateOrderException());
+		
+		Pair<Date, Date> normalizedRange = SearchRequest.normalizeDateRange(new Pair<Date, Date>(start, end));
+		start = normalizedRange.getLeft();
+		end = normalizedRange.getRight();
 
 		expenseCategory = new Vector<ReportCategory>();
 		records = getRecords(start, end);

@@ -418,10 +418,10 @@ public class RecordManager<T extends Record>
 		Vector<T> rs = new Vector<T>();
 		Collection<Vector<T> > allrecs;
 		if(reverse){
-			start = new Date(Math.max(start.getTime() - 24 * 3600 * 1000, 0));
+			start = new Date(Math.max(start.getTime() - 1, 0));
 			allrecs = recordsByDate.descendingMap().subMap(end, start).values();
 		}else{
-			end = new Date(end.getTime() + 24 * 3600 * 1000);
+			end = new Date(end.getTime() + 1);
 			allrecs = recordsByDate.subMap(start, end).values();
 		}
 		for(Vector<T> rrs : allrecs){
