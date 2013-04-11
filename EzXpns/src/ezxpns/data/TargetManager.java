@@ -7,7 +7,7 @@ import ezxpns.data.records.Category;
 
 
 /**
- * @author Suzzie
+ * @author ShuZhen
  * 
  * A generator that takes in targets and data and produce alert info
  * 

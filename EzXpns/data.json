@@ -53,6 +53,18 @@
             "id": 0,
             "name": "undefined"
           },
+          "amount": 150.0,
+          "name": "Want",
+          "remark": "",
+          "date": "May 1, 2013 12:00:00 AM",
+          "id": 1367399289394
+        },
+        {
+          "expenseType": "WANT",
+          "paymentMethod": {
+            "id": 0,
+            "name": "undefined"
+          },
           "amount": 20.0,
           "name": "Prawning",
           "remark": "",
@@ -121,6 +133,18 @@
         }
       ],
       "1365241563335": [
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 0,
+            "name": "undefined"
+          },
+          "amount": 400.0,
+          "name": "Need",
+          "remark": "",
+          "date": "May 1, 2013 12:00:00 AM",
+          "id": 1367399270646
+        },
         {
           "expenseType": "NEED",
           "paymentMethod": {
@@ -850,6 +874,13 @@
     "recordsByCategory": {
       "1365242066269": [
         {
+          "amount": 700.0,
+          "name": "Income",
+          "remark": "",
+          "date": "May 1, 2013 12:00:00 AM",
+          "id": 1367399241236
+        },
+        {
           "amount": 400.0,
           "name": "Pay From Burger Joint",
           "remark": "",
@@ -900,19 +931,19 @@
     "thisMonthNWS": {
       "date": {
         "year": 2013,
-        "month": 10,
-        "dayOfMonth": 1,
-        "hourOfDay": 1,
+        "month": 3,
+        "dayOfMonth": 11,
+        "hourOfDay": 15,
         "minute": 2,
-        "second": 46
+        "second": 23
       },
       "targetNeedsRatio": 0.5,
       "targetWantsRatio": 0.3,
       "targetSavingsRatio": 0.2,
-      "currentNeeds": 0.0,
-      "currentWants": 0.0,
+      "currentNeeds": 2590.4,
+      "currentWants": 209.49999999999955,
       "currentSavings": 0.0,
-      "income": 0.0,
+      "income": 1000.0,
       "isSet": true
     }
   },
