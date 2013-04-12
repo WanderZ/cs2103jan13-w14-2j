@@ -103,7 +103,6 @@ public class Bar implements Comparable<Bar> {
 	 * 0 will represent that both objects have equal values 
 	 * 1 will represent that this object is larger compared to the other object
 	 */
-
     public int compareTo(Bar other){
 		if(this.getRatio()>other.getRatio()){
 			return 1;

@@ -45,17 +45,24 @@ public class SearchRequest {
 	}
 
 	// no empty request allowed!
-	private SearchRequest() {
-	}
+//	private SearchRequest() {}
 
 	public SearchRequest(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * Constructs a Search Request for a specific date range
+	 * @param dateRange a Pair Object containing the start and end date 
+	 */
 	public SearchRequest(Pair<Date, Date> dateRange) {
 		this.dateRange = normalizeDateRange(dateRange);
 	}
 
+	/**
+	 * Constructs a Search Request for a specific category
+	 * @param category Category object specified
+	 */
 	public SearchRequest(Category category) {
 		this.category = category;
 	}
@@ -67,6 +74,10 @@ public class SearchRequest {
 						!r.getDate().before(dateRange.getLeft())));
 	}
 
+	/**
+	 * Sets the name field of this SearchRequest
+	 * @param name the string object String defining name field
+	 */
 	public void setName(String name) {
 		if (this.name == null) {
 			this.multiple = true;
@@ -74,6 +85,10 @@ public class SearchRequest {
 		this.name = name;
 	}
 
+	/**
+	 * Set the category of this SearchRequest
+	 * @param category a Category Object reference to be set as the Category field
+	 */
 	public void setCategory(Category category) {
 		if (this.category == null) {
 			this.multiple = true;
@@ -81,6 +96,10 @@ public class SearchRequest {
 		this.category = category;
 	}
 
+	/**
+	 * Set the date range or timeframe for this SearchRequest
+	 * @param dateRange a Pair Object containing the start and end date to be set as the Date Range field.
+	 */
 	public void setDateRange(Pair<Date, Date> dateRange) {
 		if (this.dateRange == null) {
 			this.multiple = true;
@@ -88,30 +107,55 @@ public class SearchRequest {
 		this.dateRange = normalizeDateRange(dateRange);
 	}
 
+	/**
+	 * Gets the RecordType of this SearchRequest
+	 * @return RecordType object reference containing the RecordType, if any, otherwise returns null
+	 */
 	public RecordType getType() {
 		return type;
 	}
 
+	/**
+	 * Gets the Name field stored in this SearchRequest
+	 * @return a String containing the stored name, if any, otherwise returns null
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Gets the Date Range field of this SearchRequest
+	 * @return a Pair Object containing the starting and the ending date
+	 */
 	public Pair<Date, Date> getDateRange() {
 		return dateRange;
 	}
 
+	/**
+	 * Set the type of this SearchRequest
+	 * @param type a RecordType reference to the type of records to search for 
+	 */
 	public void setType(RecordType type) {
 		this.type = type;
 	}
 
+	/**
+	 * Gets the Category of stored in this SearchRequest
+	 * @return the Category Object reference stored
+	 */
 	public Category getCategory() {
 		return category;
 	}
 
+	/**
+	 * Check if this SearchRequest is supporting multiple fields
+	 * @return true is this supports, otherwise false
+	 */
 	public boolean isMultiple() {
 		return multiple;
 	}
 
+	@Override
 	public String toString() {
 		return this.name;
 	}
