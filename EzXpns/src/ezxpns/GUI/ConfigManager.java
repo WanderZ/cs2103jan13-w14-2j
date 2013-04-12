@@ -9,8 +9,8 @@ import java.awt.Font;
  */
 public interface ConfigManager {
 	
-	public static final int DEFAULT_BTN_FONT_SIZE = 24;
-	public static final Font DEFAULT_BTN_FONT = new Font("Segoe UI", 0, DEFAULT_BTN_FONT_SIZE);
+//	public static final int DEFAULT_BTN_FONT_SIZE = 24;
+//	public static final Font DEFAULT_BTN_FONT = new Font("Segoe UI", 0, DEFAULT_BTN_FONT_SIZE);
 	
 	/**
 	 * To load the configuration from the file xyz.ini (example)

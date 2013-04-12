@@ -38,38 +38,11 @@ import ezxpns.data.records.RecordHandler;
  * GUI Form for Income records
  */
 @SuppressWarnings("serial")
-public class IncomeForm extends JPanel {
+public class IncomeForm extends RecordForm {
 	
-	// #Constants
-	public final int TOP_PAD = 30;
-	public final int COL1_PAD = 15;
-	public final int COL2_PAD = 150;
+	private CategoryHandler<IncomeRecord> catHandler; 
 	
-	// #Swing Components
-	private JLabel lblAmt, lblName, lblCat, lblDesc, lblDate;
-	private JTextField 	txtAmt, txtName;
-//	private JFormattedTextField txtDate;
-	private JDateChooser txtDateChooser;
-	private JComboBox cboxCat;
-	private JTextArea txtDesc;
-	private Border defaultTFBorder;
-	private Border defaultCBBorder;
-	
-	// #Logic Components
-	private RecordHandler recHandler; 
-	private CategoryHandler<IncomeRecord> catHandler;
-	private final Calculator cal; 
-	
-	/**
-	 * The Existing record, if available
-	 */
 	private IncomeRecord record;
-	private UpdateNotifyee notifyee;
-	private boolean isEdit;
-	private boolean blockAutoFill = false;
-	
-	// #Data Components
-	private List<Category> categories;
 	
 	/**
 	 * Create a form for a new income record
@@ -80,7 +53,9 @@ public class IncomeForm extends JPanel {
 			RecordHandler recHandlerRef, 
 			CategoryHandler<IncomeRecord> catHandlerRef,
 			UpdateNotifyee notifyeeRef) {
-		cal = Calculator.getInstance();
+//		cal = Calculator.getInstance();
+		super();
+		
 		recHandler = recHandlerRef;
 		catHandler = catHandlerRef;
 		notifyee = notifyeeRef;
@@ -133,13 +108,6 @@ public class IncomeForm extends JPanel {
 		// TODO: Recurring Records
 		
 		blockAutoFill = false;
-	}
-	
-	/** Populates the categories drop down field */
-	private void populateCategories() {
-		for(Category cat: categories) {
-			this.cboxCat.addItem(cat.getName());
-		}
 	}
 	
 	/** Initiate all Form fields */
@@ -362,180 +330,6 @@ public class IncomeForm extends JPanel {
 		return validateSuccess;
 	}
 	
-	/**
-	 * Validates the description field
-	 * @param errMsg StringBuilder Object to store error message, if any
-	 * @return true if validation is successful, otherwise false
-	 */
-	private boolean validateDescription(StringBuilder errMsg) {
-		if(getDesc().equals("")) {
-			// Empty
-			return true;
-		}
-		
-		if(getDesc().length() > Config.DEFAULT_MAX_LENGTH_DESC) {
-			errMsg.append("Description is too long!\n");
-			return false;
-		}
-		
-//		if(Config.isAlphaNumeric(txtDesc.getText().trim())) {
-//			errMsg.append("Description contains invalid characters \n");
-//			return false;
-//		}
-		return true;
-	}
-	
-	/**
-	 * Validates the Category field
-	 * @param errMsg StringBuilder object to store the error message, if any
-	 * @return true is validation is successful, otherwise false
-	 */
-	private boolean validateCategory(StringBuilder errMsg) {
-		if(this.isNewCategory()) {
-			if(cboxCat.getSelectedItem() == null) {
-				errMsg.append("Please choose a category\n");
-				return false;
-			}
-			String err = catHandler.validateCategoryName(cboxCat.getSelectedItem().toString().trim());
-			if(err!=null) { // null is error free
-				errMsg.append(err);
-				errMsg.append("\n");
-				return false;
-			}
-		}
-		return true;
-	}
-	
-	/**
-	 * Validates the amount field, checking type and value (>0)
-	 * @return true if input is valid, else false
-	 */
-	private boolean validateAmt(StringBuilder errMsg) {
-		double result;
-		try {
-			result = evaluate();
-			if(result > Config.DEFAULT_MAX_AMT_PER_RECORD) {
-				// Thats some big ticket item
-				errMsg.append("That amount is too big\n");
-				return false;
-			}
-			if(result < Config.DEFAULT_MIN_AMT_PER_RECORD) { // Minimum value
-				errMsg.append("That amount is too small\n");
-				return false;
-			}
-			return true;
-		}
-		catch(Exception err) {
-			errMsg.append("Invalid amount\n");
-			return false;
-		}
-	}
-	
-	/**
-	 * Validates the name field - if there is any input
-	 * @return true if there is input, otherwise false
-	 */
-	private boolean validateName(StringBuilder errMsg) {
-		if(getName().equals("")) {
-			errMsg.append("Please enter a name for this record\n");
-			return false;
-		}
-		if(getName().length() > Config.DEFAULT_MAX_LENGTH_NAME) {
-			errMsg.append("Name is too long!\n");
-			return false;
-		}
-		if(Config.isAlphaNumeric(getName())) {
-			errMsg.append("Name field contains non alphanumeric characters\n");
-			return false;
-		}	
-		return true;
-	}
-	
-	/**
-	 * Validates the date field - if the date entered is a valid date (non future date)
-	 * @return true if it is a historical date, otherwise false
-	 */
-	private boolean validateDate(StringBuilder errMsg) {
-		if(getDate().after(new Date())) {
-			// #Constraint disallow users to add future records
-			errMsg.append("Future records are not supported\n");
-			return false;
-		}
-		return true;
-	}
-	
-	/** Get the user entered Name */
-	public String getName() {return txtName.getText().trim();}
-	
-	/** Get the user entered Amount */
-	public String getAmt() {return txtAmt.getText().trim();}
-	
-	/** Get the user entered Date */
-	public Date getDate() {
-		return (Date) txtDateChooser.getDate();
-	}
-	
-	/**
-	 * Access method to retrieve the user specified category (name)
-	 * @return the chosen Category
-	 */
-	public Category getCat() {
-		if(isNewCategory()) {
-			// User defined new category
-			String userInput = this.cboxCat.getSelectedItem().toString().trim();
-			return new Category(userInput);
-		}
-		// Else find the selected Category
-		return categories.get(cboxCat.getSelectedIndex());
-	}
-	
-	/**
-	 * Check if this record is tagged to a new Category
-	 * @return true if record is under a new Category, otherwise false
-	 */
-	private boolean isNewCategory() {
-		return this.cboxCat.getSelectedIndex() < 0;
-	}
-	
-	/** 
-	 * Get the user entered remarks 
-	 * @return String description or remarks entered by the user
-	 */
-	public String getDesc() {return txtDesc.getText().trim();}
-	
-	/**
-	 * Method to update the amount field with the given text
-	 * @param amt the amount to update the field
-	 */
-	private void setAmt(double amt) {
-		this.txtAmt.setText(new DecimalFormat("##0.00").format(amt));
-	}
-	
-	/**
-	 * Sets the calculated amount next to the amount field
-	 * @param lblResult the label to display calculated amount
-	 * @param amt the calculated amount to be displayed
-	 */
-	private void setAmt(JLabel lblResult, double amt) {
-		lblResult.setText("=" + new DecimalFormat("$###,###,##0.00").format(amt));
-	}
-	
-	/**
-	 * Mark a JComponent (a form field) with a red border to indicate error
-	 * @param component JComponent to mark
-	 */
-	private void markErr(JComponent component) {
-		component.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
-	}
-	
-	/**
-	 * Unmark a JComponent (a form field) if it was previously marked
-	 * @param component JComponent to unmark
-	 */
-	private void unmarkErr(JComponent component) {
-		component.setBorder(component instanceof JTextField ? defaultTFBorder : defaultCBBorder);
-	}
-	
 	/** 
 	 * Save the entered field as a new record
 	 * @return Record object containing the user input
@@ -589,61 +383,5 @@ public class IncomeForm extends JPanel {
 				}
 			}
 		};
-	}
-	
-	/** 
-	 * Creates a label with the system font.
-	 * @param lblTxt the text to apply to the JLabel
-	 * @return the JLabel object generated
-	 */
-	private JLabel createLabel(String lblTxt) {
-		JLabel label = new JLabel(lblTxt);
-		label.setFont(Config.TEXT_FONT); // #Font
-		return label;
-	}
-	
-	/**
-	 * Displays an error dialog
-	 * @param msg Message to be displayed
-	 */
-	private void displayErr(String msg) {
-		UINotify.createErrMsg(this, msg);
-	}
-
-	/**
-	 * Evaluates the amount field
-	 * @param label JLabel to populate result
-	 */
-	private void evaluate(JLabel label) {
-		try {
-			if(txtAmt.getText().trim().equals("")) {
-				label.setText("<< try using + - * /");
-				return;
-			}
-			Double result = evaluate();
-			if(result > Config.DEFAULT_MAX_AMT_PER_RECORD) {
-				// Expression is too big!
-				label.setText("<< Value is too huge!");
-				return;
-			}
-
-			if(result < Config.DEFAULT_MIN_AMT_PER_RECORD) {
-				label.setText("<< Value is too small");
-				return;
-			}
-			if(result!=null) setAmt(label, result);
-		}
-		catch(EvaluationException evalErr) {
-			System.out.println(evalErr.getMessage());
-			label.setText("<< Invalid");
-		}
-		catch(Exception err) {
-			System.out.println(err.getMessage());
-			label.setText("<< Invalid");
-		}
-	}
-	
-	private double evaluate() throws EvaluationException {
-		return cal.evaluate(getAmt());
 	}
 }
