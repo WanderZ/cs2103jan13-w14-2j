@@ -34,7 +34,7 @@ import java.util.List;
  * Window for users to manage user-defined Categories as well as tagged Targets
  */
 @SuppressWarnings("serial")
-public class CategoryFrame extends JPanel {
+public class CategoryTargetPanel extends JPanel {
 	public static final int MAX_CATS = 20;
 	
 	private TargetManager targetMgr;
@@ -61,7 +61,7 @@ public class CategoryFrame extends JPanel {
 	 * @param incats a CategoryHandler for income categories
 	 * @param targetMgrRef a TargetManager 
 	 */
-	public CategoryFrame(
+	public CategoryTargetPanel(
 			CategoryHandler<ExpenseRecord> excats,
 			CategoryHandler<IncomeRecord> incats,
 			TargetManager targetMgrRef,

@@ -43,7 +43,7 @@ import ezxpns.util.Pair;
  * The window to handle the searching and querying needs of the user
  */
 @SuppressWarnings("serial")
-public class SearchFrame extends JPanel implements FocusListener, DocumentListener {
+public class SearchPanel extends JPanel implements FocusListener, DocumentListener {
 	
 	public final int DEFAULT_WIDTH = 600;
 	public final int DEFAULT_HEIGHT = 400;
@@ -71,7 +71,7 @@ public class SearchFrame extends JPanel implements FocusListener, DocumentListen
 	 * @param exCatHandRef
 	 * @param payHandRef
 	 */
-	public SearchFrame(
+	public SearchPanel(
 			SearchHandler handlerRef, 
 			RecordListView li, 
 			CategoryHandler<IncomeRecord> inCatHandRef, 
