@@ -41,8 +41,7 @@ public class GenData {
 							coffee.getRemark(),
 							cal.getTime(), 
 							coffee.getCategory(), 
-							coffee.getExpenseType(),
-							coffee.getPaymentMethod()
+							coffee.getExpenseType()
 							));
 				if(Math.random() < 0.3)
 					eh.getDataMng().expenses().addNewRecord(new ExpenseRecord(
@@ -51,8 +50,7 @@ public class GenData {
 	                        bigmac.getRemark(),
 	                        cal.getTime(), 
 	                        bigmac.getCategory(), 
-	                        bigmac.getExpenseType(),
-	                        bigmac.getPaymentMethod()
+	                        bigmac.getExpenseType()
 	                        ));
 				if(Math.random() < 0.4)
 					eh.getDataMng().expenses().addNewRecord(new ExpenseRecord(
@@ -61,8 +59,7 @@ public class GenData {
 	                        pineapple.getRemark(),
 	                        cal.getTime(), 
 	                        pineapple.getCategory(), 
-	                        pineapple.getExpenseType(),
-	                        pineapple.getPaymentMethod()
+	                        pineapple.getExpenseType()
 	                        ));
 			} catch (RecordUpdateException e) {
 				// TODO Auto-generated catch block

@@ -9,7 +9,6 @@ import java.util.Date;
  */
 public class ExpenseRecord extends Record{
 	protected ExpenseType expenseType;
-	protected PaymentMethod paymentMethod;
 	/**
 	 * @param amount
 	 * @param name
@@ -25,11 +24,9 @@ public class ExpenseRecord extends Record{
 			String remark, 
 			Date date,
 			Category category, 
-			ExpenseType expenseType, 
-			PaymentMethod paymentMethod) {
+			ExpenseType expenseType) {
 		super(amount, name, remark, date, category);
 		this.expenseType = expenseType;
-		this.paymentMethod = paymentMethod;
 	}
 	
 	/**
@@ -46,17 +43,10 @@ public class ExpenseRecord extends Record{
 		return expenseType;
 	}
 	
-	/**
-	 * @return payment method
-	 */
-	public PaymentMethod getPaymentMethod(){
-		return paymentMethod;
-	}
-	
 	@Override
 	public Record copy() {
 		ExpenseRecord r = new ExpenseRecord(this.getAmount(), this.getName(), this.getRemark(), this.getDate(),
-				this.getCategory(), this.getExpenseType(), this.getPaymentMethod());
+				this.getCategory(), this.getExpenseType());
 		r.setId(this.getId());
 		return (Record)r;
 	}
