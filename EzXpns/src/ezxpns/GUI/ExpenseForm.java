@@ -466,7 +466,7 @@ public class ExpenseForm extends RecordForm {
 				this.recHandler.modifyRecord(record.getId(), eRecord, isNewCategory(), isNewMethod());
 			}
 			else {
-				eRecord = this.recHandler.createRecord(eRecord, isNewCategory(), isNewMethod());
+				eRecord = this.recHandler.createRecord(eRecord, isNewCategory());
 			}
 			notifyee.addUndoAction(createUndoAction(eRecord, isNewCategory(), isNewMethod()), isEdit ? "Edit Expense" : "New Expense");
 			return eRecord;

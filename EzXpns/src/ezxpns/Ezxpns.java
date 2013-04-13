@@ -160,7 +160,7 @@ public class Ezxpns implements
 	}
 	
 	@Override
-	public ExpenseRecord createRecord(ExpenseRecord r, boolean newCat, boolean newPay) {
+	public ExpenseRecord createRecord(ExpenseRecord r, boolean newCat) {
 		if(newCat){
 			Category cat = data.expenses().addNewCategory(r.getCategory());
 			if(cat == null){
