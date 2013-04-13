@@ -23,14 +23,7 @@ import javax.swing.event.DocumentListener;
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 
-import ezxpns.data.records.Category;
-import ezxpns.data.records.CategoryHandler;
-import ezxpns.data.records.ExpenseRecord;
-import ezxpns.data.records.ExpenseType;
-import ezxpns.data.records.PaymentHandler;
-import ezxpns.data.records.PaymentMethod;
-import ezxpns.data.records.Record;
-import ezxpns.data.records.RecordHandler;
+import ezxpns.data.records.*;
 
 /** Panel to contain and maintain the form for a new expense record */
 @SuppressWarnings("serial")
@@ -58,13 +51,11 @@ public class ExpenseForm extends RecordForm {
 	public ExpenseForm(
 			RecordHandler recHandlerRef, 
 			CategoryHandler<ExpenseRecord> catHandlerRef, 
-			PaymentHandler payHandlerRef,
 			UpdateNotifyee notifyeeRef) {
 //		cal = Calculator.getInstance();
 		super();
 		recHandler = recHandlerRef; 
 		catHandler = catHandlerRef;
-		payHandler = payHandlerRef;
 		notifyee = notifyeeRef;
 		
 		categories = catHandler.getAllCategories();
@@ -84,11 +75,10 @@ public class ExpenseForm extends RecordForm {
 	public ExpenseForm(
 			RecordHandler recHandlerRef, 
 			CategoryHandler<ExpenseRecord> catHandlerRef, 
-			PaymentHandler payHandlerRef,
 			UpdateNotifyee notifyeeRef,
 			ExpenseRecord record) {
 		
-		this(recHandlerRef, catHandlerRef, payHandlerRef, notifyeeRef);
+		this(recHandlerRef, catHandlerRef, notifyeeRef);
 		
 		this.record = record;
 		isEdit = true;
@@ -508,9 +498,6 @@ public class ExpenseForm extends RecordForm {
 				}
 				if(isNewCat) {
 					catHandler.removeCategory(nExpense.getCategory().getID());
-				}
-				if(isNewPay) {
-					payHandler.removePaymentMethod(nExpense.getPaymentMethod().getID());
 				}
 			}
 		};

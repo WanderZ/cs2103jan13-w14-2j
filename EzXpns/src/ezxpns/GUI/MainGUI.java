@@ -152,10 +152,9 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 			SearchHandler searchHandler, 
 			RecordListView display, 
 			CategoryHandler<IncomeRecord> incomeHandler, 
-			CategoryHandler<ExpenseRecord> expenseHandler, 
-			PaymentHandler payHandler) {
+			CategoryHandler<ExpenseRecord> expenseHandler){
 		if(panSearch == null) {
-			panSearch = new SearchPanel(searchHandler, display, incomeHandler, expenseHandler, payHandler);
+			panSearch = new SearchPanel(searchHandler, display, incomeHandler, expenseHandler);
 			panContent.add(panSearch, NormalMenuOpt.SEARCH.toString());
 		}
 	}

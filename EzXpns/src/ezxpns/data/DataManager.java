@@ -10,7 +10,7 @@ import ezxpns.util.Pair;
  * with some helper functions to query both types <br />
  * Everything here is handled by StorageManager to save to file <br />
  * Remember to add transient if the data is not meant to be persistent
- * @author yyjhao
+ * @author A0099621X
  */
 public class DataManager extends Storable
 	implements
@@ -19,7 +19,6 @@ public class DataManager extends Storable
 		SummaryGenerator.DataProvider,
 		NWSGenerator.DataProvider{
 	/**
-	 * @author yyjhao
 	 * A helper class that handles query that ask for both
 	 * data types
 	 */
@@ -82,15 +81,6 @@ public class DataManager extends Storable
 		}
 
 		@Override
-		public Vector<Record> getRecordsByCategory(String name) {
-			Vector<Record> rs = new Vector<Record>();
-			rs.addAll(incomes.getRecordsByCategory(name));
-			rs.addAll(expenses.getRecordsByCategory(name));
-			Collections.sort(rs);
-			return rs;
-		}
-
-		@Override
 		public Vector<Record> getRecordsWithNamePrefix(String prefix) {
 			Vector<Record> rs = new Vector<Record>();
 			rs.addAll(incomes.getRecordsWithNamePrefix(prefix));
@@ -100,14 +90,14 @@ public class DataManager extends Storable
 		}
 		
 	}
-	
+	// naming convension: getExpenses is weird, getExpensesManager, getIncomesManager is long winded
+	// so use this style.
 	private ExpenseRecordManager _expenses = new ExpenseRecordManager();
 	private RecordManager<IncomeRecord> _incomes = new RecordManager<IncomeRecord>();
 	private NWSGenerator _nwsGen = new NWSGenerator(this);
-	/**
-	 * Note that this is a combination of both income and expense record manager, <br />
-	 * so it need not be persistent, since all its data is from the two manager
-	 */
+	
+	 // Note that this is a combination of both income and expense record manager, <br />
+	 // so it need not be persistent, since all its data is from the two manager
 	private transient CombinedRecordsQueryHandler _combined;
 	
 	private TargetManager _targetManager = new TargetManager(this);
@@ -121,6 +111,7 @@ public class DataManager extends Storable
 	}
 	
 	/**
+	 * Get the target manager instance it contains
 	 * @return The target manager
 	 */
 	public TargetManager targetManager(){
@@ -128,6 +119,7 @@ public class DataManager extends Storable
 	}
 	
 	/**
+	 * Get the expenses record manager instance it contains
 	 * @return Expense record manager
 	 */
 	public ExpenseRecordManager expenses(){
@@ -135,6 +127,7 @@ public class DataManager extends Storable
 	}
 	
 	/**
+	 * Get the income record manager instance it contains
 	 * @return Income record manager
 	 */
 	public RecordManager<IncomeRecord> incomes(){
@@ -142,7 +135,7 @@ public class DataManager extends Storable
 	}
 	
 	/**
-	 * @return A query handler that returns both income and expense records
+	 * Get A query handler that returns both income and expense records
 	 */
 	public CombinedRecordsQueryHandler combined(){
 		return _combined;
@@ -248,6 +241,9 @@ public class DataManager extends Storable
 		return _incomes.getLastMonthSum();
 	}
 
+	/**
+	 * Get the nws generator it contains 
+	 */
 	public NWSGenerator nwsGen() {
 		return _nwsGen;
 	}

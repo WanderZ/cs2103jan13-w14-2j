@@ -7,12 +7,11 @@ import com.google.gson.*;
 
 /**
  * Manages storage of all persistent data
- * @author yyjhao
+ * @author A0099621X
  *
  */
 public class StorageManager {
 	/**
-	 * @author yyjhao
 	 * An event listener that will be notified when
 	 * storage manager fails to do file IO
 	 */
@@ -37,9 +36,9 @@ public class StorageManager {
 	/**
 	 * Gson is used to serialize and deserialize data into json
 	 */
-	private Gson gson = new GsonBuilder().setPrettyPrinting().create(); // for testing purpose
+	private Gson gson = new GsonBuilder().setPrettyPrinting().create(); // for testing purpose, actually doesn't matter much
 	/**
-	 * All the listenrs
+	 * All the listeners
 	 */
 	private Vector<StorageEventListener> listeners = new Vector<StorageEventListener>();
 	
@@ -47,10 +46,11 @@ public class StorageManager {
 	 * The interval for checking then writing to file <br />
 	 * Possible to be moved into constructor
 	 */
-	private final int writeInterval = 5 * 1000;
+	private static final int WRITE_INTERVAL = 5 * 1000;
 	
 	/**
-	 * 
+	 * Constructs a storage manager that will write and read from the file
+	 * specified by the file path
 	 * @param filePath The path to the file for storing data
 	 * @throws IOException
 	 */
@@ -106,7 +106,7 @@ public class StorageManager {
 			public void run(){
 				save();
 			}
-		}, writeInterval);
+		}, WRITE_INTERVAL);
 	}
 	
 	/**
@@ -140,10 +140,11 @@ public class StorageManager {
 			public void run(){
 				save();
 			}
-		}, writeInterval);
+		}, WRITE_INTERVAL);
 	}
 	
 	/**
+	 * Get the data manager that this storage manager is managing
 	 * @return the data maanger
 	 */
 	public DataManager getDataManager(){
