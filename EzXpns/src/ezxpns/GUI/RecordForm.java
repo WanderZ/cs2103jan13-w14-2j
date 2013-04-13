@@ -79,11 +79,6 @@ public abstract class RecordForm extends JPanel {
 	 */
 	protected List<Category> categories;
 	
-	/**
-	 * The Record reference to the provided record
-	 */
-	protected Record record;
-	
 	protected RecordForm() {
 		cal = Calculator.getInstance();
 	}
