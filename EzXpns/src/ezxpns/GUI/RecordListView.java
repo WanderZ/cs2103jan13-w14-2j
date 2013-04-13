@@ -319,7 +319,7 @@ public class RecordListView extends JTable {
 					if(original instanceof IncomeRecord){
 							rhandler.createRecord((IncomeRecord)original, false);
 					}else{
-						rhandler.createRecord((ExpenseRecord)original, false, false);
+						rhandler.createRecord((ExpenseRecord)original, false);
 					}
 				}
 			}

@@ -1,11 +1,5 @@
 {
   "_expenses": {
-    "payms": {
-      "0": {
-        "id": 0,
-        "name": "undefined"
-      }
-    },
     "categories": {
       "0": {
         "id": 0,
@@ -49,10 +43,7 @@
       "1365241677322": [
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 20.0,
           "name": "Prawning",
           "remark": "",
@@ -61,10 +52,7 @@
         },
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 15.0,
           "name": "K-box",
           "remark": "",
@@ -73,10 +61,7 @@
         },
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 15.0,
           "name": "K-box",
           "remark": "",
@@ -85,10 +70,7 @@
         },
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 15.0,
           "name": "K-box",
           "remark": "",
@@ -97,10 +79,7 @@
         },
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 20.0,
           "name": "Prawning",
           "remark": "",
@@ -109,10 +88,7 @@
         },
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 20.0,
           "name": "Prawning",
           "remark": "",
@@ -123,10 +99,7 @@
       "1365241563335": [
         {
           "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 45.0,
           "name": "bus concession",
           "remark": "",
@@ -137,10 +110,7 @@
       "1365242215271": [
         {
           "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 250.0,
           "name": "Hostel Fees",
           "remark": "",
@@ -151,10 +121,7 @@
       "1365241506450": [
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 7.5,
           "name": "Big Mac",
           "remark": "",
@@ -163,10 +130,7 @@
         },
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 7.5,
           "name": "Big Mac",
           "remark": "",
@@ -175,10 +139,7 @@
         },
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 7.5,
           "name": "Big Mac",
           "remark": "",
@@ -187,10 +148,7 @@
         },
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 7.5,
           "name": "Big Mac",
           "remark": "",
@@ -199,10 +157,7 @@
         },
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 7.5,
           "name": "Big Mac",
           "remark": "",
@@ -211,10 +166,7 @@
         },
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 7.5,
           "name": "Big Mac",
           "remark": "",
@@ -223,10 +175,7 @@
         },
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 7.5,
           "name": "Big Mac",
           "remark": "",
@@ -235,10 +184,7 @@
         },
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 7.5,
           "name": "Big Mac",
           "remark": "",
@@ -247,10 +193,7 @@
         },
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 7.5,
           "name": "Big Mac",
           "remark": "",
@@ -259,10 +202,7 @@
         },
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 7.5,
           "name": "Big Mac",
           "remark": "",
@@ -271,10 +211,7 @@
         },
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 7.5,
           "name": "Big Mac",
           "remark": "",
@@ -283,10 +220,7 @@
         },
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 7.5,
           "name": "Big Mac",
           "remark": "",
@@ -295,10 +229,7 @@
         },
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 7.5,
           "name": "Big Mac",
           "remark": "",
@@ -307,10 +238,7 @@
         },
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 7.5,
           "name": "Big Mac",
           "remark": "",
@@ -321,10 +249,7 @@
       "1365241453936": [
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 1.0,
           "name": "pineapple",
           "remark": "",
@@ -333,10 +258,7 @@
         },
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 1.0,
           "name": "pineapple",
           "remark": "",
@@ -345,10 +267,7 @@
         },
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 1.0,
           "name": "pineapple",
           "remark": "",
@@ -357,10 +276,7 @@
         },
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 1.0,
           "name": "pineapple",
           "remark": "",
@@ -369,10 +285,7 @@
         },
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 1.0,
           "name": "pineapple",
           "remark": "",
@@ -381,10 +294,7 @@
         },
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 1.0,
           "name": "pineapple",
           "remark": "",
@@ -393,10 +303,7 @@
         },
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 1.0,
           "name": "pineapple",
           "remark": "",
@@ -405,10 +312,7 @@
         },
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 1.0,
           "name": "pineapple",
           "remark": "",
@@ -417,10 +321,7 @@
         },
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 1.0,
           "name": "pineapple",
           "remark": "",
@@ -429,10 +330,7 @@
         },
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 1.0,
           "name": "pineapple",
           "remark": "",
@@ -441,10 +339,7 @@
         },
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 1.0,
           "name": "pineapple",
           "remark": "",
@@ -453,10 +348,7 @@
         },
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 1.0,
           "name": "pineapple",
           "remark": "",
@@ -465,10 +357,7 @@
         },
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 1.0,
           "name": "pineapple",
           "remark": "",
@@ -477,10 +366,7 @@
         },
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 1.0,
           "name": "pineapple",
           "remark": "",
@@ -489,10 +375,7 @@
         },
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 1.0,
           "name": "pineapple",
           "remark": "",
@@ -501,10 +384,7 @@
         },
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 1.0,
           "name": "pineapple",
           "remark": "",
@@ -515,10 +395,7 @@
       "1365241364533": [
         {
           "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 0.8,
           "name": "coffee",
           "remark": "I need this",
@@ -527,10 +404,7 @@
         },
         {
           "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 0.8,
           "name": "coffee",
           "remark": "I need this",
@@ -539,10 +413,7 @@
         },
         {
           "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 0.8,
           "name": "coffee",
           "remark": "I need this",
@@ -551,10 +422,7 @@
         },
         {
           "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 0.8,
           "name": "coffee",
           "remark": "I need this",
@@ -563,10 +431,7 @@
         },
         {
           "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 0.8,
           "name": "coffee",
           "remark": "I need this",
@@ -575,10 +440,7 @@
         },
         {
           "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 0.8,
           "name": "coffee",
           "remark": "I need this",
@@ -587,10 +449,7 @@
         },
         {
           "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 0.8,
           "name": "coffee",
           "remark": "I need this",
@@ -599,10 +458,7 @@
         },
         {
           "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 0.8,
           "name": "coffee",
           "remark": "I need this",
@@ -611,10 +467,7 @@
         },
         {
           "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 0.8,
           "name": "coffee",
           "remark": "I need this",
@@ -623,10 +476,7 @@
         },
         {
           "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 0.8,
           "name": "coffee",
           "remark": "I need this",
@@ -635,10 +485,7 @@
         },
         {
           "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 0.8,
           "name": "coffee",
           "remark": "I need this",
@@ -647,10 +494,7 @@
         },
         {
           "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 0.8,
           "name": "coffee",
           "remark": "I need this",
@@ -659,10 +503,7 @@
         },
         {
           "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 0.8,
           "name": "coffee",
           "remark": "I need this",
@@ -671,10 +512,7 @@
         },
         {
           "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 0.8,
           "name": "coffee",
           "remark": "I need this",
@@ -683,10 +521,7 @@
         },
         {
           "expenseType": "WANT",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 8.0,
           "name": "Starbucks Coffee",
           "remark": "",
@@ -695,10 +530,7 @@
         },
         {
           "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 0.8,
           "name": "coffee",
           "remark": "I need this",
@@ -707,10 +539,7 @@
         },
         {
           "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 0.8,
           "name": "coffee",
           "remark": "I need this",
@@ -719,10 +548,7 @@
         },
         {
           "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 0.8,
           "name": "coffee",
           "remark": "I need this",
@@ -731,10 +557,7 @@
         },
         {
           "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 0.8,
           "name": "coffee",
           "remark": "I need this",
@@ -743,10 +566,7 @@
         },
         {
           "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 0.8,
           "name": "coffee",
           "remark": "I need this",
@@ -755,10 +575,7 @@
         },
         {
           "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 0.8,
           "name": "coffee",
           "remark": "I need this",
@@ -767,10 +584,7 @@
         },
         {
           "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 0.8,
           "name": "coffee",
           "remark": "I need this",
@@ -779,10 +593,7 @@
         },
         {
           "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 0.8,
           "name": "coffee",
           "remark": "I need this",
@@ -791,10 +602,7 @@
         },
         {
           "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 0.8,
           "name": "coffee",
           "remark": "I need this",
@@ -805,10 +613,7 @@
       "1365243246237": [
         {
           "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 2188.0,
           "name": "Macbook Air",
           "remark": "",
@@ -819,10 +624,7 @@
       "1365241872789": [
         {
           "expenseType": "NEED",
-          "paymentMethod": {
-            "id": 0,
-            "name": "undefined"
-          },
+          "paymentMethod": {},
           "amount": 100.0,
           "name": "Hospitalisation",
           "remark": "",
@@ -834,13 +636,13 @@
   },
   "_incomes": {
     "categories": {
-      "0": {
-        "id": 0,
-        "name": "undefined"
-      },
       "1365242066269": {
         "id": 1365242066269,
         "name": "Salary"
+      },
+      "0": {
+        "id": 0,
+        "name": "undefined"
       },
       "1365241996939": {
         "id": 1365241996939,
@@ -848,7 +650,6 @@
       }
     },
     "recordsByCategory": {
-      "0": [],
       "1365242066269": [
         {
           "amount": 400.0,
@@ -858,6 +659,7 @@
           "id": 1365242066269
         }
       ],
+      "0": [],
       "1365241996939": [
         {
           "amount": 300.0,
@@ -902,9 +704,9 @@
         "year": 2013,
         "month": 3,
         "dayOfMonth": 13,
-        "hourOfDay": 20,
-        "minute": 37,
-        "second": 5
+        "hourOfDay": 21,
+        "minute": 26,
+        "second": 0
       },
       "targetNeedsRatio": 0.5,
       "targetWantsRatio": 0.3,
