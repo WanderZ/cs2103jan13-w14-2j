@@ -6,7 +6,12 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JLayeredPane;
 import javax.swing.JToggleButton;
 
@@ -52,7 +57,7 @@ public class EzNavigator extends JLayeredPane {
 		gbc.weightx = 1;
 		gbc.weighty = 1;
 		
-		JToggleButton btn;
+		AbstractButton btn;
 		ButtonGroup btnGrp = new ButtonGroup();
 		
 		// Adding the LOGO
@@ -72,11 +77,18 @@ public class EzNavigator extends JLayeredPane {
 		
 		/* Insert First Button here */
 		btn = createMenuBtn(NormalMenuOpt.REVERT);
-		btnUndo = btn; // Stored for cosmetic updates
+		btnUndo = (JToggleButton) btn; // Stored for cosmetic updates
 		this.add(btn, gbc);
 		btnGrp.add(btn);
 		btnUndo.setAction(uiCtrl.getUndoMgr().getAction());
-		btnUndo.setBorderPainted(btnUndo.isEnabled());
+		btnUndo.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				btnUndo.setSelected(false);
+			}
+		});
+//		btnUndo.setBorderPainted(btnUndo.isEnabled());
 		
 		gbc.gridx = 0;
 		gbc.gridy = 2;
@@ -102,7 +114,7 @@ public class EzNavigator extends JLayeredPane {
 		btnGrp.add(btn);
 		btn.setSelected(true);
 //		btn.setBorder(BorderFactory.createLoweredBevelBorder());
-		selected = btn;
+		selected = (JToggleButton) btn;
 		/* Button ends*/
 		
 		gbc.gridx = 0;
@@ -143,6 +155,7 @@ public class EzNavigator extends JLayeredPane {
 	 */
 	public void updateUndoBtn() {
 		btnUndo.setBorderPainted(btnUndo.isEnabled());
+		btnUndo.setSelected(false);
 	}
 	
 	/**
@@ -177,12 +190,12 @@ public class EzNavigator extends JLayeredPane {
 	 * @param btn JButton to be linked
 	 * @param card MenuOption card to be linked to
 	 */
-	public void linkNavi(JToggleButton btn, MenuOption card) {
+	public void linkNavi(AbstractButton btn, MenuOption card) {
 		if(card instanceof NormalMenuOpt) {
-			linkNormalMenuOpt(btn, (NormalMenuOpt) card);
+			linkNormalMenuOpt((JToggleButton) btn, (NormalMenuOpt) card);
 		}
 		if(card instanceof DialogMenuOpt) {
-			linkDiagMenuOpt(btn, (DialogMenuOpt) card);
+			linkDiagMenuOpt((JButton) btn, (DialogMenuOpt) card);
 		}
 	}
 	
@@ -192,7 +205,7 @@ public class EzNavigator extends JLayeredPane {
 	 * @param btn JButton Object to be linked
 	 * @param option DialogMenuOpt to be linked to
 	 */
-	public void linkDiagMenuOpt(JToggleButton btn, final DialogMenuOpt option) {
+	public void linkDiagMenuOpt(JButton btn, final DialogMenuOpt option) {
 		btn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -227,26 +240,28 @@ public class EzNavigator extends JLayeredPane {
 //		btn.setFocusPainted(false);
 		btn.setFont(Config.MENU_FONT);
 		linkNavi(btn, option);
-//		btn.addMouseListener(new MouseAdapter() {
+		btn.addMouseListener(new MouseAdapter() {
 //			@Override
 //			public void mousePressed(MouseEvent mEvent) {
 //				JToggleButton btn = (JToggleButton) mEvent.getSource();
 //				if(btn != selected)
 //					btn.setBorder(BorderFactory.createLoweredBevelBorder());
 //			}
-//			
-//			@Override
-//			public void mouseClicked(MouseEvent mEvent) {
-//				JToggleButton btn = (JToggleButton) mEvent.getSource();
-//				if(btn == btnUndo) {
+			
+			@Override
+			public void mouseClicked(MouseEvent mEvent) {
+				JToggleButton btn = (JToggleButton) mEvent.getSource();
+				if(btn == btnUndo) {
 //					btn.setBorder(BorderFactory.createRaisedBevelBorder());
-//					return;
-//				}
-//				if(btn != selected) {
+					btnUndo.setSelected(false);
+					selected.setSelected(true);
+					return;
+				}
+				if(btn != selected) {
 //					selected.setBorder(BorderFactory.createRaisedBevelBorder());
-//					selected = btn;
-//				}
-//			}
+					selected = btn;
+				}
+			}
 //			
 //			@Override
 //			public void mouseExited(MouseEvent mEvent) { // Hover end
@@ -254,7 +269,7 @@ public class EzNavigator extends JLayeredPane {
 //				if(btn != selected)
 //					btn.setBorder(BorderFactory.createRaisedBevelBorder());
 //			}
-//		});
+		});
 		return btn;
 	}
 	
@@ -263,8 +278,8 @@ public class EzNavigator extends JLayeredPane {
 	 * @param option
 	 * @return
 	 */
-	private JToggleButton createMenuBtn(DialogMenuOpt option) {
-		JToggleButton btn = new JToggleButton(option.toString());
+	private JButton createMenuBtn(DialogMenuOpt option) {
+		JButton btn = new JButton(option.toString());
 //		btn.setContentAreaFilled(false);
 //		btn.setBorder(BorderFactory.createRaisedBevelBorder());
 //		btn.setFocusPainted(false);
@@ -294,7 +309,7 @@ public class EzNavigator extends JLayeredPane {
 }
 
 /**
- * Generic Menu Options
+ * Generic Menu Option
  */
 interface MenuOption {}
 
