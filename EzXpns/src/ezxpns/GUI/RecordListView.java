@@ -23,7 +23,8 @@ import javax.swing.table.TableRowSorter;
 import ezxpns.data.records.*;
 
 /**
- * @author yyjhao
+ * A packaged listView (actually JTable) that displays records
+ * @author A0099621X
  *
  */
 @SuppressWarnings("serial")
@@ -36,7 +37,7 @@ public class RecordListView extends JTable {
 		/**
 		 * Edit the user indicated Record
 		 * @param record to be Edited
-		 * @param display RecordListView Object GUI display to be updated
+		 * @param display RecordListView Object GUI display to be updated when editing is done
 		 */
 		public void edit(Record record, RecordListView display);
 	}
