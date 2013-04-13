@@ -364,20 +364,6 @@ public class ExpenseForm extends RecordForm {
 	}
 	
 	/**
-	 * Access method to retrieve the user specified payment methods
-	 * @return the PaymentMethod chosen by the user
-	 */
-	public PaymentMethod getMode() {
-		return PaymentMethod.undefined;
-//		if(isNewMethod()) {
-//			// User defined new payment
-//			String userInput = this.cboxPay.getSelectedItem().toString().trim();
-//			return new PaymentMethod(userInput);
-//		}
-//		return methods.get(cboxPay.getSelectedIndex());
-	}
-	
-	/**
 	 * Retrieves the user entered description
 	 * @return a String containing the description/remarks
 	 */
@@ -459,8 +445,7 @@ public class ExpenseForm extends RecordForm {
 				this.getDesc(),										// the description/remarks for this record, if any
 				this.getDate(),										// Date of this record (in user's context, not system time)
 				this.getCat(),										// Category of this record
-				this.getType(), 									// The ExpenseType of the record (need/want)
-				this.getMode()										// Payment method/mode of this record
+				this.getType() 									// The ExpenseType of the record (need/want)
 			);
 			if(isEdit) {
 				this.recHandler.modifyRecord(record.getId(), eRecord, isNewCategory(), isNewMethod());

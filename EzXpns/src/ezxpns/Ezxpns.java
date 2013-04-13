@@ -7,7 +7,6 @@ import ezxpns.data.records.CategoryHandler;
 import ezxpns.data.records.ExpenseRecord;
 import ezxpns.data.records.ExpenseType;
 import ezxpns.data.records.IncomeRecord;
-import ezxpns.data.records.PaymentMethod;
 import ezxpns.data.records.Record;
 import ezxpns.data.records.RecordHandler;
 import ezxpns.data.records.RecordManager.RecordUpdateException;
@@ -167,7 +166,7 @@ public class Ezxpns implements
 				return null;
 			}
 			r = new ExpenseRecord(r.getAmount(), r.getName(), r.getRemark(), r.getDate(), cat,
-					r.getExpenseType(), r.getPaymentMethod());
+					r.getExpenseType());
 		}
 		ExpenseRecord nr = null;
 		try {
@@ -221,7 +220,7 @@ public class Ezxpns implements
 				return false;
 			}
 			r = new ExpenseRecord(r.getAmount(), r.getName(), r.getRemark(), r.getDate(), cat,
-					r.getExpenseType(), r.getPaymentMethod());
+					r.getExpenseType());
 		}
 		try {
 			data.expenses().updateRecord(id, r);
