@@ -42,6 +42,9 @@ public class IncomeForm extends RecordForm {
 	
 	private CategoryHandler<IncomeRecord> catHandler; 
 	
+	/**
+	 * The Record reference to the provided record
+	 */
 	private IncomeRecord record;
 	
 	/**

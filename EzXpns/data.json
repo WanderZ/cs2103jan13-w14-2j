@@ -901,10 +901,10 @@
       "date": {
         "year": 2013,
         "month": 3,
-        "dayOfMonth": 12,
+        "dayOfMonth": 13,
         "hourOfDay": 17,
-        "minute": 30,
-        "second": 47
+        "minute": 33,
+        "second": 37
       },
       "targetNeedsRatio": 0.5,
       "targetWantsRatio": 0.3,

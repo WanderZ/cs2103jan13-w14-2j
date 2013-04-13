@@ -36,13 +36,16 @@ import ezxpns.data.records.RecordHandler;
 @SuppressWarnings("serial")
 public class ExpenseForm extends RecordForm {
 	
-	public final String EXPENSE_TYPE_NEED = "Need";
-	public final String EXPENSE_TYPE_WANT = "Want";
+//	public final String EXPENSE_TYPE_NEED = "Need";
+//	public final String EXPENSE_TYPE_WANT = "Want";
 	
 	// #Swing Components
 	private ButtonGroup bgType;
 	private JRadioButton rbtnNeed, rbtnWant;
-	
+
+	/**
+	 * The Record reference to the provided record
+	 */
 	private ExpenseRecord record;
 	
 	/**
@@ -116,19 +119,7 @@ public class ExpenseForm extends RecordForm {
 		txtDateChooser.setDate(isEdit ? record.getDate() : new Date()); 
 		
 		// Need or Want
-		switch(record.getExpenseType()) {
-			case NEED:
-				rbtnNeed.setSelected(true);
-				break;
-			case WANT:
-				rbtnWant.setSelected(true);
-				break;
-			case SAVE:
-				// Something went wrong somewhere?
-			default:
-				break;
-		
-		}
+		selectExpenseType(record.getExpenseType());
 		
 		// Description
 		txtDesc.setText(record.getRemark());
@@ -137,6 +128,19 @@ public class ExpenseForm extends RecordForm {
 		// Not handled at the moment
 		
 		blockAutoFill = false;
+	}
+	
+	/** 
+	 * Selects the ExpenseType 
+	 * @param type the ExpenseType enum of the record
+	 */
+	private void selectExpenseType(ExpenseType type) {
+		if(type == ExpenseType.NEED) {
+			rbtnNeed.setSelected(true);
+		}
+		if(type == ExpenseType.WANT) {
+			rbtnWant.setSelected(true);
+		}
 	}
 	
 	/** Populates the Payment Methods Drop down field */
@@ -157,11 +161,11 @@ public class ExpenseForm extends RecordForm {
 		lblType = this.createLabel("Type");
 		bgType = new ButtonGroup();
 		
-		rbtnNeed = new JRadioButton(EXPENSE_TYPE_NEED);
+		rbtnNeed = new JRadioButton(ExpenseType.NEED.name);
 		rbtnNeed.setContentAreaFilled(false);
 		rbtnNeed.setSelected(true);
 		
-		rbtnWant = new JRadioButton(EXPENSE_TYPE_WANT);
+		rbtnWant = new JRadioButton(ExpenseType.WANT.name);
 		rbtnWant.setContentAreaFilled(false);
 		
 		bgType.add(rbtnNeed);
