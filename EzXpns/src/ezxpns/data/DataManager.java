@@ -8,8 +8,7 @@ import ezxpns.util.Pair;
 /**
  * A wrapper containing all data <br />
  * with some helper functions to query both types <br />
- * Everything here is handled by StorageManager to save to file <br />
- * Remember to add transient if the data is not meant to be persistent
+ * This class is meant to work together with StorageManager to achive persistent memory store<br />
  * @author A0099621X
  */
 public class DataManager extends Storable
