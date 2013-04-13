@@ -16,7 +16,7 @@ public abstract class Storable {
 	}
 	
 	/**
-	 * Tells the object that it has been stored
+	 * Informs the object that it has been stored in the database
 	 */
 	public void saved(){
 		updated = false;

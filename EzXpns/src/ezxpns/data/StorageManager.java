@@ -16,7 +16,15 @@ public class StorageManager {
 	 * storage manager fails to do file IO
 	 */
 	public static interface StorageEventListener{
+		/**
+		 * A read IO failure has occurred with the exception supplied
+		 * @param e
+		 */
 		void readFail(IOException e);
+		/**
+		 * A write IO failure has occurred with the exception supplied
+		 * @param e
+		 */
 		void writeFail(IOException e);
 	}
 	
@@ -70,7 +78,7 @@ public class StorageManager {
 	}
 	
 	/**
-	 * Need this to handle some exceptions during timer IO
+	 * Adds a event listener for IO exceptions
 	 */
 	public void addEventListener(StorageEventListener listener){
 		listeners.add(listener);

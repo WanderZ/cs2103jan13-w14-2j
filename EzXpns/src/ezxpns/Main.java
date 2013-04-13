@@ -3,7 +3,7 @@ package ezxpns;
 public class Main {
 
 	/**
-	 * Entrance
+	 * Entrance point
 	 * @author A0099621X
 	 */
 	public static void main(String[] args) {
