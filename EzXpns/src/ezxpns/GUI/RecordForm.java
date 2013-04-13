@@ -19,7 +19,6 @@ import com.toedter.calendar.JDateChooser;
 import ezxpns.GUI.Calculator.EvaluationException;
 import ezxpns.data.records.Category;
 import ezxpns.data.records.CategoryHandler;
-import ezxpns.data.records.PaymentHandler;
 import ezxpns.data.records.PaymentMethod;
 import ezxpns.data.records.Record;
 import ezxpns.data.records.RecordHandler;
@@ -60,7 +59,6 @@ public abstract class RecordForm extends JPanel {
 	// #Logic Components
 	protected RecordHandler recHandler; 
 	protected CategoryHandler catHandler;
-	protected PaymentHandler payHandler;
 	protected UpdateNotifyee notifyee;
 	
 	/**

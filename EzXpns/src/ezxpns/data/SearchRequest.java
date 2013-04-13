@@ -7,10 +7,9 @@ import ezxpns.data.records.*;
 
 /**
  * Wrapper class to contains search query parameters <br />
- * May support multiple queries (future iterations) <br />
- * but not handled in the master class for now. <br />
  * To create a new request, just construct it with the required parameter, such
- * as new SearchRequest(nameToSearch)
+ * as new SearchRequest(nameToSearch)<br />
+ * To add more parameters, use setters
  */
 public class SearchRequest {
 
@@ -24,6 +23,11 @@ public class SearchRequest {
 	private Pair<Date, Date> dateRange;
 	private boolean multiple = false;
 
+	/**
+	 * Normalizes the date range to remove time information and keeping only dates
+	 * @param dateRange
+	 * @return a normalized date range
+	 */
 	public static Pair<Date, Date> normalizeDateRange(Pair<Date, Date> dateRange) {
 		Date start = dateRange.getLeft();
 		Date end = dateRange.getRight();
@@ -45,15 +49,20 @@ public class SearchRequest {
 	}
 
 	// no empty request allowed!
-//	private SearchRequest() {}
+	@SuppressWarnings("unused")
+	private SearchRequest() {}
 
+	/**
+	 * Creates a search request that asks for records matching the whole name
+	 * @param name the name that records should contain
+	 */
 	public SearchRequest(String name) {
 		this.name = name;
 	}
 
 	/**
-	 * Constructs a Search Request for a specific date range
-	 * @param dateRange a Pair Object containing the start and end date 
+	 * Constructs a Search Request for a specific date range, inclusive of start and end
+	 * @param dateRange a Pair Object containing the start and end date
 	 */
 	public SearchRequest(Pair<Date, Date> dateRange) {
 		this.dateRange = normalizeDateRange(dateRange);
@@ -61,12 +70,17 @@ public class SearchRequest {
 
 	/**
 	 * Constructs a Search Request for a specific category
-	 * @param category Category object specified
+	 * @param category Category object specified. The category must be from the database
 	 */
 	public SearchRequest(Category category) {
 		this.category = category;
 	}
 
+	/**
+	 * Test if a record matches this request
+	 * @param r record to be tested
+	 * @return whether the record matches
+	 */
 	public boolean match(Record r) {
 		return (name == null || r.getName().equals(name))
 				&& (category == null || r.getCategory().equals(category))
@@ -75,7 +89,7 @@ public class SearchRequest {
 	}
 
 	/**
-	 * Sets the name field of this SearchRequest
+	 * Sets(adds) the name field of this SearchRequest
 	 * @param name the string object String defining name field
 	 */
 	public void setName(String name) {
@@ -86,7 +100,7 @@ public class SearchRequest {
 	}
 
 	/**
-	 * Set the category of this SearchRequest
+	 * Sets(adds) the category of this SearchRequest
 	 * @param category a Category Object reference to be set as the Category field
 	 */
 	public void setCategory(Category category) {
@@ -97,7 +111,7 @@ public class SearchRequest {
 	}
 
 	/**
-	 * Set the date range or timeframe for this SearchRequest
+	 * Sets(adds) the date range for this SearchRequest
 	 * @param dateRange a Pair Object containing the start and end date to be set as the Date Range field.
 	 */
 	public void setDateRange(Pair<Date, Date> dateRange) {
@@ -148,7 +162,7 @@ public class SearchRequest {
 	}
 
 	/**
-	 * Check if this SearchRequest is supporting multiple fields
+	 * Check if this SearchRequest is asking for multiple fields
 	 * @return true is this supports, otherwise false
 	 */
 	public boolean isMultiple() {

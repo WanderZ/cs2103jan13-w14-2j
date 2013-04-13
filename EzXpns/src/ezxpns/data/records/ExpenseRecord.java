@@ -5,7 +5,7 @@ import java.util.Date;
 
 /**
  * Record with two additional attribute: expenseType{NEED, WANT} and PaymentMethod
- * @author yyjhao
+ * @author A0099621X
  */
 public class ExpenseRecord extends Record{
 	protected ExpenseType expenseType;
