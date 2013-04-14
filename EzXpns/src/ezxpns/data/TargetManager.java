@@ -36,10 +36,7 @@ public class TargetManager extends Storable {
 		}
 	}
 	
-	/**
-	 * 
-	 * @param data
-	 */
+
 	public void setDataProvider(DataProvider data){
 		this.data = data;
 		dataUpdated = true;
@@ -100,7 +97,7 @@ public class TargetManager extends Storable {
 
 	
 	/** 
-	 * This returns 	a copy of the internal targets
+	 * This returns a copy of the internal targets
 	 * @return a copy of the internal targets
 	 */
 	public Vector<Target> getTargets(){
@@ -111,7 +108,7 @@ public class TargetManager extends Storable {
 		return copy;
 	}
 	/**
-	 * 
+	 * Returns the target of this category
 	 * @param cat
 	 * @return target object that correspond to Category
 	 */
@@ -121,8 +118,8 @@ public class TargetManager extends Storable {
 	
 
 	/**
-	 * 
-	 * @return a vector of bar that is classified as alerts
+	 * Returns a vector of bar that is classified as alerts. Used for testing
+	 * @return
 	 */
 	public Vector<Bar> getAlerts(){
 		Vector<Bar> ordered = getOrderedBar();
