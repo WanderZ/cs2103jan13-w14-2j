@@ -6,7 +6,7 @@ import java.util.Vector;
 /**
  * A class to hold report information
  * 
- * @author tingzhe
+ * @author A0087091B
  */
 
 public class Report {
@@ -24,8 +24,6 @@ public class Report {
 	// 1. Expense
 	private Vector<ReportCategory> ExpenseCategory;
 	private double aveExpense; // Average Expense per day
-
-	// highest expenditure?
 
 	/**
 	 * Constructor, set date range

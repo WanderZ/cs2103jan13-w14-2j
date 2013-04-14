@@ -8,7 +8,7 @@ import java.util.*;
 
 /**
  * Generate a Report Object given a date range
- * @author tingzhe
+ * @author A0087091B
  * 
  */
 
@@ -31,7 +31,7 @@ public class ReportGenerator {
 	private Vector<IncomeRecord> incomeRecord;
 	private Report myReport;
 	private Vector<ReportCategory> expenseCategory;
-	static int INVALID = -1;
+	private static int INVALID = -1;
 
 	/**
 	 * Hook up the data provider
