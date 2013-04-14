@@ -56,7 +56,6 @@ public interface CategoryHandler<T extends Record> {
 	 */
 	public String validateCategoryName(String name);
 	
-	
 	/**
 	 * Search for records matching the category
 	 * @param category category of the record
@@ -75,5 +74,5 @@ public interface CategoryHandler<T extends Record> {
 	/**
 	 * Get a list of categories that has a prefix to its name
 	 */
-	Vector<Category> getCategoryWithNamePrefix(String prefix);
+	public Vector<Category> getCategoryWithNamePrefix(String prefix);
 }
