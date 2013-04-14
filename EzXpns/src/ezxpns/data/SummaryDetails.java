@@ -6,7 +6,7 @@ import ezxpns.data.SummaryGenerator.SummaryType;
  * Data structure containing information on 
  * Summary during a specific time range
  * 
- * @author tingzhe
+ * @author A0087091B
  *
  */
 
@@ -16,7 +16,7 @@ public class SummaryDetails {
 	private double income = 0;
 	private double expense = 0;
 	private double balance = 0;
-	private final static double EPSILON = 0.00001;
+	private final static double EPSILON = 0.00001; // correction for zero (double)
 
 	
 	public SummaryDetails(double income, double expense, SummaryType myType){

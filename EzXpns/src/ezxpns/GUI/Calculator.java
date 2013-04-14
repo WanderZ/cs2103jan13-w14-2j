@@ -11,8 +11,7 @@ import javax.script.ScriptException;
 
 /**
  * A singleton class to evaluate equations using javascript
- * yeah man javascript yo yo yo
- * @author yyjhao
+ * @author A0099621X
  */
 public class Calculator {
 	@SuppressWarnings("serial")
@@ -27,14 +26,17 @@ public class Calculator {
 	}
 	
 	private final ScriptEngine engine = new ScriptEngineManager().getEngineByName("JavaScript");
-	static public final Pattern p = Pattern.compile("[^0-9-+ \t*/().]");
+	static public final Pattern INVALID_EQUATION = Pattern.compile("[^0-9-+ \t*/().]");
 	
 	private Calculator(){
 		// this is a singleton man
 	}
 	
+	/**
+	 * Evaluate an equation that's in a string, throws exception if the equation is invalid
+	 */
 	public double evaluate(String equation) throws EvaluationException{
-		if(p.matcher(equation).find()){
+		if(INVALID_EQUATION.matcher(equation).find()){
 			throw new EvaluationException();
 		}
 		try {

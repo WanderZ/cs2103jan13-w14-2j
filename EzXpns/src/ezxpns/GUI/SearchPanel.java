@@ -35,7 +35,6 @@ import ezxpns.data.records.Category;
 import ezxpns.data.records.CategoryHandler;
 import ezxpns.data.records.ExpenseRecord;
 import ezxpns.data.records.IncomeRecord;
-import ezxpns.data.records.PaymentHandler;
 import ezxpns.data.records.Record;
 import ezxpns.util.Pair;
 
@@ -75,15 +74,14 @@ public class SearchPanel extends JPanel implements FocusListener, DocumentListen
 			SearchHandler handlerRef, 
 			RecordListView li, 
 			CategoryHandler<IncomeRecord> inCatHandRef, 
-			CategoryHandler<ExpenseRecord> exCatHandRef, 
-			PaymentHandler payHandRef) {
+			CategoryHandler<ExpenseRecord> exCatHandRef) {
 		super(new BorderLayout());
 		this.handler = handlerRef;
 		
 		panCtrls = new JPanel();
 		panCtrls.setLayout(new BorderLayout());
 		
-		panForm = new SearchFormPanel(this, this, inCatHandRef, exCatHandRef, payHandRef);
+		panForm = new SearchFormPanel(this, this, inCatHandRef, exCatHandRef);
 		panCtrls.add(panForm, BorderLayout.CENTER);
 		panCtrls.setPreferredSize(new Dimension(DEFAULT_WIDTH, SIMPLE_HEIGHT)); // SIMPLE SEARCH EXPERIMENTATION
 		
@@ -307,8 +305,7 @@ class SearchFormPanel extends JPanel {
 			DocumentListener docListener,
 			FocusListener focusListener,
 			CategoryHandler<IncomeRecord> inCatHandRef, 
-			CategoryHandler<ExpenseRecord> exCatHandRef, 
-			PaymentHandler payHandRef) {
+			CategoryHandler<ExpenseRecord> exCatHandRef) {
 		this.inCatHandRef = inCatHandRef;
 		this.exCatHandRef = exCatHandRef;
 		

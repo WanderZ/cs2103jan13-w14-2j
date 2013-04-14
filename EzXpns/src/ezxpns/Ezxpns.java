@@ -7,7 +7,6 @@ import ezxpns.data.records.CategoryHandler;
 import ezxpns.data.records.ExpenseRecord;
 import ezxpns.data.records.ExpenseType;
 import ezxpns.data.records.IncomeRecord;
-import ezxpns.data.records.PaymentMethod;
 import ezxpns.data.records.Record;
 import ezxpns.data.records.RecordHandler;
 import ezxpns.data.records.RecordManager.RecordUpdateException;
@@ -22,7 +21,7 @@ import java.util.concurrent.*;
 
 /**
  * Main class that links up various components
- * @author yyjhao
+ * @author A0099621X
  */
 public class Ezxpns implements
 		RecordHandler,
@@ -34,6 +33,8 @@ public class Ezxpns implements
 	private StorageManager store;
 	
 	/**
+	 * Get the storage manager the application uses, useful
+	 * for testing
 	 * @return the storage manager
 	 */
 	public StorageManager getStore() {
@@ -41,6 +42,8 @@ public class Ezxpns implements
 	}
 
 	/**
+	 * Get the data manager the application uses, useful
+	 * for testing
 	 * @return the data manager
 	 */
 	public DataManager getDataMng() {
@@ -48,6 +51,8 @@ public class Ezxpns implements
 	}
 
 	/**
+	 * Get the target manager the application uses, useful
+	 * for testing
 	 * @return the target manager
 	 */
 	public TargetManager getTargetManager() {
@@ -87,7 +92,6 @@ public class Ezxpns implements
 												this, 				// RecordHandler
 												data.incomes(), 	// IncomeCategoryHandler
 												this, 				// ExpenseCategoryHandler
-												data.expenses(),	// PaymentMethodHandler
 												targetManager, 		// Target Manager
 												reportGenerator, 	// Report Generator
 												summaryGenerator,
@@ -155,22 +159,14 @@ public class Ezxpns implements
 	}
 	
 	@Override
-	public ExpenseRecord createRecord(ExpenseRecord r, boolean newCat, boolean newPay) {
+	public ExpenseRecord createRecord(ExpenseRecord r, boolean newCat) {
 		if(newCat){
 			Category cat = data.expenses().addNewCategory(r.getCategory());
 			if(cat == null){
 				return null;
 			}
 			r = new ExpenseRecord(r.getAmount(), r.getName(), r.getRemark(), r.getDate(), cat,
-					r.getExpenseType(), r.getPaymentMethod());
-		}
-		if(newPay){
-			PaymentMethod pay = data.expenses().addNewPaymentMethod(r.getPaymentMethod());
-			if(pay == null){
-				return null;
-			}
-			r = new ExpenseRecord(r.getAmount(), r.getName(), r.getRemark(), r.getDate(), r.getCategory(),
-					r.getExpenseType(), pay);
+					r.getExpenseType());
 		}
 		ExpenseRecord nr = null;
 		try {
@@ -224,15 +220,7 @@ public class Ezxpns implements
 				return false;
 			}
 			r = new ExpenseRecord(r.getAmount(), r.getName(), r.getRemark(), r.getDate(), cat,
-					r.getExpenseType(), r.getPaymentMethod());
-		}
-		if(newPay){
-			PaymentMethod pay = data.expenses().addNewPaymentMethod(r.getPaymentMethod());
-			if(pay == null){
-				return false;
-			}
-			r = new ExpenseRecord(r.getAmount(), r.getName(), r.getRemark(), r.getDate(), r.getCategory(),
-					r.getExpenseType(), pay);
+					r.getExpenseType());
 		}
 		try {
 			data.expenses().updateRecord(id, r);

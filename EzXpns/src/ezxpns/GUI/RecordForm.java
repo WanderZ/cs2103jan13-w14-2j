@@ -19,8 +19,6 @@ import com.toedter.calendar.JDateChooser;
 import ezxpns.GUI.Calculator.EvaluationException;
 import ezxpns.data.records.Category;
 import ezxpns.data.records.CategoryHandler;
-import ezxpns.data.records.PaymentHandler;
-import ezxpns.data.records.PaymentMethod;
 import ezxpns.data.records.Record;
 import ezxpns.data.records.RecordHandler;
 
@@ -60,7 +58,6 @@ public abstract class RecordForm extends JPanel {
 	// #Logic Components
 	protected RecordHandler recHandler; 
 	protected CategoryHandler catHandler;
-	protected PaymentHandler payHandler;
 	protected UpdateNotifyee notifyee;
 	
 	/**
@@ -143,20 +140,6 @@ public abstract class RecordForm extends JPanel {
 	 */
 	public Date getDate() {
 		return (Date) txtDateChooser.getDate();
-	}
-	
-	/**
-	 * Retrieve the user specified payment methods
-	 * @return the PaymentMethod chosen by the user
-	 */
-	public PaymentMethod getMode() {
-		return PaymentMethod.undefined;
-//		if(isNewMethod()) {
-//			// User defined new payment
-//			String userInput = this.cboxPay.getSelectedItem().toString().trim();
-//			return new PaymentMethod(userInput);
-//		}
-//		return methods.get(cboxPay.getSelectedIndex());
 	}
 	
 	/**
