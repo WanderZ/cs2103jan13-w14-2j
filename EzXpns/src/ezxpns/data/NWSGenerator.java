@@ -7,8 +7,7 @@ import ezxpns.data.records.ExpenseType;
 /**
  * This class generates target ratios for needs,wants and savings
  * 
- * @author ShuZhen
- * 
+ * @author A0085413J
  */
 
 public class NWSGenerator extends Storable {

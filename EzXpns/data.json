@@ -895,16 +895,16 @@
       "currentWants": 0.0,
       "currentSavings": 0.0,
       "income": 0.0,
-      "isSet": false
+      "state": false
     },
     "thisMonthNWS": {
       "date": {
         "year": 2013,
         "month": 3,
-        "dayOfMonth": 8,
-        "hourOfDay": 23,
-        "minute": 53,
-        "second": 22
+        "dayOfMonth": 13,
+        "hourOfDay": 21,
+        "minute": 42,
+        "second": 23
       },
       "targetNeedsRatio": 0.5,
       "targetWantsRatio": 0.3,
@@ -913,7 +913,7 @@
       "currentWants": 59.5,
       "currentSavings": 0.0,
       "income": 300.0,
-      "isSet": true
+      "state": true
     }
   },
   "_targetManager": {
