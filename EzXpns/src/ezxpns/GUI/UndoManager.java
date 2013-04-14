@@ -53,9 +53,6 @@ public class UndoManager {
 		postUndo = action;
 	}
 	
-	/**
-	 * 
-	 */
 	private void performUndo(){
 		(stack.pop()).getLeft().actionPerformed(null);
 		if(stack.empty()){

@@ -26,8 +26,8 @@ import javax.swing.JSeparator;
 import javax.swing.border.EtchedBorder;
 
 /**
- * This is the panel in which will be slotted into the MainGUI (the main
- * interface) as the display for the visual breakdown of the targets on the user
+ * This is the panel in which will be slotted into the MainGUI (the main interface) 
+ * <br />as the display for the visual breakdown of the targets on the user
  * defined categories (Food, Transport, etc...)
  */
 @SuppressWarnings("serial")

@@ -17,6 +17,7 @@ import javax.swing.JToggleButton;
 
 /**
  * Navigator for the MainGUI
+ * @author A0097973 Koh Zheng Kang
  */
 @SuppressWarnings("serial")
 public class EzNavigator extends JLayeredPane {
@@ -37,12 +38,12 @@ public class EzNavigator extends JLayeredPane {
 	private UIControl uiCtrl;
 	
 	/**
-	 * JButton reference to the undo button
+	 * JToggleButton reference to the undo button
 	 */
 	private JToggleButton btnUndo;
 	
 	/**
-	 * JButton reference to the selected button 
+	 * JToggleButton reference to the selected button 
 	 */
 	private JToggleButton selected;
 	
@@ -179,7 +180,7 @@ public class EzNavigator extends JLayeredPane {
 	
 	/**
 	 * Opens a new dialog
-	 * @param option
+	 * @param option the DialogMenuOpt reference to open the dialog
 	 */
 	public void navigate(DialogMenuOpt option) {
 		option.openDialog();
