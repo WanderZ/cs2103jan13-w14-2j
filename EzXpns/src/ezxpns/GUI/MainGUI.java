@@ -47,12 +47,12 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 	/**
 	 * Reference to the SearchPanel 
 	 */
-	private SearchFrame panSearch;
+	private SearchPanel panSearch;
 	
 	/**
 	 * Reference to the CategoryManagerPanel - also the TargetManager
 	 */
-	private CategoryFrame panCategory;
+	private CategoryTargetPanel panCategory;
 	
 	/**
 	 * Reference to the RecordsDisplayPanel on the Dash board
@@ -135,7 +135,7 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 			CategoryHandler<IncomeRecord> incomeHandler, 
 			TargetManager targetMgr) {
 		if(panCategory==null) {
-			panCategory = new CategoryFrame(expenseHandler, incomeHandler, targetMgr, this);
+			panCategory = new CategoryTargetPanel(expenseHandler, incomeHandler, targetMgr, this);
 			panContent.add(panCategory, NormalMenuOpt.CATMGR.toString());
 		}
 	}
@@ -152,10 +152,9 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 			SearchHandler searchHandler, 
 			RecordListView display, 
 			CategoryHandler<IncomeRecord> incomeHandler, 
-			CategoryHandler<ExpenseRecord> expenseHandler, 
-			PaymentHandler payHandler) {
+			CategoryHandler<ExpenseRecord> expenseHandler){
 		if(panSearch == null) {
-			panSearch = new SearchFrame(searchHandler, display, incomeHandler, expenseHandler, payHandler);
+			panSearch = new SearchPanel(searchHandler, display, incomeHandler, expenseHandler);
 			panContent.add(panSearch, NormalMenuOpt.SEARCH.toString());
 		}
 	}

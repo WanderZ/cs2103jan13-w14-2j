@@ -3,7 +3,6 @@ package ezxpns.GUI;
 import ezxpns.data.records.CategoryHandler;
 import ezxpns.data.records.ExpenseRecord;
 import ezxpns.data.records.IncomeRecord;
-import ezxpns.data.records.PaymentHandler;
 import ezxpns.data.records.Record;
 import ezxpns.data.records.RecordHandler;
 
@@ -40,7 +39,6 @@ public class RecordDialog extends JDialog implements ActionListener {
 	private RecordHandler recHandler;
 	private CategoryHandler<IncomeRecord> incomeHandler;
 	private CategoryHandler<ExpenseRecord> expenseHandler;
-	private PaymentHandler payHandler;
 	private UpdateNotifyee notifyee;
 	private boolean isEditing;
 	
@@ -61,13 +59,11 @@ public class RecordDialog extends JDialog implements ActionListener {
 			RecordHandler recHandlerRef, 
 			CategoryHandler<IncomeRecord> incomeHandlerRef, 
 			CategoryHandler<ExpenseRecord> expenseHandlerRef,
-			PaymentHandler payHandlerRef,
 			UpdateNotifyee notifyeeRef) {
 		super(homeRef, title, true); /* Owner, Title, Modularity */
 		recHandler = recHandlerRef;
 		incomeHandler = incomeHandlerRef;
 		expenseHandler = expenseHandlerRef;
-		payHandler = payHandlerRef;
 		notifyee = notifyeeRef;
 		isEditing = false;
 		this.initFrame();
@@ -88,11 +84,10 @@ public class RecordDialog extends JDialog implements ActionListener {
 			RecordHandler recHandlerRef, 
 			CategoryHandler<IncomeRecord> incomeHandlerRef, 
 			CategoryHandler<ExpenseRecord> expenseHandlerRef,
-			PaymentHandler payHandlerRef,
 			UpdateNotifyee notifyeeRef,
 			int initTab) {
 		
-		this(homeRef, initTab == TAB_INCOME ? "EzXpns - New Income Record": "EzXpns - New Expense Record", recHandlerRef, incomeHandlerRef, expenseHandlerRef, payHandlerRef, notifyeeRef);
+		this(homeRef, initTab == TAB_INCOME ? "EzXpns - New Income Record": "EzXpns - New Expense Record", recHandlerRef, incomeHandlerRef, expenseHandlerRef, notifyeeRef);
 		this.initComponent();
 		
 		panMain.toggleIncomeTab(); // Fix
@@ -123,10 +118,9 @@ public class RecordDialog extends JDialog implements ActionListener {
 			String title,
 			RecordHandler recHandlerRef,
 			CategoryHandler<ExpenseRecord> expenseHandlerRef,
-			PaymentHandler payHandlerRef,
 			UpdateNotifyee notifyeeRef,
 			ExpenseRecord record) {
-		this(homeRef, title, recHandlerRef, null, expenseHandlerRef, payHandlerRef, notifyeeRef);
+		this(homeRef, title, recHandlerRef, null, expenseHandlerRef, notifyeeRef);
 		isEditing = true;
 		this.initComponent(record);
 		
@@ -146,7 +140,7 @@ public class RecordDialog extends JDialog implements ActionListener {
 			CategoryHandler<IncomeRecord> incomeHandlerRef,
 			UpdateNotifyee notifyeeRef,
 			IncomeRecord record) {
-		this(homeRef, title, recHandlerRef, incomeHandlerRef, null, null, notifyeeRef);
+		this(homeRef, title, recHandlerRef, incomeHandlerRef, null, notifyeeRef);
 		isEditing = true;
 		this.initComponent(record);
 		
@@ -167,7 +161,7 @@ public class RecordDialog extends JDialog implements ActionListener {
 	 * Initialize this frame with its components
 	 */
 	private void initComponent() {
-		panMain = new PanelMain(recHandler, incomeHandler, expenseHandler, payHandler, notifyee);
+		panMain = new PanelMain(recHandler, incomeHandler, expenseHandler, notifyee);
 		getContentPane().add(panMain, BorderLayout.CENTER);
 		
 		panOpt = new PanelOption(this);
@@ -179,7 +173,7 @@ public class RecordDialog extends JDialog implements ActionListener {
 	 * @param record ExpenseRecord to be modified
 	 */
 	private void initComponent(ExpenseRecord record) {
-		panMain = new PanelMain(recHandler, incomeHandler, expenseHandler, payHandler, notifyee, record);
+		panMain = new PanelMain(recHandler, incomeHandler, expenseHandler, notifyee, record);
 		getContentPane().add(panMain, BorderLayout.CENTER);
 		
 		panOpt = new PanelOption(this);
@@ -191,7 +185,7 @@ public class RecordDialog extends JDialog implements ActionListener {
 	 * @param record IncomeRecord to be modified
 	 */
 	private void initComponent(IncomeRecord record) {
-		panMain = new PanelMain(recHandler, incomeHandler, expenseHandler, payHandler, notifyee, record);
+		panMain = new PanelMain(recHandler, incomeHandler, expenseHandler, notifyee, record);
 		getContentPane().add(panMain, BorderLayout.CENTER);
 		
 		panOpt = new PanelOption(this);
@@ -289,12 +283,11 @@ class PanelMain extends JPanel {
 			RecordHandler recHandlerRef,
 			CategoryHandler<IncomeRecord> incomeHandlerRef,
 			CategoryHandler<ExpenseRecord> expenseHandlerRef,
-			PaymentHandler payHandlerRef,
 			UpdateNotifyee notifyeeRef) {
 		this.setLayout(new BorderLayout());
 		this.isExpense = true;
 		
-		panExpense = new ExpenseForm(recHandlerRef, expenseHandlerRef, payHandlerRef, notifyeeRef);
+		panExpense = new ExpenseForm(recHandlerRef, expenseHandlerRef, notifyeeRef);
 		panIncome = new IncomeForm(recHandlerRef, incomeHandlerRef, notifyeeRef);
 		this.initTabs();
 		
@@ -316,13 +309,12 @@ class PanelMain extends JPanel {
 			RecordHandler recHandlerRef, 
 			CategoryHandler<IncomeRecord> incomeHandlerRef, 
 			CategoryHandler<ExpenseRecord> expenseHandlerRef, 
-			PaymentHandler payHandlerRef,
 			UpdateNotifyee notifyeeRef,
 			ExpenseRecord record) {
 		
 		this.setLayout(new BorderLayout());
 		this.isExpense = true;
-		panExpense = new ExpenseForm(recHandlerRef, expenseHandlerRef, payHandlerRef, notifyeeRef, record);
+		panExpense = new ExpenseForm(recHandlerRef, expenseHandlerRef, notifyeeRef, record);
 		this.add(panExpense, BorderLayout.CENTER);
 	}
 	
@@ -339,7 +331,6 @@ class PanelMain extends JPanel {
 			RecordHandler recHandlerRef, 
 			CategoryHandler<IncomeRecord> incomeHandlerRef, 
 			CategoryHandler<ExpenseRecord> expenseHandlerRef, 
-			PaymentHandler payHandlerRef,
 			UpdateNotifyee notifyeeRef,
 			IncomeRecord record) {
 		this.setLayout(new BorderLayout());
