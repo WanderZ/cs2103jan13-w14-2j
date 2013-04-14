@@ -6,8 +6,8 @@ import ezxpns.data.records.*;
 import java.util.*;
 
 /**
- * @author yyjhao
  * A model used to display list of category in category frame
+ * @author yyjhao
  */
 @SuppressWarnings("serial")
 public class CategoryModel extends AbstractListModel {
@@ -26,10 +26,6 @@ public class CategoryModel extends AbstractListModel {
 	private List<Category> cats;
 	private Category toadd;
 	
-	public int size(){
-		return cats.size();
-	}
-
 	@Override
 	public Object getElementAt(int arg0) {
 		return cats.get(arg0);
@@ -41,9 +37,7 @@ public class CategoryModel extends AbstractListModel {
 	}
 
 	/**
-	 * Refresh the whole list <br />
-	 * If the size of categories gets large, this can be slow <br />
-	 * But given that we are not even using a data base, who cares about this small one
+	 * Refresh the whole list
 	 */
 	public void update(){
 		int s = cats.size();

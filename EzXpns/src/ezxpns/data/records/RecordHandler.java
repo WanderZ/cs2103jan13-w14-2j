@@ -3,24 +3,16 @@ package ezxpns.data.records;
 import java.util.List;
 
 /**
- *	To handle the records between the Graphical User Interface and the data storage (upon GUI Exit)
+ *	To handle the records between the Graphical User Interface
  */
 public interface RecordHandler {
 	
 	/**
-	 * Get some records stored
+	 * Get the latest n records
 	 * @param n the size of the records to retrieve
 	 * @return List of Records up to the given size n
 	 */
 	public List<Record> getRecords(int n);
-	
-	/**
-	 * Retrieve a list of IncomeRecords
-	 * @return
-	 */
-	// public List<IncomeRecord> getIncomeRecords();
-	
-	// public List<ExpenseRecord> getExpenseRecords();
 	
 	/**
 	 * Retrieve a specific record based on the identifier given
@@ -30,7 +22,7 @@ public interface RecordHandler {
 	public Record getRecord(long identifier);
 	
 	/** 
-	 * Create a new income record along with a new category
+	 * Create a new income record along with flags for new income category
 	 * @param newRecord Object containing all the necessary data to create a new record
 	 * @param newCat true for new category, otherwise false
 	 * @return true if creating a new record is successful, otherwise false
@@ -38,13 +30,12 @@ public interface RecordHandler {
 	public IncomeRecord createRecord(IncomeRecord newRecord, boolean newCat);
 	
 	/**
-	 * Create a new expense record along with flags for new expense category and new payment method
+	 * Create a new expense record along with flags for new expense category
 	 * @param newRecord Object containing all the necessary data to create a new record
 	 * @param newCat true for new category, otherwise false
-	 * @param newPay true for new payment method, otherwise false
 	 * @return true if successful, else false
 	 */
-	public ExpenseRecord createRecord(ExpenseRecord newRecord, boolean newCat, boolean newPay);
+	public ExpenseRecord createRecord(ExpenseRecord newRecord, boolean newCat);
 	
 	/**
 	 * Remove record based on an identifier
@@ -55,7 +46,6 @@ public interface RecordHandler {
 	
 	/**
 	 * Modify an expense record
-	 * @precond The given record must have the identifier in it
 	 * @param selectedRecord a record to be modified into
 	 * @return true if successful, othewise false.
 	 */
@@ -63,7 +53,6 @@ public interface RecordHandler {
 	
 	/**
 	 * Modify an income record
-	 * @precond The given record must have the identifier in it
 	 * @param selectedRecord a record to be modified into
 	 * @return true if successful, else false.
 	 */

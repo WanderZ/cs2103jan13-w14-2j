@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * An immutable class to represent the current category <br />
  * meant to be used in Record as a reference <br />
- * @author yyjhao
+ * @author A0099621X
  *
  */
 public class Category{
@@ -19,6 +19,7 @@ public class Category{
 	protected String name;
 	
 	/**
+	 * Constructs a category with the id and name
 	 * @param id a unique long
 	 * @param name name of the category
 	 */
@@ -38,20 +39,24 @@ public class Category{
 	}
 	
 	/**
+	 * Set the name
 	 * @param name new name
 	 */
 	protected void setName(String name){this.name = name;}
 	/**
+	 * Get the name
 	 * @return the name
 	 */
 	public String getName(){return name;}
 	
 	/**
+	 * Get the id
 	 * @return the id
 	 */
 	public long getID(){return id;}
 	
 	/**
+	 * Create a copy of this category
 	 * @return a copy of itself
 	 */
 	public Category copy(){
@@ -63,7 +68,4 @@ public class Category{
 		return name;
 	}
 	
-	public boolean equals(Category oCat) {
-		return this.name.equalsIgnoreCase(oCat.name);
-	}
 }

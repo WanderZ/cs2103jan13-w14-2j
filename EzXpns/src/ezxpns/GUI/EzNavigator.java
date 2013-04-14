@@ -9,9 +9,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.BorderFactory;
+import javax.swing.AbstractButton;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLayeredPane;
+import javax.swing.JToggleButton;
 
 /**
  * Navigator for the MainGUI
@@ -37,12 +39,12 @@ public class EzNavigator extends JLayeredPane {
 	/**
 	 * JButton reference to the undo button
 	 */
-	private JButton btnUndo;
+	private JToggleButton btnUndo;
 	
 	/**
 	 * JButton reference to the selected button 
 	 */
-	private JButton selected;
+	private JToggleButton selected;
 	
 	private EzNavigator(UIControl uiCtrl) {
 		super();
@@ -55,11 +57,14 @@ public class EzNavigator extends JLayeredPane {
 		gbc.weightx = 1;
 		gbc.weighty = 1;
 		
-		JButton btn;
+		AbstractButton btn;
+		ButtonGroup btnGrp = new ButtonGroup();
 		
 		// Adding the LOGO
 		gbc.gridx = 0;
 		gbc.gridy = 0;
+		gbc.insets = new Insets(0, 0, 0, 0);
+		gbc.anchor = GridBagConstraints.NORTH;
 		LogoIcon ezxpnsLogo = new LogoIcon();
 		this.add(ezxpnsLogo, gbc);
 		gbc.weighty = 0;
@@ -68,29 +73,29 @@ public class EzNavigator extends JLayeredPane {
 		
 		gbc.gridx = 0;
 		gbc.gridy = 1;
-		gbc.insets = new Insets(10, 10, 10, 10);
+		gbc.insets = new Insets(5, 5, 5, 5);
 		
 		/* Insert First Button here */
 		btn = createMenuBtn(NormalMenuOpt.REVERT);
-		btnUndo = btn; // Stored for cosmetic updates
+		btnUndo = (JToggleButton) btn; // Stored for cosmetic updates
 		this.add(btn, gbc);
+		btnGrp.add(btn);
 		btnUndo.setAction(uiCtrl.getUndoMgr().getAction());
-		btnUndo.setBorderPainted(btnUndo.isEnabled());
-//		(new Thread() {
-//			@Override
-//			public void run() {
-//				while(true) {
-//					btnUndo.setBorderPainted(btnUndo.isEnabled());
-//				}
-//			}
-//		}).start();
-		/* Button ends*/
+		btnUndo.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				btnUndo.setSelected(false);
+			}
+		});
+//		btnUndo.setBorderPainted(btnUndo.isEnabled());
 		
 		gbc.gridx = 0;
 		gbc.gridy = 2;
 		/* Insert Second Button here */
 		btn = createMenuBtn(new NewExpenseDialog(this.uiCtrl));
 		this.add(btn, gbc);
+		btnGrp.add(btn);
 		/* Button ends*/
 		
 		gbc.gridx = 0;
@@ -98,6 +103,7 @@ public class EzNavigator extends JLayeredPane {
 		/* Insert Third Button here */
 		btn = createMenuBtn(new NewIncomeDialog(this.uiCtrl));
 		this.add(btn, gbc);
+		btnGrp.add(btn);
 		/* Button ends*/
 		
 		gbc.gridx = 0;
@@ -105,8 +111,10 @@ public class EzNavigator extends JLayeredPane {
 		/* Insert Fourth Button here */
 		btn = createMenuBtn(NormalMenuOpt.DASHBD);
 		this.add(btn, gbc);
-		btn.setBorder(BorderFactory.createLoweredBevelBorder());
-		selected = btn;
+		btnGrp.add(btn);
+		btn.setSelected(true);
+//		btn.setBorder(BorderFactory.createLoweredBevelBorder());
+		selected = (JToggleButton) btn;
 		/* Button ends*/
 		
 		gbc.gridx = 0;
@@ -114,6 +122,7 @@ public class EzNavigator extends JLayeredPane {
 		/* Insert Fifth Button here */
 		btn = createMenuBtn(NormalMenuOpt.SEARCH);
 		this.add(btn, gbc);
+		btnGrp.add(btn);
 		/* Button ends*/
 		
 		gbc.gridx = 0;
@@ -121,13 +130,18 @@ public class EzNavigator extends JLayeredPane {
 		/* Insert Sixth Button here */
 		btn = createMenuBtn(NormalMenuOpt.CATMGR);
 		this.add(btn, gbc);
+		btnGrp.add(btn);
 		/* Button ends*/
 		
 		gbc.gridx = 0;
 		gbc.gridy = 7;
 		/* Insert Seventh Button here */
+		
+		// To create the space between the last button and the bottom
+		gbc.insets = new Insets(5, 5, 250, 5); 
 		btn = createMenuBtn(new ReportDialog(this.uiCtrl));
 		this.add(btn, gbc);
+		btnGrp.add(btn);
 		/* Button ends*/
 		
 //		btn = createMenuBtn(NormalMenuOpt.PAYMGR);
@@ -141,6 +155,7 @@ public class EzNavigator extends JLayeredPane {
 	 */
 	public void updateUndoBtn() {
 		btnUndo.setBorderPainted(btnUndo.isEnabled());
+		btnUndo.setSelected(false);
 	}
 	
 	/**
@@ -175,12 +190,12 @@ public class EzNavigator extends JLayeredPane {
 	 * @param btn JButton to be linked
 	 * @param card MenuOption card to be linked to
 	 */
-	public void linkNavi(JButton btn, MenuOption card) {
+	public void linkNavi(AbstractButton btn, MenuOption card) {
 		if(card instanceof NormalMenuOpt) {
-			linkNormalMenuOpt(btn, (NormalMenuOpt) card);
+			linkNormalMenuOpt((JToggleButton) btn, (NormalMenuOpt) card);
 		}
 		if(card instanceof DialogMenuOpt) {
-			linkDiagMenuOpt(btn, (DialogMenuOpt) card);
+			linkDiagMenuOpt((JButton) btn, (DialogMenuOpt) card);
 		}
 	}
 	
@@ -204,7 +219,7 @@ public class EzNavigator extends JLayeredPane {
 	 * @param btn JButton Object to be linked
 	 * @param option NormalMenuOpt to be linked to
 	 */
-	public void linkNormalMenuOpt(JButton btn, final NormalMenuOpt option) {
+	public void linkNormalMenuOpt(JToggleButton btn, final NormalMenuOpt option) {
 		btn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -218,40 +233,42 @@ public class EzNavigator extends JLayeredPane {
 	 * @param card MenuCard Object to tag button to
 	 * @return a JButton object tagged to the given MenuCard.
 	 */
-	private JButton createMenuBtn(NormalMenuOpt option) {
-		JButton btn = new JButton(option.toString());
-		btn.setContentAreaFilled(false);
-		btn.setBorder(BorderFactory.createRaisedBevelBorder());
-		btn.setFocusPainted(false);
+	private JToggleButton createMenuBtn(NormalMenuOpt option) {
+		JToggleButton btn = new JToggleButton(option.toString());
+//		btn.setContentAreaFilled(false);
+//		btn.setBorder(BorderFactory.createRaisedBevelBorder());
+//		btn.setFocusPainted(false);
 		btn.setFont(Config.MENU_FONT);
 		linkNavi(btn, option);
 		btn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent mEvent) {
-				JButton btn = (JButton) mEvent.getSource();
-				if(btn != selected)
-					btn.setBorder(BorderFactory.createLoweredBevelBorder());
-			}
+//			@Override
+//			public void mousePressed(MouseEvent mEvent) {
+//				JToggleButton btn = (JToggleButton) mEvent.getSource();
+//				if(btn != selected)
+//					btn.setBorder(BorderFactory.createLoweredBevelBorder());
+//			}
 			
 			@Override
 			public void mouseClicked(MouseEvent mEvent) {
-				JButton btn = (JButton) mEvent.getSource();
+				JToggleButton btn = (JToggleButton) mEvent.getSource();
 				if(btn == btnUndo) {
-					btn.setBorder(BorderFactory.createRaisedBevelBorder());
+//					btn.setBorder(BorderFactory.createRaisedBevelBorder());
+					btnUndo.setSelected(false);
+					selected.setSelected(true);
 					return;
 				}
 				if(btn != selected) {
-					selected.setBorder(BorderFactory.createRaisedBevelBorder());
+//					selected.setBorder(BorderFactory.createRaisedBevelBorder());
 					selected = btn;
 				}
 			}
-			
-			@Override
-			public void mouseExited(MouseEvent mEvent) { // Hover end
-				JButton btn = (JButton) mEvent.getSource();
-				if(btn != selected)
-					btn.setBorder(BorderFactory.createRaisedBevelBorder());
-			}
+//			
+//			@Override
+//			public void mouseExited(MouseEvent mEvent) { // Hover end
+//				JToggleButton btn = (JToggleButton) mEvent.getSource();
+//				if(btn != selected)
+//					btn.setBorder(BorderFactory.createRaisedBevelBorder());
+//			}
 		});
 		return btn;
 	}
@@ -263,36 +280,36 @@ public class EzNavigator extends JLayeredPane {
 	 */
 	private JButton createMenuBtn(DialogMenuOpt option) {
 		JButton btn = new JButton(option.toString());
-		btn.setContentAreaFilled(false);
-		btn.setBorder(BorderFactory.createRaisedBevelBorder());
-		btn.setFocusPainted(false);
+//		btn.setContentAreaFilled(false);
+//		btn.setBorder(BorderFactory.createRaisedBevelBorder());
+//		btn.setFocusPainted(false);
 		btn.setFont(Config.MENU_FONT);
 		linkNavi(btn, option);
-		btn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent mEvent) {
-				JButton btn = (JButton) mEvent.getSource();
-				btn.setBorder(BorderFactory.createLoweredBevelBorder());
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent mEvent) {
-				JButton btn = (JButton) mEvent.getSource();
-				btn.setBorder(BorderFactory.createRaisedBevelBorder());
-			}
-			
-			@Override
-			public void mouseReleased(MouseEvent mEvent) {
-				JButton btn = (JButton) mEvent.getSource();
-				btn.setBorder(BorderFactory.createRaisedBevelBorder());
-			}
-		});
+//		btn.addMouseListener(new MouseAdapter() {
+//			@Override
+//			public void mousePressed(MouseEvent mEvent) {
+//				JToggleButton btn = (JToggleButton) mEvent.getSource();
+//				btn.setBorder(BorderFactory.createLoweredBevelBorder());
+//			}
+//			
+//			@Override
+//			public void mouseClicked(MouseEvent mEvent) {
+//				JButton btn = (JButton) mEvent.getSource();
+//				btn.setBorder(BorderFactory.createRaisedBevelBorder());
+//			}
+//			
+//			@Override
+//			public void mouseReleased(MouseEvent mEvent) {
+//				JButton btn = (JButton) mEvent.getSource();
+//				btn.setBorder(BorderFactory.createRaisedBevelBorder());
+//			}
+//		});
 		return btn;
 	}
 }
 
 /**
- * Generic Menu Options
+ * Generic Menu Option
  */
 interface MenuOption {}
 
@@ -302,7 +319,7 @@ interface MenuOption {}
 enum NormalMenuOpt implements MenuOption {
 	
 	NEWRCD 	("New Record"), 			// Maybe this isn't an option
-	SEARCH 	("Search"),					// TODO: Advanced Search ?
+	SEARCH 	("Search"),					// inclusive of Advanced Search
 	CATMGR 	("Manage Category"),		
 	PAYMGR 	("Manage Payments"),		// TODO: Remove @Yujian
 	TARGET 	("Manage Targets"),			// TODO: Is that the one to keep?

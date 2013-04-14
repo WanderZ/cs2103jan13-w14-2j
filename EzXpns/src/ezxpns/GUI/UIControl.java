@@ -14,7 +14,6 @@ import ezxpns.data.TargetManager;
 import ezxpns.data.records.CategoryHandler;
 import ezxpns.data.records.ExpenseRecord;
 import ezxpns.data.records.IncomeRecord;
-import ezxpns.data.records.PaymentHandler;
 import ezxpns.data.records.Record;
 import ezxpns.data.records.RecordHandler;
 
@@ -27,17 +26,13 @@ public class UIControl implements RecordListView.RecordEditor {
 	// private HomeScreen homeScreen;
 	private MainGUI home;
 	private RecordDialog recWin;
-//	private SearchFrame searchWin;
 	private ReportFrame reportWin;
-//	private CategoryFrame catWin;
-//	private PaymentMethodFrame payWin;
 	
 	// Logical Components
 	private SearchHandler findHandler;
 	private RecordHandler recHandler;
 	private CategoryHandler<IncomeRecord> inCatHandler;
 	private CategoryHandler<ExpenseRecord> exCatHandler;
-	private PaymentHandler payHandler;
 	private TargetManager targetMgr;
 	private ReportGenerator rptGen;
 	private SummaryGenerator sumGen;
@@ -49,7 +44,6 @@ public class UIControl implements RecordListView.RecordEditor {
 	 * @param recHandlerRef the reference to the record handling logic component
 	 * @param incomeHandlerRef the reference to the income category handling logic component
 	 * @param expenseHandlerRef the reference to the expense category handling logic component
-	 * @param payHandlerRef the reference to the payment method handling logic component
 	 * @param targetMgrRef the reference to the target management logic component
 	 * @param rptGenRef the reference to the report generator logic component
 	 * @param sumGenRef the reference to the summary generator logic component
@@ -60,7 +54,6 @@ public class UIControl implements RecordListView.RecordEditor {
 			RecordHandler recHandlerRef, 
 			CategoryHandler<IncomeRecord> incomeHandlerRef, 
 			CategoryHandler<ExpenseRecord> expenseHandlerRef,
-			PaymentHandler payHandlerRef,
 			TargetManager targetMgrRef,
 			ReportGenerator rptGenRef,
 			SummaryGenerator sumGenRef,
@@ -72,7 +65,6 @@ public class UIControl implements RecordListView.RecordEditor {
 		inCatHandler = incomeHandlerRef;
 		exCatHandler = expenseHandlerRef;
 		targetMgr = targetMgrRef;
-		payHandler = payHandlerRef;
 		rptGen = rptGenRef;
 		sumGen = sumGenRef;
 		undoMgr = new UndoManager();
@@ -91,7 +83,7 @@ public class UIControl implements RecordListView.RecordEditor {
 		});
 		
 		home.loadCategoryPanel(expenseHandlerRef, incomeHandlerRef, targetMgrRef);
-		home.loadSearchPanel(findHandler, new RecordListView(this, recHandler, home), inCatHandler, exCatHandler, payHandler);
+		home.loadSearchPanel(findHandler, new RecordListView(this, recHandler, home), inCatHandler, exCatHandler);
 	}
 	
 	/**
@@ -118,7 +110,7 @@ public class UIControl implements RecordListView.RecordEditor {
 	 * @param recordType the type of new record Expense/Income 
 	 */
 	public void showRecWin(int recordType) {
-		recWin = new RecordDialog(home, recHandler, inCatHandler, exCatHandler, payHandler, home, recordType);
+		recWin = new RecordDialog(home, recHandler, inCatHandler, exCatHandler, home, recordType);
 		recWin.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent wEvent) {
@@ -141,7 +133,7 @@ public class UIControl implements RecordListView.RecordEditor {
 		if(record instanceof ExpenseRecord) {
 			ExpenseRecord expense = (ExpenseRecord) record;
 			// recWin = new RecordDialog(homeScreen, recHandler, exCatHandler, payHandler, homeScreen, expense);
-			recWin = new RecordDialog(home, "EzXpns - Edit Expense Record", recHandler, exCatHandler, payHandler, home, expense);
+			recWin = new RecordDialog(home, "EzXpns - Edit Expense Record", recHandler, exCatHandler, home, expense);
 		}
 		else {
 			IncomeRecord income = (IncomeRecord) record;

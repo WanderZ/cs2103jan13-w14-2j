@@ -9,9 +9,10 @@ import ezxpns.data.Storable;
 import ezxpns.GUI.*;
 
 /**
- * A java Generic to manage records
+ * A java Generic to manage records and indexing them based on their attributes
+ * for fast searching
  * @param <T> the type of records (expense/income) to manage
- * @author yyjhao 
+ * @author A0099621X 
  */
 public class RecordManager<T extends Record>
 	extends Storable
@@ -70,18 +71,21 @@ public class RecordManager<T extends Record>
 	protected transient Date today, startOfYear, startOfMonth, startOfLastMonth;
 
 	/**
+	 * Get sum of amounts of all records
 	 * @return sum of amount of all time
 	 */
 	public double getAllTimeSum() {
 		return allTimeSum;
 	}
 	/**
+	 * Get sum of amounts of records belonging to the current month
 	 * @return sum of amount of this month
 	 */
 	public double getMonthlySum() {
 		return monthlySum;
 	}
 	/**
+	 * Get sum of amounts of records belonging to the last month
 	 * @return sum of amount of last month
 	 */
 	public double getLastMonthSum() {
@@ -89,16 +93,17 @@ public class RecordManager<T extends Record>
 	}
 	
 	/**
-	 * @return sum of amount of today
+	 * Get sum of amounts of records belonging to the current day
+	 * @return sum of amount of today <br />
 	 * Assume the user do not use this app overnight <br />
 	 * We are not getting this kind of very committed users with this kind of application <br />
 	 * Seriously who will use a desktop finance manager written in java <br />
-	 * Don't feel bad screwing up this kind of user if he is so keen to use it overnight
 	 */
 	public double getDailySum() {
 		return dailySum;
 	}
 	/**
+	 * Get sum of amounts of records belonging to the current year
 	 * @return sum of amount of this year
 	 */
 	public double getYearlySum() {
@@ -106,6 +111,7 @@ public class RecordManager<T extends Record>
 	}
 	
 	/**
+	 * Get sum of amounts of records belonging to current month and the specified category
 	 * @param cat category
 	 * @return sum of amount of a category this month
 	 */
@@ -321,6 +327,7 @@ public class RecordManager<T extends Record>
 	}
 	
 	/**
+	 * Remove a category
 	 * @param category
 	 * @return
 	 */
@@ -361,6 +368,7 @@ public class RecordManager<T extends Record>
 	
 	
 	/**
+	 * Get a category base on id
 	 * @param id
 	 * @return category with id
 	 */
@@ -370,6 +378,7 @@ public class RecordManager<T extends Record>
 	
 	
 	/**
+	 * Get a record by id
 	 * @param id
 	 * @return a record with id, or null if not found
 	 */
@@ -472,25 +481,7 @@ public class RecordManager<T extends Record>
 			return null;
 		}
 	}
-	
-	public Vector<Category> getCategoriesBy(String name){
-		Vector<Category> re = new Vector<Category>();
-		for(Category c: categories.values()){
-			if(c.getName().equals(name)){
-				re.add(c);
-			}
-		}
-		return re;
-	}
-	
-	public Vector<T> getRecordsByCategory(String name){
-		Vector<Category> cs = getCategoriesBy(name);
-		Vector<T> rs = new Vector<T>();
-		for(Category c : cs){
-			rs.addAll(getRecordsBy(c, -1));
-		}
-		return rs;
-	}
+
 	@Override
 	public boolean containsCategoryName(String name) {
 		for(Category cat : categories.values()){

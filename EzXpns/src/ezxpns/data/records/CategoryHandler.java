@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.Vector;
 
 /**
- *	Interface to handle the categories between the Graphical User Interface and the data storage (upon GUI Exit)
+ *	Interface to handle the categories between the Graphical User Interface
  */
 public interface CategoryHandler<T extends Record> {
 	/**
@@ -13,12 +13,12 @@ public interface CategoryHandler<T extends Record> {
 	public List<Category> getAllCategories();
 	
 	/**
-	 * Get category with id
+	 * Get a category that has the id
 	 */
 	public Category getCategory(long id);
 	
 	/**
-	 * Create a new category, note that the new category will be a copied with perhaps different id
+	 * Create a new category, note that the new category will be a copy with perhaps different id
 	 * @param newCat Object containing all the necessary data to create a new category
 	 * @return the created category, or null if failed
 	 */
@@ -72,5 +72,8 @@ public interface CategoryHandler<T extends Record> {
 	public boolean addToCategory(List<T> records, Category cat);
 	
 	
+	/**
+	 * Get a list of categories that has a prefix to its name
+	 */
 	Vector<Category> getCategoryWithNamePrefix(String prefix);
 }
