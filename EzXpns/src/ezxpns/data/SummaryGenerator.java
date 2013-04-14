@@ -11,7 +11,7 @@ import ezxpns.util.Pair;
  * Generate SummaryDetails objects for 4 time frames:
  * today, this month, this year, all time
  * 
- * @author tingzhe
+ * @author A0087091B
  * 
  */
 
@@ -66,7 +66,7 @@ public class SummaryGenerator {
 	
 	/**
 	 * enum class for the 4 different time ranges 
-	 * @author yan
+	 * @author A0087091B
 	 *
 	 */
 	public enum SummaryType{

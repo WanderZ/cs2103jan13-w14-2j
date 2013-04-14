@@ -3,7 +3,7 @@ package ezxpns.data;
 /**
  * A data structure representing rows for the Expense table in the report
  * 
- * @author yan
+ * @author A0087091B
  */
 
 public class ReportCategory implements Comparable<ReportCategory> {

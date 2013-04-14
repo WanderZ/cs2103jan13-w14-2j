@@ -213,7 +213,7 @@ public class TargetOverviewPanel extends JPanel {
 	/**
 	 * Bar Graphics (JPanel) displayed in TargetOverviewPanel
 	 * 
-	 * @author tingzhe
+	 * @author A0087091B
 	 * 
 	 */
 	public class BarGraphic extends JPanel {
