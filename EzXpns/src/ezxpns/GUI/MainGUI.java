@@ -13,6 +13,11 @@ import com.jgoodies.forms.layout.RowSpec;
 import ezxpns.data.*;
 import ezxpns.data.records.*;
 
+/**
+ * The MainGUI Window for EzXpns
+ * <br />Implements UpdateNotifyee to be able to be updated when things are changed 
+ * @author A0097973 Koh Zheng Kang
+ */
 @SuppressWarnings("serial")
 public class MainGUI extends JFrame implements UpdateNotifyee {
 	
@@ -27,6 +32,10 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 	 * Main Navigator - the side bar
 	 */
 	private EzNavigator navi;
+	
+	/**
+	 * Content Placeholder - the content display that gets switched
+	 */
 	private JLayeredPane panContent;
 	
 	/**
@@ -126,8 +135,8 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 	
 	/**
 	 * Loads the Category Panel
-	 * @param expenseHandler CategoryHandler reference for ExpenseRecords
-	 * @param incomeHandler CategoryHandler reference for IncomeRecords
+	 * @param expenseHandler CategoryHandler reference for ExpenseRecord
+	 * @param incomeHandler CategoryHandler reference for IncomeRecord
 	 * @param targetMgr TargetManager object reference to manage targets
 	 */
 	public void loadCategoryPanel(
@@ -142,11 +151,10 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 	
 	/**
 	 * Loads the Search Panel
-	 * @param searchHandler
-	 * @param display
-	 * @param incomeHandler
-	 * @param expenseHandler
-	 * @param payHandler
+	 * @param searchHandler SearchHandler reference for searching Records
+	 * @param display RecordListView reference for the display
+	 * @param incomeHandler CategoryHandler reference for IncomeRecord
+	 * @param expenseHandler CategoryHandler reference for ExpenseRecord
 	 */
 	public void loadSearchPanel(
 			SearchHandler searchHandler, 

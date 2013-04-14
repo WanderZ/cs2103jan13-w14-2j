@@ -15,6 +15,8 @@ import javax.swing.JScrollPane;
 
 /**
  * Panel Class containing the inner workings of the Records' bit on the main screen
+ * @author A0097973 Koh Zheng Kang
+ * @author Yao Yujian
  */
 @SuppressWarnings("serial")
 public class RecordsDisplayPanel extends JPanel{

@@ -25,13 +25,16 @@ import com.toedter.calendar.JDateChooser;
 
 import ezxpns.data.records.*;
 
-/** Panel to contain and maintain the form for a new expense record */
+/** 
+ * Panel to contain and maintain the form for a new expense record
+ * @author A0097973 Koh Zheng Kang
+ *  
+ * @author Yan Ting Zhe
+ * @author Yao Yujian
+ */
 @SuppressWarnings("serial")
 public class ExpenseForm extends RecordForm {
-	
-//	public final String EXPENSE_TYPE_NEED = "Need";
-//	public final String EXPENSE_TYPE_WANT = "Want";
-	
+		
 	// #Swing Components
 	private ButtonGroup bgType;
 	private JRadioButton rbtnNeed, rbtnWant;
@@ -83,7 +86,6 @@ public class ExpenseForm extends RecordForm {
 		this.record = record;
 		isEdit = true;
 		this.populateFields();
-		
 	}
 	
 	/**
@@ -133,14 +135,16 @@ public class ExpenseForm extends RecordForm {
 		}
 	}
 	
-	/** Populates the Payment Methods Drop down field */
+//	/** Populates the Payment Methods Drop down field */
 //	private void initPayComboBox() {
 //		for(PaymentMethod method: methods) {
 //			this.cboxPay.addItem(method.getName());
 //		}
 //	}
 	
-	/** Initiates all the fields of this panel. */
+	/** 
+	 * Initiates all the fields of this panel. 
+	 */
 	private void initFields() {
 		
 		/* The Layout governing the positions */

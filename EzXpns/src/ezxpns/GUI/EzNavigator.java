@@ -17,6 +17,7 @@ import javax.swing.JToggleButton;
 
 /**
  * Navigator for the MainGUI
+ * @author A0097973 Koh Zheng Kang
  */
 @SuppressWarnings("serial")
 public class EzNavigator extends JLayeredPane {
