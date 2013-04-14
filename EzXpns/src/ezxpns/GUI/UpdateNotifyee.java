@@ -1,6 +1,3 @@
-/**
- * 
- */
 package ezxpns.GUI;
 
 import javax.swing.AbstractAction;

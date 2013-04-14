@@ -572,13 +572,13 @@
   },
   "_incomes": {
     "categories": {
-      "1365242066269": {
-        "id": 1365242066269,
-        "name": "Salary"
-      },
       "0": {
         "id": 0,
         "name": "undefined"
+      },
+      "1365242066269": {
+        "id": 1365242066269,
+        "name": "Salary"
       },
       "1365241996939": {
         "id": 1365241996939,
@@ -586,6 +586,7 @@
       }
     },
     "recordsByCategory": {
+      "0": [],
       "1365242066269": [
         {
           "amount": 400.0,
@@ -595,7 +596,6 @@
           "id": 1365242066269
         }
       ],
-      "0": [],
       "1365241996939": [
         {
           "amount": 300.0,
@@ -639,10 +639,10 @@
       "date": {
         "year": 2013,
         "month": 3,
-        "dayOfMonth": 13,
-        "hourOfDay": 21,
-        "minute": 44,
-        "second": 15
+        "dayOfMonth": 14,
+        "hourOfDay": 20,
+        "minute": 51,
+        "second": 3
       },
       "targetNeedsRatio": 0.5,
       "targetWantsRatio": 0.3,
