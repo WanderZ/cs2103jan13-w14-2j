@@ -150,7 +150,8 @@ public class RecordDialog extends JDialog implements ActionListener {
 	 * Initialize this frame with its properties
 	 */
 	private void initFrame() {
-		getContentPane().setLayout(new BorderLayout(5, 5));
+		this.getContentPane().setLayout(new BorderLayout(5, 5));
+		
 		this.setBounds(0, 0, Config.DEFAULT_DIALOG_WIDTH, Config.DEFAULT_DIALOG_HEIGHT);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
@@ -162,10 +163,11 @@ public class RecordDialog extends JDialog implements ActionListener {
 	 */
 	private void initComponent() {
 		panMain = new PanelMain(recHandler, incomeHandler, expenseHandler, notifyee);
-		getContentPane().add(panMain, BorderLayout.CENTER);
+		this.getContentPane().add(panMain, BorderLayout.CENTER);
 		
 		panOpt = new PanelOption(this);
-		getContentPane().add(panOpt, BorderLayout.SOUTH);
+		this.getContentPane().add(panOpt, BorderLayout.SOUTH);
+		this.getRootPane().setDefaultButton(panOpt.getSaveBtn());
 	}
 	
 	/**
@@ -174,10 +176,11 @@ public class RecordDialog extends JDialog implements ActionListener {
 	 */
 	private void initComponent(ExpenseRecord record) {
 		panMain = new PanelMain(recHandler, incomeHandler, expenseHandler, notifyee, record);
-		getContentPane().add(panMain, BorderLayout.CENTER);
+		this.getContentPane().add(panMain, BorderLayout.CENTER);
 		
 		panOpt = new PanelOption(this);
-		getContentPane().add(panOpt, BorderLayout.SOUTH);
+		this.getContentPane().add(panOpt, BorderLayout.SOUTH);
+		this.getRootPane().setDefaultButton(panOpt.getSaveBtn());
 	}
 	
 	/**
@@ -186,10 +189,11 @@ public class RecordDialog extends JDialog implements ActionListener {
 	 */
 	private void initComponent(IncomeRecord record) {
 		panMain = new PanelMain(recHandler, incomeHandler, expenseHandler, notifyee, record);
-		getContentPane().add(panMain, BorderLayout.CENTER);
+		this.getContentPane().add(panMain, BorderLayout.CENTER);
 		
 		panOpt = new PanelOption(this);
-		getContentPane().add(panOpt, BorderLayout.SOUTH);
+		this.getContentPane().add(panOpt, BorderLayout.SOUTH);
+		this.getRootPane().setDefaultButton(panOpt.getSaveBtn());
 	}
 
 	@Override
@@ -197,8 +201,6 @@ public class RecordDialog extends JDialog implements ActionListener {
 		if(this.panOpt.getSaveBtn() == e.getSource()) { // Save button has been invoked.
 			System.out.println("Saved invoked!");
 			if(panMain.validateForm()) { // Invoke validation
-				System.out.println("Validate Success!");
-				//TODO: to return all that is added, Category, Payment method, new Record (Pair in Pair)
 				this.closeWin(panMain.save());
 				return;
 			}

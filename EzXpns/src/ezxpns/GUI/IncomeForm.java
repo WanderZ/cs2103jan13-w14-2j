@@ -1,26 +1,19 @@
 package ezxpns.GUI;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.text.DecimalFormat;
 import java.util.Date;
-import java.util.List;
 
 import javax.swing.AbstractAction;
-import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
-import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -28,7 +21,6 @@ import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 
 import ezxpns.GUI.Calculator.EvaluationException;
-import ezxpns.data.records.Category;
 import ezxpns.data.records.CategoryHandler;
 import ezxpns.data.records.IncomeRecord;
 import ezxpns.data.records.Record;
@@ -286,7 +278,7 @@ public class IncomeForm extends RecordForm {
 	}
 	
 	/**
-	 * to validate the fields entered into the system.
+	 * Validates the fields entered into the system.
 	 * @return true is there is no problem with inputs, else false;
 	 */
 	public boolean validateFields() {
@@ -333,10 +325,7 @@ public class IncomeForm extends RecordForm {
 		return validateSuccess;
 	}
 	
-	/** 
-	 * Save the entered field as a new record
-	 * @return Record object containing the user input
-	 */
+	@Override
 	public Record save() {
 		IncomeRecord iRecord = null;
 		try {

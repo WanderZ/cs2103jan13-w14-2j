@@ -433,10 +433,7 @@ public class ExpenseForm extends RecordForm {
 		return validateSuccess;
 	}
 	
-	/** 
-	 * Save the entered field as a new expense record
-	 * @return Record object containing the user input
-	 */
+	@Override
 	public Record save() {
 		try {
 		ExpenseRecord eRecord = new ExpenseRecord(

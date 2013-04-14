@@ -26,8 +26,19 @@ import ezxpns.data.records.RecordHandler;
 public abstract class RecordForm extends JPanel {
 
 	// #Constants
+	/**
+	 * Default Padding for components (space above it) 
+	 */
 	public final int TOP_PAD = 30;
+	
+	/**
+	 * Default Padding for components (space to its left - first column)
+	 */
 	public final int COL1_PAD = 15;
+	
+	/**
+	 * Default Padding for components (space to its left - second column)
+	 */
 	public final int COL2_PAD = 150;
 	
 	// #Swing Components
@@ -174,6 +185,10 @@ public abstract class RecordForm extends JPanel {
 		lblResult.setText("=" + Config.MONEY_FORMAT.format(amt));
 	}
 	
+	/**
+	 * Saves entered details as a new or existing record
+	 * @return Record object containing the user input
+	 */
 	public abstract Record save();
 	
 	/**
@@ -210,8 +225,8 @@ public abstract class RecordForm extends JPanel {
 	}
 	
 	/**
-	 * Evaluates the given expression
-	 * @return the result of the
+	 * Evaluates the entered expression
+	 * @return the result of the calculation
 	 * @throws EvaluationException
 	 */
 	protected double evaluate() throws EvaluationException {
@@ -262,7 +277,7 @@ public abstract class RecordForm extends JPanel {
 	}
 	
 	/**
-	 * validates the date field - if the date entered is a valid date (non future date)
+	 * Validates the date field - if the date entered is a valid date (non future date)
 	 * @return true if it is a historical date, otherwise false
 	 */
 	protected boolean validateDate(StringBuilder errMsg) {
@@ -340,6 +355,10 @@ public abstract class RecordForm extends JPanel {
 	 * @param component
 	 */
 	protected void unmarkErr(JComponent component) {
+		if(component instanceof JTextArea) {
+			component.setBorder(defaultTFBorder);
+			return;
+		}
 		component.setBorder(component instanceof JTextField ? defaultTFBorder : defaultCBBorder);
 	}
 }
