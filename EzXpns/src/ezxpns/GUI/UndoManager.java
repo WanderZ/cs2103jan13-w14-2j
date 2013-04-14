@@ -9,7 +9,7 @@ import ezxpns.util.*;
 
 /**
  * A wrapper that allows one to easily add/perform undo actions
- * @author yyjhao
+ * @author A0099621X
  */
 public class UndoManager {
 	private AbstractAction action;
@@ -30,6 +30,7 @@ public class UndoManager {
 	}
 	
 	/**
+	 * Get the action that pops and performs the current undo action
 	 * @return the undo action
 	 */
 	public AbstractAction getAction(){
@@ -37,6 +38,7 @@ public class UndoManager {
 	}
 	
 	/**
+	 * Add an undo action to the current undo stack with the name
 	 * @param a the action to perform when undoing
 	 * @param name the name of the action, without "undo"
 	 */
@@ -47,6 +49,7 @@ public class UndoManager {
 	}
 	
 	/**
+	 * Set the action that's to be carried out after an undo action is performed
 	 * @param action
 	 */
 	public void setPostUndo(AbstractAction action){
@@ -54,7 +57,7 @@ public class UndoManager {
 	}
 	
 	/**
-	 * 
+	 *Perform an undo action. 
 	 */
 	private void performUndo(){
 		(stack.pop()).getLeft().actionPerformed(null);
