@@ -69,7 +69,7 @@ import java.awt.event.MouseEvent;
  * Should contain a form for the user to enter the starting and the ending date
  * of the records analysis
  * 
- * @author tingzhe
+ * @author A0087091B
  */
 @SuppressWarnings("serial")
 public class ReportFrame extends JFrame implements ComponentListener {
@@ -512,16 +512,8 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		JPanel generalSummary = new JPanel();
 		generalSummary.setBackground(new Color(255, 255, 255));
 		cardGeneral.add(generalSummary, "cell 1 0,alignx center,aligny center");
-		//generalSummary.setLayout(new BoxLayout(generalSummary,
-			//	BoxLayout.PAGE_AXIS));
 		generalSummary.setLayout(new MigLayout("","[500, center]","[][30][30][30]"));
 		
-		// Summary Details
-
-		//lblIncome = new JLabel("Income:");
-		//lblIncome.setAlignmentX(0.4f);
-		//lblIncome.setAlignmentY(Component.TOP_ALIGNMENT);
-		//lblIncome.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNumRecords = new JLabel();
 		generalSummary.add(lblNumRecords, "wrap");
 		myBalance = new ColorSquare("Balance");
@@ -529,30 +521,10 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		generalSummary.add(myBalance, "wrap");
 		myIncome = new ColorSquare("Income");
 		myIncome.setBackground(new Color(50,205,50));
-		//generalSummary.add(Box.createVerticalGlue());
-		//generalSummary.add(lblIncome);
 		generalSummary.add(myIncome, "wrap");
 		myExpense = new ColorSquare("Expense");
 		myExpense.setBackground(new Color(255,122,122));
 		generalSummary.add(myExpense, "wrap");
-		
-		//generalSummary.add(Box
-			//	.createRigidArea(new Dimension(0, PARAGRAPH_SPACE)));
-
-		/*lblExpense = new JLabel("Expense:");
-		lblExpense.setAlignmentX(0.4f);
-		lblExpense.setAlignmentY(0.0f);
-		lblExpense.setHorizontalAlignment(SwingConstants.LEFT);
-		generalSummary.add(lblExpense);
-		generalSummary.add(Box
-				.createRigidArea(new Dimension(0, PARAGRAPH_SPACE)));
-
-		lblBalance = new JLabel("Balance:");
-		lblBalance.setAlignmentX(0.4f);
-		lblBalance.setAlignmentY(0.0f);
-		lblBalance.setHorizontalAlignment(SwingConstants.LEFT);
-		generalSummary.add(lblBalance);
-		generalSummary.add(Box.createVerticalGlue());*/
 
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -627,8 +599,6 @@ public class ReportFrame extends JFrame implements ComponentListener {
 		cards.setBounds(cards.getX(), cards.getY(), w, h);
 		report.setSize(w, h);
 		generateReport.setSize(w, 120);
-		// cardGeneral.setBounds(cards.getX(),cards.getY(),w,h);
-		// cardExpense.setBounds(cards.getX(),cards.getY(),w,h);
 		layeredPane.revalidate();
 		layeredPane.repaint();
 	}
@@ -643,13 +613,13 @@ public class ReportFrame extends JFrame implements ComponentListener {
 	 * Creates a sample dataset
 	 */
 
-	private PieDataset createDataset() {
+	/*private PieDataset createDataset() {
 		DefaultPieDataset result = new DefaultPieDataset();
 		result.setValue("Balance", myReportData.getBalance());
 		result.setValue("Expense", myReportData.getTotalExpense());
 		result.setValue("Income", myReportData.getTotalIncome());
 		return result;
-	}
+	}*/
 	
 	private CategoryDataset createDatasetGeneral() {
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -726,24 +696,6 @@ private JFreeChart createChart(CategoryDataset dataset) {
         //renderer.setSeriesPaint(0,new Color(0,191,255));
         renderer.setSeriesPaint(0, new Color(50,205,50));
         renderer.setSeriesPaint(1, new Color(255,122,122));
-        /*renderer.setDrawBarOutline(false);
-        
-        // set up gradient paints for series...
-        final GradientPaint gp0 = new GradientPaint(
-            0.0f, 0.0f, new Color(0,191,255), 
-            0.0f, 0.0f, Color.lightGray
-        );
-        final GradientPaint gp1 = new GradientPaint(
-            0.0f, 0.0f, new Color(50,205,50), 
-            0.0f, 0.0f, Color.lightGray
-        );
-        final GradientPaint gp2 = new GradientPaint(
-            0.0f, 0.0f, new Color(255,122,122), 
-            0.0f, 0.0f, Color.lightGray
-        );
-        renderer.setSeriesPaint(0, gp0);
-        renderer.setSeriesPaint(1, gp1);
-        renderer.setSeriesPaint(2, gp2);*/
 
         final CategoryAxis domainAxis = plot.getDomainAxis();
         domainAxis.setCategoryLabelPositions(
@@ -762,11 +714,6 @@ private JFreeChart createChart(CategoryDataset dataset) {
 			cardGeneral.remove(1);
 			cardExpense.remove(1);
 			}
-		//PieDataset dataset = createDataset();
-		// based on the dataset we create the chart
-		//JFreeChart chart = createChart(dataset, "MY SUMMARY");
-		//ChartPanel chartPanel = new ChartPanel(chart);
-		//chartPanel.setPreferredSize(new java.awt.Dimension(250, 130));
 		CategoryDataset dataset = createDatasetGeneral();
 		JFreeChart chart = createChart(dataset);
 		JPanel generalPieChart = new JPanel();
