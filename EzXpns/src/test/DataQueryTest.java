@@ -24,7 +24,7 @@ public class DataQueryTest {
 		if(m.isUpdated()){
 			fail("Record manager become updated when it it just initialised!");
 		}
-		Category cat = new Category(10, "isUpdated_category");
+		Category cat = new Category(10, "isUpdatedcategory");
 		m.addNewCategory(cat);
 		if(!m.isUpdated()){
 			fail("Record manager not updated after adding a category!");
@@ -41,9 +41,9 @@ public class DataQueryTest {
 
 	@Test
 	public void testUpdateRecords() throws RecordUpdateException {
-		Category cat = new Category(11, "update_recordCat");
+		Category cat = new Category(11, "updaterecordCat");
 		cat = m.addNewCategory(cat);
-		IncomeRecord r = new IncomeRecord(10,"test_updateName", "nil", new Date(), cat);
+		IncomeRecord r = new IncomeRecord(10,"testupdateName", "nil", new Date(), cat);
 		r = m.addNewRecord(r);
 		if(m.getRecordsBy(r.getName(), 1).size() == 0){
 			fail("Adding record failed!");
@@ -112,7 +112,7 @@ public class DataQueryTest {
 	}
 
 	@Test
-	public void testGetRecordsByCategoryInt() {
+	public void testGetRecordsByCategoryInt() throws InterruptedException {
 		Category cat = new Category(30, "category");
 		Vector<IncomeRecord> result = m.getRecordsBy(cat, 100);
 		if(result.size() > 0){
@@ -123,6 +123,7 @@ public class DataQueryTest {
 		try {
 			for(int i = 0; i < 10; i++){
 				IncomeRecord r = new IncomeRecord(10, "testCatRecord" + i, "nil", new Date((new Date()).getTime() + i), cat);
+				Thread.sleep(100);
 				m.addNewRecord(r);
 			}
 		} catch (RecordUpdateException e) {
@@ -150,7 +151,7 @@ public class DataQueryTest {
 	}
 
 	@Test
-	public void testGetRecordsByStringInt() throws RecordUpdateException {
+	public void testGetRecordsByStringInt() throws RecordUpdateException, InterruptedException {
 		Category cat = new Category(40, "category");
 		Vector<IncomeRecord> result = m.getRecordsBy("testGettingName", 100);
 		if(result.size() > 0){
@@ -161,6 +162,7 @@ public class DataQueryTest {
 		long curtime = (new Date()).getTime();
 		for(int i = 0; i < 10; i++){
 			IncomeRecord r = new IncomeRecord(10, "testNameRecord" + (i % 2), "nil", new Date(curtime + i), cat);
+			Thread.sleep(50);
 			m.addNewRecord(r);
 		}
 		result = m.getRecordsBy("testNameRecord1", 100);
@@ -171,10 +173,8 @@ public class DataQueryTest {
 		if(result.size() != 2){
 			fail("Supposed to get 2 records with name, but instead get " + result);
 		}
-		for(int i = 0; i < 2; i++){
-			if(!result.get(i).getDate().equals(new Date(curtime + 9 - i * 2))){
-				fail("Output not sorted!");
-			}
+		if(result.get(0).getDate().before(result.get(1).getDate())){
+			fail("Output not sorted!");
 		}
 	}
 
