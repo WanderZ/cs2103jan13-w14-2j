@@ -126,9 +126,9 @@ public class MainGUI extends JFrame implements UpdateNotifyee {
 	
 	/**
 	 * Loads the Category Panel
-	 * @param expenseHandler
-	 * @param incomeHandler
-	 * @param targetMgr
+	 * @param expenseHandler CategoryHandler reference for ExpenseRecords
+	 * @param incomeHandler CategoryHandler reference for IncomeRecords
+	 * @param targetMgr TargetManager object reference to manage targets
 	 */
 	public void loadCategoryPanel(
 			CategoryHandler<ExpenseRecord> expenseHandler, 

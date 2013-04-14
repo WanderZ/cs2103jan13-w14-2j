@@ -7,7 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- * The Logo Object 
+ * The Logo Object for EzXpns
  */
 @SuppressWarnings("serial")
 public class LogoIcon extends JPanel {

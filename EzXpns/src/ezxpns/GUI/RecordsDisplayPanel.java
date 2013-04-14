@@ -1,7 +1,5 @@
 package ezxpns.GUI;
 
-import ezxpns.data.records.ExpenseRecord;
-import ezxpns.data.records.IncomeRecord;
 import ezxpns.data.records.Record;
 import ezxpns.data.records.RecordHandler;
 
@@ -9,12 +7,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
-import java.util.Vector;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -25,6 +19,9 @@ import javax.swing.JScrollPane;
 @SuppressWarnings("serial")
 public class RecordsDisplayPanel extends JPanel{
 	
+	/**
+	 * The default maximum records to be displayed
+	 */
 	public static final int DEFAULT_MAX_ONSCREEN = 20;
 		
 	private RecordsListerPanel panContent;
@@ -59,6 +56,9 @@ public class RecordsDisplayPanel extends JPanel{
 		panContent.updateContent();
 	}
 	
+	/**
+	 * Updates the records that are displayed
+	 */
 	public void update(){
 		this.loadRecords();
 	}
@@ -86,19 +86,26 @@ class RecordsListerPanel extends JPanel {
 		updateContent();
 	}
 	
+	/**
+	 * Updates the content of the list display 
+	 */
 	public void updateContent(){
 		this.initRecords();
 		list.show(records);
 	}
 	
-	
 	/** 
-	 * Draw the records from the data store
+	 * Initializes records from the data store
 	 */
 	private void initRecords() {
 		this.records = recHandler.getRecords(RecordsDisplayPanel.DEFAULT_MAX_ONSCREEN);
 	}
 	
+	/**
+	 * Gets a label for the title
+	 * @param txt String object of what to be written in the title
+	 * @return a JLabel object reference to the label for title
+	 */
 	private JLabel getTitleLabel(String txt) {
 		if(lblTitle == null) {
 			lblTitle = new JLabel(txt);
