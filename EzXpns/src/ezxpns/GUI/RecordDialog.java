@@ -29,6 +29,7 @@ import javax.swing.JTextField;
 
 /**
  * This is a JFrame object (Window) that allows users to enter a new record (Expense/Income) into the EzXpns
+ * @author A0097973 Koh Zheng Kang
  */
 @SuppressWarnings("serial")
 public class RecordDialog extends JDialog implements ActionListener {
@@ -528,7 +529,9 @@ class PanelOption extends JPanel {
 }
 
 
-/** Panel to store all the options pertaining to recurrence of a record */
+/** 
+ * Panel to store all the options pertaining to recurrence of a record
+ */
 @SuppressWarnings("serial")
 class PanelRecur extends JPanel implements ActionListener {
 	

@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 /**
  * The Logo Object for EzXpns
+ * @author A0097973 Koh Zheng Kang
  */
 @SuppressWarnings("serial")
 public class LogoIcon extends JPanel {
