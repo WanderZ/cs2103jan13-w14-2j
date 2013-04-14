@@ -23,14 +23,7 @@ import javax.swing.event.DocumentListener;
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 
-import ezxpns.data.records.Category;
-import ezxpns.data.records.CategoryHandler;
-import ezxpns.data.records.ExpenseRecord;
-import ezxpns.data.records.ExpenseType;
-import ezxpns.data.records.PaymentHandler;
-import ezxpns.data.records.PaymentMethod;
-import ezxpns.data.records.Record;
-import ezxpns.data.records.RecordHandler;
+import ezxpns.data.records.*;
 
 /** Panel to contain and maintain the form for a new expense record */
 @SuppressWarnings("serial")
@@ -58,13 +51,11 @@ public class ExpenseForm extends RecordForm {
 	public ExpenseForm(
 			RecordHandler recHandlerRef, 
 			CategoryHandler<ExpenseRecord> catHandlerRef, 
-			PaymentHandler payHandlerRef,
 			UpdateNotifyee notifyeeRef) {
 //		cal = Calculator.getInstance();
 		super();
 		recHandler = recHandlerRef; 
 		catHandler = catHandlerRef;
-		payHandler = payHandlerRef;
 		notifyee = notifyeeRef;
 		
 		categories = catHandler.getAllCategories();
@@ -84,11 +75,10 @@ public class ExpenseForm extends RecordForm {
 	public ExpenseForm(
 			RecordHandler recHandlerRef, 
 			CategoryHandler<ExpenseRecord> catHandlerRef, 
-			PaymentHandler payHandlerRef,
 			UpdateNotifyee notifyeeRef,
 			ExpenseRecord record) {
 		
-		this(recHandlerRef, catHandlerRef, payHandlerRef, notifyeeRef);
+		this(recHandlerRef, catHandlerRef, notifyeeRef);
 		
 		this.record = record;
 		isEdit = true;
@@ -374,20 +364,6 @@ public class ExpenseForm extends RecordForm {
 	}
 	
 	/**
-	 * Access method to retrieve the user specified payment methods
-	 * @return the PaymentMethod chosen by the user
-	 */
-	public PaymentMethod getMode() {
-		return PaymentMethod.undefined;
-//		if(isNewMethod()) {
-//			// User defined new payment
-//			String userInput = this.cboxPay.getSelectedItem().toString().trim();
-//			return new PaymentMethod(userInput);
-//		}
-//		return methods.get(cboxPay.getSelectedIndex());
-	}
-	
-	/**
 	 * Retrieves the user entered description
 	 * @return a String containing the description/remarks
 	 */
@@ -469,14 +445,13 @@ public class ExpenseForm extends RecordForm {
 				this.getDesc(),										// the description/remarks for this record, if any
 				this.getDate(),										// Date of this record (in user's context, not system time)
 				this.getCat(),										// Category of this record
-				this.getType(), 									// The ExpenseType of the record (need/want)
-				this.getMode()										// Payment method/mode of this record
+				this.getType() 									// The ExpenseType of the record (need/want)
 			);
 			if(isEdit) {
 				this.recHandler.modifyRecord(record.getId(), eRecord, isNewCategory(), isNewMethod());
 			}
 			else {
-				eRecord = this.recHandler.createRecord(eRecord, isNewCategory(), isNewMethod());
+				eRecord = this.recHandler.createRecord(eRecord, isNewCategory());
 			}
 			notifyee.addUndoAction(createUndoAction(eRecord, isNewCategory(), isNewMethod()), isEdit ? "Edit Expense" : "New Expense");
 			return eRecord;
@@ -508,9 +483,6 @@ public class ExpenseForm extends RecordForm {
 				}
 				if(isNewCat) {
 					catHandler.removeCategory(nExpense.getCategory().getID());
-				}
-				if(isNewPay) {
-					payHandler.removePaymentMethod(nExpense.getPaymentMethod().getID());
 				}
 			}
 		};

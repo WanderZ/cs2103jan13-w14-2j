@@ -2,12 +2,13 @@ package ezxpns.data;
 
 /**
  * Implements basic function to inspect whether data is updated
- * @author yyjhao
+ * @author A0099621X
  *
  */
 public abstract class Storable {
 	private transient boolean updated;
 	/**
+	 * Ask if the object has been updated and needs to be stored again
 	 * @return if the object has been updated and needs to be stored again
 	 */
 	public boolean isUpdated(){
@@ -15,7 +16,7 @@ public abstract class Storable {
 	}
 	
 	/**
-	 * Tells the object that it has been stored
+	 * Informs the object that it has been stored in the database
 	 */
 	public void saved(){
 		updated = false;

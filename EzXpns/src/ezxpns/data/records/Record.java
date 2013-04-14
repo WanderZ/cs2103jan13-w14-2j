@@ -5,7 +5,9 @@ import java.util.List;
 
 /**
  * A container for some basic record attributes
- * @author yyjhao
+ * All attributes are directly accessible inside record package since it is just a data container
+ * Use setters, however, if you enjoy doing so
+ * @author A0099621X
  */
 public abstract class Record implements Comparable<Record>{
 	protected double amount;
@@ -63,6 +65,7 @@ public abstract class Record implements Comparable<Record>{
 	
 	/**
 	 * A method to check if the other Record supplied is the same as this Record object
+	 * Two records are consider the same if they share the same id
 	 * @param other A record object to check if they are the same object
 	 */
 	public boolean equals(Record other){
@@ -94,6 +97,7 @@ public abstract class Record implements Comparable<Record>{
 	
 	
 	/**
+	 * Get a copy of this record
 	 * @return A copy of itself
 	 */
 	public abstract Record copy();

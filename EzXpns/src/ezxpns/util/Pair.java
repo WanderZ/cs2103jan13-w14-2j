@@ -1,10 +1,10 @@
 package ezxpns.util;
 
 /**
- * @author yyjhao
- * A pair of anything
+ * A pair of anything, useful for duality
  * @param <L>
  * @param <R>
+ * @author A0099621X
  */
 public class Pair<L, R> {
 	private final L left;
