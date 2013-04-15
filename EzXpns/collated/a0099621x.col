@@ -1,0 +1,3023 @@
+//@author: a0099621x
+
+
+
+	/**
+	 * origin: ezxpns\data\DataManager.java
+	 */
+
+ */
+public class DataManager extends Storable
+	implements
+		ReportGenerator.DataProvider,
+		TargetManager.DataProvider,
+		SummaryGenerator.DataProvider,
+		NWSGenerator.DataProvider{
+	/**
+	 * A helper class that handles query that ask for both
+	 * data types
+	 */
+	public static class CombinedRecordsQueryHandler
+		implements RecordQueryHandler<Record>{
+		private RecordManager<IncomeRecord> incomes;
+		private ExpenseRecordManager expenses;
+		/**
+		 * @param _incomes A record manager that handles income records
+		 * @param _expenses A record manager that handles expense records
+		 */
+		public CombinedRecordsQueryHandler(
+				RecordManager<IncomeRecord> _incomes,
+				RecordManager<ExpenseRecord> _expenses) {
+			incomes = _incomes;
+			expenses = (ExpenseRecordManager) _expenses;
+		}
+
+		@Override
+		public Vector<Record> getRecordsBy(String name, int max) {
+			Vector<Record> rs = new Vector<Record>();
+			rs.addAll(incomes.getRecordsBy(name, max));
+			rs.addAll(expenses.getRecordsBy(name, max));
+			Collections.sort(rs);
+			if(max != -1){
+				for(int i = rs.size() - 1; i >= max; i--){
+					rs.remove(i);
+				}
+			}
+			return rs;
+		}
+
+		@Override
+		public Vector<Record> getRecordsBy(Category category, int max) {
+			Vector<Record> rs = new Vector<Record>();
+			rs.addAll(incomes.getRecordsBy(category, max));
+			rs.addAll(expenses.getRecordsBy(category, max));
+			Collections.sort(rs);
+			if(max != -1){
+				for(int i = rs.size() - 1; i >= max; i--){
+					rs.remove(i);
+				}
+			}
+			return rs;
+		}
+
+		@Override
+		public Vector<Record> getRecordsBy(Date start, Date end, int max,
+				boolean reverse) {
+			Vector<Record> rs = new Vector<Record>();
+			rs.addAll(incomes.getRecordsBy(start, end, max, reverse));
+			rs.addAll(expenses.getRecordsBy(start, end, max, reverse));
+			Collections.sort(rs);
+			if(max != -1){
+				for(int i = rs.size() - 1; i >= max; i--){
+					rs.remove(i);
+				}
+			}
+			return rs;
+		}
+
+		@Override
+		public Vector<Record> getRecordsWithNamePrefix(String prefix) {
+			Vector<Record> rs = new Vector<Record>();
+			rs.addAll(incomes.getRecordsWithNamePrefix(prefix));
+			rs.addAll(expenses.getRecordsWithNamePrefix(prefix));
+			Collections.sort(rs);
+			return rs;
+		}
+		
+	}
+	// naming convension: getExpenses is weird, getExpensesManager, getIncomesManager is long winded
+	// so use this style.
+	private ExpenseRecordManager _expenses = new ExpenseRecordManager();
+	private RecordManager<IncomeRecord> _incomes = new RecordManager<IncomeRecord>();
+	private NWSGenerator _nwsGen = new NWSGenerator(this);
+	
+	 // Note that this is a combination of both income and expense record manager, <br />
+	 // so it need not be persistent, since all its data is from the two manager
+	private transient CombinedRecordsQueryHandler _combined;
+	
+	private TargetManager _targetManager = new TargetManager(this);
+	
+	@Override
+	public Pair<Vector<ExpenseRecord>, Vector<IncomeRecord>> getDataInDateRange(
+			Date start, Date end) {
+		return new Pair<Vector<ExpenseRecord>, Vector<IncomeRecord>>(
+				_expenses.getRecordsBy(start, end, -1, false),
+				_incomes.getRecordsBy(start, end, -1, false));
+	}
+	
+	/**
+	 * Get the target manager instance it contains
+	 * @return The target manager
+	 */
+	public TargetManager targetManager(){
+		return _targetManager;
+	}
+	
+	/**
+	 * Get the expenses record manager instance it contains
+	 * @return Expense record manager
+	 */
+	public ExpenseRecordManager expenses(){
+		return _expenses;
+	}
+	
+	/**
+	 * Get the income record manager instance it contains
+	 * @return Income record manager
+	 */
+	public RecordManager<IncomeRecord> incomes(){
+		return _incomes;
+	}
+	
+	/**
+	 * Get A query handler that returns both income and expense records
+	 */
+	public CombinedRecordsQueryHandler combined(){
+		return _combined;
+	}
+	
+	
+	@Override
+	public boolean isUpdated(){
+		return _expenses.isUpdated() || _incomes.isUpdated()
+				|| _targetManager.isUpdated()
+				|| _nwsGen.isUpdated();
+	}
+	
+	@Override
+	public void afterDeserialize(){
+		_incomes.afterDeserialize();
+		_expenses.afterDeserialize();
+		_combined = new CombinedRecordsQueryHandler(_incomes, _expenses);
+		_targetManager.setDataProvider(this);
+		_targetManager.afterDeserialize();
+		_nwsGen.setDataProvider(this);
+		_nwsGen.afterDeserialize();
+	}
+	
+	@Override
+	public void saved(){
+		_expenses.saved();
+		_incomes.saved();
+		_targetManager.saved();
+		_nwsGen.saved();
+	}
+
+	@Override
+	public double getMonthlyExpense(Category cat) {
+		return _expenses.getMonthlySum(cat);
+	}
+
+	@Override
+	public double getTotalExpense() {
+		return _expenses.getAllTimeSum();
+	}
+
+	@Override
+	public double getTotalIncome() {
+		return _incomes.getAllTimeSum();
+	}
+
+	@Override
+	public double getDailyExpense() {
+		return _expenses.getDailySum();
+	}
+
+	@Override
+	public double getDailyIncome() {
+		return _incomes.getDailySum();
+	}
+
+	@Override
+	public double getMonthlyExpense() {
+		return _expenses.getMonthlySum();
+	}
+
+	@Override
+	public double getMonthlyIncome() {
+		return _incomes.getMonthlySum();
+	}
+
+	@Override
+	public double getYearlyExpense() {
+		return _expenses.getYearlySum();
+	}
+
+	@Override
+	public double getYearlyIncome() {
+		return _incomes.getYearlySum();
+	}
+
+	@Override
+	public Category getCategory(long id) {
+		return _expenses.getCategory(id);
+	}
+
+	@Override
+	public double getMonthlyExpense(ExpenseType type) {
+		if(type == ExpenseType.NEED){
+			return _expenses.getNeedSum();
+		}else{
+			return _expenses.getMonthlySum() - _expenses.getNeedSum();
+		}
+	}
+
+	@Override
+	public double getPrevMonthlyExpense(ExpenseType type) {
+		if(type == ExpenseType.NEED){
+			return _expenses.getLastNeedSum();
+		}else{
+			return _expenses.getLastMonthSum() - _expenses.getLastNeedSum();
+		}
+	}
+
+	@Override
+	public double getPrevMonthlyIncome() {
+		return _incomes.getLastMonthSum();
+	}
+
+	/**
+	 * Get the nws generator it contains 
+	 */
+	public NWSGenerator nwsGen() {
+		return _nwsGen;
+	}
+}
+
+	// End of segment: ezxpns\data\DataManager.java
+
+
+
+
+
+	/**
+	 * origin: ezxpns\data\RecordQueryHandler.java
+	 */
+
+ * @param <T> A Record type
+ */
+public interface RecordQueryHandler<T extends Record> {
+	
+	/**
+	 * Get at most max recent records matching the name
+	 * @param name name of record
+	 * @param max maximum number of record return, records are ordered by date in decending order
+	 * @return records matching the name
+	 */
+	Vector<T> getRecordsBy(String name, int max);
+	/**
+	 * Get at most max recent records matching the category
+	 * @param category category of the record
+	 * @param max maximum number of records return, records are ordered by date in decending order
+	 * @return records matching the name
+	 */
+	Vector<T> getRecordsBy(Category category, int max);
+	/**
+	 * Get records matching the date range, inclusive of both ends, with a specified maximum number and 
+	 * whether it should be in reverse order of dates
+	 * @param start start of date
+	 * @param end end of date
+	 * @param max maximum number of records return
+	 * @param reverse reverse the ordering of the records
+	 * @return records in the date range
+	 */
+	Vector<T> getRecordsBy(Date start, Date end, int max, boolean reverse);
+	
+	/**
+	 * Get records with name starting with the string
+	 */
+	Vector<T> getRecordsWithNamePrefix(String prefix);
+}
+
+	// End of segment: ezxpns\data\RecordQueryHandler.java
+
+
+
+
+
+	/**
+	 * origin: ezxpns\data\records\Category.java
+	 */
+
+ *
+ */
+public class Category{
+	/**
+	 * The default category for records without a category
+	 */
+	public static final Category undefined = new Category(0, "undefined");
+	
+	protected long id;
+	protected String name;
+	
+	/**
+	 * Constructs a category with the id and name
+	 * @param id a unique long
+	 * @param name name of the category
+	 */
+	public Category(long id, String name){
+		this.id = id;
+		this.name = name;
+	}
+	
+	/**
+	 * A convenient constructor that automatically creates an ID
+	 * that is likely unique
+	 * @param name 
+	 */
+	public Category(String name){
+		this.id = (new Date()).getTime();
+		this.name = name;
+	}
+	
+	/**
+	 * Set the name
+	 * @param name new name
+	 */
+	protected void setName(String name){this.name = name;}
+	/**
+	 * Get the name
+	 * @return the name
+	 */
+	public String getName(){return name;}
+	
+	/**
+	 * Get the id
+	 * @return the id
+	 */
+	public long getID(){return id;}
+	
+	/**
+	 * Create a copy of this category
+	 * @return a copy of itself
+	 */
+	public Category copy(){
+		return new Category(id, name);
+	}
+	
+	@Override
+	public String toString(){
+		return name;
+	}
+	
+}
+
+	// End of segment: ezxpns\data\records\Category.java
+
+
+
+
+
+	/**
+	 * origin: ezxpns\data\records\CategoryHandler.java
+	 */
+
+	// End of segment: ezxpns\data\records\CategoryHandler.java
+
+
+
+
+
+	/**
+	 * origin: ezxpns\data\records\ExpenseRecord.java
+	 */
+
+ */
+public class ExpenseRecord extends Record{
+	protected ExpenseType expenseType;
+	/**
+	 * @param amount
+	 * @param name
+	 * @param remark
+	 * @param date
+	 * @param category
+	 * @param expenseType
+	 * @param paymentMethod
+	 */
+	public ExpenseRecord(
+			double amount, 
+			String name, 
+			String remark, 
+			Date date,
+			Category category, 
+			ExpenseType expenseType) {
+		super(amount, name, remark, date, category);
+		this.expenseType = expenseType;
+	}
+	
+	/**
+	 * @param t new type
+	 */
+	protected void setExpenseType(ExpenseType t){
+		this.expenseType = t;
+	}
+	
+	/**
+	 * @return expense type
+	 */
+	public ExpenseType getExpenseType(){
+		return expenseType;
+	}
+	
+	@Override
+	public Record copy() {
+		ExpenseRecord r = new ExpenseRecord(this.getAmount(), this.getName(), this.getRemark(), this.getDate(),
+				this.getCategory(), this.getExpenseType());
+		r.setId(this.getId());
+		return (Record)r;
+	}
+}
+
+	// End of segment: ezxpns\data\records\ExpenseRecord.java
+
+
+
+
+
+	/**
+	 * origin: ezxpns\data\records\ExpenseRecordManager.java
+	 */
+
+ */
+public class ExpenseRecordManager extends RecordManager<ExpenseRecord> {
+	
+	// note that since needsum + wantsum = sum, we do not need to record want sum,
+	// simply get it by subtraction
+	private transient double needSum = 0, lastNeedSum = 0;
+	
+	/**
+	 * Get sum of amounts of records in this month that are under needs 
+	 */
+	public double getNeedSum(){
+		return needSum;
+	}
+	
+	/**
+	 * Get sum of amounts of records in the last month that are under needs 
+	 */
+	public double getLastNeedSum(){
+		return lastNeedSum;
+	}
+	
+	
+	@Override
+	protected void addSums(ExpenseRecord r){
+		super.addSums(r);
+		if(r.expenseType == ExpenseType.NEED){
+			if(!r.date.before(startOfMonth)){
+				needSum += r.amount;
+			}else if (!r.date.before(startOfLastMonth)){
+				lastNeedSum += r.amount;
+			}
+		}
+	}
+	
+	@Override
+	protected void removeSums(ExpenseRecord r){
+		super.removeSums(r);
+		if(r.expenseType == ExpenseType.NEED){
+			if(!r.date.before(startOfMonth)){
+				needSum -= r.amount;
+			}else if (!r.date.before(startOfLastMonth)){
+				lastNeedSum -= r.amount;
+			}
+		}
+	}
+	
+}
+
+	// End of segment: ezxpns\data\records\ExpenseRecordManager.java
+
+
+
+
+
+	/**
+	 * origin: ezxpns\data\records\Record.java
+	 */
+
+ */
+public abstract class Record implements Comparable<Record>{
+	protected double amount;
+	protected String name;
+	protected String remark;
+	protected Date date;
+	protected transient Category category = Category.undefined;
+	protected long id;
+	
+	/**
+	 * A helper function to calculate sum of all records
+	 * @param rs list of records
+	 * @return sum of all amounts of the records
+	 */
+	public static <T extends Record> double sumAmount(List<T> rs){
+		double sum = 0;
+		for(Record r : rs){
+			sum += r.getAmount();
+		}
+		return sum;
+	}
+	
+	/**
+	 * A helper function to calculate balance of all records
+	 * + for income and - for expense
+	 */
+	public static double sumBalance(List<Record> rs){
+		double balance = 0;
+		for(Record r : rs){
+			if(r instanceof IncomeRecord){
+				balance += r.getAmount();
+			}else{
+				balance -= r.getAmount();
+			}
+		}
+		return balance;
+	}
+
+	
+	/**
+	 * @param amount
+	 * @param name
+	 * @param remark
+	 * @param date
+	 * @param category
+	 */
+	public Record(double amount, String name, String remark, Date date, Category category){
+		this.amount = amount;
+		this.name = name;
+		this.remark = remark;
+		this.date = new Date(date.getTime());
+		this.category = category;
+		this.id = (new Date()).getTime();
+	}
+	
+	/**
+	 * A method to check if the other Record supplied is the same as this Record object
+	 * Two records are consider the same if they share the same id
+	 * @param other A record object to check if they are the same object
+	 */
+	public boolean equals(Record other){
+		return other.id == this.id;
+	}
+	
+	@Override
+	public int compareTo(Record other){
+		if(date.equals(other.date)){
+			if(this.id > other.id){
+				return 1;
+			}else if(this.id < other.id){
+				return -1;
+			}else{
+				return 0;
+			}
+		}else{
+			long a = date.getTime(),
+				 b = other.date.getTime();
+			if(a > b){
+				return -1;
+			}else if(a < b){
+				return 1;
+			}else{
+				return 0;
+			}
+		}
+	}
+	
+	
+	/**
+	 * Get a copy of this record
+	 * @return A copy of itself
+	 */
+	public abstract Record copy();
+	
+	/**
+	 * @return amount
+	 */
+	public double getAmount() {return amount;}
+	/**
+	 * @param amount new amount
+	 */
+	protected void setAmount(double amount) {this.amount = amount;}
+
+	/**
+	 * @return name
+	 */
+	public String getName() {return name;}
+	/**
+	 * @param name new name
+	 */
+	protected void setName(String name) {this.name = name;}
+
+	/**
+	 * @return remark
+	 */
+	public String getRemark() {return remark;}
+	/**
+	 * @param remark new remark
+	 */
+	protected void setRemark(String remark) {this.remark = remark;}
+
+	/**
+	 * @return date
+	 */
+	public Date getDate() {return new Date(date.getTime());}
+	/**
+	 * @param date new date
+	 */
+	protected void setDate(Date date) {this.date = new Date(date.getTime());}
+
+	/**
+	 * @return category
+	 */
+	public Category getCategory() {return category;}
+	/**
+	 * @param category new category
+	 */
+	protected void setCategory(Category category) {this.category = category;}
+
+	/**
+	 * @return id
+	 */
+	public long getId() {return id;}
+	/**
+	 * @param id new id
+	 */
+	protected void setId(long id) {this.id = id;}
+}
+
+	// End of segment: ezxpns\data\records\Record.java
+
+
+
+
+
+	/**
+	 * origin: ezxpns\data\records\RecordHandler.java
+	 */
+
+ */
+public interface RecordHandler {
+	
+	/**
+	 * Get the latest n records
+	 * @param n the size of the records to retrieve
+	 * @return List of Records up to the given size n
+	 */
+	public List<Record> getRecords(int n);
+	
+	/**
+	 * Retrieve a specific record based on the identifier given
+	 * @param identifier a primitive long value to identify the record
+	 * @return a Record object if found, else null if not found
+	 */
+	public Record getRecord(long identifier);
+	
+	/** 
+	 * Create a new income record along with flags for new income category
+	 * @param newRecord Object containing all the necessary data to create a new record
+	 * @param newCat true for new category, otherwise false
+	 * @return true if creating a new record is successful, otherwise false
+	 */
+	public IncomeRecord createRecord(IncomeRecord newRecord, boolean newCat);
+	
+	/**
+	 * Create a new expense record along with flags for new expense category
+	 * @param newRecord Object containing all the necessary data to create a new record
+	 * @param newCat true for new category, otherwise false
+	 * @return true if successful, else false
+	 */
+	public ExpenseRecord createRecord(ExpenseRecord newRecord, boolean newCat);
+	
+	/**
+	 * Remove record based on an identifier
+	 * @param identifier The Unique identifier for the record to be removed
+	 * @return true if successful, otherwise false
+	 */
+	public boolean removeRecord(long identifier);
+	
+	/**
+	 * Modify an expense record
+	 * @param selectedRecord a record to be modified into
+	 * @return true if successful, otherwise false.
+	 */
+	public boolean modifyRecord(long id, ExpenseRecord selectedRecord, boolean newCat, boolean newPay);
+	
+	/**
+	 * Modify an income record
+	 * @param selectedRecord a record to be modified into
+	 * @return true if successful, else false.
+	 */
+	public boolean modifyRecord(long id, IncomeRecord selectedRecord, boolean newCat);
+	
+	/**
+	 * Return the latest expense record matching the name, or null
+	 * @param name the name to match find the match with
+	 * @return ExpenseRecord of the given name if found, otherwise null
+	 */
+	public ExpenseRecord lastExpenseRecord(String name);
+	
+	/**
+	 * Return the latest expense record matching the name, or null
+	 * @param name the name to match find the match with
+	 * @return IncomeRecord of the given name if found, otherwise null
+	 */
+	public IncomeRecord lastIncomeRecord(String name);
+}
+	// End of segment: ezxpns\data\records\RecordHandler.java
+
+
+
+
+
+	/**
+	 * origin: ezxpns\data\records\RecordManager.java
+	 */
+
+ */
+public class RecordManager<T extends Record>
+	extends Storable
+	implements
+		RecordQueryHandler<T>,
+		CategoryHandler<T>{
+	public static class RecordUpdateException extends Exception{
+		public RecordUpdateException(){
+			super();
+		}
+		public RecordUpdateException(String message){
+			super(message);
+		}
+	}
+	
+	public static class CategoryUpdateException extends Exception{
+		public CategoryUpdateException(String message){
+			super(message);
+		}
+	}
+	
+	static public final Pattern INVALIDNAME = Pattern.compile("[^a-zA-Z0-9 ()-]");
+	
+	
+	/**
+	 * all categories
+	 */
+	private HashMap<Long, Category> categories;
+	/**
+	 * The only non-transient record data structure,
+	 * this is the part that gets serilize into json
+	 * <br /> Key is id of category
+	 */
+	private HashMap<Long, TreeSet<T> > recordsByCategory;
+	private transient TreeMap<Date, Vector<T> > recordsByDate;
+	private transient TreeMap<String, TreeSet<T> > recordsByName;
+	protected transient TreeMap<Long, T> recordsById;
+	
+	/**
+	 * A random generator used to re-generate id when the supplied
+	 * id to new record is repeated
+	 */
+	protected transient Random ran = new Random();
+	
+	/**
+	 * aggregate info
+	 */
+	private transient double allTimeSum = 0,
+							 lastMonthSum = 0,
+							 monthlySum = 0,
+							 dailySum = 0,
+							 yearlySum = 0;
+	private transient HashMap<Long, Double> monthlySumByCategory;
+	
+	private transient Calendar cal = Calendar.getInstance();
+	protected transient Date today, startOfYear, startOfMonth, startOfLastMonth;
+
+	/**
+	 * Get sum of amounts of all records
+	 * @return sum of amount of all time
+	 */
+	public double getAllTimeSum() {
+		return allTimeSum;
+	}
+	/**
+	 * Get sum of amounts of records belonging to the current month
+	 * @return sum of amount of this month
+	 */
+	public double getMonthlySum() {
+		return monthlySum;
+	}
+	/**
+	 * Get sum of amounts of records belonging to the last month
+	 * @return sum of amount of last month
+	 */
+	public double getLastMonthSum() {
+		return lastMonthSum;
+	}
+	
+	/**
+	 * Get sum of amounts of records belonging to the current day
+	 * @return sum of amount of today <br />
+	 * Assume the user do not use this app overnight <br />
+	 * We are not getting this kind of very committed users with this kind of application <br />
+	 * Seriously who will use a desktop finance manager written in java <br />
+	 */
+	public double getDailySum() {
+		return dailySum;
+	}
+	/**
+	 * Get sum of amounts of records belonging to the current year
+	 * @return sum of amount of this year
+	 */
+	public double getYearlySum() {
+		return yearlySum;
+	}
+	
+	/**
+	 * Get sum of amounts of records belonging to current month and the specified category
+	 * @param cat category
+	 * @return sum of amount of a category this month
+	 */
+	public double getMonthlySum(Category cat){
+		return monthlySumByCategory.get(cat.getID());
+	}
+	public RecordManager(){
+		categories = new HashMap<Long, Category>();
+		categories.put(Category.undefined.getID(), Category.undefined);
+		recordsByCategory = new HashMap<Long, TreeSet<T> >();
+		recordsByDate = new TreeMap<Date, Vector<T> >();
+		recordsByName = new TreeMap<String, TreeSet<T> >();
+		recordsById = new TreeMap<Long, T>();
+		monthlySumByCategory = new HashMap<Long, Double>();
+		cal.set(Calendar.AM_PM, Calendar.AM);
+		cal.set(Calendar.HOUR, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		today = cal.getTime();
+		cal.set(Calendar.DAY_OF_MONTH, 0);
+		startOfMonth = cal.getTime();
+		if(cal.get(Calendar.MONTH) == 0){
+			cal.set(Calendar.MONTH, 11);
+			cal.set(Calendar.YEAR, cal.get(Calendar.YEAR) - 1);
+			startOfLastMonth = cal.getTime();
+			cal.set(Calendar.MONTH, 0);
+			cal.set(Calendar.YEAR, cal.get(Calendar.YEAR) + 1);
+		}else{
+			cal.set(Calendar.MONTH, cal.get(Calendar.MONTH) - 1);
+			startOfLastMonth = cal.getTime();
+		}
+		cal.set(Calendar.MONTH, 0);
+		startOfYear = cal.getTime();
+	}
+	
+	@Override
+	public void afterDeserialize(){
+		for(long c : categories.keySet()){
+			monthlySumByCategory.put(c, 0.0);
+		}
+		categories.remove(0);
+		categories.put(0l, Category.undefined);
+		ran = new Random();
+		if(!recordsByCategory.containsKey(Category.undefined.id)){
+			recordsByCategory.put(Category.undefined.id, new TreeSet<T>());
+		}
+		for(Map.Entry<Long, TreeSet<T> > entry : recordsByCategory.entrySet()){
+			TreeSet<T> rs = entry.getValue();
+			Category cat = getCategory(entry.getKey());
+			for(T record : rs){
+				record.category = cat;
+				if(recordsByDate.containsKey(record.date)){
+					recordsByDate.get(record.date).add(record);
+				}else{
+					Vector<T> list = new Vector<T>();
+					list.add(record);
+					recordsByDate.put(record.date, list);
+				}
+				if(recordsByName.containsKey(record.name)){
+					recordsByName.get(record.name).add(record);
+				}else{
+					TreeSet<T> set = new TreeSet<T>();
+					set.add(record);
+					recordsByName.put(record.name, set);
+				}
+				recordsById.put(record.id, record);
+				addSums(record);
+			}
+		}
+	}
+	
+	/**
+	 * To be called after adding a record, adds up sums with the
+	 * amount accordingly
+	 * @param record the record added
+	 */
+	protected void addSums(T record){
+		if(!record.date.before(today)){
+			dailySum += record.amount;
+		}
+		if(!record.date.before(startOfMonth)){
+			monthlySum += record.amount;
+			monthlySumByCategory.put(record.category.getID(),
+					monthlySumByCategory.get(record.category.getID()) + record.amount);
+		}else if (!record.date.before(startOfLastMonth)){
+			lastMonthSum += record.amount;
+		}
+		if(record.date.after(startOfYear)){
+			yearlySum += record.amount;
+		}
+		allTimeSum += record.amount;
+	}
+	
+	/**
+	 * To be called after removing a record, minus sum with
+	 * the amount accordingly
+	 * @param record record removed
+	 */
+	protected void removeSums(T record){
+		if(!record.date.before(today)){
+			dailySum -= record.amount;
+		}
+		if(!record.date.before(startOfMonth)){
+			monthlySum -= record.amount;
+			monthlySumByCategory.put(record.category.getID(),
+					monthlySumByCategory.get(record.category.getID()) - record.amount);
+		}else if (!record.date.before(startOfLastMonth)){
+			lastMonthSum -= record.amount;
+		}
+		if(record.date.after(startOfYear)){
+			yearlySum -= record.amount;
+		}
+		allTimeSum -= record.amount;
+	}
+	
+	/**
+	 * Find the reference to the record with the same id
+	 * @param record
+	 * @return A record with the same id as record
+	 */
+	private T findRecord(long id){
+		return recordsById.get(id);
+	}
+	
+	
+	/**
+	 * Update a record. Note that the record stored is not
+	 * guaranteed to be the same as updated, since they can
+	 * have different ids
+	 * @param id
+	 * @param updated
+	 * @return the changed record
+	 * @throws RecordUpdateException
+	 */
+	public T updateRecord(long id, T updated) throws RecordUpdateException{
+		removeRecord(id);
+		updated.id = id;
+		return addNewRecord(updated);
+	}
+	
+	/**
+	 * Remove a record
+	 * @param id id of record to be removed
+	 * @throws RecordUpdateException
+	 */
+	public void removeRecord(long id) throws RecordUpdateException{
+		T record = findRecord(id);
+		if(record == null){
+			throw new RecordUpdateException("Record does not exist.");
+		}
+		recordsById.remove(id);
+		recordRemoved(record);
+		markUpdate();
+	}
+	
+	protected void recordRemoved(T record){
+		removeSums(record);
+		recordsByDate.get(record.date).remove(record);
+		recordsByCategory.get(record.category.getID()).remove(record);
+		recordsByName.get(record.name).remove(record);
+	}
+	
+	/**
+	 * Add a new record, returns the record added. Note
+	 * that the added record can have different id from the record
+	 * supplied. It is also going to be of different reference
+	 * @param toAdd
+	 * @return
+	 * @throws RecordUpdateException
+	 */
+	@SuppressWarnings("unchecked")
+	public T addNewRecord(T toAdd) throws RecordUpdateException{
+		T record = (T)toAdd.copy();
+		record.category = categories.get(toAdd.category.getID());
+		if(!record.date.before(today)){
+			record.date = new Date();
+		}
+		if(record.category == null){
+			throw new RecordUpdateException("Invalid category!");
+		}
+		while(recordsById.containsKey(record.id)){
+			record.id = (new Date()).getTime() + ran.nextInt();
+		}
+		recordsById.put(record.id, record);
+		recordAdded(record);
+		markUpdate();
+		return record;
+	}
+	
+	protected void recordAdded(T record){
+		if(recordsByDate.containsKey(record.date)){
+			recordsByDate.get(record.date).add(record);
+		}else{
+			Vector<T> rs = new Vector<T>();
+			rs.add(record);
+			recordsByDate.put(record.date, rs);
+		}
+		if(recordsByCategory.containsKey(record.category.getID())){
+			recordsByCategory.get(record.category.getID()).add(record);
+		}else{
+			TreeSet<T> rs = new TreeSet<T>();
+			rs.add(record);
+			recordsByCategory.put(new Long(record.category.getID()), rs);
+		}
+		if(recordsByName.containsKey(record.name)){
+			recordsByName.get(record.name).add(record);
+		}else{
+			TreeSet<T> set = new TreeSet<T>();
+			set.add(record);
+			recordsByName.put(record.name, set);
+		}
+		addSums(record);
+	}
+	
+	/**
+	 * Remove a category
+	 * @param category
+	 * @return
+	 */
+	public boolean removeCategory(Category category){
+		return removeCategory(category.getID());
+	}
+	
+	/**
+	 * @param id
+	 * @param newName
+	 * @throws CategoryUpdateException
+	 */
+	public void updateCategory(long id, String newName) throws CategoryUpdateException{
+		if(categories.get(id) == null){
+			throw new CategoryUpdateException("The category with the id does not exist!");
+		}
+		//same name, don't bother
+		if(newName.equals(categories.get(id).name))return;
+		String err = validateCategoryName(newName);
+		if(err != null)throw new CategoryUpdateException(newName);
+		categories.get(id).setName(newName);
+		markUpdate();
+	}
+	
+	@Override
+	public Category addNewCategory(Category toAdd){
+		String err = validateCategoryName(toAdd.name);
+		if(err != null)return null;
+		Category category = toAdd.copy();
+		while(categories.containsKey(category.getID())){
+			category.id = (new Date()).getTime() + ran.nextInt();
+		}
+		categories.put(category.getID(), category);
+		monthlySumByCategory.put(category.getID(), 0.0);
+		markUpdate();
+		return category;
+	}
+	
+	
+	/**
+	 * Get a category base on id
+	 * @param id
+	 * @return category with id
+	 */
+	public Category getCategory(Long id){
+		return categories.get(id);
+	}
+	
+	
+	/**
+	 * Get a record by id
+	 * @param id
+	 * @return a record with id, or null if not found
+	 */
+	public T getRecordBy(long id){
+		return findRecord(id);
+	}
+	
+	@Override
+	public Vector<T> getRecordsBy(Category category, int max){
+		Vector<T> rs = new Vector<T>();
+		if(!recordsByCategory.containsKey(category.getID())){
+			return rs;
+		}
+		TreeSet<T> toget = recordsByCategory.get(category.getID());
+		if(max > toget.size() || max == -1){
+			max = toget.size();
+		}
+		for(T record : toget){
+			if(max == 0)return rs;
+			max--;
+			rs.add(record);
+		}
+		return rs;
+	}
+	
+	@Override
+	public Vector<T> getRecordsBy(String name, int max){
+		Vector<T> rs = new Vector<T>();
+		if(!recordsByName.containsKey(name)){
+			return rs;
+		}
+		TreeSet<T> set = recordsByName.get(name);
+		if(max > set.size() || max == -1){
+			max = set.size();
+		}
+		for(T record : set){
+			if(max == 0)return rs;
+			rs.add(record);
+			max--;
+		}
+		return rs;
+	}
+	
+	@Override
+	public Vector<T> getRecordsBy(Date start, Date end, int max, boolean reverse){
+		Vector<T> rs = new Vector<T>();
+		Collection<Vector<T> > allrecs;
+		if(reverse){
+			start = new Date(Math.max(start.getTime() - 1, 0));
+			allrecs = recordsByDate.descendingMap().subMap(end, start).values();
+		}else{
+			end = new Date(end.getTime() + 1);
+			allrecs = recordsByDate.subMap(start, end).values();
+		}
+		for(Vector<T> rrs : allrecs){
+			for(T record : rrs){
+				if(max == 0)return rs;
+				max--;
+				rs.add(record);
+			}
+		}
+		return rs;
+	}
+	@Override
+	public boolean removeCategory(long identifier) {
+		if(recordsByCategory.containsKey(identifier)){
+			TreeSet<T> rs = recordsByCategory.get(identifier);
+			TreeSet<T> nrs = recordsByCategory.get(Category.undefined.id);
+			for(T r : rs){
+				r.category = Category.undefined;
+				nrs.add(r);
+			}
+			recordsByCategory.remove(identifier);
+		}
+		if(categories.containsKey(identifier)){
+			categories.remove(identifier);
+			monthlySumByCategory.remove(identifier);
+			markUpdate();
+			return true;
+		}else{
+			return false;
+		}
+	}
+	@Override
+	public List<Category> getAllCategories() {
+		Vector<Category> vec = new Vector<Category>(categories.values());
+		vec.remove(Category.undefined);
+		return vec;
+	}
+	@Override
+	public Category addNewCategory(String catName) {
+		return addNewCategory(new Category((new Date()).getTime(), catName));
+	}
+	@Override
+	public Category updateCategory(long identifier, Category selectedCat) {
+		try {
+			this.updateCategory(identifier, selectedCat.getName());
+			return getCategory(identifier);
+		} catch (CategoryUpdateException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public boolean containsCategoryName(String name) {
+		for(Category cat : categories.values()){
+			if(cat.name.equals(name))return true;
+		}
+		return false;
+	}
+	@Override
+	public String validateCategoryName(String name) {
+		if(name.length() < 2)return "Category name is too short";
+		if(name.length() > 20)return "Category name is too long";
+		if(INVALIDNAME.matcher(name).find()){
+			return "Category name contains invalid character";
+		}
+		if(name.contains(" "))return "Category name should not contain spaces";
+		if(containsCategoryName(name))return "Category name is used.";
+		return null;
+	}
+	@Override
+	public Category getCategory(long id) {
+		return categories.get(id);
+	}
+	@Override
+	public boolean addToCategory(List<T> records, Category cat) {
+		// DANGER: though it will return false when fail, the state could have been changed
+		// test diligently when using this function
+		cat = getCategory(cat.id);
+		for(T r : records){
+			try {
+				this.removeRecord(r.id);
+			} catch (RecordUpdateException e) {
+				return false;
+			}
+			r.category = cat;
+			try {
+				this.addNewRecord(r);
+			} catch (RecordUpdateException e) {
+				return false;
+			}
+		}
+		return true;
+	}
+	@Override
+	public Vector<T> getRecordsWithNamePrefix(String prefix) {
+		if(prefix.length() == 0)return new Vector<T>();
+		String end = prefix.substring(0, prefix.length() - 1) + (char)(prefix.charAt(prefix.length() - 1) + 1);
+		Vector<T> allRecs = new Vector<T>();
+		for(TreeSet<T> rs : recordsByName.subMap(prefix, end).values()){
+			allRecs.addAll(rs);
+		}
+		return allRecs;
+	}
+	@Override
+	public Vector<Category> getCategoryWithNamePrefix(String prefix) {
+		if(prefix.length() == 0)return new Vector<Category>();
+		Vector<Category> cats = new Vector<Category>();
+		for(Category cat : categories.values()){
+			if(cat.getName().startsWith(prefix)){
+				cats.add(cat);
+			}
+		}
+		return cats;
+	}
+}
+
+	// End of segment: ezxpns\data\records\RecordManager.java
+
+
+
+
+
+	/**
+	 * origin: ezxpns\data\SearchHandler.java
+	 */
+
+	// End of segment: ezxpns\data\SearchHandler.java
+
+
+
+
+
+	/**
+	 * origin: ezxpns\data\Storable.java
+	 */
+
+ *
+ */
+public abstract class Storable {
+	private transient boolean updated;
+	/**
+	 * Ask if the object has been updated and needs to be stored again
+	 * @return if the object has been updated and needs to be stored again
+	 */
+	public boolean isUpdated(){
+		return updated;
+	}
+	
+	/**
+	 * Informs the object that it has been stored in the database
+	 */
+	public void saved(){
+		updated = false;
+	}
+	
+	/**
+	 * Mark the object as updated so that the storage manager
+	 * will attempt to save the data
+	 */
+	protected void markUpdate(){
+		updated = true;
+	}
+	
+	/**
+	 * Optional method to populate transient attributes after deserializing data
+	 * from json.
+	 */
+	public void afterDeserialize(){ }
+}
+
+	// End of segment: ezxpns\data\Storable.java
+
+
+
+
+
+	/**
+	 * origin: ezxpns\data\StorageManager.java
+	 */
+
+ *
+ */
+public class StorageManager {
+	/**
+	 * An event listener that will be notified when
+	 * storage manager fails to do file IO
+	 */
+	public static interface StorageEventListener{
+		/**
+		 * A read IO failure has occurred with the exception supplied
+		 * @param e
+		 */
+		void readFail(IOException e);
+		/**
+		 * A write IO failure has occurred with the exception supplied
+		 * @param e
+		 */
+		void writeFail(IOException e);
+	}
+	
+	/**
+	 * The file to read/write
+	 */
+	private File file;
+	/**
+	 * The data to be store. All other data should be under this
+	 */
+	private DataManager manager;
+	/**
+	 * A timer to schedule checking and saving of data
+	 */
+	private Timer timer = new Timer();
+//	private Gson gson = new Gson();
+	/**
+	 * Gson is used to serialize and deserialize data into json
+	 */
+	private Gson gson = new GsonBuilder().setPrettyPrinting().create(); // for testing purpose, actually doesn't matter much
+	/**
+	 * All the listeners
+	 */
+	private Vector<StorageEventListener> listeners = new Vector<StorageEventListener>();
+	
+	/**
+	 * The interval for checking then writing to file <br />
+	 * Possible to be moved into constructor
+	 */
+	private static final int WRITE_INTERVAL = 5 * 1000;
+	
+	/**
+	 * Constructs a storage manager that will write and read from the file
+	 * specified by the file path
+	 * @param filePath The path to the file for storing data
+	 * @throws IOException
+	 */
+	public StorageManager(String filePath) throws IOException{
+		file = new File(filePath);
+		
+		if(!file.exists()){
+			file.createNewFile();
+		}
+		
+		Runtime.getRuntime().addShutdownHook(new Thread(){
+			@Override
+			public void run(){
+				save();
+			}
+		});
+	}
+	
+	/**
+	 * Adds a event listener for IO exceptions
+	 */
+	public void addEventListener(StorageEventListener listener){
+		listeners.add(listener);
+	}
+	
+	/**
+	 * Serialize data and write it to the file <br />
+	 * Notifies if it fails <br />
+	 * Note that this method may be called by the timer
+	 */
+	private synchronized void writeToFile(){
+		try{
+			BufferedWriter out = new BufferedWriter(new FileWriter(file));
+			out.write(gson.toJson(manager));
+			out.close();
+			manager.saved();
+		}catch(IOException e){
+			for(StorageEventListener listener : listeners){
+				listener.writeFail(e);
+			}
+		}
+	}
+	
+	/**
+	 * Attempt to save the data. First check if there's update, if yes, writeToFile();
+	 */
+	private void save(){
+		if(manager.isUpdated()){
+			writeToFile();
+			System.out.println("stored");
+		}
+		timer.schedule(new TimerTask(){
+			public void run(){
+				save();
+			}
+		}, WRITE_INTERVAL);
+	}
+	
+	/**
+	 * Deserialize all data from the json file
+	 * and start the timer that will attempt to save for each interval
+	 */
+	public synchronized void read(){
+		StringBuilder str = new StringBuilder(2048);
+		try{
+			BufferedReader in = new BufferedReader(new FileReader(file));
+			String line = in.readLine();
+			while (line != null) {
+			  str.append(line);
+			  line = in.readLine();
+			}
+			in.close();
+		}catch(IOException e){
+			for(StorageEventListener listener : listeners){
+				listener.readFail(e);
+			}
+		}
+		manager = gson.fromJson(str.toString(), DataManager.class);
+		if(manager == null){
+			manager = new DataManager();
+			manager.afterDeserialize();
+			writeToFile();
+		}else{
+			manager.afterDeserialize();
+		}
+		timer.schedule(new TimerTask(){
+			public void run(){
+				save();
+			}
+		}, WRITE_INTERVAL);
+	}
+	
+	/**
+	 * Get the data manager that this storage manager is managing
+	 * @return the data maanger
+	 */
+	public DataManager getDataManager(){
+		return manager;
+	}
+}
+
+	// End of segment: ezxpns\data\StorageManager.java
+
+
+
+
+
+	/**
+	 * origin: ezxpns\Ezxpns.java
+	 */
+
+ */
+public class Ezxpns implements
+		RecordHandler,
+		CategoryHandler<ExpenseRecord>,
+		SearchHandler{
+	/**
+	 * The only storage manager
+	 */
+	private StorageManager store;
+	
+	/**
+	 * Get the storage manager the application uses, useful
+	 * for testing
+	 * @return the storage manager
+	 */
+	public StorageManager getStore() {
+		return store;
+	}
+
+	/**
+	 * Get the data manager the application uses, useful
+	 * for testing
+	 * @return the data manager
+	 */
+	public DataManager getDataMng() {
+		return data;
+	}
+
+	/**
+	 * Get the target manager the application uses, useful
+	 * for testing
+	 * @return the target manager
+	 */
+	public TargetManager getTargetManager() {
+		return targetManager;
+	}
+	/**
+	 *  The data manager
+	 */
+	private DataManager data;
+	/**
+	 * The report Generator
+	 */
+	private ReportGenerator reportGenerator;
+	/**
+	 * The target manager
+	 */
+	private TargetManager targetManager;
+	/**
+	 * The summary generator
+	 */
+	private SummaryGenerator summaryGenerator;
+	
+	public Ezxpns(){
+		try{
+			store = new StorageManager("data.json");
+			store.read();
+			data = store.getDataManager();
+		} catch(Exception e){
+			System.out.println(e.toString());
+			System.exit(1);
+		}
+		
+		reportGenerator = new ReportGenerator(data);
+		summaryGenerator = new SummaryGenerator(data);
+		targetManager = data.targetManager();
+		final UIControl main  = new UIControl( 	this, 				// SearchHandler
+												this, 				// RecordHandler
+												data.incomes(), 	// IncomeCategoryHandler
+												this, 				// ExpenseCategoryHandler
+												targetManager, 		// Target Manager
+												reportGenerator, 	// Report Generator
+												summaryGenerator,
+												data.nwsGen());	// Summary Generator  	
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					main.showHomeScreen();
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	
+	@Override
+	public Vector<Record> search(SearchRequest req) {
+		RecordQueryHandler<Record> tofind = data.combined();
+		
+		Vector<Record> recs;
+		if(req.getName() != null){
+			recs = tofind.getRecordsBy(req.getName(), -1);
+		}else if(req.getDateRange() != null){
+			Date start = req.getDateRange().getLeft(),
+				 end = req.getDateRange().getRight();
+			recs = tofind.getRecordsBy(start, end, -1, true);
+		}else if(req.getCategory() != null){
+			recs = tofind.getRecordsBy(req.getCategory(), -1);
+		}else{
+			return null;
+		}
+		if(req.isMultiple()){
+			Vector<Record> re = new Vector<Record>();
+			for(Record r : recs){
+				if(req.match(r)){
+					re.add(r);
+				}
+			}
+			Collections.sort(re);
+			return re;
+		}else{
+			return recs;
+		}
+	}
+
+
+	@Override
+	public IncomeRecord createRecord(IncomeRecord r, boolean newCat) {
+		if(newCat){
+			Category cat = data.incomes().addNewCategory(r.getCategory());
+			if(cat == null){
+				return null;
+			}
+			r = new IncomeRecord(r.getAmount(), r.getName(), r.getRemark(), r.getDate(), cat);
+		}
+		IncomeRecord nr = null;
+		try {
+			nr = data.incomes().addNewRecord(r);
+			summaryGenerator.markDataUpdated();
+		} catch (RecordUpdateException e) {
+			return null;
+		}
+		return nr;
+	}
+	
+	@Override
+	public ExpenseRecord createRecord(ExpenseRecord r, boolean newCat) {
+		if(newCat){
+			Category cat = data.expenses().addNewCategory(r.getCategory());
+			if(cat == null){
+				return null;
+			}
+			r = new ExpenseRecord(r.getAmount(), r.getName(), r.getRemark(), r.getDate(), cat,
+					r.getExpenseType());
+		}
+		ExpenseRecord nr = null;
+		try {
+			nr = data.expenses().addNewRecord(r);
+			targetManager.markDataUpdated();
+			summaryGenerator.markDataUpdated();
+		} catch (RecordUpdateException e) {
+			return null;
+		}
+		return nr;
+	}
+	
+	@Override
+	public List<Record> getRecords(int n) {
+		return data.combined().getRecordsBy(new Date(0), new Date(), n, true);
+	}
+	@Override
+	public Record getRecord(long identifier) {
+		if(data.expenses().getRecordBy(identifier) == null){
+			return data.incomes().getRecordBy(identifier);
+		}else{
+			return data.expenses().getRecordBy(identifier);
+		}
+	}
+	@Override
+	public boolean removeRecord(long identifier) {
+		if(data.expenses().getRecordBy(identifier) != null){
+			try {
+				data.expenses().removeRecord(identifier);
+				targetManager.markDataUpdated();
+				summaryGenerator.markDataUpdated();
+			} catch (RecordUpdateException e) {
+				return false;
+			}
+			return true;
+		}else{
+			try {
+				data.incomes().removeRecord(identifier);
+				summaryGenerator.markDataUpdated();
+			} catch (RecordUpdateException e) {
+				return false;
+			}
+			return true;
+		}
+	}
+	@Override
+	public boolean modifyRecord(long id, ExpenseRecord r, boolean newCat, boolean newPay) {
+		if(newCat){
+			Category cat = data.expenses().addNewCategory(r.getCategory());
+			if(cat == null){
+				return false;
+			}
+			r = new ExpenseRecord(r.getAmount(), r.getName(), r.getRemark(), r.getDate(), cat,
+					r.getExpenseType());
+		}
+		try {
+			data.expenses().updateRecord(id, r);
+			targetManager.markDataUpdated();
+			summaryGenerator.markDataUpdated();
+		} catch (RecordUpdateException e) {
+			return false;
+		}
+		return true;
+	}
+	@Override
+	public boolean modifyRecord(long id, IncomeRecord r, boolean newCat) {
+		if(newCat){
+			Category cat = data.incomes().addNewCategory(r.getCategory());
+			if(cat == null){
+				return false;
+			}
+			r = new IncomeRecord(r.getAmount(), r.getName(), r.getRemark(), r.getDate(), cat);
+		}
+		try {
+			data.incomes().updateRecord(id, r);
+			summaryGenerator.markDataUpdated();
+		} catch (RecordUpdateException e) {
+			return false;
+		}
+		return true;
+	}
+	@Override
+	public ExpenseRecord lastExpenseRecord(String name) {
+		List<ExpenseRecord> rs = data.expenses().getRecordsBy(name, 1);
+		if(rs.size() > 0){
+			return rs.get(0);
+		}else{
+			return null;
+		}
+	}
+	@Override
+	public IncomeRecord lastIncomeRecord(String name) {
+		List<IncomeRecord> rs = data.incomes().getRecordsBy(name, 1);
+		if(rs.size() > 0){
+			return rs.get(0);
+		}else{
+			return null;
+		}
+	}
+
+	@Override
+	public List<Category> getAllCategories() {
+		return data.expenses().getAllCategories();
+	}
+
+	@Override
+	public Category addNewCategory(Category newCat) {
+		return data.expenses().addNewCategory(newCat);
+	}
+
+	@Override
+	public Category addNewCategory(String catName) {
+		return data.expenses().addNewCategory(catName);
+	}
+
+	@Override
+	public boolean removeCategory(long identifier) {
+		if(data.expenses().removeCategory(identifier)){
+			data.targetManager().removeCategoryTarget(identifier);
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	@Override
+	public Category updateCategory(long identifier, Category selectedCat) {
+		return data.expenses().updateCategory(identifier, selectedCat);
+	}
+
+	@Override
+	public boolean containsCategoryName(String name) {
+		return data.expenses().containsCategoryName(name);
+	}
+
+	@Override
+	public String validateCategoryName(String name) {
+		return data.expenses().validateCategoryName(name);
+	}
+
+	@Override
+	public Category getCategory(long id) {
+		return data.expenses().getCategory(id);
+	}
+
+	@Override
+	public Vector<ExpenseRecord> getRecordsBy(Category category, int max) {
+		return data.expenses().getRecordsBy(category, -1);
+	}
+
+	@Override
+	public boolean addToCategory(List<ExpenseRecord> records, Category cat) {
+		return data.expenses().addToCategory(records, cat);
+	}
+
+	@Override
+	public Vector<Record> search(String partialMatch) {
+		Vector<Record> rs = data.combined().getRecordsWithNamePrefix(partialMatch);
+		Vector<Category> cats = data.incomes().getCategoryWithNamePrefix(partialMatch);
+		for(Category cat : cats){
+			rs.addAll(data.incomes().getRecordsBy(cat, -1));
+		}
+		cats = data.expenses().getCategoryWithNamePrefix(partialMatch);
+		for(Category cat : cats){
+			rs.addAll(data.expenses().getRecordsBy(cat, -1));
+		}
+		Collections.sort(rs);
+		return rs;
+	}
+
+	@Override
+	public Vector<Category> getCategoryWithNamePrefix(String prefix) {
+		return data.expenses().getCategoryWithNamePrefix(prefix);
+	}
+}
+
+	// End of segment: ezxpns\Ezxpns.java
+
+
+
+
+
+	/**
+	 * origin: ezxpns\GUI\Calculator.java
+	 */
+
+ */
+public class Calculator {
+	@SuppressWarnings("serial")
+	static public class EvaluationException extends Exception{
+		public EvaluationException(){
+			super();
+		}
+	}
+	static private Calculator instance = new Calculator();
+	static public Calculator getInstance(){
+		return instance;
+	}
+	
+	private final ScriptEngine engine = new ScriptEngineManager().getEngineByName("JavaScript");
+	static public final Pattern INVALID_EQUATION = Pattern.compile("[^0-9-+ \t*/().]");
+	
+	private Calculator(){
+		// this is a singleton man
+	}
+	
+	/**
+	 * Evaluate an equation that's in a string, throws exception if the equation is invalid
+	 */
+	public double evaluate(String equation) throws EvaluationException{
+		if(INVALID_EQUATION.matcher(equation).find()){
+			throw new EvaluationException();
+		}
+		try {
+			return (Double) engine.eval(equation);
+		} catch (ScriptException e) {
+			throw new EvaluationException();
+		}
+	}
+}
+
+	// End of segment: ezxpns\GUI\Calculator.java
+
+
+
+
+
+	/**
+	 * origin: ezxpns\GUI\CategoryModel.java
+	 */
+
+ */
+@SuppressWarnings("serial")
+public class CategoryModel extends AbstractListModel {
+	/**
+	 * @param cat the data source of category
+	 * @param toadd a list item that upon selected, let the user add new category
+	 */
+	public CategoryModel(CategoryHandler cat, Category toadd){
+		this.cat = cat;
+		cats = cat.getAllCategories();
+		cats.add(toadd);
+		this.toadd = toadd;
+	}
+	
+	private CategoryHandler cat;
+	private List<Category> cats;
+	private Category toadd;
+	
+	@Override
+	public Object getElementAt(int arg0) {
+		return cats.get(arg0);
+	}
+
+	@Override
+	public int getSize() {
+		return cats.size();
+	}
+
+	/**
+	 * Refresh the whole list
+	 */
+	public void update(){
+		int s = cats.size();
+		cats = new Vector<Category>();
+		fireIntervalRemoved(this, 0, s);
+		cats = cat.getAllCategories();
+		cats.add(toadd);
+		fireIntervalAdded(this, 0, cats.size());
+	}
+}
+
+	// End of segment: ezxpns\GUI\CategoryModel.java
+
+
+
+
+
+	/**
+	 * origin: ezxpns\GUI\CategoryTargetPanel.java
+	 */
+
+ */
+@SuppressWarnings("serial")
+public class CategoryTargetPanel extends JPanel {
+	public static final int MAX_CATS = 20;
+	
+	private TargetManager targetMgr;
+	private CategoryHandler<ExpenseRecord> excats;
+	private CategoryHandler<IncomeRecord> incats;
+	private CategoryModel exmo, inmo;
+	
+	private JList exlist, inlist;
+	
+	private JTextField targetAmountField;
+	private JTextField exnameField;
+	private JTextField inNameField;
+	private Category addNew;
+	private Category curExCat, curInCat;
+	private Target curTar;
+	
+	private JButton removeExBtn, changeExBtn;
+	private JButton removeInBtn, changeInBtn;
+	
+	private UpdateNotifyee notifyee;
+	
+	/**
+	 * @param excats a CategoryHandler for expense categories
+	 * @param incats a CategoryHandler for income categories
+	 * @param targetMgrRef a TargetManager 
+	 */
+	public CategoryTargetPanel(
+			CategoryHandler<ExpenseRecord> excats,
+			CategoryHandler<IncomeRecord> incats,
+			TargetManager targetMgrRef,
+			UpdateNotifyee notifyee) {
+		// interface code generated by window builder
+		super(new BorderLayout());
+		addNew = new Category(-1, "Add a new category...");
+		exmo = new CategoryModel(excats, addNew);
+		inmo = new CategoryModel(incats, addNew);
+		this.notifyee = notifyee;
+		
+		this.excats = excats;
+		this.incats = incats;
+		
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		this.add(tabbedPane, BorderLayout.CENTER);
+		
+		JPanel panExCats = new JPanel();
+		tabbedPane.addTab(
+				"Expense", 
+				null, 
+				panExCats, 
+				null);
+		
+		panExCats.setLayout(new BorderLayout(0, 0));
+		
+		exlist = new JList();
+		exlist.setFont(Config.TEXT_FONT);
+		exlist.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent arg0) {
+				updateExDisplay((Category) exlist.getSelectedValue());
+			}
+		});
+		panExCats.add(new JScrollPane(exlist), BorderLayout.CENTER);
+		exlist.setMinimumSize(new Dimension(150, 500));
+		exlist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		JPanel panel = new JPanel();
+		panExCats.add(panel, BorderLayout.EAST);
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWidths = new int[]{34, 0, 98, 0};
+		gbl_panel.rowHeights = new int[]{29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		panel.setLayout(gbl_panel);
+		
+		JLabel lblName = new JLabel("Name:");
+		lblName.setHorizontalAlignment(SwingConstants.LEFT);
+		GridBagConstraints gbc_lblName = new GridBagConstraints();
+		gbc_lblName.anchor = GridBagConstraints.EAST;
+		gbc_lblName.insets = new Insets(0, 0, 5, 5);
+		gbc_lblName.gridx = 1;
+		gbc_lblName.gridy = 2;
+		panel.add(lblName, gbc_lblName);
+		
+		exnameField = new JTextField();
+		exnameField.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				exnameField.selectAll();
+			}
+		});
+		GridBagConstraints gbc_exnameField = new GridBagConstraints();
+		gbc_exnameField.insets = new Insets(0, 0, 5, 0);
+		gbc_exnameField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_exnameField.gridx = 2;
+		gbc_exnameField.gridy = 2;
+		panel.add(exnameField, gbc_exnameField);
+		exnameField.setColumns(10);
+		
+		JLabel lblTargetAmount = new JLabel("Target Amount:");
+		GridBagConstraints gbc_lblTargetAmount = new GridBagConstraints();
+		gbc_lblTargetAmount.anchor = GridBagConstraints.WEST;
+		gbc_lblTargetAmount.insets = new Insets(0, 0, 5, 5);
+		gbc_lblTargetAmount.gridx = 1;
+		gbc_lblTargetAmount.gridy = 3;
+		panel.add(lblTargetAmount, gbc_lblTargetAmount);
+		
+		targetAmountField = new JTextField();
+		targetAmountField.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				targetAmountField.selectAll();
+			}
+		});
+		GridBagConstraints gbc_targetAmountField = new GridBagConstraints();
+		gbc_targetAmountField.anchor = GridBagConstraints.NORTHWEST;
+		gbc_targetAmountField.insets = new Insets(0, 0, 5, 0);
+		gbc_targetAmountField.gridx = 2;
+		gbc_targetAmountField.gridy = 3;
+		panel.add(targetAmountField, gbc_targetAmountField);
+		targetAmountField.setColumns(10);
+		
+		changeExBtn = new JButton("Change");
+		changeExBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				modifyEx();
+			}
+		});
+		GridBagConstraints gbc_changeExBtn = new GridBagConstraints();
+		gbc_changeExBtn.insets = new Insets(0, 0, 5, 5);
+		gbc_changeExBtn.anchor = GridBagConstraints.NORTHWEST;
+		gbc_changeExBtn.gridx = 1;
+		gbc_changeExBtn.gridy = 4;
+		panel.add(changeExBtn, gbc_changeExBtn);
+		
+		removeExBtn = new JButton("Remove");
+		removeExBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				removeEx();
+			}
+		});
+		GridBagConstraints gbc_removeExBtn = new GridBagConstraints();
+		gbc_removeExBtn.insets = new Insets(0, 0, 5, 0);
+		gbc_removeExBtn.gridx = 2;
+		gbc_removeExBtn.gridy = 4;
+		panel.add(removeExBtn, gbc_removeExBtn);
+		
+		JPanel panInCats = new JPanel();
+		panInCats.addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentShown(ComponentEvent e) {
+				inlist.setSelectedIndex(0);
+			}
+		});
+		tabbedPane.addTab(
+				"Income", 
+				null, 
+				panInCats, 
+				null);
+		panInCats.setLayout(new BorderLayout(0, 0));
+		
+		inlist = new JList();
+		inlist.setFont(Config.TEXT_FONT);
+		inlist.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent arg0) {
+				updateInDisplay((Category) inlist.getSelectedValue());
+			}
+		});
+		inlist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		inlist.setMinimumSize(new Dimension(150, 500));
+		panInCats.add(new JScrollPane(inlist));
+		
+		JPanel panOptions = new JPanel();
+		panInCats.add(panOptions, BorderLayout.EAST);
+		GridBagLayout gbl_panel_3 = new GridBagLayout();
+		gbl_panel_3.columnWidths = new int[]{40, 0, 134, 0};
+		gbl_panel_3.rowHeights = new int[]{29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel_3.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_3.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		panOptions.setLayout(gbl_panel_3);
+		
+		JLabel lblName_1 = new JLabel("Name:");
+		GridBagConstraints gbc_lblName_1 = new GridBagConstraints();
+		gbc_lblName_1.anchor = GridBagConstraints.WEST;
+		gbc_lblName_1.insets = new Insets(0, 0, 5, 5);
+		gbc_lblName_1.gridx = 1;
+		gbc_lblName_1.gridy = 3;
+		panOptions.add(lblName_1, gbc_lblName_1);
+		
+		inNameField = new JTextField();
+		inNameField.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				inNameField.selectAll();
+			}
+		});
+		GridBagConstraints gbc_inNameField = new GridBagConstraints();
+		gbc_inNameField.anchor = GridBagConstraints.NORTHWEST;
+		gbc_inNameField.insets = new Insets(0, 0, 5, 0);
+		gbc_inNameField.gridx = 2;
+		gbc_inNameField.gridy = 3;
+		panOptions.add(inNameField, gbc_inNameField);
+		inNameField.setColumns(10);
+		
+		changeInBtn = new JButton("Change");
+		changeInBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				modifyIn();
+			}
+		});
+		GridBagConstraints gbc_changeInBtn = new GridBagConstraints();
+		gbc_changeInBtn.insets = new Insets(0, 0, 5, 5);
+		gbc_changeInBtn.anchor = GridBagConstraints.NORTHWEST;
+		gbc_changeInBtn.gridx = 1;
+		gbc_changeInBtn.gridy = 4;
+		panOptions.add(changeInBtn, gbc_changeInBtn);
+		
+		removeInBtn = new JButton("Remove");
+		removeInBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				removeIn();
+			}
+		});
+		GridBagConstraints gbc_removeInBtn = new GridBagConstraints();
+		gbc_removeInBtn.insets = new Insets(0, 0, 5, 0);
+		gbc_removeInBtn.gridx = 2;
+		gbc_removeInBtn.gridy = 4;
+		panOptions.add(removeInBtn, gbc_removeInBtn);
+		targetMgr = targetMgrRef;
+		
+		exlist.setModel(exmo);
+		inlist.setModel(inmo);
+		
+		reload();
+	}
+	
+	/**
+	 * load all expense category into list
+	 */
+	private void loadExList(){
+		exmo.update();
+	}
+	
+	/**
+	 * load all income category into list
+	 */
+	private void loadInList(){
+		inmo.update();
+	}
+
+	/**
+	 * Update the right panel display with expense category data
+	 * including target
+	 * @param cat category to be displayed
+	 */
+	private void updateExDisplay(Category cat){
+		curExCat = cat;
+		if(cat == null){
+			exnameField.setText("");
+			targetAmountField.setText("");
+			exnameField.setEnabled(false);
+			targetAmountField.setEnabled(false);
+			removeExBtn.setEnabled(false);
+			changeExBtn.setEnabled(false);
+			return;
+		}
+		if(cat != addNew){
+			exnameField.setText(cat.getName());
+			curTar = targetMgr.getTarget(cat);
+			exnameField.setEnabled(true);
+			targetAmountField.setEnabled(true);
+			if(curTar == null){
+				targetAmountField.setText("No target set");
+			}else{
+				targetAmountField.setText("" + curTar.getTargetAmt());
+			}
+			changeExBtn.setText("Change");
+			changeExBtn.setEnabled(true);
+			removeExBtn.setEnabled(true);
+		}else{
+			exnameField.setText("Pick a name");
+			targetAmountField.setText("Set a target");
+			changeExBtn.setText("Add");
+			exnameField.setEnabled(true);
+			targetAmountField.setEnabled(true);
+			changeExBtn.setEnabled(true);
+			removeExBtn.setEnabled(false);
+		}
+	}
+	
+	/**
+	 * Update right panel display with income category
+	 * @param cat income category to be displayed
+	 */
+	private void updateInDisplay(Category cat){
+		curInCat = cat;
+		if(cat == null){
+			inNameField.setText("");
+			inNameField.setEnabled(false);
+			removeInBtn.setEnabled(false);
+			changeInBtn.setEnabled(false);
+			return;
+		}
+		if(cat != addNew){
+			inNameField.setText(cat.getName());
+			inNameField.setEnabled(true);
+			removeInBtn.setEnabled(true);
+			changeInBtn.setText("Change");
+			removeInBtn.setEnabled(true);
+			changeInBtn.setEnabled(true);
+		}else{
+			inNameField.setText("Pick a name");
+			changeInBtn.setText("Add");
+			inNameField.setEnabled(true);
+			removeInBtn.setEnabled(true);
+			removeInBtn.setEnabled(false);
+			changeInBtn.setEnabled(true);
+		}
+	}
+	
+	/**
+	 * @param targetString
+	 * @return whether the target amount is valid
+	 */
+	private String validateTarget(String targetString){
+		double d;
+		try{
+			d = Double.parseDouble(targetString);
+			if(d == 0)return null;
+			if(d < 10) return "Target too small!";
+			if(d > 7000000) return "Target is too big!";
+		}catch(NumberFormatException e){
+			return "";
+		}
+		return null;
+	}
+	
+	/**
+	 * modify the expense category and target editing
+	 */
+	private void modifyEx(){
+		String err = null;
+		String newName = exnameField.getText();
+		if(curExCat == addNew || !curExCat.getName().equals(newName)){
+			err = excats.validateCategoryName(newName);
+		}
+		if(err == null){
+			if(curExCat == addNew){
+				Category cat = excats.addNewCategory(new Category(newName));
+				String tarerr = validateTarget(targetAmountField.getText());
+				if(tarerr == null){
+					if(Double.parseDouble(targetAmountField.getText()) != 0){
+						targetMgr.setTarget(cat, Double.parseDouble(targetAmountField.getText()));
+					}
+					notifyee.addUndoAction(getUndoNewCat(cat.getID(), excats), "Creating new category");
+				}else if(tarerr.equals("")){
+					notifyee.addUndoAction(getUndoNewCat(cat.getID(), excats), "Creating new category");
+				}else{
+					JOptionPane.showMessageDialog(this, tarerr, "Error!!!!!", JOptionPane.ERROR_MESSAGE);
+				}
+				exmo.update();
+				exlist.setSelectedValue(cat, true);
+			}else{
+				Category original = curExCat.copy();
+				Target tar = targetMgr.getTarget(curExCat);
+				double targetAmt = 0;
+				if(tar != null){
+					targetAmt = tar.getTargetAmt();
+				}
+				Category cat = excats.updateCategory(curExCat.getID(), new Category(exnameField.getText()));
+				
+				String tarerr = validateTarget(targetAmountField.getText());
+				if(tarerr == null){
+					double d = Double.parseDouble(targetAmountField.getText());
+					if(d == 0){
+						targetMgr.removeCategoryTarget(cat.getID());
+					}else{
+						targetMgr.setTarget(cat, d);
+					}
+				}else if(!tarerr.equals("")){
+					JOptionPane.showMessageDialog(this, tarerr, "Error!!!!!", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				notifyee.addUndoAction(getUndoModifyExCat(cat.getID(), original, targetAmt), "Modify category");
+				exmo.update();
+				exlist.setSelectedValue(cat, true);
+			}
+			notifyee.updateAll();
+		}else{
+			JOptionPane.showMessageDialog(this, err, "Error!!!!!", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	/**
+	 * modify the income category editing
+	 */
+	private void modifyIn(){
+		String err = null;
+		String newName = inNameField.getText();
+		if(curInCat == addNew || !curInCat.getName().equals(newName)){
+			err = incats.validateCategoryName(newName);
+		}
+		if(err == null){
+			if(curInCat == addNew){
+				Category cat = incats.addNewCategory(new Category(newName));
+				notifyee.addUndoAction(getUndoNewCat(cat.getID(), incats), "Create new category");
+				inmo.update();
+				inlist.setSelectedValue(cat, true);
+			}else{
+				Category original = curInCat.copy();
+				Category cat = incats.updateCategory(curInCat.getID(), new Category(inNameField.getText()));
+				inmo.update();
+				inlist.setSelectedValue(cat, true);
+				notifyee.addUndoAction(getUndoModifyInCat(cat.getID(), original), "Modify category");
+			}
+			notifyee.updateAll();
+		} else{
+			JOptionPane.showMessageDialog(this, err, "Error!!!!!", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	/**
+	 * Remove the expense category selected
+	 */
+	private void removeEx(){
+		String message = "Are you sure you want to remove this category?\n" +
+			    		"All records under this category will have an undefined category!";
+		if(JOptionPane.showConfirmDialog(this, message, "what?!",
+				JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+			Category original = curExCat.copy();
+			double targetAmt = 0;
+			if(targetMgr.getTarget(curExCat)!= null){
+				targetAmt = targetMgr.getTarget(curExCat).getTargetAmt();
+			}
+			List<ExpenseRecord> recs = excats.getRecordsBy(curExCat, -1);
+			excats.removeCategory(curExCat.getID());
+			exmo.update();
+			exlist.setSelectedIndex(0);
+			notifyee.addUndoAction(getUndoRemoveExCat(recs, original, targetAmt), "Removing Category");
+			notifyee.updateAll();
+		}
+	}
+	/**
+	 * Remove the income category selected
+	 */
+	private void removeIn(){
+			String message = "Are you sure you want to remove this category?\n" +
+			    		"All records under this category will have an undefined category!";
+		if(JOptionPane.showConfirmDialog(this, message, "what?!",
+				JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+			List<IncomeRecord> oriRecords = incats.getRecordsBy(curInCat, -1);
+			Category cat = curInCat.copy();
+			incats.removeCategory(curInCat.getID());
+			inmo.update();
+			inlist.setSelectedIndex(0);
+			notifyee.updateAll();
+			notifyee.addUndoAction(getUndoRemoveInCat(oriRecords, cat.copy()), "Removing Category");
+		}
+	}
+	
+	private AbstractAction getUndoNewCat(final long id, final CategoryHandler cats){
+		return new AbstractAction(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cats.removeCategory(id);
+			}
+			
+		};
+	}
+	
+	private AbstractAction getUndoModifyInCat(final long id, final Category original){
+		return new AbstractAction(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				incats.updateCategory(id, original);
+			}
+			
+		};
+	}
+	
+	private AbstractAction getUndoModifyExCat(
+			final long id,
+			final Category original,
+			final double originalTargetAmt){
+		return new AbstractAction(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Category cat = excats.updateCategory(id, original);
+				if(originalTargetAmt == 0){
+					targetMgr.removeCategoryTarget(id);
+				}else{
+					targetMgr.setTarget(cat, originalTargetAmt);
+				}
+			}
+			
+		};
+	}
+	
+	private AbstractAction getUndoRemoveInCat(final List<IncomeRecord> recs, final Category original){
+		// deleting a category moves all records in it to undefined
+		// we need to undo this as well
+		return new AbstractAction(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Category cat = incats.addNewCategory(original);
+				incats.addToCategory(recs, cat);
+			}
+		};
+	}
+	
+	private AbstractAction getUndoRemoveExCat(
+			final List<ExpenseRecord> recs,
+			final Category original,
+			final double targetAmt){
+		// deleting a category moves all records in it to undefined
+		// we need to undo this as well
+		return new AbstractAction(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Category cat = excats.addNewCategory(original);
+				excats.addToCategory(recs, cat);
+				if(targetAmt != 0){
+					targetMgr.setTarget(cat, targetAmt);
+				}
+			}
+		};
+	}
+	
+	/**
+	 * Reload the panel, called if relevant data is updated
+	 */
+	public void reload() {
+		loadExList();
+		loadInList();
+		inlist.setSelectedIndex(0);
+		exlist.setSelectedIndex(0);
+		this.validate();
+	}
+}	
+
+
+	// End of segment: ezxpns\GUI\CategoryTargetPanel.java
+
+
+
+
+
+	/**
+	 * origin: ezxpns\GUI\RecordListView.java
+	 */
+
+ *
+ */
+@SuppressWarnings("serial")
+public class RecordListView extends JTable {
+	
+	/**
+	 * The GUI Editor that manages the user side inputs for editing of a Record
+	 */
+	public static interface RecordEditor{
+		/**
+		 * Edit the user indicated Record
+		 * @param record to be Edited
+		 * @param display RecordListView Object GUI display to be updated when editing is done
+		 */
+		public void edit(Record record, RecordListView display);
+	}
+	
+	private static NumberFormat formatter = NumberFormat.getCurrencyInstance();
+	private static DateFormat dateFormatter = DateFormat.getDateInstance();
+	private static String[] headers = {
+		"Name",
+		"Amount",
+		"Category",
+		"Date"
+	};
+	
+	private class ListModel extends AbstractTableModel {
+
+		@Override
+		public int getColumnCount() {
+			return 4;
+		}
+
+		@Override
+		public int getRowCount() {
+			return records.size();
+		}
+		
+		@Override
+        public Class<?> getColumnClass(int c) {
+			switch(c){
+			case 0:
+				return String.class;
+			case 1:
+				return Double.class;
+			case 2:
+				return String.class;
+			case 3:
+				return Date.class;
+			default:
+				return null;
+			}
+        }
+
+		@Override
+		public Object getValueAt(int r, int c) {
+			Record re = records.get(r);
+			switch(c){
+			case 0:
+				return re.getName();
+			case 1:
+				if(re instanceof ExpenseRecord){
+					return -re.getAmount();
+				}else{
+					return re.getAmount();
+				}
+			case 2:
+				return re.getCategory().toString();
+			case 3:
+				return re.getDate();
+			default:
+				return null;
+			}
+		}
+		
+		@Override
+		public String getColumnName(int col){
+			return headers[col];
+		}
+	}
+	
+	/**
+	 * Private Empty Constructor to disallow users from creating it without parameters 
+	 */
+	private RecordListView() {
+		super();
+	}
+	
+	private RecordEditor editor;
+	private RecordHandler rhandler;
+	private List<Record> records = new Vector<Record>();
+	private ListModel model = new ListModel();
+	private JPopupMenu menu;
+	private Record itemSelected;
+	private Record itemsSelected;
+	private int rowSelected;
+	private int[] rowsSelected;
+	private UpdateNotifyee notifyee;
+	
+	public RecordListView(RecordEditor ed, RecordHandler rh, UpdateNotifyee notifyee){
+		this();	// To call the superclass constructor
+		editor = ed;
+		rhandler = rh;
+		this.notifyee = notifyee;
+		setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		setIntercellSpacing(new Dimension(0, 0));
+		setShowHorizontalLines(false);
+		setShowVerticalLines(false);
+		setShowGrid(false);
+		setModel(model);
+		
+		this.setAutoCreateRowSorter(true);
+		
+		this.setDefaultRenderer(Date.class, new DefaultTableCellRenderer(){
+			@Override
+			public void setValue(Object value){
+				if(value != null) setText(dateFormatter.format(value));
+			}
+		});
+		
+		this.setDefaultRenderer(Double.class, new DefaultTableCellRenderer(){
+			@Override
+			public void setValue(Object value){
+				if(value == null)return;
+				double dval = (Double)value;
+				String val;
+				if(dval > 0){
+					val = " " + formatter.format(dval);
+				}else{
+					val = "-" + formatter.format(-dval);
+				}
+				setText(val);
+			}
+		});
+
+		
+		setFont(new java.awt.Font("Segoe UI", 0, 14)); // #Font
+
+		menu = new JPopupMenu();
+		
+		JMenuItem mntmEdit = new JMenuItem("edit");
+		mntmEdit.setAction(new AbstractAction("edit"){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				editItemAt(rowSelected);
+			}
+			
+		});
+		menu.add(mntmEdit);
+		
+		JMenuItem mntmRemove = new JMenuItem("remove");
+		mntmRemove.setAction(new AbstractAction("remove"){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				deleteItemsAt(rowsSelected);
+			}
+			
+		});
+		menu.add(mntmRemove);
+		
+		addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if(arg0.getClickCount() == 2 && arg0.getButton() == MouseEvent.BUTTON1){
+					editItemAt(convertRowIndexToModel(rowAtPoint(arg0.getPoint())));
+				}
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e){
+		        if (e.isPopupTrigger())
+		            doPop(e);
+		    }
+
+			@Override
+		    public void mouseReleased(MouseEvent e){
+		        if (e.isPopupTrigger())
+		            doPop(e);
+		    }
+
+		    private void doPop(MouseEvent e){
+		    	int row = convertRowIndexToModel(rowAtPoint(e.getPoint()));
+		    	rowSelected = convertRowIndexToModel(row);
+		    	int[] orirows = getSelectedRows();
+		    	int[] rows = new int[orirows.length];
+		    	for(int i = 0; i< orirows.length; i++){
+		    		rows[i] = convertRowIndexToModel(orirows[i]);
+		    	}
+		    	rowsSelected = rows;
+		    	boolean found = false;
+		    	for(int i = 0; i < rows.length; i++){
+		    		if(rows[i] == row){
+		    			found = true;
+		    			break;
+		    		}
+		    	}
+		    	if(!found){
+		    		setRowSelectionInterval(row, row);
+		    		rowsSelected = new int[1];
+		    		rowsSelected[0] = row;
+		    	}
+		    	itemSelected = records.get(row);
+				menu.show(e.getComponent(), e.getX(), e.getY());
+		    }
+		});
+	}
+
+	@Override
+	public Component prepareRenderer(TableCellRenderer renderer, int rowIndex, int vColIndex) {
+		Component c = super.prepareRenderer(renderer, rowIndex, vColIndex);
+		if(isCellSelected(rowIndex, vColIndex)) { 	// Default highlighting for user selection
+			return c;
+		}
+		
+		if (rowIndex % 2 == 1 && !isCellSelected(rowIndex, vColIndex)) {
+			c.setBackground(new Color(230, 230, 230));
+		} else {
+			c.setBackground(Color.WHITE); 			// Even rows background color
+		}
+		
+		return c;
+	}
+	
+	/**
+	 * Displays the records
+	 * @param records
+	 */
+	public void show(List<Record> records){
+		this.records = records;
+		model.fireTableDataChanged();
+	}
+
+	/**
+	 * Callback method for edit
+	 * <br />Null return means that the user has cancelled the edit
+	 * @param row
+	 */
+	public void itemEdited(Record newItem){
+		if(newItem == null)return;
+		records.set(rowSelected, newItem);
+		model.fireTableRowsUpdated(rowSelected, rowSelected);
+		notifyee.updateAll();
+	}
+	
+	/**
+	 * Edit the selected record 
+	 * @param row the row Id of the Record that user has indicated for editing
+	 */
+	protected void editItemAt(int row){
+		rowSelected = row;
+		itemSelected = records.get(row);
+		editor.edit(itemSelected, this);
+	}
+	
+	/**
+	 * Removed the selected record
+	 * @param row the row Id of the Record that user has indicated for removal
+	 */
+	protected void deleteItemsAt(int[] rows){
+		String message = "Are you sure you want to remove these records?";
+		if(JOptionPane.showConfirmDialog(this, message, "what?!",
+				JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+			Vector<Record> originals = new Vector<Record>();
+			Vector<Record> old = new Vector<Record>();
+			for(int i = 0; i < rows.length; i++){
+				Record original = records.get(rows[i]);
+				Record copy;
+				old.add(original);
+				if(original instanceof IncomeRecord){
+					copy = ((IncomeRecord)original).copy();
+				}else{
+					copy = ((ExpenseRecord)original).copy();
+				}
+				originals.add(copy);
+				rhandler.removeRecord(original.getId());
+			}
+			records.removeAll(old);
+			model.fireTableDataChanged();
+			
+			notifyee.addUndoAction(getUndoDeleteRecord(originals), "Removing Record");
+			notifyee.updateAll();
+		}
+	}
+	
+	private AbstractAction getUndoDeleteRecord(final Vector<Record> originals){
+		return new AbstractAction(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				for(Record original : originals){
+					if(original instanceof IncomeRecord){
+							rhandler.createRecord((IncomeRecord)original, false);
+					}else{
+						rhandler.createRecord((ExpenseRecord)original, false);
+					}
+				}
+			}
+			
+		};
+	}
+}
+
+	// End of segment: ezxpns\GUI\RecordListView.java
+
+
+
+
+
+	/**
+	 * origin: ezxpns\GUI\UndoManager.java
+	 */
+
+ */
+public class UndoManager {
+	private AbstractAction action;
+	private Stack<Pair<AbstractAction, String> > stack;
+	private AbstractAction postUndo;
+	
+	@SuppressWarnings("serial")
+	public UndoManager(){
+		action = new AbstractAction(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				performUndo();
+			}
+		};
+		action.putValue(Action.NAME, "Undo");
+		action.setEnabled(false);
+		stack = new Stack<Pair<AbstractAction, String> >();
+	}
+	
+	/**
+	 * Get the action that pops and performs the current undo action
+	 * @return the undo action
+	 */
+	public AbstractAction getAction(){
+		return action;
+	}
+	
+	/**
+	 * Add an undo action to the current undo stack with the name
+	 * @param a the action to perform when undoing
+	 * @param name the name of the action, without "undo"
+	 */
+	public void add(AbstractAction action, String name){
+		stack.push(new Pair<AbstractAction, String>(action, name));
+		this.action.setEnabled(true);
+		this.action.putValue(Action.NAME, "<html><center>Undo<br />" + name + "</center></html>");
+	}
+	
+	/**
+	 * Set the action that's to be carried out after an undo action is performed
+	 * @param action
+	 */
+	public void setPostUndo(AbstractAction action){
+		postUndo = action;
+	}
+	
+	/**
+	 *Perform an undo action. 
+	 */
+	private void performUndo(){
+		(stack.pop()).getLeft().actionPerformed(null);
+		if(stack.empty()){
+			action.setEnabled(false);
+			action.putValue(Action.NAME, "Undo");
+		}else{
+			action.putValue(Action.NAME, "<html><center>Undo<br />" + stack.peek().getRight() + "</center></html>");
+		}
+		if(postUndo != null){
+			postUndo.actionPerformed(null);
+		}
+	}
+}
+
+	// End of segment: ezxpns\GUI\UndoManager.java
+
+
+
+
+
+	/**
+	 * origin: ezxpns\GUI\UpdateNotifyee.java
+	 */
+
+ */
+public interface UpdateNotifyee {
+	
+	/**
+	 * Invoke upon user action
+	 * <br />To alert & update all the other components 
+	 */
+	public void updateAll();
+	
+	/**
+	 * To save an action done by the user into the undo stack
+	 * @param action
+	 */
+	public void addUndoAction(AbstractAction action, String name);
+}
+
+	// End of segment: ezxpns\GUI\UpdateNotifyee.java
+
+
+
+
+
+	/**
+	 * origin: ezxpns\Main.java
+	 */
+
+	 */
+	public static void main(String[] args) {
+		Ezxpns master = new Ezxpns();
+	}
+}
+
+	// End of segment: ezxpns\Main.java
+
+
+
+
+
+	/**
+	 * origin: ezxpns\util\GenData.java
+	 */
+
+ */
+public class GenData {
+
+	private final static int recordToGen = 10;
+	private final static int catToGen = 5;
+	private final static int maxAmount = 100000;
+	/**
+	 * @param args
+	 * Change mein to main to run this
+	 */
+	public static void mein(String[] args) {
+		Ezxpns eh = new Ezxpns();
+		
+		ExpenseRecord coffee = eh.getDataMng().expenses().getRecordsBy("coffee", 1).get(0);
+		ExpenseRecord bigmac = eh.getDataMng().expenses().getRecordsBy("Big Mac", 1).get(0);
+		ExpenseRecord pineapple = eh.getDataMng().expenses().getRecordsBy("pineapple", 1).get(0);
+		
+		Calendar cal = Calendar.getInstance();
+		for(int d = 0; d < 6; d++){
+			cal.set(Calendar.DAY_OF_MONTH, d);
+			try {
+				if(Math.random() < 0.5)
+					eh.getDataMng().expenses().addNewRecord(new ExpenseRecord(
+							coffee.getAmount(),
+							coffee.getName(), 
+							coffee.getRemark(),
+							cal.getTime(), 
+							coffee.getCategory(), 
+							coffee.getExpenseType()
+							));
+				if(Math.random() < 0.3)
+					eh.getDataMng().expenses().addNewRecord(new ExpenseRecord(
+	                        bigmac.getAmount(),
+	                        bigmac.getName(), 
+	                        bigmac.getRemark(),
+	                        cal.getTime(), 
+	                        bigmac.getCategory(), 
+	                        bigmac.getExpenseType()
+	                        ));
+				if(Math.random() < 0.4)
+					eh.getDataMng().expenses().addNewRecord(new ExpenseRecord(
+	                        pineapple.getAmount(),
+	                        pineapple.getName(), 
+	                        pineapple.getRemark(),
+	                        cal.getTime(), 
+	                        pineapple.getCategory(), 
+	                        pineapple.getExpenseType()
+	                        ));
+			} catch (RecordUpdateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		
+		System.exit(0);
+
+	}
+
+}
+
+	// End of segment: ezxpns\util\GenData.java
+
+
+
+
+
+	/**
+	 * origin: ezxpns\util\Pair.java
+	 */
+
+ */
+public class Pair<L, R> {
+	private final L left;
+	private final R right;
+	
+	/**
+	 * @param left
+	 * @param right
+	 */
+	public Pair(L left, R right) {
+		this.left = left;
+	    this.right = right;
+	}
+	
+	/**
+	 * Get the left object
+	 * @return the left object
+	 */
+	public L getLeft() { return left; }
+	/**
+	 * Get the right object
+	 * @return the right object
+	 */
+	public R getRight() { return right; }
+	
+	@Override
+	public int hashCode() { return left.hashCode() ^ right.hashCode(); }
+	
+	@Override
+	public boolean equals(Object o) {
+		if (o == null) return false;
+	    if (!(o instanceof Pair)) return false;
+	    Pair pairo = (Pair) o;
+	    return this.left.equals(pairo.getLeft()) &&
+	           this.right.equals(pairo.getRight());
+	}
+}
+
+	// End of segment: ezxpns\util\Pair.java
+
+
+
+
+

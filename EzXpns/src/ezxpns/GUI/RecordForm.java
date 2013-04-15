@@ -25,8 +25,7 @@ import ezxpns.data.records.RecordHandler;
 /**
  * RecordForm the basic form for adding a new Record
  * <br />Abstract - create an ExpenseForm or IncomeForm instead
- * @author A0097973
- * @author Yan Ting Zhe
+ * @author A0097973h
  */
 @SuppressWarnings("serial")
 public abstract class RecordForm extends JPanel {
