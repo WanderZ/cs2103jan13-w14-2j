@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item value="243" key="DIALOG_WIDTH"/>
+		<item value="308" key="DIALOG_Y_ORIGIN"/>
+		<item value="379" key="DIALOG_HEIGHT"/>
+		<item value="919" key="DIALOG_X_ORIGIN"/>
+		<item value="1|Lucida Grande|11.0|0|COCOA|1|LucidaGrande" key="DIALOG_FONT_NAME"/>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item value="true" key="wrap"/>
+		<item value="false" key="isRegEx"/>
+		<item value="false" key="casesensitive"/>
+		<item value="false" key="incremental"/>
+		<item value="false" key="wholeword"/>
+		<item value="Generator" key="selection"/>
+		<list key="findhistory">
+			<item value="Generator"/>
+			<item value="chartfactory"/>
+			<item value="Recently"/>
+			<item value="setBackground"/>
+			<item value="border"/>
+			<item value="btnGenerateANew"/>
+			<item value="new NWSdata()"/>
+			<item value="NWSdata"/>
+		</list>
+		<list key="replacehistory">
+			<item value="targetSavingsRatio"/>
+			<item value="targetWantsRatio"/>
+			<item value="targetNeedsRatio"/>
+			<item value="hasExceededTarget(diffFromNT)"/>
+			<item value="hasExceededTarget(diffFromST)"/>
+			<item value="hasExceededTarget(diffFromWT)"/>
+			<item value="!hasExceededTarget(diffFromWT)"/>
+			<item value="!hasExceededTarget(diffFromST)"/>
+		</list>
+	</section>
+</section>

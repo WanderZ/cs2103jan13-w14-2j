@@ -1,0 +1,5 @@
+package ezxpns.data;
+
+public class SummaryGenerator {
+
+}
