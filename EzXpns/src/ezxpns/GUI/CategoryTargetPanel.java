@@ -427,7 +427,18 @@ public class CategoryTargetPanel extends JPanel {
 //					JOptionPane.showMessageDialog(this, targetErr, "Error!!!!!", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				notifyee.addUndoAction(getUndoModifyExCat(cat.getID(), original, targetAmt), "Modify category");
+				boolean isChanged;
+				isChanged = !cat.getName().equals(original.getName()); // Name is not the same
+				if(!isChanged) {
+					Target oriTarget = targetMgr.getTarget(original);
+					if(oriTarget!=null) { // Original Target is not the same as the new target
+						isChanged = oriTarget.getTargetAmt() != targetAmt;
+					}
+					else { // New Target is not zero
+						isChanged = targetAmt != 0;
+					}
+				}
+				if(isChanged) notifyee.addUndoAction(getUndoModifyExCat(cat.getID(), original, targetAmt), "Modify category");
 				exmo.update();
 				exlist.setSelectedValue(cat, true);
 			}
