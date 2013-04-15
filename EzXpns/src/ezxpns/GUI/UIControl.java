@@ -142,22 +142,6 @@ public class UIControl implements RecordListView.RecordEditor {
 			recWin = new RecordDialog(home, "EzXpns - Edit Income Record", recHandler, inCatHandler, home, income);
 		}		
 	}
-	
-//	/**
-//	 * Displays the search handler window
-//	 */
-//	public void showSearchWin() {
-//		if(searchWin == null) {
-//			searchWin = new SearchFrame(
-//						findHandler, 
-//						new RecordListView(this, recHandler, home),
-//						inCatHandler,
-//						exCatHandler, 
-//						payHandler
-//					);
-//		}
-//		searchWin.setVisible(true);
-//	}
 
 	@Override
 	public void edit(Record record, RecordListView display) {
