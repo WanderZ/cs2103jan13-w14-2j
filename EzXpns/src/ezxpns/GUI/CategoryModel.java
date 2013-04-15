@@ -7,7 +7,7 @@ import java.util.*;
 
 /**
  * A model used to display list of category in category frame
- * @author yyjhao
+ * @author A0099621X
  */
 @SuppressWarnings("serial")
 public class CategoryModel extends AbstractListModel {
