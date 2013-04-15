@@ -501,6 +501,7 @@ class SearchFormPanel extends JPanel {
 
 /**
  * Pseudo Status Bar for Search
+ * @author A0087091B
  */
 @SuppressWarnings("serial")
 class InfoPanel extends JPanel {
