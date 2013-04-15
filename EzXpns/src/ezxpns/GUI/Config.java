@@ -13,6 +13,21 @@ import ezxpns.data.records.RecordManager;
 public class Config {
 	
 	/**
+	 * The default no target the user can set - 0
+	 */
+	public static final int DEFAULT_NO_TARGET = 0;
+	
+	/**
+	 * The default maximum target the user can set - 7 mil
+	 */
+	public static final int DEFAULT_MAX_TARGET = 7000000;
+	
+	/**
+	 * The default minimum target the user can set - 10
+	 */
+	public static final int DEFAULT_MIN_TARGET = 10;
+	
+	/**
 	 * The default width for menu button
 	 */
 	public static final int DEFAULT_MENU_WIDTH = 134;
