@@ -1,0 +1,22 @@
+package ezxpns.data;
+
+/**
+ * Data structure containing information on 
+ * Summary for a specific timeline
+ * @author yan
+ *
+ */
+
+public class SummaryDetails {
+	
+	double income;
+	double expense;
+	double balance;
+	
+	public SummaryDetails(double income, double expense){
+		this.income = income;
+		this.expense = expense;
+		balance = income - expense;
+	}
+
+}

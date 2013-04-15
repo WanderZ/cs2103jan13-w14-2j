@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<commands>
+	<addCategory
+		id="category_1363842725917"
+		name="Custom"
+		description="Container for custom components"
+		visible="true"
+		open="true"/>
+	<addComponent
+		id="custom_1363842725916"
+		name="JCalendar"
+		description="Creates com.toedter.calendar.JCalendar component."
+		visible="true"
+		class="com.toedter.calendar.JCalendar"
+		category="category_1363842725917"/>
+	<addComponent
+		id="custom_1363842789477"
+		name="JDateChooser"
+		description="Creates com.toedter.calendar.JDateChooser component."
+		visible="true"
+		class="com.toedter.calendar.JDateChooser"
+		category="category_1363842725917"/>
+	<editCategory
+		id="category_1363842725917"
+		name="JCalendar"
+		description="Container for custom components"
+		visible="true"
+		open="true"/>
+</commands>
