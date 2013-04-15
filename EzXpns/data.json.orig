@@ -639,21 +639,10 @@
       "date": {
         "year": 2013,
         "month": 3,
-<<<<<<< mine
-        "dayOfMonth": 14,
-        "hourOfDay": 15,
-        "minute": 50,
-        "second": 24
-=======
         "dayOfMonth": 14,
         "hourOfDay": 20,
         "minute": 51,
-<<<<<<< mine
-        "second": 54
->>>>>>> theirs
-=======
         "second": 3
->>>>>>> theirs
       },
       "targetNeedsRatio": 0.5,
       "targetWantsRatio": 0.3,

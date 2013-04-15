@@ -6,8 +6,8 @@ import ezxpns.data.records.Category;
 
 /**
  * This class holds information of a Target
- * @author Suzzie
- *
+ * 
+ * @author A0085413J
  */
 
 public class Target{

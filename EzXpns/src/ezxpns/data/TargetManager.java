@@ -7,10 +7,9 @@ import ezxpns.data.records.Category;
 
 
 /**
- * @author ShuZhen
- * 
  * A generator that takes in targets and data and produce alert info
  * 
+ * @author A0085413J
  */
 public class TargetManager extends Storable {
 	public static interface DataProvider{
@@ -80,11 +79,6 @@ public class TargetManager extends Storable {
 	 * call getOrdered() and getAlert() to receive latest data
 	 */
 	
-	/* ADD/REMOVE/EDIT target
-	 * to make things simple. I suggest only allowing user to make modifications within the same month
-	 * All data regarding targets is archived after that month 
-	 * so no modification should be made available after that
-	 */
 	
 	/**
 	 * adds a new target into the TreeMap
@@ -184,9 +178,7 @@ public class TargetManager extends Storable {
 			return false;
 	}
 	
-	/**
-	 * 
-	 */
+
 	public void markDataUpdated(){
 		dataUpdated = true;
 	}

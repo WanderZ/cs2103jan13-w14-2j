@@ -15,6 +15,7 @@ import javax.swing.JWindow;
  * Utility to do Minor Notification Messages
  * <br />To display responses to users when they perform an action,
  * <br />namely - Adding new data, editing existing data, removing existing data.
+ * @author A0097973 Koh Zheng Kang
  */
 public class UINotify {
 

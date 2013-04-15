@@ -47,7 +47,7 @@ public interface RecordHandler {
 	/**
 	 * Modify an expense record
 	 * @param selectedRecord a record to be modified into
-	 * @return true if successful, othewise false.
+	 * @return true if successful, otherwise false.
 	 */
 	public boolean modifyRecord(long id, ExpenseRecord selectedRecord, boolean newCat, boolean newPay);
 	
