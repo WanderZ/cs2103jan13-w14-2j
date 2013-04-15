@@ -360,6 +360,7 @@ public class CategoryTargetPanel extends JPanel {
 	 * @return whether the target amount is valid
 	 */
 	private String validateTarget(String targetString){
+		if(targetString.equals("No target set")) {return "";}
 		double d;
 		try {
 			d = Double.parseDouble(targetString);
