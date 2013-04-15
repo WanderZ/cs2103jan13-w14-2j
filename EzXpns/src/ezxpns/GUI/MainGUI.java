@@ -16,7 +16,7 @@ import ezxpns.data.records.*;
 /**
  * The MainGUI Window for EzXpns
  * <br />Implements UpdateNotifyee to be able to be updated when things are changed 
- * @author A0097973 Koh Zheng Kang
+ * @author A0097973
  */
 @SuppressWarnings("serial")
 public class MainGUI extends JFrame implements UpdateNotifyee {

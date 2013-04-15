@@ -3,7 +3,9 @@ package ezxpns.data.records;
 import java.util.List;
 
 /**
- *	To handle the records between the Graphical User Interface
+ * Handler for the records between the Graphical User Interface and the logic
+ * @author A0097973
+ * @author A0099621X
  */
 public interface RecordHandler {
 	

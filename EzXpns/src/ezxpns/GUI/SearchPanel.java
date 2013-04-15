@@ -40,7 +40,7 @@ import ezxpns.util.Pair;
 
 /**
  * The window to handle the searching and querying needs of the user
- * @author A0097973 Koh Zheng Kang
+ * @author A0097973
  * @author Yan Ting Zhe
  * @author Yao Yujian
  */
