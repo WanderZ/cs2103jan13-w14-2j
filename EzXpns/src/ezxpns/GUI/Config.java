@@ -8,7 +8,7 @@ import ezxpns.data.records.RecordManager;
 
 /**
  * Default Configurations for GUI Component
- * @author A0097973 Koh Zheng Kang
+ * @author A0097973
  */
 public class Config {
 	

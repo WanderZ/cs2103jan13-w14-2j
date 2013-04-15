@@ -19,7 +19,7 @@ import ezxpns.data.records.RecordHandler;
 
 /**
  * To assist EzXpns in managing all the GUI Windows
- * @author A0097973 Koh Zheng Kang
+ * @author A0097973
  */
 public class UIControl implements RecordListView.RecordEditor {
 	

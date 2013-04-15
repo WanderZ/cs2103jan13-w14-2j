@@ -4,6 +4,8 @@ import java.util.Vector;
 
 /**
  *	Interface to handle the categories between the Graphical User Interface
+ *  @author A0099621X
+ *  @author A0097973H
  */
 public interface CategoryHandler<T extends Record> {
 	/**
