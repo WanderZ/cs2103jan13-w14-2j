@@ -769,9 +769,9 @@ private JFreeChart createChart(CategoryDataset dataset) {
 	}
 
 	/**
-	 * TableModel
+	 * TableModel for report
 	 * 
-	 * @author yan
+	 * @author A0087091B
 	 * 
 	 */
 	public class InteractiveTableModel extends AbstractTableModel {
@@ -841,6 +841,11 @@ private JFreeChart createChart(CategoryDataset dataset) {
 		}
 	}
 	
+	/**
+	 * Colored square for report
+	 * @author A0087091B
+	 *
+	 */
 	public class ColorSquare extends JPanel{
 		
 		private JLabel lblName = new JLabel("");

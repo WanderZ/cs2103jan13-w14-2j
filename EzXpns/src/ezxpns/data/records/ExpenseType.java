@@ -2,6 +2,11 @@ package ezxpns.data.records;
 
 import java.awt.Color;
 
+/**
+ * Enum for Needs, Wants and Savings expense type
+ * @author A0087091B
+ *
+ */
 public enum ExpenseType {
 	NEED("Need") {
 		@Override
@@ -69,21 +74,21 @@ public enum ExpenseType {
 	/**
 	 * Get base color for NWS chart
 	 * @return
-	 * @author tingzhe A0087091B
+	 * @author A0087091B
 	 */
 	public abstract Color getBaseColor();
 	
 	/**
 	 * Get normal color for NWS chart
 	 * @return
-	 * @author tingzhe A0087091B
+	 * @author A0087091B
 	 */
 	public abstract Color getNormalColor();
 	
 	/**
 	 * Get exceed color for NWS chart
 	 * @return
-	 * @author tingzhe A0087091B
+	 * @author A0087091B
 	 */
 	public abstract Color getExceedColor();
 }
