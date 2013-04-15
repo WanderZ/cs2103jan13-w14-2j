@@ -28,9 +28,6 @@ import ezxpns.data.records.*;
 /** 
  * Panel to contain and maintain the form for a new expense record
  * @author A0097973
- *  
- * @author Yan Ting Zhe
- * @author Yao Yujian
  */
 @SuppressWarnings("serial")
 public class ExpenseForm extends RecordForm {

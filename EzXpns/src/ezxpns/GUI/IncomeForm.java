@@ -29,8 +29,6 @@ import ezxpns.data.records.RecordHandler;
 /** 
  * GUI Form for Income records
  * @author A0097973
- * @author Yan Ting Zhe
- * @author Yao Yujian
  */
 @SuppressWarnings("serial")
 public class IncomeForm extends RecordForm {

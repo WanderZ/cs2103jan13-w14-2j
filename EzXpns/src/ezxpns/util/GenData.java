@@ -12,7 +12,7 @@ import java.math.*;
 /**
  * Generate some random data for testing
  * strictly for testing purpose, may not be maintained
- * @author yyjhao
+ * @author A0099621X
  */
 public class GenData {
 
