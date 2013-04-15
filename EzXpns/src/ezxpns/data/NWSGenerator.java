@@ -7,8 +7,7 @@ import ezxpns.data.records.ExpenseType;
 /**
  * This class generates target ratios for needs,wants and savings
  * 
- * @author ShuZhen
- * 
+ * @author A0085413J
  */
 
 public class NWSGenerator extends Storable {
@@ -98,7 +97,7 @@ public class NWSGenerator extends Storable {
 			}
 			else{
 				setToPastMonth(thisMonthNWS);
-				generateNWS();
+				generateNWSRatios();
 			}
 		}
 
@@ -114,7 +113,7 @@ public class NWSGenerator extends Storable {
 	public void updateNWSdata() {
 		if(pastMonthNWS.isValid()&&hasModifiedPastMonthRecords()){
 			updatePastMonthProgress();
-			generateNWS();
+			generateNWSRatios();
 		}
 		else{
 			updateThisMonthProgress();
@@ -140,7 +139,7 @@ public class NWSGenerator extends Storable {
 	 * Generates and sets the ratio for NEEDS, WANTS and SAVINGS
 	 * @return
 	 */
-	public void generateNWS() {
+	public void generateNWSRatios() {
 		//check for valid pastMonthNWS
 		if(!pastMonthNWS.isValid()){
 			updateThisMonthProgress();

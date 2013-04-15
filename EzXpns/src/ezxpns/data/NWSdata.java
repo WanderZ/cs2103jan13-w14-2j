@@ -6,11 +6,11 @@ import java.util.Calendar;
  * 
  * A data class that holds information of Needs, Wants and Savings
  * 
- * @author Shuzhen
+ * @author A0085413J
  */
 
 public class NWSdata {
-	Calendar date;
+	private Calendar date;
 	private double targetNeedsRatio; //target needs wrt income
 	private double targetWantsRatio; //target wants wrt income
 	private double targetSavingsRatio; //target savings wrt income
