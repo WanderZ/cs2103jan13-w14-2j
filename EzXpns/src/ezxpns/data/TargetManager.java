@@ -178,9 +178,7 @@ public class TargetManager extends Storable {
 			return false;
 	}
 	
-	/**
-	 * 
-	 */
+
 	public void markDataUpdated(){
 		dataUpdated = true;
 	}
