@@ -5,7 +5,7 @@ import javax.swing.AbstractAction;
 /**
  * Notify the other UI components 
  * <br />Invoked when user performs an action that modifies data
- * @author yyjhao
+ * @author A0099621X
  */
 public interface UpdateNotifyee {
 	
