@@ -23,11 +23,11 @@
       },
       "1365241453936": {
         "id": 1365241453936,
-        "name": "Snacks"
+        "name": "Snackz"
       },
       "1365241364533": {
         "id": 1365241364533,
-        "name": "Drink"
+        "name": "Drinkz"
       },
       "1365243246237": {
         "id": 1365243246237,
@@ -639,10 +639,10 @@
       "date": {
         "year": 2013,
         "month": 3,
-        "dayOfMonth": 14,
-        "hourOfDay": 20,
-        "minute": 51,
-        "second": 3
+        "dayOfMonth": 15,
+        "hourOfDay": 19,
+        "minute": 46,
+        "second": 38
       },
       "targetNeedsRatio": 0.5,
       "targetWantsRatio": 0.3,
@@ -659,7 +659,7 @@
       "1365241453936": {
         "cat": {
           "id": 1365241453936,
-          "name": "Snacks"
+          "name": "Snackz"
         },
         "targetAmt": 50.0
       },
