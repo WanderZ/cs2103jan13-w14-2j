@@ -11,7 +11,6 @@
 <fullyQualifiedTypeName name="java.util.Vector"/>
 <fullyQualifiedTypeName name="java.awt.event.ComponentListener"/>
 <fullyQualifiedTypeName name="org.jfree.chart.ChartPanel"/>
-<fullyQualifiedTypeName name="ezxpns.data.SummaryGenerator.SummaryType"/>
 <fullyQualifiedTypeName name="ezxpns.data.ReportGenerator.DateOrderException"/>
 <fullyQualifiedTypeName name="javax.swing.BoxLayout"/>
 <fullyQualifiedTypeName name="java.awt.geom.Arc2D.Double"/>
@@ -29,4 +28,8 @@
 <fullyQualifiedTypeName name="java.text.DecimalFormat"/>
 <fullyQualifiedTypeName name="java.awt.FlowLayout"/>
 <fullyQualifiedTypeName name="javax.swing.border.EtchedBorder"/>
+<fullyQualifiedTypeName name="ezxpns.data.SummaryGenerator"/>
+<fullyQualifiedTypeName name="ezxpns.data.SummaryGenerator.DataProvider"/>
+<fullyQualifiedTypeName name="ezxpns.data.SummaryGenerator.SummaryType"/>
+<fullyQualifiedTypeName name="ezxpns.data.SummaryDetails"/>
 </qualifiedTypeNameHistroy>
