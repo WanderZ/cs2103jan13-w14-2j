@@ -360,71 +360,93 @@ public class CategoryTargetPanel extends JPanel {
 	 * @return whether the target amount is valid
 	 */
 	private String validateTarget(String targetString){
+		if(targetString.equals("No target set")) {return "";}
 		double d;
-		try{
+		try {
 			d = Double.parseDouble(targetString);
-			if(d == 0)return null;
-			if(d < 10) return "Target too small!";
-			if(d > 7000000) return "Target is too big!";
-		}catch(NumberFormatException e){
-			return "";
+			if(d == Config.DEFAULT_NO_TARGET) return null;
+			if(d < Config.DEFAULT_MIN_TARGET) return "Target too small!";
+			if(d > Config.DEFAULT_MAX_TARGET) return "Target is too big!";
+		} catch(NumberFormatException e){
+			return "Invalid amount entered";
 		}
 		return null;
 	}
 	
 	/**
-	 * modify the expense category and target editing
+	 * Modifies the expense category and target editing
 	 */
-	private void modifyEx(){
+	private void modifyEx() {
 		String err = null;
 		String newName = exnameField.getText();
-		if(curExCat == addNew || !curExCat.getName().equals(newName)){
+		if(curExCat == addNew || !curExCat.getName().equals(newName)) {
 			err = excats.validateCategoryName(newName);
 		}
-		if(err == null){
-			if(curExCat == addNew){
+		if(err == null) {
+			if(curExCat == addNew) {
 				Category cat = excats.addNewCategory(new Category(newName));
-				String tarerr = validateTarget(targetAmountField.getText());
-				if(tarerr == null){
-					if(Double.parseDouble(targetAmountField.getText()) != 0){
+				String targetErr = validateTarget(targetAmountField.getText());
+				if(targetErr == null) {
+					if(Double.parseDouble(targetAmountField.getText()) != 0) {
 						targetMgr.setTarget(cat, Double.parseDouble(targetAmountField.getText()));
 					}
 					notifyee.addUndoAction(getUndoNewCat(cat.getID(), excats), "Creating new category");
-				}else if(tarerr.equals("")){
+				} 
+				else if(targetErr.equals("")) {
 					notifyee.addUndoAction(getUndoNewCat(cat.getID(), excats), "Creating new category");
-				}else{
-					JOptionPane.showMessageDialog(this, tarerr, "Error!!!!!", JOptionPane.ERROR_MESSAGE);
+				}
+				else {
+					UINotify.createErrMsg(this, targetErr);
+//					JOptionPane.showMessageDialog(this, targetErr, "Error!!!!!", JOptionPane.ERROR_MESSAGE);
 				}
 				exmo.update();
 				exlist.setSelectedValue(cat, true);
-			}else{
+			}
+			else {
 				Category original = curExCat.copy();
 				Target tar = targetMgr.getTarget(curExCat);
 				double targetAmt = 0;
-				if(tar != null){
+				if(tar != null) {
 					targetAmt = tar.getTargetAmt();
 				}
-				Category cat = excats.updateCategory(curExCat.getID(), new Category(exnameField.getText()));
 				
-				String tarerr = validateTarget(targetAmountField.getText());
-				if(tarerr == null){
+				Category cat = excats.updateCategory(curExCat.getID(), new Category(exnameField.getText()));
+				String targetErr = validateTarget(targetAmountField.getText());
+				
+				if(targetErr == null) {
 					double d = Double.parseDouble(targetAmountField.getText());
-					if(d == 0){
+					if(d == 0) {
 						targetMgr.removeCategoryTarget(cat.getID());
-					}else{
+					} 
+					else {
 						targetMgr.setTarget(cat, d);
 					}
-				}else if(!tarerr.equals("")){
-					JOptionPane.showMessageDialog(this, tarerr, "Error!!!!!", JOptionPane.ERROR_MESSAGE);
+				}
+				else if(!targetErr.equals("")) {
+					UINotify.createErrMsg(this, targetErr);
+//					JOptionPane.showMessageDialog(this, targetErr, "Error!!!!!", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				notifyee.addUndoAction(getUndoModifyExCat(cat.getID(), original, targetAmt), "Modify category");
+				boolean isChanged;
+				isChanged = !cat.getName().equals(original.getName()); // Name is not the same
+				if(!isChanged) {
+					Target oriTarget = targetMgr.getTarget(original);
+					if(oriTarget!=null) { // Original Target is not the same as the new target
+						isChanged = oriTarget.getTargetAmt() != targetAmt;
+					}
+					else { // New Target is not zero
+						isChanged = targetAmt != 0;
+					}
+				}
+				if(isChanged) notifyee.addUndoAction(getUndoModifyExCat(cat.getID(), original, targetAmt), "Modify category");
 				exmo.update();
 				exlist.setSelectedValue(cat, true);
 			}
 			notifyee.updateAll();
-		}else{
-			JOptionPane.showMessageDialog(this, err, "Error!!!!!", JOptionPane.ERROR_MESSAGE);
+		}
+		else {
+			UINotify.createErrMsg(this, err);
+//			JOptionPane.showMessageDialog(this, err, "Error!!!!!", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	

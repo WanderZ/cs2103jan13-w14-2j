@@ -16,7 +16,6 @@ public class ExpenseRecord extends Record{
 	 * @param date
 	 * @param category
 	 * @param expenseType
-	 * @param paymentMethod
 	 */
 	public ExpenseRecord(
 			double amount, 

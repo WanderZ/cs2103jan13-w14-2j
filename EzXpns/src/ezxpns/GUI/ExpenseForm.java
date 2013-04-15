@@ -449,6 +449,9 @@ public class ExpenseForm extends RecordForm {
 				this.getType() 									// The ExpenseType of the record (need/want)
 			);
 			if(isEdit) {
+				if(!isNewCategory() && !isNewMethod() && !hasChanged(record, eRecord)) {
+					return null; // No changes made
+				}
 				this.recHandler.modifyRecord(record.getId(), eRecord, isNewCategory(), isNewMethod());
 			}
 			else {
@@ -462,6 +465,28 @@ public class ExpenseForm extends RecordForm {
 			System.out.println("error in creating record");
 		}
 		return null;
+	}
+	
+	/**
+	 * Checks if the two records has any differing aspects
+	 * @param oRecord old Record object reference
+	 * @param nRecord new Record object reference
+	 * @return true if hasChanged, otherwise false
+	 */
+	private boolean hasChanged(ExpenseRecord oRecord, ExpenseRecord nRecord) {
+		if(!oRecord.getName().equals(nRecord.getName())) 
+			return true; // Name not same
+		if(oRecord.getAmount()!=nRecord.getAmount()) 
+			return true; // Amt not same
+		if(!oRecord.getCategory().equals(nRecord.getCategory())) 
+			return true; // Category not same
+		if(!oRecord.getDate().equals(nRecord.getDate())) 
+			return true; // Date is different
+		if(!oRecord.getRemark().equals(nRecord.getRemark())) 
+			return true; // Remarks are different
+		if(!oRecord.getExpenseType().equals(nRecord.getExpenseType()))
+			return true;
+		return false;
 	}
 	
 	/**
