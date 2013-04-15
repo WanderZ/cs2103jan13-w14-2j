@@ -154,7 +154,7 @@ public class SearchRequest {
 	}
 
 	/**
-	 * Gets the Category of stored in this SearchRequest
+	 * Get the Category that this SearchRequest is askin for
 	 * @return the Category Object reference stored
 	 */
 	public Category getCategory() {
