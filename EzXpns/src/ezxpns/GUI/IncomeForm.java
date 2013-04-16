@@ -338,6 +338,9 @@ public class IncomeForm extends RecordForm {
 					this.getCat()
 				);
 			if(isEdit) {
+				if(!isNewCategory() && !hasChanged(record, iRecord)) {
+					return null; // No change
+				}
 				this.recHandler.modifyRecord(record.getId(), iRecord, isNewCategory());
 			}
 			else {
@@ -352,6 +355,26 @@ public class IncomeForm extends RecordForm {
 			
 		}
 		return iRecord;
+	}
+	
+	/**
+	 * Checks if the two records has any differing aspects
+	 * @param oRecord old Record object reference
+	 * @param nRecord new Record object reference
+	 * @return true if hasChanged, otherwise false
+	 */
+	private boolean hasChanged(IncomeRecord oRecord, IncomeRecord nRecord) {
+		if(!oRecord.getName().equals(nRecord.getName())) 
+			return true; // Name not same
+		if(oRecord.getAmount()!=nRecord.getAmount()) 
+			return true; // Amt not same
+		if(!oRecord.getCategory().equals(nRecord.getCategory())) 
+			return true; // Category not same
+		if(!oRecord.getDate().equals(nRecord.getDate())) 
+			return true; // Date is different
+		if(!oRecord.getRemark().equals(nRecord.getRemark())) 
+			return true; // Remarks are different
+		return false;
 	}
 	
 	/**

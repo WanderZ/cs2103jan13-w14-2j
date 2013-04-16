@@ -53,13 +53,13 @@ public interface CategoryHandler<T extends Record> {
 	public boolean containsCategoryName(String name);
 	
 	/**
-	 * Validate if the name is acceptable
-	 * Returns an error string if not or null if yes
+	 * Validates if the name is acceptable
+	 * @return an error string if unacceptable, otherwise null
 	 */
 	public String validateCategoryName(String name);
 	
 	/**
-	 * Search for records matching the category
+	 * Gets Record by the specified Category
 	 * @param category category of the record
 	 * @param max maximum number of records return, records are ordered by date in decending order
 	 * @return records matching the name
@@ -67,7 +67,7 @@ public interface CategoryHandler<T extends Record> {
 	public Vector<T> getRecordsBy(Category category, int max);
 	
 	/**
-	 * Add a list of records to a category
+	 * Adds a list of records to a category
 	 * 
 	 */
 	public boolean addToCategory(List<T> records, Category cat);
