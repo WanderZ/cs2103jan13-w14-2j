@@ -1,0 +1,7 @@
+EzXpns/bin
+syntax: glob
+EzXpns/src/ezxpns/GUI/UndoManager.java.orig
+EzXpns/src/ezxpns/GUI/RecordListView.java.orig
+EzXpns/src/ezxpns/GUI/OverviewPanel.java.orig
+EzXpns/src/ezxpns/GUI/MainGUI.java.orig
+EzXpns/data.json.orig

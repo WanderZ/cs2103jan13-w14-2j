@@ -1,0 +1,682 @@
+{
+  "_expenses": {
+    "categories": {
+      "0": {
+        "id": 0,
+        "name": "undefined"
+      },
+      "1365241677322": {
+        "id": 1365241677322,
+        "name": "Entertainment"
+      },
+      "1365241563335": {
+        "id": 1365241563335,
+        "name": "Transport"
+      },
+      "1365242215271": {
+        "id": 1365242215271,
+        "name": "School"
+      },
+      "1365241506450": {
+        "id": 1365241506450,
+        "name": "Food"
+      },
+      "1365241453936": {
+        "id": 1365241453936,
+        "name": "Snackz"
+      },
+      "1365241364533": {
+        "id": 1365241364533,
+        "name": "Drinkz"
+      },
+      "1365243246237": {
+        "id": 1365243246237,
+        "name": "Electronics"
+      },
+      "1365241872789": {
+        "id": 1365241872789,
+        "name": "Healthcare"
+      }
+    },
+    "recordsByCategory": {
+      "0": [],
+      "1365241677322": [
+        {
+          "expenseType": "WANT",
+          "amount": 20.0,
+          "name": "Prawning",
+          "remark": "",
+          "date": "Apr 6, 2013 6:22:50 PM",
+          "id": 1365243328108
+        },
+        {
+          "expenseType": "WANT",
+          "amount": 15.0,
+          "name": "K-box",
+          "remark": "",
+          "date": "Apr 1, 2013 6:15:31 PM",
+          "id": 1365243335591
+        },
+        {
+          "expenseType": "WANT",
+          "amount": 15.0,
+          "name": "K-box",
+          "remark": "",
+          "date": "Mar 24, 2013 6:15:48 PM",
+          "id": 1365243353072
+        },
+        {
+          "expenseType": "WANT",
+          "amount": 15.0,
+          "name": "K-box",
+          "remark": "",
+          "date": "Mar 16, 2013 12:00:00 AM",
+          "id": 1365241787457
+        },
+        {
+          "expenseType": "WANT",
+          "amount": 20.0,
+          "name": "Prawning",
+          "remark": "",
+          "date": "Mar 10, 2013 12:00:00 AM",
+          "id": 1365241677322
+        },
+        {
+          "expenseType": "WANT",
+          "amount": 20.0,
+          "name": "Prawning",
+          "remark": "",
+          "date": "Mar 9, 2013 6:15:12 PM",
+          "id": 1365243320198
+        }
+      ],
+      "1365241563335": [
+        {
+          "expenseType": "NEED",
+          "amount": 45.0,
+          "name": "bus concession",
+          "remark": "",
+          "date": "Mar 1, 2013 12:00:00 AM",
+          "id": 1365241563335
+        }
+      ],
+      "1365242215271": [
+        {
+          "expenseType": "NEED",
+          "amount": 250.0,
+          "name": "Hostel Fees",
+          "remark": "",
+          "date": "Mar 31, 2013 12:00:00 AM",
+          "id": 1365242215271
+        }
+      ],
+      "1365241506450": [
+        {
+          "expenseType": "WANT",
+          "amount": 7.5,
+          "name": "Big Mac",
+          "remark": "",
+          "date": "Apr 4, 2013 6:11:44 PM",
+          "id": 1363118611662
+        },
+        {
+          "expenseType": "WANT",
+          "amount": 7.5,
+          "name": "Big Mac",
+          "remark": "",
+          "date": "Apr 3, 2013 6:11:44 PM",
+          "id": 1365626740449
+        },
+        {
+          "expenseType": "WANT",
+          "amount": 7.5,
+          "name": "Big Mac",
+          "remark": "",
+          "date": "Mar 31, 2013 6:10:47 PM",
+          "id": 1365243047870
+        },
+        {
+          "expenseType": "WANT",
+          "amount": 7.5,
+          "name": "Big Mac",
+          "remark": "",
+          "date": "Mar 27, 2013 6:09:25 PM",
+          "id": 1363507214922
+        },
+        {
+          "expenseType": "WANT",
+          "amount": 7.5,
+          "name": "Big Mac",
+          "remark": "",
+          "date": "Mar 25, 2013 6:09:25 PM",
+          "id": 1364542010852
+        },
+        {
+          "expenseType": "WANT",
+          "amount": 7.5,
+          "name": "Big Mac",
+          "remark": "",
+          "date": "Mar 20, 2013 6:09:25 PM",
+          "id": 1363148488568
+        },
+        {
+          "expenseType": "WANT",
+          "amount": 7.5,
+          "name": "Big Mac",
+          "remark": "",
+          "date": "Mar 19, 2013 6:09:25 PM",
+          "id": 1366313826657
+        },
+        {
+          "expenseType": "WANT",
+          "amount": 7.5,
+          "name": "Big Mac",
+          "remark": "",
+          "date": "Mar 13, 2013 6:09:25 PM",
+          "id": 1364688166959
+        },
+        {
+          "expenseType": "WANT",
+          "amount": 7.5,
+          "name": "Big Mac",
+          "remark": "",
+          "date": "Mar 10, 2013 6:09:25 PM",
+          "id": 1363619376244
+        },
+        {
+          "expenseType": "WANT",
+          "amount": 7.5,
+          "name": "Big Mac",
+          "remark": "",
+          "date": "Mar 6, 2013 6:09:25 PM",
+          "id": 1364415794420
+        },
+        {
+          "expenseType": "WANT",
+          "amount": 7.5,
+          "name": "Big Mac",
+          "remark": "",
+          "date": "Mar 5, 2013 6:09:25 PM",
+          "id": 1365242965093
+        },
+        {
+          "expenseType": "WANT",
+          "amount": 7.5,
+          "name": "Big Mac",
+          "remark": "",
+          "date": "Mar 3, 2013 6:10:47 PM",
+          "id": 1367049281130
+        },
+        {
+          "expenseType": "WANT",
+          "amount": 7.5,
+          "name": "Big Mac",
+          "remark": "",
+          "date": "Mar 3, 2013 12:00:00 AM",
+          "id": 1365241506450
+        },
+        {
+          "expenseType": "WANT",
+          "amount": 7.5,
+          "name": "Big Mac",
+          "remark": "",
+          "date": "Mar 2, 2013 6:09:25 PM",
+          "id": 1365166792136
+        }
+      ],
+      "1365241453936": [
+        {
+          "expenseType": "WANT",
+          "amount": 1.0,
+          "name": "pineapple",
+          "remark": "",
+          "date": "Apr 5, 2013 6:11:44 PM",
+          "id": 1363363677894
+        },
+        {
+          "expenseType": "WANT",
+          "amount": 1.0,
+          "name": "pineapple",
+          "remark": "",
+          "date": "Apr 2, 2013 6:11:44 PM",
+          "id": 1366184076872
+        },
+        {
+          "expenseType": "WANT",
+          "amount": 1.0,
+          "name": "pineapple",
+          "remark": "",
+          "date": "Mar 28, 2013 6:09:25 PM",
+          "id": 1364851438943
+        },
+        {
+          "expenseType": "WANT",
+          "amount": 1.0,
+          "name": "pineapple",
+          "remark": "",
+          "date": "Mar 27, 2013 6:09:25 PM",
+          "id": 1363857008042
+        },
+        {
+          "expenseType": "WANT",
+          "amount": 1.0,
+          "name": "pineapple",
+          "remark": "",
+          "date": "Mar 25, 2013 6:09:25 PM",
+          "id": 1366236103448
+        },
+        {
+          "expenseType": "WANT",
+          "amount": 1.0,
+          "name": "pineapple",
+          "remark": "",
+          "date": "Mar 22, 2013 6:09:25 PM",
+          "id": 1366684668696
+        },
+        {
+          "expenseType": "WANT",
+          "amount": 1.0,
+          "name": "pineapple",
+          "remark": "",
+          "date": "Mar 21, 2013 6:09:25 PM",
+          "id": 1364446554396
+        },
+        {
+          "expenseType": "WANT",
+          "amount": 1.0,
+          "name": "pineapple",
+          "remark": "",
+          "date": "Mar 20, 2013 6:09:25 PM",
+          "id": 1364914298375
+        },
+        {
+          "expenseType": "WANT",
+          "amount": 1.0,
+          "name": "pineapple",
+          "remark": "",
+          "date": "Mar 15, 2013 6:09:25 PM",
+          "id": 1366268943717
+        },
+        {
+          "expenseType": "WANT",
+          "amount": 1.0,
+          "name": "pineapple",
+          "remark": "",
+          "date": "Mar 12, 2013 6:09:25 PM",
+          "id": 1367312373339
+        },
+        {
+          "expenseType": "WANT",
+          "amount": 1.0,
+          "name": "pineapple",
+          "remark": "",
+          "date": "Mar 8, 2013 6:09:25 PM",
+          "id": 1366343688427
+        },
+        {
+          "expenseType": "WANT",
+          "amount": 1.0,
+          "name": "pineapple",
+          "remark": "",
+          "date": "Mar 5, 2013 6:09:25 PM",
+          "id": 1367203935131
+        },
+        {
+          "expenseType": "WANT",
+          "amount": 1.0,
+          "name": "pineapple",
+          "remark": "",
+          "date": "Mar 3, 2013 6:09:25 PM",
+          "id": 1364756150148
+        },
+        {
+          "expenseType": "WANT",
+          "amount": 1.0,
+          "name": "pineapple",
+          "remark": "",
+          "date": "Mar 3, 2013 12:00:00 AM",
+          "id": 1365241453936
+        },
+        {
+          "expenseType": "WANT",
+          "amount": 1.0,
+          "name": "pineapple",
+          "remark": "",
+          "date": "Mar 2, 2013 6:10:47 PM",
+          "id": 1365243047871
+        },
+        {
+          "expenseType": "WANT",
+          "amount": 1.0,
+          "name": "pineapple",
+          "remark": "",
+          "date": "Mar 1, 2013 6:09:25 PM",
+          "id": 1364156316871
+        }
+      ],
+      "1365241364533": [
+        {
+          "expenseType": "NEED",
+          "amount": 0.8,
+          "name": "coffee",
+          "remark": "I need this",
+          "date": "Apr 5, 2013 6:11:44 PM",
+          "id": 1366463704931
+        },
+        {
+          "expenseType": "NEED",
+          "amount": 0.8,
+          "name": "coffee",
+          "remark": "I need this",
+          "date": "Apr 4, 2013 6:11:44 PM",
+          "id": 1365243104122
+        },
+        {
+          "expenseType": "NEED",
+          "amount": 0.8,
+          "name": "coffee",
+          "remark": "I need this",
+          "date": "Apr 2, 2013 6:11:44 PM",
+          "id": 1365243104121
+        },
+        {
+          "expenseType": "NEED",
+          "amount": 0.8,
+          "name": "coffee",
+          "remark": "I need this",
+          "date": "Mar 28, 2013 6:09:25 PM",
+          "id": 1363893650844
+        },
+        {
+          "expenseType": "NEED",
+          "amount": 0.8,
+          "name": "coffee",
+          "remark": "I need this",
+          "date": "Mar 25, 2013 6:09:25 PM",
+          "id": 1365242965095
+        },
+        {
+          "expenseType": "NEED",
+          "amount": 0.8,
+          "name": "coffee",
+          "remark": "I need this",
+          "date": "Mar 24, 2013 6:09:25 PM",
+          "id": 1366856339789
+        },
+        {
+          "expenseType": "NEED",
+          "amount": 0.8,
+          "name": "coffee",
+          "remark": "I need this",
+          "date": "Mar 22, 2013 6:09:25 PM",
+          "id": 1366588043003
+        },
+        {
+          "expenseType": "NEED",
+          "amount": 0.8,
+          "name": "coffee",
+          "remark": "I need this",
+          "date": "Mar 21, 2013 6:09:25 PM",
+          "id": 1365456011029
+        },
+        {
+          "expenseType": "NEED",
+          "amount": 0.8,
+          "name": "coffee",
+          "remark": "I need this",
+          "date": "Mar 20, 2013 6:09:25 PM",
+          "id": 1363287427525
+        },
+        {
+          "expenseType": "NEED",
+          "amount": 0.8,
+          "name": "coffee",
+          "remark": "I need this",
+          "date": "Mar 19, 2013 6:09:25 PM",
+          "id": 1364534587483
+        },
+        {
+          "expenseType": "NEED",
+          "amount": 0.8,
+          "name": "coffee",
+          "remark": "I need this",
+          "date": "Mar 17, 2013 6:09:25 PM",
+          "id": 1365242965094
+        },
+        {
+          "expenseType": "NEED",
+          "amount": 0.8,
+          "name": "coffee",
+          "remark": "I need this",
+          "date": "Mar 16, 2013 6:09:25 PM",
+          "id": 1363127130688
+        },
+        {
+          "expenseType": "NEED",
+          "amount": 0.8,
+          "name": "coffee",
+          "remark": "I need this",
+          "date": "Mar 15, 2013 6:09:25 PM",
+          "id": 1364939934657
+        },
+        {
+          "expenseType": "NEED",
+          "amount": 0.8,
+          "name": "coffee",
+          "remark": "I need this",
+          "date": "Mar 14, 2013 6:09:25 PM",
+          "id": 1363750153248
+        },
+        {
+          "expenseType": "WANT",
+          "amount": 8.0,
+          "name": "Starbucks Coffee",
+          "remark": "",
+          "date": "Mar 13, 2013 12:00:00 AM",
+          "id": 1365241605456
+        },
+        {
+          "expenseType": "NEED",
+          "amount": 0.8,
+          "name": "coffee",
+          "remark": "I need this",
+          "date": "Mar 10, 2013 6:09:25 PM",
+          "id": 1366659977756
+        },
+        {
+          "expenseType": "NEED",
+          "amount": 0.8,
+          "name": "coffee",
+          "remark": "I need this",
+          "date": "Mar 9, 2013 6:09:25 PM",
+          "id": 1365735555940
+        },
+        {
+          "expenseType": "NEED",
+          "amount": 0.8,
+          "name": "coffee",
+          "remark": "I need this",
+          "date": "Mar 7, 2013 6:09:25 PM",
+          "id": 1364179469854
+        },
+        {
+          "expenseType": "NEED",
+          "amount": 0.8,
+          "name": "coffee",
+          "remark": "I need this",
+          "date": "Mar 5, 2013 6:10:47 PM",
+          "id": 1367196351150
+        },
+        {
+          "expenseType": "NEED",
+          "amount": 0.8,
+          "name": "coffee",
+          "remark": "I need this",
+          "date": "Mar 4, 2013 6:10:47 PM",
+          "id": 1364273144737
+        },
+        {
+          "expenseType": "NEED",
+          "amount": 0.8,
+          "name": "coffee",
+          "remark": "I need this",
+          "date": "Mar 3, 2013 5:43:08 PM",
+          "id": 1365241396881
+        },
+        {
+          "expenseType": "NEED",
+          "amount": 0.8,
+          "name": "coffee",
+          "remark": "I need this",
+          "date": "Mar 2, 2013 6:09:25 PM",
+          "id": 1366475989398
+        },
+        {
+          "expenseType": "NEED",
+          "amount": 0.8,
+          "name": "coffee",
+          "remark": "I need this",
+          "date": "Mar 1, 2013 6:09:25 PM",
+          "id": 1365242965092
+        },
+        {
+          "expenseType": "NEED",
+          "amount": 0.8,
+          "name": "coffee",
+          "remark": "I need this",
+          "date": "Mar 1, 2013 12:00:00 AM",
+          "id": 1365241364533
+        }
+      ],
+      "1365243246237": [
+        {
+          "expenseType": "NEED",
+          "amount": 2188.0,
+          "name": "Macbook Air",
+          "remark": "",
+          "date": "Apr 6, 2013 6:14:42 PM",
+          "id": 1365243246237
+        }
+      ],
+      "1365241872789": [
+        {
+          "expenseType": "NEED",
+          "amount": 100.0,
+          "name": "Hospitalisation",
+          "remark": "",
+          "date": "Mar 18, 2013 12:00:00 AM",
+          "id": 1365241872789
+        }
+      ]
+    }
+  },
+  "_incomes": {
+    "categories": {
+      "1365242066269": {
+        "id": 1365242066269,
+        "name": "Salary"
+      },
+      "0": {
+        "id": 0,
+        "name": "undefined"
+      },
+      "1365241996939": {
+        "id": 1365241996939,
+        "name": "Allowance"
+      }
+    },
+    "recordsByCategory": {
+      "1365242066269": [
+        {
+          "amount": 400.0,
+          "name": "Pay From Burger Joint",
+          "remark": "",
+          "date": "Mar 31, 2013 12:00:00 AM",
+          "id": 1365242066269
+        }
+      ],
+      "0": [],
+      "1365241996939": [
+        {
+          "amount": 300.0,
+          "name": "Allowance From Dad",
+          "remark": "",
+          "date": "Apr 1, 2013 12:00:00 AM",
+          "id": 1365241996939
+        },
+        {
+          "amount": 300.0,
+          "name": "Allowance From Dad",
+          "remark": "",
+          "date": "Mar 1, 2013 5:53:25 PM",
+          "id": 1365242009838
+        }
+      ]
+    }
+  },
+  "_nwsGen": {
+    "NEEDS": 0.5,
+    "WANTS": 0.3,
+    "SAVINGS": 0.2,
+    "BUFFER": 0.05,
+    "MAXNEEDS": 0.7,
+    "MINNEEDS": 0.1,
+    "MAXWANTS": 0.5,
+    "MINWANTS": 0.1,
+    "MAXSAVINGS": 0.7,
+    "MINSAVINGS": 0.12,
+    "pastMonthNWS": {
+      "targetNeedsRatio": 0.0,
+      "targetWantsRatio": 0.0,
+      "targetSavingsRatio": 0.0,
+      "currentNeeds": 0.0,
+      "currentWants": 0.0,
+      "currentSavings": 0.0,
+      "income": 0.0,
+      "state": false
+    },
+    "thisMonthNWS": {
+      "date": {
+        "year": 2013,
+        "month": 3,
+        "dayOfMonth": 15,
+        "hourOfDay": 20,
+        "minute": 39,
+        "second": 6
+      },
+      "targetNeedsRatio": 0.5,
+      "targetWantsRatio": 0.3,
+      "targetSavingsRatio": 0.2,
+      "currentNeeds": 2190.4,
+      "currentWants": 59.5,
+      "currentSavings": 0.0,
+      "income": 300.0,
+      "state": true
+    }
+  },
+  "_targetManager": {
+    "mapTarget": {
+      "1365241453936": {
+        "cat": {
+          "id": 1365241453936,
+          "name": "Snackz"
+        },
+        "targetAmt": 50.0
+      },
+      "1365241506450": {
+        "cat": {
+          "id": 1365241506450,
+          "name": "Food"
+        },
+        "targetAmt": 200.0
+      },
+      "1365241677322": {
+        "cat": {
+          "id": 1365241677322,
+          "name": "Entertainment"
+        },
+        "targetAmt": 200.0
+      }
+    }
+  }
+}

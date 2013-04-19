@@ -1,0 +1,934 @@
+//@author: a0097973h
+
+
+
+	/**
+	 * origin: ezxpns\data\records\CategoryHandler.java
+	 */
+
+ */
+public interface CategoryHandler<T extends Record> {
+	/**
+	 * Get all user defined categories
+	 * @return List of all the Categories stored
+	 */
+	public List<Category> getAllCategories();
+	
+	/**
+	 * Get a category that has the id
+	 */
+	public Category getCategory(long id);
+	
+	/**
+	 * Create a new category, note that the new category will be a copy with perhaps different id
+	 * @param newCat Object containing all the necessary data to create a new category
+	 * @return the created category, or null if failed
+	 */
+	public Category addNewCategory(Category newCat);
+
+	/**
+	 * Create a new category with the name
+	 * @param name
+	 * @return the created category, or null if failed
+	 */
+	public Category addNewCategory(String name);
+	
+	/**
+	 * Remove a user defined category based on the given identifier
+	 * @param identifier The unique identifier for the category to be removed
+	 * @return true if successful, else false
+	 */
+	public boolean removeCategory(long identifier);
+	
+	/**
+	 * Modify Category Method
+	 * @param selectedCat The selected category to be modified
+	 * @return the modified category, or null if failed
+	 */
+	public Category updateCategory(long identifier, Category selectedCat);
+	
+	/**
+	 * Check if the name is in used
+	 */
+	public boolean containsCategoryName(String name);
+	
+	/**
+	 * Validate if the name is acceptable
+	 * Returns an error string if not or null if yes
+	 */
+	public String validateCategoryName(String name);
+	
+	/**
+	 * Search for records matching the category
+	 * @param category category of the record
+	 * @param max maximum number of records return, records are ordered by date in decending order
+	 * @return records matching the name
+	 */
+	public Vector<T> getRecordsBy(Category category, int max);
+	
+	/**
+	 * Add a list of records to a category
+	 * 
+	 */
+	public boolean addToCategory(List<T> records, Category cat);
+	
+	
+	/**
+	 * Get a list of categories that has a prefix to its name
+	 */
+	public Vector<Category> getCategoryWithNamePrefix(String prefix);
+}
+
+	// End of segment: ezxpns\data\records\CategoryHandler.java
+
+
+
+
+
+	/**
+	 * origin: ezxpns\data\SearchHandler.java
+	 */
+
+ */
+public interface SearchHandler {
+	/**
+	 * Search by SearchRequest
+	 * @param req SearchRequest Object reference to search by
+	 * @return Vector of records, if any, otherwise null
+	 */
+	public Vector<Record> search(SearchRequest req);
+	
+	/**
+	 * Search by partial match 
+	 * @param partialMatch String to match partially.
+	 * @return Vector of records, if any, otherwise null
+	 */
+	public Vector<Record> search(String partialMatch);
+}
+
+	// End of segment: ezxpns\data\SearchHandler.java
+
+
+
+
+
+	/**
+	 * origin: ezxpns\GUI\RecordForm.java
+	 */
+
+ */
+@SuppressWarnings("serial")
+public abstract class RecordForm extends JPanel {
+
+	// #Constants
+	/**
+	 * Default Padding for components (space above it) 
+	 */
+	public final int TOP_PAD = 30;
+	
+	/**
+	 * Default Padding for components (space to its left - first column)
+	 */
+	public final int COL1_PAD = 15;
+	
+	/**
+	 * Default Padding for components (space to its left - second column)
+	 */
+	public final int COL2_PAD = 150;
+	
+	// #Swing Components
+	protected JLabel lblAmt, lblName, lblType, lblCat, lblDate, lblDesc;
+	protected JTextField 	txtAmt, txtName;
+	protected JComboBox cboxCat;
+	
+	/**
+	 * The JDateChooser reference to the date field
+	 */
+	protected JDateChooser txtDateChooser;
+	
+	/**
+	 * The JTextArea reference to the description field
+	 */
+	protected JTextArea txtDesc;
+		
+	/**
+	 * The default border for the text field
+	 */
+	protected Border defaultTFBorder;
+	
+	/**
+	 * The default border for the combo box field
+	 */
+	protected Border defaultCBBorder;
+	
+	// #Logic Components
+	protected RecordHandler recHandler; 
+	protected CategoryHandler catHandler;
+	protected UpdateNotifyee notifyee;
+	
+	/**
+	 * The Calculator reference for the calculator object
+	 */
+	protected final Calculator cal;
+	
+	/**
+	 * Edit flag - true for editing existng record, otherwise false
+	 */
+	protected boolean isEdit;
+	protected boolean blockAutoFill = false;
+	
+	/**
+	 * The List containing the Categories displayed
+	 */
+	protected List<Category> categories;
+	
+	protected RecordForm() {
+		cal = Calculator.getInstance();
+	}
+	
+	/** 
+	 * Creates a label with the system font.
+	 * @param lblTxt the text to apply to the JLabel
+	 * @return the JLabel object generated
+	 */
+	protected JLabel createLabel(String lblTxt) {
+		JLabel lbl = new JLabel(lblTxt);
+		lbl.setFont(Config.TEXT_FONT); // #Font
+		return lbl;
+	}
+	
+	/** 
+	 * Populates the Categories Drop down field 
+	 */
+	protected void populateCategories() {
+		for(Category cat: categories) {
+			this.cboxCat.addItem(cat.getName());
+		}
+	}
+
+	/**
+	 * Retrieves the user entered name for this record
+	 * @return the string input user entered the name
+	 */
+	public String getName() {return this.txtName.getText().trim();}
+	
+	/**
+	 * Retrieves the user entered amount for this record
+	 * @return the string input user entered for the amount
+	 */
+	public String getAmt() {return this.txtAmt.getText().trim();}
+	
+	/**
+	 * Retrieves the user specified category (name)
+	 * @return the Category chosen by the user
+	 */
+	public Category getCat() {
+		if(isNewCategory()) {
+			// User defined new category
+			String userInput = this.cboxCat.getSelectedItem().toString().trim();
+			return new Category(userInput); 
+		}
+		// Else find the selected Category
+		return categories.get(cboxCat.getSelectedIndex());
+	}
+	
+	/**
+	 * Checks if this record is tagged to a new Category
+	 * @return true if it is, otherwise false
+	 */
+	protected boolean isNewCategory() {
+		return this.cboxCat.getSelectedIndex() < 0;
+	}
+	
+	/**
+	 * Retrieve the user entered date for this record
+	 * @return the Date object reference for the specified date
+	 */
+	public Date getDate() {
+		return (Date) txtDateChooser.getDate();
+	}
+	
+	/**
+	 * Check if this record is via a new payment method
+	 * @return true if it is new, otherwise false;
+	 */
+	protected boolean isNewMethod() {
+//		return this.cboxPay.getSelectedIndex() < 0;
+		return false;
+	}
+	
+	/**
+	 * Retrieves the user entered description
+	 * @return a String containing the description/remarks
+	 */
+	public String getDesc() {return txtDesc.getText().trim();}
+	
+	/**
+	 * Method to update the amount field with the given text
+	 * @param amt the amount to update the field
+	 */
+	protected void setAmt(double amt) {
+		this.txtAmt.setText(new DecimalFormat("##0.00").format(amt));
+	}
+	
+	/**
+	 * Sets the calculated amount next to the amount field
+	 * @param lblResult the label to display calculated amount
+	 * @param amt the calculated amount to be displayed
+	 */
+	protected void setAmt(JLabel lblResult, double amt) {
+		lblResult.setText("=" + Config.MONEY_FORMAT.format(amt));
+	}
+	
+	/**
+	 * Saves entered details as a new or existing record
+	 * @return Record object containing the user input
+	 */
+	public abstract Record save();
+	
+	/**
+	 * Evaluates the amount field
+	 * @param label JLabel to populate result
+	 */
+	protected void evaluate(JLabel label) {
+		try {
+			if(txtAmt.getText().trim().equals("")) {
+				label.setText("<< try using + - * /");
+				return;
+			}
+			Double result = evaluate();
+			if(result > Config.DEFAULT_MAX_AMT_PER_RECORD) {
+				// Expression is too big!
+				label.setText("<< Value is too huge!");
+				return;
+			}
+			
+			if(result < Config.DEFAULT_MIN_AMT_PER_RECORD) {
+				label.setText("<< Value is too small");
+				return;
+			}
+			if(result!=null) setAmt(label, result);
+		}
+		catch(EvaluationException evalErr) {
+			System.out.println(evalErr.getMessage());
+			label.setText("<< Invalid");
+		}
+		catch(Exception err) {
+			System.out.println(err.getMessage());
+			label.setText("<< Invalid");
+		}
+	}
+	
+	/**
+	 * Evaluates the entered expression
+	 * @return the result of the calculation
+	 * @throws EvaluationException
+	 */
+	protected double evaluate() throws EvaluationException {
+		return cal.evaluate(getAmt());
+	}
+	
+	/**
+	 * Validates the description field
+	 * @param errMsg StringBuilder Object to store error message, if any
+	 * @return true if validation is successful, otherwise false
+	 */
+	protected boolean validateDescription(StringBuilder errMsg) {
+		if(txtDesc.getText().trim().equals("")) {
+			return true; // Empty description
+		}
+		
+		if(this.getDesc().length() >= Config.DEFAULT_MAX_LENGTH_DESC) {
+			errMsg.append("Description is too long!\n");
+			return false;
+		}
+		
+//		if(Config.isAlphaNumeric(txtDesc.getText().trim())) {
+//			errMsg.append("Description contains invalid characters \n");
+//			return false;
+//		}
+		return true;
+	}
+
+	/**
+	 * Validates the Category field
+	 * @param errMsg StringBuilder object to store the error message, if any
+	 * @return true is validation is successful, otherwise false
+	 */
+	protected boolean validateCategory(StringBuilder errMsg) {
+		if(this.isNewCategory()) {
+			if(cboxCat.getSelectedItem() == null) {
+				errMsg.append("Please choose a category\n");
+				return false;
+			}
+			String err = catHandler.validateCategoryName(cboxCat.getSelectedItem().toString().trim());
+			if(err!=null) { // null is error free
+				errMsg.append(err);
+				errMsg.append("\n");
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * Validates the date field - if the date entered is a valid date (non future date)
+	 * @return true if it is a historical date, otherwise false
+	 */
+	protected boolean validateDate(StringBuilder errMsg) {
+		if(getDate().after(new Date())) {
+			// #Constraint disallow users to add future records
+			errMsg.append("Future records are not supported\n");
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * Validates the amount field
+	 * @return true if no problems parsing, otherwise false
+	 */
+	protected boolean validateAmt(StringBuilder errMsg) {
+		double result;
+		try {
+			result = evaluate();
+			if(result > Config.DEFAULT_MAX_AMT_PER_RECORD) {
+				// Thats some big ticket item
+				errMsg.append("That amount is too big\n");
+				return false;
+			}
+			if(result < Config.DEFAULT_MIN_AMT_PER_RECORD) { // Minimum value
+				errMsg.append("That amount is too small\n");
+				return false;
+			}
+			return true;
+		}
+		catch(Exception err) {
+			errMsg.append("Invalid amount\n");
+			return false;
+		}
+	}
+	
+	/**
+	 * Validates the name field - if there is any input
+	 * @return true if there is input, otherwise false
+	 */
+	protected boolean validateName(StringBuilder errMsg) {
+		if(getName().equals("")) {
+			errMsg.append("Please enter a name for this record\n");
+			return false;
+		}
+		if(getName().length() > Config.DEFAULT_MAX_LENGTH_NAME) {
+			errMsg.append("Name is too long!\n");
+			return false;
+		}
+		if(Config.isAlphaNumeric(getName())) {
+			errMsg.append("Name field contains non alphanumeric characters\n");
+			return false;
+		}	
+		return true;
+	}
+	
+	/**
+	 * Displays an error dialog
+	 * @param msg Message to be displayed
+	 */
+	protected void displayErr(String msg) {
+		UINotify.createErrMsg(this, msg);
+	}
+	
+	/**
+	 * Marks fields with a red border to indicate to user that it has error
+	 * @param component JTextField to be marked for error
+	 */
+	protected void markErr(JComponent component) {
+		component.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+	}
+	
+	/**
+	 * Unmarks fields without error with their default border
+	 * @param component
+	 */
+	protected void unmarkErr(JComponent component) {
+		if(component instanceof JTextArea) {
+			component.setBorder(defaultTFBorder);
+			return;
+		}
+		component.setBorder(component instanceof JTextField ? defaultTFBorder : defaultCBBorder);
+	}
+}
+
+	// End of segment: ezxpns\GUI\RecordForm.java
+
+
+
+
+
+	/**
+	 * origin: ezxpns\GUI\SearchPanel.java
+	 */
+
+ */
+@SuppressWarnings("serial")
+public class SearchPanel extends JPanel implements FocusListener, DocumentListener {
+	
+	public final int DEFAULT_WIDTH = 600;
+	public final int DEFAULT_HEIGHT = 400;
+	public final int SIMPLE_HEIGHT = 47;
+	public final int ADVANCE_HEIGHT = 170;
+	
+	private SearchHandler handler;
+	
+	// 2 main panels, the top (querying time frame) and the bottom (results, content)
+	private SearchFormPanel panForm;
+	private JPanel panBtns;
+	private JScrollPane panResult;
+	private RecordListView list;
+	private JPanel panCtrls;
+	private InfoPanel panInfo;
+	private JButton btnAdvance;
+	
+	private boolean isMoreOption = false;
+	
+	/**
+	 * Constructs a new Search Window
+	 * @param handlerRef the reference to the SearchHandler object, catHandRef to CategoryHandler
+	 * @param li
+	 * @param inCatHandRef
+	 * @param exCatHandRef
+	 * @param payHandRef
+	 */
+	public SearchPanel(
+			SearchHandler handlerRef, 
+			RecordListView li, 
+			CategoryHandler<IncomeRecord> inCatHandRef, 
+			CategoryHandler<ExpenseRecord> exCatHandRef) {
+		super(new BorderLayout());
+		this.handler = handlerRef;
+		
+		panCtrls = new JPanel();
+		panCtrls.setLayout(new BorderLayout());
+		
+		panForm = new SearchFormPanel(this, this, inCatHandRef, exCatHandRef);
+		panCtrls.add(panForm, BorderLayout.CENTER);
+		panCtrls.setPreferredSize(new Dimension(DEFAULT_WIDTH, SIMPLE_HEIGHT)); // SIMPLE SEARCH EXPERIMENTATION
+		
+		panBtns = new JPanel();
+		
+		panForm.addListenerToTextFields(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				performSearch();
+			}
+		});
+		
+		btnAdvance = new JButton("More Options");
+		btnAdvance.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				switchMode();
+			}
+			
+		});
+		panBtns.setLayout(new BoxLayout(panBtns, BoxLayout.X_AXIS));
+		
+		JButton btnSearch = new JButton("Find");
+		panBtns.add(btnSearch);
+		panBtns.add(Box.createVerticalGlue());
+		
+		panBtns.add(btnAdvance);
+		
+		btnSearch.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				performSearch();
+			}
+			
+		});
+		
+		panCtrls.add(panBtns, BorderLayout.EAST);
+		
+		this.add(panCtrls, BorderLayout.NORTH);
+		
+
+		list = li;
+		this.panResult = new JScrollPane(list);
+		this.add(this.panResult, BorderLayout.CENTER);
+
+		// InfoPanel
+		panInfo = new InfoPanel();
+		this.add(panInfo, BorderLayout.SOUTH);
+	}
+	
+	public void performSearch(){
+		if(isMoreOption){
+		
+			SearchRequest req = null;
+			String name = panForm.getNameField().getText().trim();
+			if(!name.equals("")) {
+				req = new SearchRequest(name);
+			}
+			Category cat = null;
+			try{
+				cat = (Category) panForm.getCatField().getSelectedItem();
+			}catch(Exception e){
+				
+			}
+
+			if(cat != null){
+				name = cat.toString();
+				if(req == null){
+					req = new SearchRequest(cat);
+				}else{
+					req.setCategory(cat);
+				}
+			}	
+			
+			
+			Date start = panForm.getStartDate(),
+				 end = panForm.getEndDate();
+			if(start != null && end != null) {
+				if(!start.before(end)) {
+					// TODO: Error Handling for Date Range
+					UINotify.createErrMsg(this, "Start is after End Date");
+					return;
+				}
+				Pair<Date, Date> dateRange = new Pair<Date, Date>(start, end);
+				if(req == null) {
+					req = new SearchRequest(dateRange);
+				} 
+				else {
+					req.setDateRange(dateRange);
+				}
+				if(req != null) search(req);
+			}
+			
+			search(req);
+		}
+		else {
+			search(panForm.getSimpleQuery());
+		}
+	}
+	
+	/** 
+	 * Search the store data for the relevant records
+	 * @param request SearchRequest object containing the query
+	 */
+	private void search(SearchRequest request) {
+		if(request == null)return;
+		List<Record> results = handler.search(request);
+		list.show(results);
+		panInfo.setNumRec(results.size());
+		panInfo.setTotalAmt(Record.sumBalance(results));
+	}
+	
+	private void search(String prefix){
+		List<Record> results = handler.search(prefix);
+		list.show(results);
+		panInfo.setNumRec(results.size());
+		panInfo.setTotalAmt(Record.sumBalance(results));
+	}
+	
+	private void switchMode(){
+		if(!isMoreOption) {
+			panCtrls.setPreferredSize(new Dimension(DEFAULT_WIDTH, ADVANCE_HEIGHT));
+			panCtrls.revalidate();
+			btnAdvance.setText("Less options");
+			isMoreOption = true;
+			panForm.switchToAdvance();
+		}
+		else{
+			panCtrls.setPreferredSize(new Dimension(DEFAULT_WIDTH, SIMPLE_HEIGHT));
+			panCtrls.revalidate();
+			btnAdvance.setText("More options");
+			isMoreOption = false;
+			panForm.switchToSimple();
+		}
+	}
+	
+	/**
+	 * Reloads this panel to refresh the content.
+	 */
+	public void reload() {
+		if(!this.isVisible()){
+			this.list.show(new Vector<Record>());
+			panForm.clear();
+		}else{
+			this.list.show(new Vector<Record>());
+			performSearch();
+		}
+		panForm.reload();
+	}
+
+	@Override
+	public void changedUpdate(DocumentEvent e) {
+		performSearch();
+	}
+
+	@Override
+	public void insertUpdate(DocumentEvent e) {
+		performSearch();
+	}
+
+	@Override
+	public void removeUpdate(DocumentEvent e) {
+		performSearch();
+	}
+
+	@Override
+	public void focusGained(FocusEvent arg0) {
+		performSearch();
+	}
+
+	@Override
+	public void focusLost(FocusEvent arg0) {
+		performSearch();
+	}
+}
+
+/**
+ * The form for the Search Panel
+ */
+@SuppressWarnings("serial")
+class SearchFormPanel extends JPanel {
+	
+	// CategoryHandler Reference for Category JComboBox
+	private CategoryHandler<IncomeRecord> inCatHandRef;
+	private CategoryHandler<ExpenseRecord> exCatHandRef;
+	
+	private JLabel lblName, lblTitle, lblCat, lblDate, lblToDate;
+	private JTextField txtName, txtSimpleField;
+	private JComboBox txtCat;
+	private JDateChooser txtStart, txtEnd;
+	private final Font FORM_FONT = new Font("Segoe UI", 0, 14); // #Font
+	private JPanel advancePane, normalPane;
+	
+	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yy");
+	
+	public void switchToAdvance(){
+		txtSimpleField.setEditable(false);
+		txtSimpleField.setText("");
+		txtSimpleField.setBackground(this.getBackground());
+		lblTitle.setForeground(Color.GRAY);
+		advancePane.setVisible(true);
+		this.getNameField().requestFocusInWindow();
+		this.revalidate();
+	}
+	
+	public void switchToSimple(){
+		txtSimpleField.setEditable(true);
+		lblTitle.setForeground(Color.BLACK);
+		txtSimpleField.requestFocusInWindow();
+		advancePane.setVisible(false);
+		this.revalidate();
+	}
+	
+	public void addListenerToTextFields(ActionListener listener){
+		txtSimpleField.addActionListener(listener);
+		getNameField().addActionListener(listener);
+	}
+	
+	public SearchFormPanel(
+			DocumentListener docListener,
+			FocusListener focusListener,
+			CategoryHandler<IncomeRecord> inCatHandRef, 
+			CategoryHandler<ExpenseRecord> exCatHandRef) {
+		this.inCatHandRef = inCatHandRef;
+		this.exCatHandRef = exCatHandRef;
+		
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		
+		JPanel normalPane = new JPanel();
+		normalPane.setLayout(new MigLayout("insets 5", "[left]10%[]", ""));
+		
+		lblTitle = new JLabel("Search");
+		normalPane.add(lblTitle,"span 2");
+		
+		txtSimpleField = new JTextField("");
+		txtSimpleField.setFont(FORM_FONT);
+		txtSimpleField.setPreferredSize(new Dimension(230,32));
+		txtSimpleField.getDocument().addDocumentListener(docListener);
+		txtSimpleField.addFocusListener(focusListener);
+		normalPane.add(txtSimpleField, "span 1, wrap");
+		this.add(normalPane);
+		
+		advancePane = new JPanel();
+		advancePane.setLayout(new MigLayout("insets 5", "[left]10%[]", ""));
+		advancePane.add(this.getNameLabel(), "span 2");
+		advancePane.add(this.getNameField(), "span, wrap");
+		
+		advancePane.add(this.getCatLabel(), "span 2");
+		advancePane.add(this.getCatField(), "span, wrap");
+		
+		advancePane.add(this.getDateLabel(), "span 2");
+		advancePane.add(this.getDateField(), "split 3");
+		advancePane.add(this.getToDateLabel());
+		advancePane.add(this.getToDateField());
+		
+		this.add(advancePane);
+		
+		advancePane.setVisible(false);
+	}
+	
+	public void clear(){
+		this.getNameField().setText("");
+		this.getCatField().setSelectedIndex(0);
+		this.getDateField().setDate(null);
+		this.getToDateField().setDate(null);
+		txtSimpleField.setText("");
+	}
+	
+	/**
+	 * @return a JLabel Object to with Name 
+	 */
+	private JLabel getNameLabel() {
+		if(lblName == null) {
+			lblName = new JLabel("Name");
+			lblName.setFont(FORM_FONT); // #Font
+		}
+		return lblName;
+	}
+	
+	/**
+	 * @return a JTextField Object for name
+	 */
+	public JTextField getNameField() {
+		if(txtName == null) {
+			txtName = new JTextField("");
+			txtName.setFont(FORM_FONT); // #Font
+			txtName.setPreferredSize(new Dimension(230, 32));
+		}
+		return txtName;
+	}
+	
+	/**
+	 * @return a JLabel Object for category
+	 */
+	private JLabel getCatLabel() {
+		if(lblCat == null) {
+			lblCat = new JLabel("Category");
+			lblCat.setFont(FORM_FONT); // #Font
+		}
+		return lblCat;
+	}
+	
+	/**
+	 * @return a JComboBox for category
+	 */
+	public JComboBox getCatField() {
+		if(txtCat == null) {
+			txtCat = new JComboBox();
+			txtCat.setFont(FORM_FONT); // #Font
+			txtCat.setPreferredSize(new Dimension(230, 32));
+			updateCats();
+		}
+		return txtCat;
+	}
+	
+	private void updateCats(){
+		txtCat.removeAllItems();
+		Object[] myInCatList = inCatHandRef.getAllCategories().toArray();
+		txtCat.insertItemAt("", 0); // insert empty item;
+		for (int i = 0; i < inCatHandRef.getAllCategories().size(); i++)
+			txtCat.addItem(myInCatList[i]);
+		Object[] myExCatList = new Category[exCatHandRef.getAllCategories().size()];
+		myExCatList = exCatHandRef.getAllCategories().toArray();
+		for (int i = 0; i < exCatHandRef.getAllCategories().size(); i++)
+			txtCat.addItem(myExCatList[i]);
+	}
+	
+	private JLabel getDateLabel() {
+		if(lblDate == null) {
+			lblDate = new JLabel("Date");
+			lblDate.setFont(FORM_FONT); // #Font
+		}
+		return lblDate;
+	}
+	
+	private JLabel getToDateLabel() {
+		if(lblToDate == null) {
+			lblToDate = new JLabel(" To ");
+			lblToDate.setFont(FORM_FONT); // #Font
+			
+		}
+		return lblToDate;
+	}
+	
+	private JDateChooser getDateField() {
+		if(txtStart == null) {
+			txtStart = new JDateChooser();
+			txtStart.getJCalendar().setTodayButtonVisible(true);
+			txtStart.setDateFormatString("dd/MM/yyyy");
+			txtStart.setMaxSelectableDate(new Date());
+			PropertyChangeListener calendarChangeListener  = new PropertyChangeListener() {
+		        @Override
+		        public void propertyChange(PropertyChangeEvent evt) {
+		            Date selectedDate = ((JCalendar)evt.getSource()).getDate();
+		        }
+		    };
+		    txtStart.getJCalendar().addPropertyChangeListener("calendar",calendarChangeListener);
+		}
+		return txtStart;
+	}
+	
+	/**
+	 * @return a String Object containing the query for Simple Search
+	 */
+	public String getSimpleQuery(){
+		return this.txtSimpleField.getText();
+	}
+	
+	/**
+	 * @return a Date Object the starting date 
+	 */
+	public Date getStartDate() {
+		return (Date)txtStart.getDate();
+	}
+	
+	private JDateChooser getToDateField() {
+		if(txtEnd == null) {
+			//txtEnd = new JFormattedTextField(DATE_FORMAT);
+			//txtEnd.setFont(FORM_FONT); // #Font
+			//txtEnd.setValue(new Date());
+			//txtEnd.setPreferredSize(new Dimension(100, 32));
+			//txtEnd.setHorizontalAlignment(JTextField.CENTER);
+			txtEnd = new JDateChooser();
+			txtEnd.getJCalendar().setTodayButtonVisible(true);
+			txtEnd.setDateFormatString("dd/MM/yyyy");
+			txtEnd.setMaxSelectableDate(new Date());
+			PropertyChangeListener calendarChangeListener  = new PropertyChangeListener() {
+		        @Override
+		        public void propertyChange(PropertyChangeEvent evt) {
+		            Date selectedDate = ((JCalendar)evt.getSource()).getDate();
+		        }
+		    };
+		    txtEnd.getJCalendar().addPropertyChangeListener("calendar",calendarChangeListener);
+			
+		}
+		return txtEnd;
+	}
+	
+	/**
+	 * @return a Date Object containing the end of the time frame
+	 */
+	public Date getEndDate() {
+		return (Date) txtEnd.getDate();
+	}
+	
+	/**
+	 * Reloads the Form
+	 */
+	public void reload() {
+		updateCats();
+	}
+}
+
+/**
+ * Pseudo Status Bar for Search
+	// End of segment: ezxpns\GUI\SearchPanel.java
+
+
+
+
+
