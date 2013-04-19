@@ -40,7 +40,7 @@ public class EzNavigator extends JLayeredPane {
 	/**
 	 * JToggleButton reference to the undo button
 	 */
-	private JToggleButton btnUndo;
+	private JButton btnUndo;
 	
 	/**
 	 * JToggleButton reference to the selected button 
@@ -77,8 +77,8 @@ public class EzNavigator extends JLayeredPane {
 		gbc.insets = new Insets(5, 5, 5, 5);
 		
 		/* Insert First Button here */
-		btn = createMenuBtn(NormalMenuOpt.REVERT);
-		btnUndo = (JToggleButton) btn; // Stored for cosmetic updates
+		btn = createMenuBtn(new UndoOpt(null));
+		btnUndo = (JButton) btn; // Stored for cosmetic updates
 		this.add(btn, gbc);
 		btnGrp.add(btn);
 		btnUndo.setAction(uiCtrl.getUndoMgr().getAction());
@@ -182,7 +182,7 @@ public class EzNavigator extends JLayeredPane {
 	 * Opens a new dialog
 	 * @param option the DialogMenuOpt reference to open the dialog
 	 */
-	public void navigate(DialogMenuOpt option) {
+	public void navigate(SpecialMenuOpt option) {
 		option.openDialog();
 	}
 	
@@ -195,18 +195,17 @@ public class EzNavigator extends JLayeredPane {
 		if(card instanceof NormalMenuOpt) {
 			linkNormalMenuOpt((JToggleButton) btn, (NormalMenuOpt) card);
 		}
-		if(card instanceof DialogMenuOpt) {
-			linkDiagMenuOpt((JButton) btn, (DialogMenuOpt) card);
+		if(card instanceof SpecialMenuOpt) {
+			linkDiagMenuOpt((JButton) btn, (SpecialMenuOpt) card);
 		}
 	}
-	
 	
 	/**
 	 * Links the provided button to a dialog
 	 * @param btn JButton Object to be linked
 	 * @param option DialogMenuOpt to be linked to
 	 */
-	public void linkDiagMenuOpt(JButton btn, final DialogMenuOpt option) {
+	public void linkDiagMenuOpt(JButton btn, final SpecialMenuOpt option) {
 		btn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -236,40 +235,21 @@ public class EzNavigator extends JLayeredPane {
 	 */
 	private JToggleButton createMenuBtn(NormalMenuOpt option) {
 		JToggleButton btn = new JToggleButton(option.toString());
-//		btn.setContentAreaFilled(false);
-//		btn.setBorder(BorderFactory.createRaisedBevelBorder());
-//		btn.setFocusPainted(false);
 		btn.setFont(Config.MENU_FONT);
 		linkNavi(btn, option);
 		btn.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mousePressed(MouseEvent mEvent) {
-//				JToggleButton btn = (JToggleButton) mEvent.getSource();
-//				if(btn != selected)
-//					btn.setBorder(BorderFactory.createLoweredBevelBorder());
-//			}
-			
 			@Override
 			public void mouseClicked(MouseEvent mEvent) {
 				JToggleButton btn = (JToggleButton) mEvent.getSource();
-				if(btn == btnUndo) {
-//					btn.setBorder(BorderFactory.createRaisedBevelBorder());
-					btnUndo.setSelected(false);
-					selected.setSelected(true);
-					return;
-				}
+//				if(btn == btnUndo) {
+//					btnUndo.setSelected(false);
+//					selected.setSelected(true);
+//					return;
+//				}
 				if(btn != selected) {
-//					selected.setBorder(BorderFactory.createRaisedBevelBorder());
 					selected = btn;
 				}
 			}
-//			
-//			@Override
-//			public void mouseExited(MouseEvent mEvent) { // Hover end
-//				JToggleButton btn = (JToggleButton) mEvent.getSource();
-//				if(btn != selected)
-//					btn.setBorder(BorderFactory.createRaisedBevelBorder());
-//			}
 		});
 		return btn;
 	}
@@ -279,32 +259,10 @@ public class EzNavigator extends JLayeredPane {
 	 * @param option
 	 * @return
 	 */
-	private JButton createMenuBtn(DialogMenuOpt option) {
+	private JButton createMenuBtn(SpecialMenuOpt option) {
 		JButton btn = new JButton(option.toString());
-//		btn.setContentAreaFilled(false);
-//		btn.setBorder(BorderFactory.createRaisedBevelBorder());
-//		btn.setFocusPainted(false);
 		btn.setFont(Config.MENU_FONT);
 		linkNavi(btn, option);
-//		btn.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mousePressed(MouseEvent mEvent) {
-//				JToggleButton btn = (JToggleButton) mEvent.getSource();
-//				btn.setBorder(BorderFactory.createLoweredBevelBorder());
-//			}
-//			
-//			@Override
-//			public void mouseClicked(MouseEvent mEvent) {
-//				JButton btn = (JButton) mEvent.getSource();
-//				btn.setBorder(BorderFactory.createRaisedBevelBorder());
-//			}
-//			
-//			@Override
-//			public void mouseReleased(MouseEvent mEvent) {
-//				JButton btn = (JButton) mEvent.getSource();
-//				btn.setBorder(BorderFactory.createRaisedBevelBorder());
-//			}
-//		});
 		return btn;
 	}
 }
@@ -339,14 +297,14 @@ enum NormalMenuOpt implements MenuOption {
 }
 
 /**
- * Defines a Dialog Menu Option for EzNavigator
+ * Defines a Special Menu Option for EzNavigator
  */
-abstract class DialogMenuOpt implements MenuOption {
+abstract class SpecialMenuOpt implements MenuOption {
 	
 	protected String name;
 	protected UIControl uiCtrl;
 	
-	public DialogMenuOpt(String name, UIControl uiCtrlRef) {
+	public SpecialMenuOpt(String name, UIControl uiCtrlRef) {
 		this.name = name;
 		this.uiCtrl = uiCtrlRef;
 	}
@@ -354,14 +312,25 @@ abstract class DialogMenuOpt implements MenuOption {
 	public String toString() {
 		return this.name;
 	}
+	
 	public abstract void openDialog();
 }
 
+class UndoOpt extends SpecialMenuOpt {
+
+	public UndoOpt(UIControl uiCtrlRef) {
+		super("Undo", uiCtrlRef);
+	}
+
+	@Override
+	public void openDialog() {}
+	
+}
 
 /**
  * Defines a Dialog Menu Option for EzNavigator to link to new income dialog
  */
-class NewIncomeDialog extends DialogMenuOpt {
+class NewIncomeDialog extends SpecialMenuOpt {
 	
 	public NewIncomeDialog(UIControl uiCtrl) {
 		super("New Income", uiCtrl);
@@ -377,7 +346,7 @@ class NewIncomeDialog extends DialogMenuOpt {
 /**
  * Defines a Dialog Menu Option for EzNavigator to link to new expense dialog
  */
-class NewExpenseDialog extends DialogMenuOpt {
+class NewExpenseDialog extends SpecialMenuOpt {
 	
 	public NewExpenseDialog(UIControl uiCtrl) {
 		super("New Expense", uiCtrl);
@@ -392,7 +361,7 @@ class NewExpenseDialog extends DialogMenuOpt {
 /**
  * Defines a Dialog Menu Option for EzNavigator to link to the report dialog
  */
-class ReportDialog extends DialogMenuOpt {
+class ReportDialog extends SpecialMenuOpt {
 	
 	public ReportDialog(UIControl uiCtrl) {
 		super("Generate Report", uiCtrl);
