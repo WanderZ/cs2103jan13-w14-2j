@@ -130,6 +130,7 @@ public class RecordManager<T extends Record>
 		cal.set(Calendar.HOUR, 0);
 		cal.set(Calendar.MINUTE, 0);
 		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
 		today = cal.getTime();
 		cal.set(Calendar.DAY_OF_MONTH, 0);
 		startOfMonth = cal.getTime();
