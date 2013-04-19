@@ -132,8 +132,9 @@ public class RecordManager<T extends Record>
 		cal.set(Calendar.SECOND, 0);
 		cal.set(Calendar.MILLISECOND, 0);
 		today = cal.getTime();
-		cal.set(Calendar.DAY_OF_MONTH, 0);
+		cal.set(Calendar.DAY_OF_MONTH, 1);
 		startOfMonth = cal.getTime();
+		System.out.println(startOfMonth);
 		if(cal.get(Calendar.MONTH) == 0){
 			cal.set(Calendar.MONTH, 11);
 			cal.set(Calendar.YEAR, cal.get(Calendar.YEAR) - 1);
