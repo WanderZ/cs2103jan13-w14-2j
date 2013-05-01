@@ -56,7 +56,7 @@ public class NWSGenerator extends Storable {
 	private NWSdata thisMonthNWS = new NWSdata();
 
 	public NWSGenerator(DataProvider data) {
-
+System.out.println("in constructor");
 		this.data = data;
 		dataUpdated = true;
 		
@@ -64,27 +64,34 @@ public class NWSGenerator extends Storable {
 		// if there is no past month data or this month data, set the ratio as
 		// default.
 		if ((!thisMonthNWS.isSet()) && (!pastMonthNWS.isSet())) {
+			System.out.println("this&past not set");
 			thisMonthNWS.setAll(new GregorianCalendar(), NEEDS, WANTS, SAVINGS,
 					data.getMonthlyExpense(ExpenseType.NEED),
 					data.getMonthlyExpense(ExpenseType.WANT),
 					getMonthlySavings(), data.getMonthlyIncome());
+
 			//thisMonthNWS is set
 			//pastMonthNWS is not set
 		}
+		
+		
 		//has this month's data
 		else if (thisMonthNWS.isSet()) {
+System.out.println("this month is set");
 			if (isExpired(thisMonthNWS.getDate())) { 
 				setToPastMonth(thisMonthNWS);
+			System.out.println("expired and past month updated");
 			}
 				generateRatios(); 
 		}
 		
-		//
-		else if(pastMonthNWS.isSet()){
-			//check if it is from the month immediately before
-			if (hasSkippedAMonth(pastMonthNWS.getDate())){
-				
-			}
+		if(!pastMonthNWS.isSet()){
+			System.out.println("pastmonth not set");
+		}
+		else{
+			System.out.println("past month is set");
+			System.out.println("pastNWS");
+			printNWS(pastMonthNWS);
 		}
 	}
 	
@@ -115,8 +122,13 @@ public class NWSGenerator extends Storable {
 			pastMonthNWS.setCurrentSavings(getPrevMonthlySavings());
 			pastMonthNWS.setIncome(data.getPrevMonthlyIncome());
 			}
+			else{
+				System.out.println("has skipped a month");
+			}
 		}
 		generateRatios();
+		System.out.println("After update: thismonthNWS");
+		printNWS(thisMonthNWS);
 	}
 
 	/*
@@ -162,6 +174,16 @@ public class NWSGenerator extends Storable {
 		return thisMonthNWS.copy();
 	}
 
+	//for test
+	public NWSdata getPastNWSdataCopy(){
+		if(pastMonthNWS.isSet()){
+			return pastMonthNWS.copy();
+		}
+		else {
+			System.out.println("past month not set @getPNWSCopy()");		
+			return null;
+		}
+	}
 	/**
 	 * Sets the ratio for NEEDS, WANTS and SAVINGS
 	 * 
@@ -505,6 +527,8 @@ System.out.println("genRatio");
 	 */
 	private boolean isExpired(Calendar date) {
 		Calendar today = new GregorianCalendar();
+		System.out.println("see if month is set");
+		System.out.println("date:"+date+"today"+date);
 		if (date.get(Calendar.MONTH) == today.get(Calendar.MONTH)) {
 			if (date.get(Calendar.YEAR) == today.get(Calendar.YEAR)) {
 				return false;
@@ -534,6 +558,13 @@ System.out.println("genRatio");
 			return true;
 		else
 			return false;
+	}
+	
+	public void printNWS(NWSdata paper){
+		System.out.println("Income:$"+paper.getIncome());
+		System.out.println("Needs:$"+paper.getTargetNeedsRatio()+"/"+paper.getCurrentNeeds());
+		System.out.println("Wants:$"+paper.getTargetWantsRatio()+"/"+paper.getCurrentWants());
+		System.out.println("Savings:$"+paper.getTargetSavingsRatio()+"/"+paper.getCurrentSavings());
 	}
 	
 	private void setToPastMonth(NWSdata thisMonthNWS){
