@@ -38,23 +38,19 @@ public class EzNavigator extends JLayeredPane {
 	private EzNavigator(UIControl uiCtrl) {
 		super();
 		this.uiCtrl = uiCtrl;
-		this.setBounds(new Rectangle (0, 0, 80, 600));
 		this.setDoubleBuffered(true);
-		// TODO: Incorporate Simple Search Field [?]
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.insets = new Insets(5, 15, 5, 15);
 		// gbc.weighty = 1;
 		gbc.weightx = 0.5;
-		JButton btn = createMenuBtn(NormalMenuOpt.SEARCH);
+		JButton btn;
+		
 		gbc.gridx = 0;
 		gbc.gridy = 1;
-		this.add(btn, gbc);
-
+		/* Insert First Button here */
 		btn = createMenuBtn(NormalMenuOpt.REVERT);
-		gbc.gridx = 0;
-		gbc.gridy = 2;
 		btnUndo = btn; // Stored for cosmetic updates
 		this.add(btn, gbc);
 		btnUndo.setAction(uiCtrl.getUndoMgr().getAction());
@@ -67,44 +63,52 @@ public class EzNavigator extends JLayeredPane {
 			}
 		}).start();
 		
-		btn = createMenuBtn(new NewExpenseDialog(this.uiCtrl));
+		gbc.gridx = 0;
+		gbc.gridy = 2;
+		/* Insert Second Button here */
+		btn = createMenuBtn(NormalMenuOpt.DASHBD);
+		this.add(btn, gbc);
+		btn.setBorder(BorderFactory.createLoweredBevelBorder());
+		selected = btn;
+		
 		gbc.gridx = 0;
 		gbc.gridy = 3;
+		/* Insert Third Button here */
+		btn = createMenuBtn(new NewExpenseDialog(this.uiCtrl));
 		this.add(btn, gbc);
 		
-		btn = createMenuBtn(new NewIncomeDialog(this.uiCtrl));
+		
 		gbc.gridx = 0;
 		gbc.gridy = 4;
+		/* Insert Fourth Button here */
+		btn = createMenuBtn(new NewIncomeDialog(this.uiCtrl));
 		this.add(btn, gbc);
 		
-		btn = createMenuBtn(NormalMenuOpt.DASHBD);
+		
 		gbc.gridx = 0;
 		gbc.gridy = 5;
+		/* Insert Fifth Button here */
+		btn = createMenuBtn(new ReportDialog(this.uiCtrl));
 		this.add(btn, gbc);
-		selected = btn;
 
-		btn = createMenuBtn(NormalMenuOpt.CATMGR);
+		
 		gbc.gridx = 0;
 		gbc.gridy = 6;
+		/* Insert Sixth Button here */
+		btn = createMenuBtn(NormalMenuOpt.CATMGR);
 		this.add(btn, gbc);
 		
-		btn = createMenuBtn(new ReportDialog(this.uiCtrl));
+		
 		gbc.gridx = 0;
 		gbc.gridy = 7;
+		/* Insert Seventh Button here */
+		btn = createMenuBtn(NormalMenuOpt.SEARCH);
 		this.add(btn, gbc);
 		
 //		btn = createMenuBtn(NormalMenuOpt.PAYMGR);
 //		gbc.gridx = 0;
 //		gbc.gridy = 7;
 //		this.add(btn, gbc);
-
-		// TODO: Manipulate the main gui panels
-		
-		// TODO: Setup the layout properly for the menu buttons
-		
-		// TODO: SUBMENU Hiding - Categorizing Menu options, etc
-		
-
 	}
 	
 	/**
@@ -199,7 +203,10 @@ public class EzNavigator extends JLayeredPane {
 			@Override
 			public void mouseClicked(MouseEvent mEvent) {
 				JButton btn = (JButton) mEvent.getSource();
-				// TODO: Mouse not over, ignore.
+				if(btn == btnUndo) {
+					btn.setBorder(BorderFactory.createRaisedBevelBorder());
+					return;
+				}
 				if(btn != selected) {
 					selected.setBorder(BorderFactory.createRaisedBevelBorder());
 					selected = btn;
@@ -207,15 +214,6 @@ public class EzNavigator extends JLayeredPane {
 			}
 			
 			@Override
-			public void mouseReleased(MouseEvent mEvent) {
-//				JButton btn = (JButton) mEvent.getSource();
-				// TODO: Mouse not over, ignore.
-//				if(btn != selected) {
-//					selected.setBorder(BorderFactory.createRaisedBevelBorder());
-//					selected = btn;
-//				}
-			}
-			
 			public void mouseExited(MouseEvent mEvent) { // Hover end
 				JButton btn = (JButton) mEvent.getSource();
 				if(btn != selected)
@@ -270,7 +268,7 @@ enum NormalMenuOpt implements MenuOption {
 	PAYMGR 	("Manage Payments"),		// TODO: Remove @Yujian
 	TARGET 	("Manage Targets"),			// TODO: Is that the one to keep?
 	DASHBD 	("Dashboard"),
-	CONFIG	("Configurations"),			// Further implementation
+	CONFIG	("Configurations"),			// Future implementation
 	REVERT	("Undo");
 	
 	
