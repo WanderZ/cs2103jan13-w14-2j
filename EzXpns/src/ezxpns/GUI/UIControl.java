@@ -216,6 +216,10 @@ public class UIControl implements RecordListView.RecordEditor {
 //		payWin.setVisible(true);
 //	}
 	
+	/**
+	 * Retrieves the Undo Manager Object
+	 * @return an UndoManager Object
+	 */
 	public UndoManager getUndoMgr() {
 		return undoMgr;
 	}

@@ -169,7 +169,7 @@ public class SearchFrame extends JPanel {
 			if(start != null && end != null) {
 				if(!start.before(end)) {
 					// TODO: Error Handling for Date Range
-					UINotify.createErrMsg("Start is after End Date");
+					UINotify.createErrMsg(this, "Start is after End Date");
 					return;
 				}
 				Pair<Date, Date> dateRange = new Pair<Date, Date>(start, end);
