@@ -268,7 +268,6 @@ public class RecordListView extends JTable {
 		records.set(rowSelected, newItem);
 		model.fireTableRowsUpdated(rowSelected, rowSelected);
 		notifyee.updateAll();
-		System.out.println("edited");
 	}
 	
 	/**
