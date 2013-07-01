@@ -29,6 +29,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -539,6 +540,12 @@ public class ReportFrame extends JFrame implements ComponentListener {
 	private void generateAction(){
 		try {
 			myReportData = rptGen.generateReport(dateChooserStart.getDate(), dateChooserEnd.getDate());
+			
+			//Check if there is records
+			if (myReportData.getNumRecords() == 0){
+				JOptionPane.showMessageDialog(this, "No records were found in that time range.", "Alert!", JOptionPane.WARNING_MESSAGE);
+				return;
+			}
 			// Disappear
 			initPieChart();
 			initTable();

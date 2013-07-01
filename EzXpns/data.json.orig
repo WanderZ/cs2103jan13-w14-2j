@@ -110,8 +110,68 @@
             "id": 1361694372893,
             "name": "NETS"
           },
-          "amount": 400.0,
+          "amount": 130.0,
           "name": "Wants",
+          "remark": "",
+          "date": "Jul 1, 2013 1:32:05 PM",
+          "id": 1372656727588
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1361694372893,
+            "name": "NETS"
+          },
+          "amount": 600.0,
+          "name": "Needs",
+          "remark": "",
+          "date": "Jul 1, 2013 1:31:44 PM",
+          "id": 1372656707735
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1361694372893,
+            "name": "NETS"
+          },
+          "amount": 600.0,
+          "name": "Needs",
+          "remark": "",
+          "date": "May 1, 2013 1:23:31 PM",
+          "id": 1367385814285
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1361694372893,
+            "name": "NETS"
+          },
+          "amount": 600.0,
+          "name": "Needs",
+          "remark": "",
+          "date": "May 1, 2013 12:00:00 AM",
+          "id": 1367385361562
+        },
+        {
+          "expenseType": "WANT",
+          "paymentMethod": {
+            "id": 1361694372893,
+            "name": "NETS"
+          },
+          "amount": 130.0,
+          "name": "Wants",
+          "remark": "",
+          "date": "May 1, 2013 12:00:00 AM",
+          "id": 1367385386840
+        },
+        {
+          "expenseType": "NEED",
+          "paymentMethod": {
+            "id": 1361694372893,
+            "name": "NETS"
+          },
+          "amount": 400.0,
+          "name": "Need4",
           "remark": "",
           "date": "Apr 5, 2013 12:00:00 AM",
           "id": 1365164570142
@@ -123,7 +183,7 @@
             "name": "NETS"
           },
           "amount": 100.0,
-          "name": "March Food",
+          "name": "Need4",
           "remark": "",
           "date": "Apr 1, 2013 12:00:00 AM",
           "id": 1365165507168
@@ -138,7 +198,7 @@
             "name": "NETS"
           },
           "amount": 450.0,
-          "name": "Breakfast",
+          "name": "Need4",
           "remark": "",
           "date": "Apr 5, 2013 12:00:00 AM",
           "id": 1365164387931
@@ -198,6 +258,13 @@
       "1364222011061": [
         {
           "amount": 1000.0,
+          "name": "1000ic",
+          "remark": "",
+          "date": "Jun 1, 2013 12:00:00 AM",
+          "id": 1370064260748
+        },
+        {
+          "amount": 1000.0,
           "name": "1000 income",
           "remark": "",
           "date": "May 1, 2013 12:00:00 AM",
@@ -232,31 +299,39 @@
     "MAXSAVINGS": 0.7,
     "MINSAVINGS": 0.2,
     "pastMonthNWS": {
-      "targetNeedsRatio": 0.0,
-      "targetWantsRatio": 0.0,
-      "targetSavingsRatio": 0.0,
-      "currentNeeds": 0.0,
-      "currentWants": 0.0,
-      "currentSavings": 0.0,
-      "income": 0.0,
-      "isSet": false
-    },
-    "thisMonthNWS": {
       "date": {
         "year": 2013,
-        "month": 4,
+        "month": 5,
         "dayOfMonth": 1,
-        "hourOfDay": 21,
-        "minute": 36,
-        "second": 24
+        "hourOfDay": 13,
+        "minute": 29,
+        "second": 43
       },
-      "targetNeedsRatio": 0.5,
-      "targetWantsRatio": 0.3,
-      "targetSavingsRatio": 0.2,
+      "targetNeedsRatio": 0.20000000000000007,
+      "targetWantsRatio": 0.10000000000000002,
+      "targetSavingsRatio": 0.6999999999999998,
       "currentNeeds": 0.0,
       "currentWants": 0.0,
       "currentSavings": 1000.0,
       "income": 1000.0,
+      "isSet": true
+    },
+    "thisMonthNWS": {
+      "date": {
+        "year": 2013,
+        "month": 6,
+        "dayOfMonth": 1,
+        "hourOfDay": 13,
+        "minute": 32,
+        "second": 7
+      },
+      "targetNeedsRatio": 0.10000000000000007,
+      "targetWantsRatio": 0.20000000000000007,
+      "targetSavingsRatio": 0.6999999999999998,
+      "currentNeeds": 600.0,
+      "currentWants": 130.0,
+      "currentSavings": 0.0,
+      "income": 0.0,
       "isSet": true
     }
   },

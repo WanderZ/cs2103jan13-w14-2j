@@ -68,8 +68,8 @@ public class TargetOverviewPanel extends JPanel {
 		largeBorderLayoutPanel.add(tagsPane, BorderLayout.NORTH);
 
 		targetScrollPane = new JScrollPane();
-		targetScrollPane.setBorder(BorderFactory.createEmptyBorder());
-		tagsPane.setLayout(new MigLayout("", "[222.00]50[30][100]", "[25][16px]0[][1]0"));
+		targetScrollPane.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+		tagsPane.setLayout(new MigLayout("", "[222.00]50[30][100]", "[0][16px]0[][1]0"));
 
 
 		targetScrollPane
@@ -78,11 +78,11 @@ public class TargetOverviewPanel extends JPanel {
 
 		smallBorderLayoutpanel = new JPanel();
 		smallBorderLayoutpanel.setBackground(new Color(238,238,238));
+		smallBorderLayoutpanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
 		targetScrollPane.setViewportView(smallBorderLayoutpanel);
 		smallBorderLayoutpanel.setLayout(new BorderLayout(0, 0));
 
 		columnPanel = new JPanel();
-		columnPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		columnPanel.setOpaque(false);
 		smallBorderLayoutpanel.add(columnPanel, BorderLayout.NORTH);
 		columnPanel.setLayout(new GridLayout(0, 1));
@@ -134,7 +134,7 @@ public class TargetOverviewPanel extends JPanel {
 			JPanel subPanel = new JPanel();
 			subPanel.setLayout(new BoxLayout(subPanel, BoxLayout.Y_AXIS));
 			subPanel.setOpaque(false);
-			subPanel.setPreferredSize(new Dimension(90, 26));
+			subPanel.setPreferredSize(new Dimension(80, 26));
 			rowPanel.add(subPanel);
 			
 			// CURRENT AMOUNT/TARGET AMOUNT
@@ -148,7 +148,7 @@ public class TargetOverviewPanel extends JPanel {
 			subPanel.add(lblRemainingAmt);
 			
 			// Budget
-			rowPanel.add(new JLabel("<html><b>Budget:  "+TWO_DP.format(bar.getTargetAmt())+"</b></html>"));
+			rowPanel.add(new JLabel("<html>Limit: "+TWO_DP.format(bar.getTargetAmt())+"</html>"));
 		}
 
 	}
