@@ -103,7 +103,7 @@ public class DataManager extends Storable
 	
 	private ExpenseRecordManager _expenses = new ExpenseRecordManager();
 	private RecordManager<IncomeRecord> _incomes = new RecordManager<IncomeRecord>();
-	private NWSGenerator _nwsGen;// = new NWSGenerator();
+	private NWSGenerator _nwsGen = new NWSGenerator(this);
 	/**
 	 * Note that this is a combination of both income and expense record manager, <br />
 	 * so it need not be persistent, since all its data is from the two manager
